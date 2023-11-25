@@ -13,7 +13,8 @@ class SharedPreferencesHelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  Future<void> saveString({required String key, required String value}) async {
+  Future<void> saveString({required String key, required String? value}) async {
+    if (value == null) return;
     await sharedPreferences.setString(key, value);
   }
 

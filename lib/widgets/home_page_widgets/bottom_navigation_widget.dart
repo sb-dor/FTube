@@ -46,17 +46,17 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       FaIcon(FontAwesomeIcons.laptop,
                           size: 25,
                           color: bottomNavBarState.page == 0
-                              ? Colors.black
+                              ? Colors.red
                               : Colors.black.withOpacity(0.3)),
                       const SizedBox(height: 5),
                       AnimatedDefaultTextStyle(
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 375),
                         style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: bottomNavBarState.page == 0
-                                ? Colors.black
+                                ? Colors.red
                                 : Colors.black.withOpacity(0.3)),
                         child: const Text(
                           "Home",
@@ -77,17 +77,17 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             FaIcon(FontAwesomeIcons.boltLightning,
                                 size: 25,
                                 color: bottomNavBarState.page == 1
-                                    ? Colors.black
+                                    ? Colors.red
                                     : Colors.black.withOpacity(0.3)),
                             const SizedBox(height: 5),
                             AnimatedDefaultTextStyle(
-                              duration: const Duration(seconds: 1),
+                              duration: const Duration(milliseconds: 375),
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                   overflow: TextOverflow.ellipsis,
                                   color: bottomNavBarState.page == 1
-                                      ? Colors.black
+                                      ? Colors.red
                                       : Colors.black.withOpacity(0.3)),
                               child: const Text(
                                 "Trending",
@@ -108,7 +108,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                         FontAwesomeIcons.peopleGroup,
                         size: 25,
                         color: bottomNavBarState.page == 2
-                            ? Colors.black
+                            ? Colors.red
                             : Colors.black.withOpacity(0.3),
                       ),
                       const SizedBox(height: 5),
@@ -118,9 +118,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: bottomNavBarState.page == 2
-                                ? Colors.black
+                                ? Colors.red
                                 : Colors.black.withOpacity(0.3)),
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 375),
                         child: const Text(
                           "Subscription",
                           maxLines: 1,
@@ -141,18 +141,18 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                         FontAwesomeIcons.inbox,
                         size: 25,
                         color: bottomNavBarState.page == 3
-                            ? Colors.black
+                            ? Colors.red
                             : Colors.black.withOpacity(0.3),
                       ),
                       const SizedBox(height: 5),
                       AnimatedDefaultTextStyle(
-                        duration: const Duration(seconds: 1),
+                        duration: const Duration(milliseconds: 375),
                         style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
                             color: bottomNavBarState.page == 3
-                                ? Colors.black
+                                ? Colors.red
                                 : Colors.black.withOpacity(0.3)),
                         child: const Text(
                           "Inbox",
@@ -173,7 +173,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       FaIcon(FontAwesomeIcons.folder,
                           size: 25,
                           color: bottomNavBarState.page == 4
-                              ? Colors.black
+                              ? Colors.red
                               : Colors.black.withOpacity(0.3)),
                       const SizedBox(height: 5),
                       AnimatedDefaultTextStyle(
@@ -182,9 +182,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.ellipsis,
                               color: bottomNavBarState.page == 4
-                                  ? Colors.black
+                                  ? Colors.red
                                   : Colors.black.withOpacity(0.3)),
-                          duration: const Duration(seconds: 1),
+                          duration: const Duration(milliseconds: 375),
                           child: const Text(
                             "Library",
                             maxLines: 1,

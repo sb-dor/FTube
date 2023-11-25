@@ -59,6 +59,7 @@ class HomePageAppBar extends StatelessWidget {
       child: ClipPath(
         clipper: QuadraticBezierToClipper(),
         child: AppBar(
+          scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
           title: const Text("FTube", style: TextStyle(color: Colors.black)),
           centerTitle: true,

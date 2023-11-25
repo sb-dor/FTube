@@ -10,7 +10,7 @@ import 'package:youtube/pages/subscriptions_screen/subscriptions_screen.dart';
 import 'package:youtube/pages/trending_screen/trending_screen.dart';
 import 'package:youtube/widgets/home_page_widgets/home_page_appbar.dart';
 
-import 'widgets/home_page_widgets/bottom_navigation_widget.dart';
+import '../widgets/home_page_widgets/bottom_navigation_widget.dart';
 
 //main page begins here
 class HomePage extends StatefulWidget {
@@ -61,11 +61,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         body: SafeArea(
             child: Stack(children: [
           Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: kBottomNavigationBarHeight + 25,
-              child: _screens[bottomNavbarState.page]),
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: _screens[bottomNavbarState.page],
+          ),
           Positioned(
             bottom: 15,
             right: 15,
