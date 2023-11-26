@@ -18,3 +18,13 @@ extension StringEx on String {
     return int.tryParse(this);
   }
 }
+
+extension ListEx on List {
+  List<T> limit<T>({int limit = 15}) {
+    if (length >= limit) {
+      return take(limit).toList() as List<T>;
+    } else {
+      return this as List<T>;
+    }
+  }
+}

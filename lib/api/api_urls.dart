@@ -12,6 +12,10 @@ const String search = '/search';
 
 const String videoCategories = "/videoCategories";
 
+const String channels = '/channels';
+
 const String snippetPart = '&part=snippet';
 
 const String language = "&hl=ru";
+
+const String regionCode = "&regionCode=ru";

@@ -1,11 +1,33 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/api/api_home_screen/rest_api_home_screen.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
+import 'package:youtube/models/video_category_models/video_category_snippet.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
-  MainVideoCategoryCubit() : super(LoadingVideoCategoryState());
-
   List<VideoCategory> videoCategories = [];
 
-  Future<void> loadVideoCategory() async {}
+  MainVideoCategoryCubit() : super(LoadingVideoCategoryState()) {
+    loadVideoCategory();
+  }
+
+  Future<void> loadVideoCategory() async {
+    debugPrint("loading categories");
+    videoCategories.clear();
+    emit(LoadingVideoCategoryState());
+    var data = await RestApiHomeScreen.getCategories();
+    if (data.containsKey("server_error")) {
+      emit(ErrorVideoCategoryState());
+    } else if (data.containsKey("success")) {
+      videoCategories = data['categories'];
+      if (videoCategories.isNotEmpty) {
+        videoCategories.insert(
+            0, VideoCategory(id: null, videoCategorySnippet: VideoCategorySnippet(title: "All")));
+      }
+      emit(LoadedVideoCategoryState());
+    } else {
+      emit(ErrorVideoCategoryState());
+    }
+  }
 }

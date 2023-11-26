@@ -8,26 +8,31 @@ import 'package:youtube/utils/shared_preferences_helper.dart';
 
 class GoogleService implements AuthorizationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final SharedPreferencesHelper _sharedPreferencesHelper = SharedPreferencesHelper.instance;
 
   @override
   Future<Map<String, dynamic>> checkAuth() async {
     Map<String, dynamic> res = {};
 
     try {
-      String? accessToken = SharedPreferencesHelper.instance.getStringByKey(
+      String? accessToken = _sharedPreferencesHelper.getStringByKey(
         key: 'google_access_token',
       );
 
-      String? idToken = SharedPreferencesHelper.instance.getStringByKey(
+      String? idToken = _sharedPreferencesHelper.getStringByKey(
         key: "google_id_token",
       );
+
+      debugPrint("access token : $accessToken");
+      debugPrint("idtoken : $idToken");
 
       OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: accessToken,
         idToken: idToken,
       );
 
-      final signInWithCredentials = await FirebaseAuth.instance.signInWithCredential(credential);
+      final signInWithCredentials = await _firebaseAuth.signInWithCredential(credential);
 
       u.User user = u.User(
         id: signInWithCredentials.user?.uid.toInt(),
@@ -40,7 +45,7 @@ class GoogleService implements AuthorizationService {
       res['user'] = user;
     } catch (e) {
       debugPrint("checkAuth error is : $e");
-      res['auth_error'] = true;
+      res = await refreshToken();
     }
     return res;
   }
@@ -55,19 +60,17 @@ class GoogleService implements AuthorizationService {
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-      await SharedPreferencesHelper.instance
-          .saveString(key: "google_access_token", value: googleAuth.accessToken);
+      await _sharedPreferencesHelper.saveString(
+          key: "google_access_token", value: googleAuth.accessToken);
 
-      await SharedPreferencesHelper.instance
-          .saveString(key: "google_id_token", value: googleAuth.idToken);
+      await _sharedPreferencesHelper.saveString(key: "google_id_token", value: googleAuth.idToken);
 
       OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final signInWithCredentials =
-          await FirebaseAuth.instance.signInWithCredential(oAuthCredential);
+      final signInWithCredentials = await _firebaseAuth.signInWithCredential(oAuthCredential);
 
       u.User user = u.User(
         id: signInWithCredentials.user?.uid.toInt(),
@@ -92,5 +95,38 @@ class GoogleService implements AuthorizationService {
   Future<Map<String, dynamic>> register() {
     // TODO: implement register
     throw UnimplementedError();
+  }
+
+  Future<Map<String, dynamic>> refreshToken() async {
+    if (_firebaseAuth.currentUser != null) {
+      Map<String, dynamic> res = {};
+      try {
+        final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
+
+        if (googleUser == null) return {"auth_error": true};
+
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        await _sharedPreferencesHelper.saveString(
+            key: "google_access_token", value: googleAuth.accessToken);
+
+        await _sharedPreferencesHelper.saveString(
+            key: "google_id_token", value: googleAuth.idToken);
+
+        res['user'] = u.User(
+          id: _firebaseAuth.currentUser?.uid.toInt(),
+          name: _firebaseAuth.currentUser?.displayName,
+          imageUrl: _firebaseAuth.currentUser?.photoURL,
+          email: _firebaseAuth.currentUser?.email,
+        );
+
+        res['success'] = true;
+      } catch (e) {
+        res['auth_error'] = true;
+      }
+      return res;
+    } else {
+      return {'auth_error': true};
+    }
   }
 }
