@@ -13,6 +13,7 @@ import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/home_screen_bloc_events.dart';
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/main_home_screen_bloc.dart';
+import 'package:youtube/blocs_and_cubits/youtube_video_cubit/youtube_video_cubit.dart';
 import 'package:youtube/firebase_options.dart';
 import 'package:youtube/services/authorization_service/google_service/google_service.dart';
 import 'package:youtube/utils/global_context_helper.dart';
@@ -41,6 +42,7 @@ Future<void> main() async {
     BlocProvider(create: (_) => MainAuthBloc()),
     BlocProvider(create: (_) => MainVideoCategoryCubit()),
     BlocProvider(create: (_) => HomeScreenVideosCubit()),
+    BlocProvider(create: (_) => YoutubeVideoCubit()),
   ], child: const MainApp()));
 }
 
@@ -64,12 +66,11 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-        child: MaterialApp(
-          navigatorKey: GlobalContextHelper.instance.globalNavigatorContext,
+        child: MaterialApp.router(
+          scaffoldMessengerKey: GlobalContextHelper.instance.globalNavigatorContext,
           theme: ThemeData(useMaterial3: true),
           debugShowCheckedModeBanner: false,
-          routes: AppRoutes.routes(),
-          initialRoute: "/",
+          routerConfig: goRouter,
         ));
   }
 }

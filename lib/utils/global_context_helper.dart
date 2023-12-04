@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GlobalContextHelper {
   static GlobalContextHelper? _instance;
@@ -7,5 +8,5 @@ class GlobalContextHelper {
 
   GlobalContextHelper._();
 
-  GlobalKey<NavigatorState> globalNavigatorContext = GlobalKey<NavigatorState>();
+  GlobalKey<ScaffoldMessengerState> globalNavigatorContext = GlobalKey<ScaffoldMessengerState>();
 }

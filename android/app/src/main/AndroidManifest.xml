@@ -6,6 +6,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="youtube">
         <activity
             android:name=".MainActivity"
