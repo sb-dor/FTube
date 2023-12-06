@@ -47,7 +47,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       currentState.stopVideo = true;
     }
 
-    if(currentState.playerController.value.)
+    // if(currentState.playerController.value.)
 
     emit(InitialYoutubeVideoState(currentState));
   }
