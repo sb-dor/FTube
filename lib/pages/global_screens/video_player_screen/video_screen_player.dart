@@ -63,7 +63,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                     Container(
                         color: Colors.black,
                         width: MediaQuery.of(context).size.width,
-                        height: 200,
+                        height: 210,
                         child: const Center(
                           child: CircularProgressIndicator(
                             color: Colors.red,
@@ -72,15 +72,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                   else
                     SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: 200,
+                        height: 210,
                         child: Stack(
                           children: [
                             Positioned.fill(
-                              child: GestureDetector(
-                                onTap: () => _youtubeVideoCubit.clickOnVideo(),
-                                child: VideoPlayer(
-                                  youtubeStateModel.playerController,
-
+                              child: Container(
+                                color: Colors.black,
+                                child: Center(
+                                  child: AspectRatio(
+                                    aspectRatio:
+                                        youtubeStateModel.playerController.value.aspectRatio,
+                                    child: GestureDetector(
+                                      onTap: () => _youtubeVideoCubit.clickOnVideo(),
+                                      child: VideoPlayer(
+                                        youtubeStateModel.playerController,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
@@ -109,6 +117,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white,
                                           ),
+                                          const SizedBox(width: 10),
+                                          Expanded(
+                                              child: VideoProgressIndicator(
+                                            youtubeStateModel.playerController,
+                                            allowScrubbing: true,
+                                            colors: const VideoProgressColors(
+                                                playedColor: Colors.green,
+                                                bufferedColor: Colors.white60),
+                                          )),
+                                          const SizedBox(width: 10),
                                           Row(children: [
                                             TextWidget(
                                               text: ReusableGlobalFunctions.instance

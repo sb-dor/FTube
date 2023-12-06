@@ -19,10 +19,14 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   void init({required String url}) async {
     currentState.clearData();
+    currentState.loadingVideo = true;
     emit(InitialYoutubeVideoState(currentState));
-    currentState.playerController = VideoPlayerController.networkUrl(Uri.parse(
-        'https://packaged-media.redd.it/5cm4p6o15b4c1/pb/m2-res_640p.'
-        'mp4?m=DASHPlaylist.mpd&v=1&e=1701795600&s=75de0a1556c6f64c2a4a574716722a4c7829d9d1#t=0'));
+    currentState.playerController = VideoPlayerController.networkUrl(
+        Uri.parse('https://packaged-media.redd.it/5cm4p6o15b4c1/pb/m2-res_640p.'
+            'mp4?m=DASHPlaylist.mpd&v=1&e=1701795600&s=75de0a1556c6f64c2a4a574716722a4c7829d9d1#t=0'),
+        videoPlayerOptions: VideoPlayerOptions(
+          allowBackgroundPlayback: true,
+        ));
     await currentState.playerController.initialize();
     await currentState.playerController.play();
     currentState.loadingVideo = false;
@@ -43,6 +47,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       currentState.stopVideo = true;
     }
 
+    if(currentState.playerController.value.)
+
     emit(InitialYoutubeVideoState(currentState));
   }
 
@@ -52,7 +58,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       if ((currentState.timerForClickedUpOnVideo?.isActive ?? false)) {
         currentState.timerForClickedUpOnVideo?.cancel();
       }
-      currentState.timerForClickedUpOnVideo = Timer(const Duration(seconds: 3), () {
+      currentState.timerForClickedUpOnVideo = Timer(const Duration(seconds: 5), () {
         currentState.clickedUpOnVideo = false;
         emit(InitialYoutubeVideoState(currentState));
       });
