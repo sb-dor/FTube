@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
-import 'package:youtube/pages/home_screen/home_screen.dart';
-import 'package:youtube/pages/inbox_screen/inbox_screen.dart';
-import 'package:youtube/pages/library_screen/library_screen.dart';
-import 'package:youtube/pages/subscriptions_screen/subscriptions_screen.dart';
-import 'package:youtube/pages/trending_screen/trending_screen.dart';
 import 'package:youtube/widgets/home_page_widgets/home_page_appbar.dart';
 
 import '../widgets/home_page_widgets/bottom_navigation_widget.dart';
+import 'home_screen/home_screen.dart';
+import 'inbox_screen/inbox_screen.dart';
+import 'library_screen/library_screen.dart';
+import 'subscriptions_screen/subscriptions_screen.dart';
+import 'trending_screen/trending_screen.dart';
 
 //main page begins here
 class HomePage extends StatefulWidget {

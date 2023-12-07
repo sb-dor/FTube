@@ -34,7 +34,8 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                   onTap: () => context
                       .read<MainHomeScreenBloc>()
                       .add(SelectVideoCategoryEvent(videoCategory: category, context: context)),
-                  child: Ink(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 350),
                     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                     decoration: BoxDecoration(
                       color: mainHomeScreenStateModel.videoCategory?.id == category.id

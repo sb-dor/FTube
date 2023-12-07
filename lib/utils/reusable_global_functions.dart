@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:youtube/utils/constants.dart';
 
 class ReusableGlobalFunctions {
@@ -27,22 +28,25 @@ class ReusableGlobalFunctions {
   }
 
   String getFromDuration(Duration? duration) {
+    debugPrint(
+        "${duration?.inDays} | ${duration?.inHours} | ${duration?.inMinutes} | ${duration?.inSeconds}");
     String res = '';
     int days = duration?.inDays ?? 0;
     if (days != 0) {
       res += '$days';
     }
-    int hours = duration?.inHours ?? 0;
+    int hours = (duration?.inHours ?? 0) - (24 * (duration?.inDays ?? 0));
     if (hours != 0) {
       res += '$hours:';
     }
-    int minutes = duration?.inMinutes ?? 0;
+    int minutes = (duration?.inMinutes ?? 0) - (60 * (duration?.inHours ?? 0));
     if (minutes >= 0 && minutes <= 9) {
       res += "0$minutes:";
     } else {
       res += '$minutes:';
     }
-    int seconds = duration?.inSeconds ?? 0;
+    //to get totalSeconds in 60 type second
+    int seconds = (duration?.inSeconds ?? 0) - (60 * (duration?.inMinutes ?? 0));
     if (seconds >= 0 && seconds <= 9) {
       res += "0$seconds";
     } else {
@@ -50,5 +54,11 @@ class ReusableGlobalFunctions {
     }
 
     return res;
+  }
+
+  bool checkMp4FromURI({required String value}) {
+    var reg = RegExp('mime=video%2Fmp4');
+    var reg2 = RegExp('ratebypass=yes');
+    return reg.hasMatch(value) && reg2.hasMatch(value);
   }
 }

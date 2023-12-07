@@ -44,10 +44,43 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
                           ),
                         ),
                         Positioned(
-                            top: 0,
-                            left: 0,
-                            child: Container(
-                              child: TextWidget(text: "1"),
+                            top: 5,
+                            left: 10,
+                            right: 10,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(children: [
+                                    Icon(
+                                      Icons.remove_red_eye_outlined,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(width: 5),
+                                    TextWidget(
+                                      text: "4.5M",
+                                      size: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    )
+                                  ]),
+                                ),
+                                IconButton(
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStatePropertyAll(
+                                            Colors.black.withOpacity(0.2))),
+                                    onPressed: () => [],
+                                    icon: Icon(
+                                      Icons.more_horiz,
+                                      color: Colors.white,
+                                    ))
+                              ],
                             ))
                       ],
                     ),

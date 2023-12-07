@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:youtube/blocs_and_cubits/youtube_video_cubit/state_model/youtube_video_state_modek.dart';
+import 'state_model/youtube_video_state_model.dart';
 
 abstract class YoutubeVideoStates {
   YoutubeVideoStateModel youtubeVideoStateModel;

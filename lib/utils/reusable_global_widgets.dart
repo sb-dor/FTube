@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/pages/global_screens/video_player_screen/video_screen_player.dart';
+import 'package:youtube/pages/youtube_video_player_page/presentation/video_screen_player.dart';
 
 class ReusableGlobalWidgets {
   static ReusableGlobalWidgets? _instance;

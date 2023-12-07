@@ -7,13 +7,12 @@ import 'package:youtube/blocs_and_cubits/home_screen_bloc/cubits/home_screen_vid
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/home_screen_bloc_events.dart';
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/main_home_screen_bloc.dart';
-import 'package:youtube/pages/home_screen/widgets/home_screen_categories_widgets/home_screen_categories_error_widget.dart';
-import 'package:youtube/pages/home_screen/widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
-import 'package:youtube/pages/home_screen/widgets/home_screen_videos_widgets/home_screen_videos_error_widget.dart';
-import 'package:youtube/pages/home_screen/widgets/home_screen_videos_widgets/home_screen_videos_loaded_widget.dart';
-import 'package:youtube/pages/home_screen/widgets/home_screen_videos_widgets/home_screen_videos_loading_widget.dart';
-
+import 'widgets/home_screen_categories_widgets/home_screen_categories_error_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
+import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
+import 'widgets/home_screen_videos_widgets/home_screen_videos_error_widget.dart';
+import 'widgets/home_screen_videos_widgets/home_screen_videos_loaded_widget.dart';
+import 'widgets/home_screen_videos_widgets/home_screen_videos_loading_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
