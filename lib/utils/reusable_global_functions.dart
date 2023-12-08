@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:youtube/utils/constants.dart';
 
@@ -28,8 +30,6 @@ class ReusableGlobalFunctions {
   }
 
   String getFromDuration(Duration? duration) {
-    debugPrint(
-        "${duration?.inDays} | ${duration?.inHours} | ${duration?.inMinutes} | ${duration?.inSeconds}");
     String res = '';
     int days = duration?.inDays ?? 0;
     if (days != 0) {
@@ -60,5 +60,30 @@ class ReusableGlobalFunctions {
     var reg = RegExp('mime=video%2Fmp4');
     var reg2 = RegExp('ratebypass=yes');
     return reg.hasMatch(value) && reg2.hasMatch(value);
+  }
+
+  String viewsFormatNumbers(int? number) {
+    if (number == null) return '';
+    if (number >= 1000000) {
+      double result = number / 1000000.0;
+      return '${result.toStringAsFixed(result.truncateToDouble() == result ? 0 : 1)}M';
+    } else if (number >= 1000) {
+      double result = number / 1000.0;
+      return '${result.toStringAsFixed(result.truncateToDouble() == result ? 0 : 1)}K';
+    } else {
+      return number.toString();
+    }
+  }
+
+  String generateRandomString({int length = 10}) {
+    final random = Random();
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    return String.fromCharCodes(
+      List.generate(
+        length,
+        (index) => characters.codeUnitAt(random.nextInt(characters.length)),
+      ),
+    );
   }
 }

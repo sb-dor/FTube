@@ -16,6 +16,8 @@ const String channels = '/channels';
 
 const String snippetPart = '&part=snippet';
 
+const String statisticsPart = '&part=statistics'; // for videos url used only
+
 const String language = "&hl=ru";
 
 const String regionCode = "&regionCode=ru";

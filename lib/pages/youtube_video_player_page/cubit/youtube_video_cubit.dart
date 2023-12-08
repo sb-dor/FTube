@@ -19,18 +19,21 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   //
 
   void init({required String url, required SingleTickerProviderStateMixin mixin}) async {
+    //clear data at first
     currentState.clearData();
     currentState.loadingVideo = true;
+    //init _stop_play button
     currentState.playPauseController =
         AnimationController(vsync: mixin, duration: const Duration(seconds: 1));
     currentState.playPauseAnimation =
         Tween<double>(begin: 0, end: 1).animate(currentState.playPauseController);
+    // change the state
     emit(InitialYoutubeVideoState(currentState));
+    //get information about video
     await getVideoInformation(videoId: url);
     currentState.loadingVideo = false;
-
     emit(InitialYoutubeVideoState(currentState));
-    currentState.playerController.addListener(_controllerListener);
+    currentState.playerController?.addListener(_controllerListener);
   }
 
   Future<void> getVideoInformation({required String videoId}) async {
@@ -52,40 +55,35 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
       var minStreamVideo = await currentState.minStreamFromArray();
 
-      debugPrint("min stream: ${minStreamVideo.size.totalMegaBytes}");
-
-      // var getSmallSize = currentState.videos.firstWhere((el) => el)
-
       for (var element in currentState.videosWithSound) {
+        debugPrint("______");
         log(element.url.toString());
         log(element.videoQuality.name);
         debugPrint("______");
       }
 
-      currentState.playerController = VideoPlayerController.networkUrl(
-        Uri.parse(
-          minStreamVideo.url.toString(),
-        ),
-      );
+      currentState.playerController =
+          VideoPlayerController.networkUrl(Uri.parse(minStreamVideo.url.toString()));
 
-      await currentState.playerController.initialize();
+      await currentState.playerController?.initialize();
 
-      await currentState.playerController.play();
+      await currentState.playerController?.play();
+
     } catch (e) {
       emit(ErrorYoutubeVideoState(currentState));
     }
   }
 
   void dispose() async {
-    await currentState.playerController.dispose();
+    await currentState.playerController?.dispose();
     currentState.playPauseController.dispose();
   }
 
   void _controllerListener() async {
     currentState.runningTime =
-        currentState.globalFunc.getFromDuration(await currentState.playerController.position);
+        currentState.globalFunc.getFromDuration(await currentState.playerController?.position);
 
-    if (currentState.playerController.value.isCompleted) {
+    if ((currentState.playerController?.value.isCompleted ?? false)) {
       currentState.playPauseController.forward();
       cancelTime();
       currentState.stopVideo = true;
@@ -119,9 +117,9 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     currentState.stopVideo = !currentState.stopVideo;
     clickOnVideo(fromStopVideo: true);
     if (currentState.stopVideo) {
-      currentState.playerController.pause();
+      currentState.playerController?.pause();
     } else {
-      currentState.playerController.play();
+      currentState.playerController?.play();
     }
   }
 }

@@ -22,17 +22,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Timer? _timer;
-  bool _animate = true;
+  final bool _animate = false; // make this true to animate
   late List<Widget> _screens;
 
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      setState(() {
-        _animate = !_animate;
-      });
-    });
+    // _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    //   setState(() {
+    //     _animate = !_animate;
+    //   });
+    // }); // recomment for animation
     _screens = const [
       HomeScreen(),
       TrendingScreen(),

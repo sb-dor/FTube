@@ -53,7 +53,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
             return SafeArea(
               child: Scaffold(
                 body: Column(children: [
-                  if (youtubeStateModel.loadingVideo)
+                  if (youtubeStateModel.loadingVideo || youtubeStateModel.playerController == null)
                     Container(
                         color: Colors.black,
                         width: MediaQuery.of(context).size.width,

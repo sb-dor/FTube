@@ -17,11 +17,11 @@ class VideoPlayerWidget extends StatelessWidget {
           child: Center(
             child: state is InitialYoutubeVideoState
                 ? AspectRatio(
-                    aspectRatio: currentState.playerController.value.aspectRatio,
+                    aspectRatio: currentState.playerController!.value.aspectRatio,
                     child: GestureDetector(
                       onTap: () => context.read<YoutubeVideoCubit>().clickOnVideo(),
                       child: VideoPlayer(
-                        currentState.playerController,
+                        currentState.playerController!,
                       ),
                     ),
                   )

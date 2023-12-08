@@ -16,7 +16,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     currentState = state.homeScreenStateModel;
 
     on<RefreshHomeScreenEvent>((event, emit) => refreshHomeScreen(event, emit),
-        transformer: droppable());
+        transformer: restartable());
 
     on<PaginateHomeScreenEvent>((event, emit) => paginateHomeScreen(event, emit),
         transformer: droppable());
@@ -41,8 +41,11 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       currentState.getAndPaginate(list: videos);
       emitState(emit);
       homeScreenVideosCubit.loadedHomeScreenVideosState();
+
       for (var element in videos) {
         await element.snippet?.loadChannel();
+        await element.snippet?.loadStatistics();
+        emitState(emit);
       }
     } else {
       homeScreenVideosCubit.errorHomeScreenVideosState();
@@ -55,7 +58,9 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       PaginateHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
     if (!currentState.hasMore) return;
     var data = await RestApiHomeScreen.homeScreenGetVideo(
-        page: currentState.nextPageToken, videoCategoryId: currentState.videoCategory?.id);
+      page: currentState.nextPageToken,
+      videoCategoryId: currentState.videoCategory?.id,
+    );
     if (data.containsKey('server_error')) {
       //error
     } else if (data.containsKey('success')) {
@@ -65,6 +70,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       emitState(emit);
       for (var element in videos) {
         await element.snippet?.loadChannel();
+        await element.snippet?.loadStatistics();
       }
     }
     emitState(emit);

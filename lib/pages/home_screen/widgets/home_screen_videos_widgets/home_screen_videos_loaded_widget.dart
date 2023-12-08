@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:youtube/blocs_and_cubits/home_screen_bloc/main_home_screen_bloc.dart';
+import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
@@ -51,32 +52,44 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                                  padding:
+                                      const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                                   decoration: BoxDecoration(
                                     color: Colors.red,
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  child: Row(children: [
-                                    Icon(
-                                      Icons.remove_red_eye_outlined,
-                                      size: 20,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 5),
-                                    TextWidget(
-                                      text: "4.5M",
-                                      size: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    )
-                                  ]),
+                                  child: (video.snippet?.loadingStatistics ?? true)
+                                      ? TextWidget(
+                                          text: ". . .",
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        )
+                                      : Row(children: [
+                                          const Icon(
+                                            Icons.remove_red_eye_outlined,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          TextWidget(
+                                            text: (video.snippet?.loadingStatistics ?? true)
+                                                ? ""
+                                                : ReusableGlobalFunctions.instance
+                                                    .viewsFormatNumbers(int.tryParse(
+                                                        "${video.snippet?.statistic?.viewCount}")),
+                                            size: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          )
+                                        ]),
                                 ),
                                 IconButton(
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStatePropertyAll(
                                             Colors.black.withOpacity(0.2))),
                                     onPressed: () => [],
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.more_horiz,
                                       color: Colors.white,
                                     ))

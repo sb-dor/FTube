@@ -4,12 +4,14 @@ import 'package:youtube/api/api_urls.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/utils/constants.dart';
+import 'package:youtube/utils/reusable_global_functions.dart';
 
 abstract class RestApiHomeScreen {
   static Future<Map<String, dynamic>> homeScreenGetVideo({
     int perPage = perPage,
     String? page,
     String? videoCategoryId,
+    String? searchQuery,
   }) async {
     Map<String, dynamic> res = {};
     debugPrint("category id : $videoCategoryId");
@@ -17,11 +19,14 @@ abstract class RestApiHomeScreen {
       Map<String, dynamic> params = {
         "maxResults": perPage,
         "pageToken": page,
+        'type': "video",
       };
 
       if (videoCategoryId != null) {
-        params['type'] = "video";
         params['videoCategoryId'] = videoCategoryId;
+      } else {
+        params['q'] =
+            searchQuery ?? ReusableGlobalFunctions.instance.generateRandomString(length: 3);
       }
 
       var response = await APISettings.dio.get(search + key + snippetPart, queryParameters: params);

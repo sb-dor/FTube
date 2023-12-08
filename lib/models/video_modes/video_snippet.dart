@@ -1,14 +1,18 @@
 import 'package:youtube/api/api_get_data/rest_api_get_data.dart';
 import 'package:youtube/models/channel_model/channel.dart';
 import 'package:youtube/models/thumbnails.dart';
+import 'package:youtube/models/video_modes/video.dart';
+import 'package:youtube/models/video_modes/video_statistic.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/extensions.dart';
 
-class VideoSnippet {
+class VideoSnippet extends Video {
+  String? videoId;
   String? title;
   String? description;
   String? channelID;
   Channel? channel;
+  VideoStatistic? statistic;
   String? publishedAt;
   String? channelTitle;
   Thumbnail? thumbnailDefault;
@@ -20,14 +24,18 @@ class VideoSnippet {
   //
   bool loadingChannel = true;
   bool errorChannel = false;
+  bool loadingStatistics = true;
+  bool errorStatistics = false;
 
   //
 
   VideoSnippet({
+    this.videoId,
     this.title,
     this.description,
     this.channelID,
     this.channel,
+    this.statistic,
     this.publishedAt,
     this.channelTitle,
     this.thumbnailDefault,
@@ -37,7 +45,7 @@ class VideoSnippet {
     this.publishTime,
   });
 
-  factory VideoSnippet.fromJson(Map<String, dynamic> json) {
+  factory VideoSnippet.fromJson(Map<String, dynamic> json, {String? videoId}) {
     Map<String, dynamic>? thumbDefault;
     Map<String, dynamic>? thumbMedium;
     Map<String, dynamic>? thumbHigh;
@@ -47,6 +55,7 @@ class VideoSnippet {
       thumbHigh = json['thumbnails']['high'];
     }
     return VideoSnippet(
+      videoId: videoId,
       title: json['title'],
       description: json['description'],
       channelID: json['channelId'],
@@ -69,5 +78,16 @@ class VideoSnippet {
       channel = data['channel'];
     }
     loadingChannel = false;
+  }
+
+  Future<void> loadStatistics() async {
+    loadingStatistics = true;
+    var data = await RestApiGetData.getVideoStatistics(videoId: videoId);
+    if (data.containsKey('server_error')) {
+      errorStatistics = true;
+    } else if (data.containsKey('success') && data['success'] == true) {
+      statistic = data['statistics'];
+    }
+    loadingStatistics = false;
   }
 }
