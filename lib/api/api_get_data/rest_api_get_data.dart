@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/api/api_urls.dart';
 import 'package:youtube/models/channel_model/channel.dart';
+import 'package:youtube/models/video_modes/video_content_details.dart';
 import 'package:youtube/models/video_modes/video_statistic.dart';
 import 'package:youtube/utils/constants.dart';
 
@@ -57,5 +58,30 @@ abstract class RestApiGetData {
       result['server_error'] = true;
     }
     return result;
+  }
+
+  static Future<Map<String, dynamic>> getVideoContentDetails({required String? videoId}) async {
+    Map<String, dynamic> results = {};
+    try {
+      var res = await APISettings.dio
+          .get(videos + key + contentDetailsPart, queryParameters: {"id": videoId});
+
+      if (res.statusCode != STATUS_SUCCESS) return {"server_error": true};
+
+      Map<String, dynamic> json = res.data;
+
+      if (json.containsKey('items')) {
+        List<dynamic> list = json['items'];
+
+        if (list.isNotEmpty) {
+          results['contentDetails'] = VideoContentDetails.fromJson(list.first);
+          results['success'] = true;
+        }
+      }
+    } catch (e) {
+      debugPrint("getVideoStatistics error is: $e");
+      results['getVideoContentDetails'] = true;
+    }
+    return results;
   }
 }

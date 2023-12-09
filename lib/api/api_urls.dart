@@ -18,6 +18,8 @@ const String snippetPart = '&part=snippet';
 
 const String statisticsPart = '&part=statistics'; // for videos url used only
 
+const String contentDetailsPart = '&part=contentDetails'; // for videos url used only
+
 const String language = "&hl=ru";
 
 const String regionCode = "&regionCode=ru";

@@ -6,6 +6,8 @@ import 'package:youtube/models/video_modes/video_statistic.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/extensions.dart';
 
+import 'video_content_details.dart';
+
 class VideoSnippet extends Video {
   String? videoId;
   String? title;
@@ -13,6 +15,7 @@ class VideoSnippet extends Video {
   String? channelID;
   Channel? channel;
   VideoStatistic? statistic;
+  VideoContentDetails? videoContentDetails;
   String? publishedAt;
   String? channelTitle;
   Thumbnail? thumbnailDefault;
@@ -26,6 +29,8 @@ class VideoSnippet extends Video {
   bool errorChannel = false;
   bool loadingStatistics = true;
   bool errorStatistics = false;
+  bool loadingContentDetails = true;
+  bool errorContentDetails = false;
 
   //
 
@@ -36,6 +41,7 @@ class VideoSnippet extends Video {
     this.channelID,
     this.channel,
     this.statistic,
+    this.videoContentDetails,
     this.publishedAt,
     this.channelTitle,
     this.thumbnailDefault,
@@ -69,7 +75,13 @@ class VideoSnippet extends Video {
     );
   }
 
-  Future<void> loadChannel() async {
+  Future<void> loadSnippetData() async {
+    await _loadChannel();
+    await _loadStatistics();
+    await _loadContentDetails();
+  }
+
+  Future<void> _loadChannel() async {
     loadingChannel = true;
     var data = await RestApiGetData.channel(channelId: channelID ?? '');
     if (data.containsKey('server_error')) {
@@ -80,7 +92,7 @@ class VideoSnippet extends Video {
     loadingChannel = false;
   }
 
-  Future<void> loadStatistics() async {
+  Future<void> _loadStatistics() async {
     loadingStatistics = true;
     var data = await RestApiGetData.getVideoStatistics(videoId: videoId);
     if (data.containsKey('server_error')) {
@@ -89,5 +101,16 @@ class VideoSnippet extends Video {
       statistic = data['statistics'];
     }
     loadingStatistics = false;
+  }
+
+  Future<void> _loadContentDetails() async {
+    loadingContentDetails = true;
+    var data = await RestApiGetData.getVideoContentDetails(videoId: videoId);
+    if (data.containsKey("server_error")) {
+      errorContentDetails = true;
+    } else if (data.containsKey('success') && data['success'] == true) {
+      videoContentDetails = data['contentDetails'];
+    }
+    loadingContentDetails = false;
   }
 }

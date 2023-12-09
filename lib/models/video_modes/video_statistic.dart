@@ -12,12 +12,13 @@ class VideoStatistic {
   });
 
   factory VideoStatistic.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> statistics = {};
+    if (json['statistics'] != null) statistics = json['statistics'];
     return VideoStatistic(
-      viewCount: json['statistics']['viewCount'],
-      likeCount: json['statistics']['likeCount'],
-      favoriteCount: json['statistics']['favoriteCount'],
-      commentCount: json['statistics']['commentCount'],
+      viewCount: statistics['viewCount'],
+      likeCount: statistics['likeCount'],
+      favoriteCount: statistics['favoriteCount'],
+      commentCount: statistics['commentCount'],
     );
   }
-
 }

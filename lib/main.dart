@@ -3,21 +3,20 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/api/api_home_screen/rest_api_home_screen.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/app_routes.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
-import 'package:youtube/blocs_and_cubits/home_screen_bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
-import 'package:youtube/blocs_and_cubits/home_screen_bloc/home_screen_bloc_events.dart';
-import 'package:youtube/blocs_and_cubits/home_screen_bloc/main_home_screen_bloc.dart';
 import 'package:youtube/firebase_options.dart';
 import 'package:youtube/services/authorization_service/google_service/google_service.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
-import 'pages/youtube_video_player_page/cubit/youtube_video_cubit.dart';
+import 'pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
+import 'pages/home_screen/bloc/home_screen_bloc_events.dart';
+import 'pages/home_screen/bloc/main_home_screen_bloc.dart';
+import 'pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
