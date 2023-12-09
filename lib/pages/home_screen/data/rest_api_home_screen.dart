@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:youtube/api/abs_home_screen/abs_home_screen.dart';
+import 'package:youtube/pages/home_screen/repository/abs_home_screen.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/api/api_urls.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
