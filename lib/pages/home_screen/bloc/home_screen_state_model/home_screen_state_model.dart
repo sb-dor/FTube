@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/models/video_modes/video.dart';
-import 'package:youtube/pages/home_screen/data/rest_api_home_screen.dart';
+import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 
 class HomeScreenStateModel {

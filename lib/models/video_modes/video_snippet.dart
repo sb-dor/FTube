@@ -1,4 +1,5 @@
-import 'package:youtube/api/api_get_data/rest_api_get_data.dart';
+import 'package:youtube/api/api_get_data/rest_api_get_channel_data.dart';
+import 'package:youtube/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/models/channel_model/channel.dart';
 import 'package:youtube/models/thumbnails.dart';
 import 'package:youtube/models/video_modes/video.dart';
@@ -83,33 +84,41 @@ class VideoSnippet extends Video {
 
   Future<void> _loadChannel() async {
     loadingChannel = true;
-    var data = await RestApiGetData.channel(channelId: channelID ?? '');
+    var data = await RestApiGetChannelData.channel(
+      typeContent: TypeContent.snippet,
+      channelId: channelID ?? '',
+    );
     if (data.containsKey('server_error')) {
       errorChannel = true;
     } else if (data.containsKey('success')) {
-      channel = data['channel'];
+      channel = Channel.fromJson(data['item']);
+      await channel?.channelSnippet?.loadSnippetData();
     }
     loadingChannel = false;
   }
 
   Future<void> _loadStatistics() async {
     loadingStatistics = true;
-    var data = await RestApiGetData.getVideoStatistics(videoId: videoId);
+    var data = await RestApiGetVideoData.getVideoInfo(
+      videoContent: TypeContent.statistics,
+      videoId: videoId,
+    );
     if (data.containsKey('server_error')) {
       errorStatistics = true;
     } else if (data.containsKey('success') && data['success'] == true) {
-      statistic = data['statistics'];
+      statistic = VideoStatistic.fromJson(data['item']);
     }
     loadingStatistics = false;
   }
 
   Future<void> _loadContentDetails() async {
     loadingContentDetails = true;
-    var data = await RestApiGetData.getVideoContentDetails(videoId: videoId);
+    var data = await RestApiGetVideoData.getVideoInfo(
+        videoContent: TypeContent.contentDetails, videoId: videoId);
     if (data.containsKey("server_error")) {
       errorContentDetails = true;
     } else if (data.containsKey('success') && data['success'] == true) {
-      videoContentDetails = data['contentDetails'];
+      videoContentDetails = VideoContentDetails.fromJson(data['item']);
     }
     loadingContentDetails = false;
   }

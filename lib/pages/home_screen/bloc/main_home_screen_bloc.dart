@@ -4,7 +4,7 @@ import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_state_model/home_screen_state_model.dart';
-import 'package:youtube/pages/home_screen/data/rest_api_home_screen.dart';
+import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen.dart';
 
 import 'home_screen_bloc_events.dart';
 

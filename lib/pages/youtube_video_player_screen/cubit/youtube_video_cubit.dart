@@ -3,10 +3,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pod_player/pod_player.dart';
+import 'package:youtube/api/api_get_data/rest_api_get_video_data.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
+import 'package:youtube/utils/enums.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'state_model/youtube_video_state_model.dart';
 import 'youtube_video_states.dart';
+import 'package:youtube/models/video_modes/video.dart' as v;
 
 class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   late YoutubeVideoStateModel currentState;
@@ -33,13 +37,11 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     // change the state
     emit(InitialYoutubeVideoState(currentState));
     //get information about video
-    await getVideoInformation(videoId: url, context: context);
-    currentState.loadingVideo = false;
-    emit(InitialYoutubeVideoState(currentState));
-    currentState.playerController?.addListener(_controllerListener);
+    getVideoInformation(videoId: url, context: context);
+    getVideo(videoId: url, context: context);
   }
 
-  Future<void> getVideoInformation({required String videoId, required BuildContext context}) async {
+  Future<void> getVideo({required String videoId, required BuildContext context}) async {
     try {
       // var getVideo = await currentState.youtubeExplode.videos.get(videoId);
 
@@ -84,11 +86,42 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
       await currentState.playerController?.initialize();
 
-      if (!context.mounted) return;
-
       await currentState.playerController?.play();
+
+      currentState.loadingVideo = false;
+
+      emit(InitialYoutubeVideoState(currentState));
+
+      currentState.playerController?.addListener(_controllerListener);
     } catch (e) {
       emit(ErrorYoutubeVideoState(currentState));
+    }
+  }
+
+  Future<void> getVideoInformation({required String videoId, required BuildContext context}) async {
+    if (!context.mounted) return;
+
+    var videoInfoCubit = BlocProvider.of<VideoInformationCubit>(context);
+
+    videoInfoCubit.loadingVideoInformationState();
+
+    try {
+      var data = await RestApiGetVideoData.getVideoInfo(
+          videoContent: TypeContent.snippet, videoId: videoId);
+
+      if (data.containsKey('server_error') && data['server_error'] == true) {
+        videoInfoCubit.errorVideoInformationState();
+      } else if (data.containsKey('success') && data['success'] == true) {
+        currentState.video = v.Video.fromJson(data['item']);
+        await currentState.video?.snippet?.loadSnippetData();
+        videoInfoCubit.loadedVideoInformationState();
+        emit(InitialYoutubeVideoState(currentState));
+      } else {
+        videoInfoCubit.errorVideoInformationState();
+      }
+    } catch (e) {
+      debugPrint("getVideoInformation: $e");
+      videoInfoCubit.errorVideoInformationState();
     }
   }
 

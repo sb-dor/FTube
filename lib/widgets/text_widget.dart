@@ -12,20 +12,22 @@ class TextWidget extends StatelessWidget {
   final TextAlign? textAlign;
   final EdgeInsets? padding;
   final double? letterSpacing;
+  final double? height;
 
-  const TextWidget(
-      {Key? key,
-      required this.text,
-      this.size,
-      this.color,
-      this.fontWeight,
-      this.maxLines,
-      this.textDecoration,
-      this.overFlow,
-      this.textAlign,
-      this.padding,
-      this.letterSpacing})
-      : super(key: key);
+  const TextWidget({
+    Key? key,
+    required this.text,
+    this.size,
+    this.color,
+    this.fontWeight,
+    this.maxLines,
+    this.textDecoration,
+    this.overFlow,
+    this.textAlign,
+    this.padding,
+    this.letterSpacing,
+    this.height,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class TextWidget extends StatelessWidget {
             maxLines: maxLines,
             textAlign: textAlign,
             style: TextStyle(
+                height: height,
                 color: color ?? Colors.black,
                 fontSize: size ?? 14,
                 fontWeight: fontWeight ?? FontWeight.normal,

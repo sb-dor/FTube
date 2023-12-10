@@ -16,7 +16,6 @@ import 'package:youtube/utils/shared_preferences_helper.dart';
 import 'pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'pages/home_screen/bloc/home_screen_bloc_events.dart';
 import 'pages/home_screen/bloc/main_home_screen_bloc.dart';
-import 'pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +40,6 @@ Future<void> main() async {
     BlocProvider(create: (_) => MainAuthBloc()),
     BlocProvider(create: (_) => MainVideoCategoryCubit()),
     BlocProvider(create: (_) => HomeScreenVideosCubit()),
-    BlocProvider(create: (_) => YoutubeVideoCubit()),
   ], child: const MainApp()));
 }
 

@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:youtube/models/video_modes/video.dart' as v;
 
 class YoutubeVideoStateModel {
   var globalFunc = ReusableGlobalFunctions.instance;
@@ -30,6 +29,8 @@ class YoutubeVideoStateModel {
   List<VideoStreamInfo> videosWithSound = [];
 
   List<VideoStreamInfo> allVideos = [];
+
+  v.Video? video;
 
   Future<void> deleteDuplicatedVideos() async {
     for (int i = 0; i < videosWithSound.length; i++) {

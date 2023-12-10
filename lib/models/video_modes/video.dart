@@ -16,7 +16,14 @@ class Video {
   });
 
   factory Video.fromJson(Map<String, dynamic> json) {
-    VideoID? tempId = json['id'] == null ? null : VideoID.fromJson(json['id']);
+    VideoID? tempId;
+    if (json['id'] != null) {
+      if (json['id'] is Map<String, dynamic>) {
+        tempId = VideoID.fromJson(json['id']);
+      } else {
+        tempId = VideoID(videoID: json['id']);
+      }
+    }
     return Video(
       kind: json['kind'],
       etag: json['etag'],

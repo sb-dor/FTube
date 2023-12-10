@@ -125,16 +125,23 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
                             height: 50,
                             child: const TextWidget(text: "E", color: Colors.red))
                       else
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: SizedBox(
-                              width: 50,
-                              height: 50,
+                        Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey.shade400,
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
                               child: ImageLoaderWidget(
-                                  url: video.snippet?.channel?.channelSnippet?.thumbMedium?.url ??
-                                      '',
-                                  errorImageUrl: 'assets/custom_images/custom_user_image.png')),
-                        ),
+                                url: video.snippet?.channel?.channelSnippet?.thumbMedium?.url ?? '',
+                                errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                              ),
+                            )),
                       const SizedBox(width: 10),
                       Expanded(
                           child: Column(
