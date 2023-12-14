@@ -5,7 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
+import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_info_subs_buttons/video_info_subs_buttons_loaded_widget.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
+import 'package:youtube/widgets/text_widget.dart';
+import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_informations_widgets/video_information_loaded_widget.dart';
 import 'widgets/video_player_widgets/black_with_opacity_background.dart';
 import 'widgets/video_player_widgets/last_next_stop_play_widget.dart';
@@ -48,9 +51,7 @@ class _PlayerState extends State<_Player> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-      SystemUiOverlay.bottom
-    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
     super.initState();
     _scrollableController = DraggableScrollableController();
     _youtubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context);
@@ -107,22 +108,31 @@ class _PlayerState extends State<_Player> with SingleTickerProviderStateMixin {
                   Expanded(
                     child: ListView(
                       children: [
-                        CustomerClipperWithShadow(
-                          clipper: _Clipper(),
-                          blurRadius: 1,
-                          child: Container(
-                            padding: EdgeInsets.only(bottom: 100),
-                            color: Colors.white,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10,right: 10),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 10),
-                                  VideoInformationLoadedWidget()
-                                ],
+                        Stack(
+                          children: [
+                            CustomerClipperWithShadow(
+                              clipper: _Clipper(),
+                              blurRadius: 1,
+                              child: Container(
+                                padding: EdgeInsets.only(bottom: 100),
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 10),
+                                      //
+                                      VideoInformationLoadedWidget(),
+                                      //
+                                      SizedBox(height: 10),
+                                      VideoInfoLikeButtonLoadedWidget(),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            VideoInfoSubsButtonsLoadedWidget()
+                          ],
                         ),
                         // VideoInformationLoadedWidget(),
                       ],

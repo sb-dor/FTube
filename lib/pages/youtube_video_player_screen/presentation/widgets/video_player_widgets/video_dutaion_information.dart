@@ -30,11 +30,14 @@ class VideoDurationInformation extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(
-                  child: VideoProgressIndicator(
-                currentState.playerController!,
-                allowScrubbing: true,
-                colors: const VideoProgressColors(
-                    playedColor: Colors.green, bufferedColor: Colors.white60),
+                  child: SizedBox(
+                height: 15,
+                child: VideoProgressIndicator(
+                  currentState.playerController!,
+                  allowScrubbing: true,
+                  colors: const VideoProgressColors(
+                      playedColor: Colors.green, bufferedColor: Colors.white60),
+                ),
               )),
               const SizedBox(width: 10),
               Row(children: [

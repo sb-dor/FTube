@@ -4,6 +4,7 @@ import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_state_model/home_screen_state_model.dart';
+import 'package:youtube/pages/home_screen/data/repository/abs_home_screen_get_videos.dart';
 import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen.dart';
 
 import 'home_screen_bloc_events.dart';
@@ -28,7 +29,8 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       RefreshHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
     var homeScreenVideosCubit = BlocProvider.of<HomeScreenVideosCubit>(event.context);
     homeScreenVideosCubit.loadingHomeScreenVideosState();
-    var data = await currentState.restApiHomeScreen
+    var data = await currentState
+        .homeScreenApi(RestApiHomeScreen())
         .homeScreenGetVideo(videoCategoryId: currentState.videoCategory?.id);
 
     if (data.containsKey("server_error")) {
@@ -55,10 +57,10 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   Future<void> paginateHomeScreen(
       PaginateHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
     if (!currentState.hasMore) return;
-    var data = await currentState.restApiHomeScreen.homeScreenGetVideo(
-      page: currentState.nextPageToken,
-      videoCategoryId: currentState.videoCategory?.id,
-    );
+    var data = await currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
+          page: currentState.nextPageToken,
+          videoCategoryId: currentState.videoCategory?.id,
+        );
     if (data.containsKey('server_error')) {
       //error
     } else if (data.containsKey('success')) {

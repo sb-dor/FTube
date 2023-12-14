@@ -96,28 +96,32 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                 ],
               )),
               const SizedBox(width: 5),
-              Container(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
-                decoration: BoxDecoration(
-                  color: Colors.black,
+              Material(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(15),
+                child: InkWell(
                   borderRadius: BorderRadius.circular(15),
-                ),
-                child: const Row(
-                  children: [
-                    TextWidget(
-                      text: "Скачать",
-                      color: Colors.white,
-                      size: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.6,
+                  onTap: () => [],
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
+                    child: const Row(
+                      children: [
+                        TextWidget(
+                          text: "Скачать",
+                          color: Colors.white,
+                          size: 12,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.6,
+                        ),
+                        SizedBox(width: 7),
+                        Icon(
+                          Icons.download,
+                          size: 12,
+                          color: Colors.white,
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 7),
-                    Icon(
-                      Icons.download,
-                      size: 12,
-                      color: Colors.white,
-                    ),
-                  ],
+                  ),
                 ),
               )
             ],
