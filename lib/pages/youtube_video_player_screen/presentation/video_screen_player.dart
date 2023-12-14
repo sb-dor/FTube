@@ -1,14 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_info_subs_buttons/video_info_subs_buttons_loaded_widget.dart';
+import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_info_subs_buttons/video_info_subs_buttons_loading_widget.dart';
+import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_informations_widgets/video_information_loading_widget.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
-import 'package:youtube/widgets/text_widget.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
+import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';
 import 'widgets/video_informations_widgets/video_information_loaded_widget.dart';
 import 'widgets/video_player_widgets/black_with_opacity_background.dart';
 import 'widgets/video_player_widgets/last_next_stop_play_widget.dart';
@@ -16,7 +17,7 @@ import 'widgets/video_player_widgets/video_dutaion_information.dart';
 import 'widgets/video_player_widgets/video_player_widget.dart';
 import 'widgets/video_player_widgets/video_settings_button.dart';
 
-class VideoPlayerScreen extends StatelessWidget {
+class VideoPlayerScreen extends StatefulWidget {
   final String videoId;
 
   const VideoPlayerScreen({
@@ -25,27 +26,10 @@ class VideoPlayerScreen extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => YoutubeVideoCubit()),
-        BlocProvider(create: (_) => VideoInformationCubit()),
-      ],
-      child: _Player(videoId: videoId),
-    );
-  }
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
-class _Player extends StatefulWidget {
-  final String videoId;
-
-  const _Player({Key? key, required this.videoId}) : super(key: key);
-
-  @override
-  State<_Player> createState() => _PlayerState();
-}
-
-class _PlayerState extends State<_Player> with SingleTickerProviderStateMixin {
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTickerProviderStateMixin {
   late final YoutubeVideoCubit _youtubeVideoCubit;
   late final DraggableScrollableController _scrollableController;
 
@@ -69,6 +53,7 @@ class _PlayerState extends State<_Player> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       final youtubeStates = context.watch<YoutubeVideoCubit>().state;
+      final videoInformationStates = context.watch<VideoInformationCubit>().state;
 
       var youtubeStateModel = youtubeStates.youtubeVideoStateModel;
 
@@ -114,24 +99,40 @@ class _PlayerState extends State<_Player> with SingleTickerProviderStateMixin {
                               clipper: _Clipper(),
                               blurRadius: 1,
                               child: Container(
-                                padding: EdgeInsets.only(bottom: 100),
+                                padding: const EdgeInsets.only(bottom: 80),
                                 color: Colors.white,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10, right: 10),
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                       //
-                                      VideoInformationLoadedWidget(),
+                                      if (videoInformationStates is LoadingVideoInformationState)
+                                        const VideoInformationLoadingWidget()
+                                      else if (videoInformationStates is ErrorVideoInformationState)
+                                        const SizedBox()
+                                      else
+                                        const VideoInformationLoadedWidget(),
+
                                       //
-                                      SizedBox(height: 10),
-                                      VideoInfoLikeButtonLoadedWidget(),
+                                      const SizedBox(height: 10),
+                                      if (videoInformationStates is LoadingVideoInformationState)
+                                        const VideoInfoLikeButtonLoadingWidgets()
+                                      else if (videoInformationStates is ErrorVideoInformationState)
+                                        const SizedBox()
+                                      else
+                                        const VideoInfoLikeButtonLoadedWidget()
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                            VideoInfoSubsButtonsLoadedWidget()
+                            if (videoInformationStates is LoadingVideoInformationState)
+                              const VideoInfoSubsButtonsLoadingWidget()
+                            else if (videoInformationStates is ErrorVideoInformationState)
+                              const SizedBox()
+                            else
+                              const VideoInfoSubsButtonsLoadedWidget(),
                           ],
                         ),
                         // VideoInformationLoadedWidget(),
