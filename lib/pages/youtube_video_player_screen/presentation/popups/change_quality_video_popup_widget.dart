@@ -25,7 +25,10 @@ class ChangeQualityVideoPopup extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextButton(
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      context.read<YoutubeVideoCubit>().pickQualityOfVideo(videoStreamInfo: video);
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       padding: const EdgeInsets.only(left: 20, right: 20),
                       child: TextWidget(

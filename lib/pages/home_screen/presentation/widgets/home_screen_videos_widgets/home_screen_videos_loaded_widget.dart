@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/pages/home_screen/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/utils/duration_from_iso8601_helper/duration_from_iso8601_parser.dart';
+import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
@@ -154,12 +155,29 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.1,
                             ),
-                            TextWidget(
-                              text: video.snippet?.channelTitle ?? '-',
-                              size: 12,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.w500,
-                            ),
+                            RichText(
+                                text: TextSpan(children: [
+                              WidgetSpan(
+                                  child: TextWidget(
+                                text: video.snippet?.channelTitle ?? '-',
+                                size: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              )),
+                              const WidgetSpan(child: TextWidget(
+                                text: "  •  ",
+                                size: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              )),
+                              WidgetSpan(
+                                  child: TextWidget(
+                                text: JiffyHelper.timePassed(video.snippet?.publishedAt),
+                                size: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              ))
+                            ]))
                           ]))
                     ]),
                   )

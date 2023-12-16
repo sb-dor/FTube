@@ -1,16 +1,14 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pod_player/pod_player.dart';
-import 'package:youtube/api/api_get_data/rest_api_get_video_data.dart';
-import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
+import 'package:video_player/video_player.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video/get_video.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video_information/get_video_information.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/pick_quality/pick_quality.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
-import 'package:youtube/utils/enums.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'state_model/youtube_video_state_model.dart';
 import 'youtube_video_states.dart';
-import 'package:youtube/models/video_modes/video.dart' as v;
 
 class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   late YoutubeVideoStateModel _currentState;
@@ -45,52 +43,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     try {
       // var getVideo = await _currentState.youtubeExplode.videos.get(videoId);
 
-      if (!context.mounted) return;
-
-      var informationVideo =
-          await _currentState.youtubeExplode?.videos.streamsClient.getManifest(videoId);
-
-      if (!context.mounted) return;
-
-      _currentState.videosWithSound = (informationVideo?.video ?? <VideoStreamInfo>[])
-          .where((e) =>
-              e.size.totalMegaBytes >= 1 &&
-              _currentState.globalFunc.checkMp4FromURI(
-                value: e.url.toString(),
-              ))
-          .toList();
-
-      if (!context.mounted) return;
-
-      await _currentState.deleteDuplicatedVideos();
-
-      if (!context.mounted) return;
-
-      var minStreamVideo = await _currentState.minStreamFromArray();
-
-      if (!context.mounted) return;
-      //
-      for (var element in _currentState.videosWithSound) {
-        debugPrint("______");
-        log(element.url.toString());
-        log(element.videoQuality.name);
-        debugPrint("______");
-      }
-
-      if (!context.mounted) return;
-
-      _currentState.playerController =
-          VideoPlayerController.networkUrl(Uri.parse(minStreamVideo.url.toString()));
-
-      if (!context.mounted) return;
-
-      await _currentState.playerController?.initialize();
-
-      await _currentState.playerController?.play();
-
-      _currentState.loadingVideo = false;
-
-      emit(InitialYoutubeVideoState(_currentState));
+      await GetVideo.getVideo(
+        videoId: videoId,
+        context: context,
+        stateModel: _currentState,
+        emit: emit,
+      );
 
       _currentState.playerController?.addListener(_controllerListener);
     } catch (e) {
@@ -99,30 +57,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> getVideoInformation({required String videoId, required BuildContext context}) async {
-    if (!context.mounted) return;
-
-    var videoInfoCubit = BlocProvider.of<VideoInformationCubit>(context);
-
-    videoInfoCubit.loadingVideoInformationState();
-
-    try {
-      var data = await RestApiGetVideoData.getVideoInfo(
-          videoContent: TypeContent.snippet, videoId: videoId);
-
-      if (data.containsKey('server_error') && data['server_error'] == true) {
-        videoInfoCubit.errorVideoInformationState();
-      } else if (data.containsKey('success') && data['success'] == true) {
-        _currentState.video = v.Video.fromJson(data['item']);
-        await _currentState.video?.snippet?.loadSnippetData();
-        videoInfoCubit.loadedVideoInformationState();
-        emit(InitialYoutubeVideoState(_currentState));
-      } else {
-        videoInfoCubit.errorVideoInformationState();
-      }
-    } catch (e) {
-      debugPrint("getVideoInformation: $e");
-      videoInfoCubit.errorVideoInformationState();
-    }
+    await GetVideoInformation.getVideoInformation(
+      videoId: videoId,
+      context: context,
+      stateModel: _currentState,
+      emit: emit,
+    );
   }
 
   void dispose() async {
@@ -130,6 +70,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.playerController = null;
     _currentState.playPauseController.dispose();
     _currentState.youtubeExplode = null;
+    _currentState.video = null;
+    emit(InitialYoutubeVideoState(_currentState));
   }
 
   void _controllerListener() async {
@@ -138,7 +80,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
     if ((_currentState.playerController?.value.isCompleted ?? false)) {
       _currentState.playPauseController.forward();
-      cancelTime();
+      _currentState.cancelTime();
       _currentState.stopVideo = true;
       _currentState.clickedUpOnVideo = true;
     }
@@ -149,21 +91,15 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   void clickOnVideo({bool fromStopVideo = false}) {
     if (!fromStopVideo) _currentState.clickedUpOnVideo = !_currentState.clickedUpOnVideo;
     if (_currentState.clickedUpOnVideo) {
-      cancelTime();
+      _currentState.cancelTime();
       _currentState.timerForClickedUpOnVideo = Timer(const Duration(seconds: 5), () {
         _currentState.clickedUpOnVideo = false;
         emit(InitialYoutubeVideoState(_currentState));
       });
     } else {
-      cancelTime();
+      _currentState.cancelTime();
     }
     emit(InitialYoutubeVideoState(_currentState));
-  }
-
-  void cancelTime() {
-    if ((_currentState.timerForClickedUpOnVideo?.isActive ?? false)) {
-      _currentState.timerForClickedUpOnVideo?.cancel();
-    }
   }
 
   void stopVideo() {
@@ -174,5 +110,15 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     } else {
       _currentState.playerController?.play();
     }
+  }
+
+  Future<void> pickQualityOfVideo({required VideoStreamInfo videoStreamInfo}) async {
+    await PickQuality.pickQuality(
+      stateModel: _currentState,
+      videoStreamInfo: videoStreamInfo,
+      emit: emit,
+    );
+
+    _currentState.playerController?.addListener(_controllerListener);
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_states.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
+import 'package:youtube/services/authorization_service/google_service/google_service.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 
@@ -62,7 +64,11 @@ class HomePageAppBar extends StatelessWidget {
                     width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 3)),
               )
             else if (authBlocStates is ErrorAuthState)
-              IconButton(onPressed: () => [], icon: const Icon(Icons.person))
+              IconButton(
+                  onPressed: () => context
+                      .read<MainAuthBloc>()
+                      .add(LoginEvent(authorizationService: GoogleService())),
+                  icon: const Icon(Icons.person))
             else
               Padding(
                 padding: const EdgeInsets.all(10),

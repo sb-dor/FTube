@@ -8,6 +8,8 @@ import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/v
 import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_info_subs_buttons/video_info_subs_buttons_loading_widget.dart';
 import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/video_informations_widgets/video_information_loading_widget.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
+import 'package:youtube/widgets/image_loader_widget.dart';
+import 'package:youtube/widgets/text_widget.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';
 import 'widgets/video_informations_widgets/video_information_loaded_widget.dart';
@@ -31,6 +33,7 @@ class VideoPlayerScreen extends StatefulWidget {
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTickerProviderStateMixin {
   late final YoutubeVideoCubit _youtubeVideoCubit;
+  late final VideoInformationCubit _videoInformationCubit;
   late final DraggableScrollableController _scrollableController;
 
   @override
@@ -39,6 +42,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
     super.initState();
     _scrollableController = DraggableScrollableController();
     _youtubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context);
+    _videoInformationCubit = BlocProvider.of<VideoInformationCubit>(context);
     _youtubeVideoCubit.init(url: widget.videoId, mixin: this, context: context);
   }
 
@@ -46,6 +50,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
   void dispose() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _youtubeVideoCubit.dispose();
+    _videoInformationCubit.loadingVideoInformationState();
     super.dispose();
   }
 
@@ -70,12 +75,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                     Container(
                         color: Colors.black,
                         width: MediaQuery.of(context).size.width,
-                        height: 210,
-                        child: const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.red,
-                          ),
-                        ))
+                        height: MediaQuery.of(context).size.height * 0.315,
+                        child: Stack(children: [
+                          if (youtubeStateModel.video?.snippet != null)
+                            Positioned.fill(
+                                child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ImageLoaderWidget(
+                                url: youtubeStateModel.video?.snippet?.thumbnailHigh?.url ?? '',
+                                errorImageUrl: "assets/custom_images/error_image.png",
+                                boxFit: BoxFit.fill,
+                              ),
+                            )),
+                          const Positioned.fill(
+                              child: Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.red,
+                            ),
+                          )),
+                        ]))
                   else
                     SizedBox(
                         width: MediaQuery.of(context).size.width,

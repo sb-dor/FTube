@@ -19,7 +19,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
         transformer: restartable());
 
     on<PaginateHomeScreenEvent>((event, emit) async => await paginateHomeScreen(event, emit),
-        transformer: droppable());
+        transformer: concurrent());
 
     on<SelectVideoCategoryEvent>((event, emit) async => await selectVideoCategoryEvent(event, emit),
         transformer: droppable());

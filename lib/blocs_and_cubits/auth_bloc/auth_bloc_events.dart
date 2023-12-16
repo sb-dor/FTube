@@ -2,8 +2,12 @@ import 'package:youtube/services/authorization_service/authorization_service.dar
 
 abstract class AuthBlocEvents {}
 
-class LoginEvent extends AuthBlocEvents {
+class RegisterEvent extends AuthBlocEvents {}
 
+class LoginEvent extends AuthBlocEvents {
+  AuthorizationService authorizationService;
+
+  LoginEvent({required this.authorizationService});
 }
 
 class LogoutEvent extends AuthBlocEvents {}

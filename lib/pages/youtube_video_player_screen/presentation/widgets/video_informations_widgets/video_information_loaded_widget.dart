@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/animations/fade_animation.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
 import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
@@ -16,6 +18,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
       var currentState = state.youtubeVideoStateModel;
       var channel = currentState.video?.snippet?.channel;
+
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -33,14 +36,40 @@ class VideoInformationLoadedWidget extends StatelessWidget {
           const SizedBox(height: 3),
           FadeAnimation(
             beginInterval: 0.1,
-            child: TextWidget(
-              text:
-                  "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.statistic?.viewCount}"))} "
-                  "просмотров",
-              color: Colors.grey,
-              size: 12,
-              fontWeight: FontWeight.w500,
-            ),
+            child: RichText(
+                text: TextSpan(children: [
+              WidgetSpan(
+                  child: TextWidget(
+                text:
+                    "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.statistic?.viewCount}"))} "
+                    "просмотров",
+                color: Colors.grey,
+                size: 12,
+                fontWeight: FontWeight.w500,
+              )),
+              const WidgetSpan(
+                  child: TextWidget(
+                text: " • ",
+                size: 12,
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+              )),
+              WidgetSpan(
+                  child: TextWidget(
+                text: JiffyHelper.timePassed(currentState.video?.snippet?.publishedAt),
+                color: Colors.grey,
+                size: 12,
+                fontWeight: FontWeight.w500,
+              )),
+              const WidgetSpan(child: SizedBox(width: 5)),
+              TextSpan(
+                  text: "Еще",
+                  recognizer: TapGestureRecognizer()..onTap = () => [],
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ))
+            ])),
           ),
           const SizedBox(height: 10),
           IntrinsicHeight(

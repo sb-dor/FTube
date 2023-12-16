@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_change_quality_video_popup.dart';
+import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_change_quality_video_popup.dart';
 import 'package:youtube/pages/youtube_video_player_screen/presentation/popups/change_quality_video_popup_widget.dart';
 
 class VideoSettingsButton extends StatelessWidget {

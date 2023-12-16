@@ -16,19 +16,13 @@ class YoutubeVideoStateModel {
 
   VideoPlayerController? playerController;
 
-  bool loadingVideo = false;
-
-  bool clickedUpOnVideo = false;
+  bool loadingVideo = false, clickedUpOnVideo = false, stopVideo = false;
 
   Timer? timerForClickedUpOnVideo;
 
   String runningTime = '';
 
-  bool stopVideo = false;
-
-  List<VideoStreamInfo> videosWithSound = [];
-
-  List<VideoStreamInfo> allVideos = [];
+  List<VideoStreamInfo> videosWithSound = [], allVideos = [];
 
   v.Video? video;
 
@@ -53,11 +47,19 @@ class YoutubeVideoStateModel {
     return streamInfo;
   }
 
+  void cancelTime() {
+    if ((timerForClickedUpOnVideo?.isActive ?? false)) {
+      timerForClickedUpOnVideo?.cancel();
+    }
+  }
+
   void clearData() {
     playerController = null;
     loadingVideo = false;
     clickedUpOnVideo = false;
     runningTime = '';
+    youtubeExplode = null;
+    video = null;
   }
 }
 

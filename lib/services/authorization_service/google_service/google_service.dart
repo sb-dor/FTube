@@ -81,7 +81,10 @@ class GoogleService implements AuthorizationService {
 
       res['success'] = true;
       res['user'] = user;
-    } catch (e) {}
+    } catch (e) {
+      res['auth_error'] = true;
+      debugPrint('login error is: $e');
+    }
     return res;
   }
 
@@ -102,7 +105,6 @@ class GoogleService implements AuthorizationService {
       Map<String, dynamic> res = {};
       try {
         final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
-
         if (googleUser == null) return {"auth_error": true};
 
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
