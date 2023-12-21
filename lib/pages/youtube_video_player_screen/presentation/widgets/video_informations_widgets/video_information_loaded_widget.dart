@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/animations/fade_animation.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_video_popup.dart';
 import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
 import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
@@ -147,25 +148,43 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(15),
-                      onTap: () => [],
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
-                        child: const Row(
-                          children: [
-                            TextWidget(
-                              text: "Скачать",
-                              color: Colors.white,
-                              size: 12,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.6,
-                            ),
-                            SizedBox(width: 7),
-                            Icon(
-                              Icons.download,
-                              size: 12,
-                              color: Colors.white,
-                            ),
-                          ],
+                      onTap: () {
+                        if (currentState.loadingVideo) return;
+                        OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                      },
+                      child: AnimatedSize(
+                        duration: const Duration(milliseconds: 500),
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
+                          child: currentState.loadingVideo
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : const FadeAnimation(
+                                  beginInterval: 0.6,
+                                  child: Row(
+                                    children: [
+                                      TextWidget(
+                                        text: "Скачать",
+                                        color: Colors.white,
+                                        size: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.6,
+                                      ),
+                                      SizedBox(width: 7),
+                                      Icon(
+                                        Icons.download,
+                                        size: 12,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ),
                       ),
                     ),

@@ -1,4 +1,4 @@
-import 'package:youtube/services/authorization_service/authorization_service.dart';
+import 'package:youtube/blocs_and_cubits/auth_bloc/authorization_service/authorization_service.dart';
 
 abstract class AuthBlocEvents {}
 

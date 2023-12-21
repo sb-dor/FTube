@@ -1,5 +1,7 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_states.dart';
@@ -28,10 +30,15 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   Future<void> refreshHomeScreen(
       RefreshHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
     var homeScreenVideosCubit = BlocProvider.of<HomeScreenVideosCubit>(event.context);
+    var categoriesCubit = BlocProvider.of<MainVideoCategoryCubit>(event.context);
     homeScreenVideosCubit.loadingHomeScreenVideosState();
     var data = await currentState
         .homeScreenApi(RestApiHomeScreen())
         .homeScreenGetVideo(videoCategoryId: currentState.videoCategory?.id);
+
+    if (categoriesCubit.state is ErrorVideoCategoryState) {
+      categoriesCubit.loadVideoCategory();
+    }
 
     if (data.containsKey("server_error")) {
       // server error

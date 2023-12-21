@@ -20,6 +20,7 @@ abstract class PickQuality {
     await stateModel.playerController?.initialize();
     await stateModel.playerController?.seekTo(tempPositionOfTheVideo);
     await stateModel.playerController?.play();
+    stateModel.stopVideo = false;
     stateModel.loadingVideo = false;
     emit(InitialYoutubeVideoState(stateModel));
   }

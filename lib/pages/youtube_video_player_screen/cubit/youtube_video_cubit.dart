@@ -5,6 +5,7 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video/get_video.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video_information/get_video_information.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/pick_quality/pick_quality.dart';
+import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'state_model/youtube_video_state_model.dart';
@@ -120,5 +121,14 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     );
 
     _currentState.playerController?.addListener(_controllerListener);
+  }
+
+  void clickTypeOfDownloadingVideo(DownloadingType downloadingType) {
+    if (_currentState.downloadingType?.id == downloadingType.id) {
+      _currentState.downloadingType = null;
+    }else{
+      _currentState.downloadingType = downloadingType;
+    }
+    emit(InitialYoutubeVideoState(_currentState));
   }
 }
