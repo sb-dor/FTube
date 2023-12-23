@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/animations/fade_animation.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_video_popup.dart';
@@ -16,8 +18,11 @@ class VideoInformationLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      var currentState = state.youtubeVideoStateModel;
+    return Builder(builder: (context) {
+      var youtubeCubit = context.watch<YoutubeVideoCubit>().state;
+      var downloadingVideoCubit = context.watch<VideoDownloadingCubit>().state;
+
+      var currentState = youtubeCubit.youtubeVideoStateModel;
       var channel = currentState.video?.snippet?.channel;
 
       return Column(
@@ -155,37 +160,88 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                       child: AnimatedSize(
                         duration: const Duration(milliseconds: 500),
                         child: Container(
-                          padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
-                          child: currentState.loadingVideo
-                              ? const SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : const FadeAnimation(
-                                  beginInterval: 0.6,
-                                  child: Row(
+                            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                if (downloadingVideoCubit is VideoDownloadingGettingInfoState)
+                                  const Row(
                                     children: [
                                       TextWidget(
-                                        text: "Скачать",
+                                        text: "Скачивается",
                                         color: Colors.white,
                                         size: 12,
                                         fontWeight: FontWeight.bold,
                                         letterSpacing: 0.6,
                                       ),
                                       SizedBox(width: 7),
-                                      Icon(
-                                        Icons.download,
-                                        size: 12,
-                                        color: Colors.white,
+                                      SizedBox(
+                                        width: 10,
+                                        height: 10,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.red,
+                                        ),
                                       ),
                                     ],
-                                  ),
-                                ),
-                        ),
+                                  )
+                                else if (downloadingVideoCubit is VideoDownloadingErrorState)
+                                  const TextWidget(text: "Error downloading")
+                                else if (downloadingVideoCubit is VideoDownloadingLoadingState)
+                                  Row(
+                                    children: [
+                                      const TextWidget(
+                                        text: "Скачивается",
+                                        color: Colors.white,
+                                        size: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.6,
+                                      ),
+                                      const SizedBox(width: 7),
+                                      SizedBox(
+                                        width: 10,
+                                        height: 10,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.red,
+                                          value: downloadingVideoCubit
+                                              .tempDownloadingVideoInfo?.downloadingProgress,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  currentState.loadingVideo
+                                      ? const SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      : const FadeAnimation(
+                                          beginInterval: 0.6,
+                                          child: Row(
+                                            children: [
+                                              TextWidget(
+                                                text: "Скачать",
+                                                color: Colors.white,
+                                                size: 12,
+                                                fontWeight: FontWeight.bold,
+                                                letterSpacing: 0.6,
+                                              ),
+                                              SizedBox(width: 7),
+                                              Icon(
+                                                Icons.download,
+                                                size: 12,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                              ],
+                            )),
                       ),
                     ),
                   ),

@@ -11,7 +11,7 @@ class HomeScreenVideosLoadingWidget extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(height: 30),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: perPage,
+        itemCount: Constants.perPage,
         itemBuilder: (context, index) {
           return Column(children: [
             ClipRRect(

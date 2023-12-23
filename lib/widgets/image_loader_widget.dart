@@ -14,16 +14,17 @@ class ImageLoaderWidget extends StatelessWidget {
   final EdgeInsets? paddingShimmerContainer;
   final BorderRadius? borderRadius;
 
-  const ImageLoaderWidget({Key? key,
-    required this.url,
-    required this.errorImageUrl,
-    this.imageBlurHash,
-    this.height,
-    this.width,
-    this.boxFit,
-    this.marginShimmerContainer,
-    this.paddingShimmerContainer,
-    this.borderRadius})
+  const ImageLoaderWidget(
+      {Key? key,
+      required this.url,
+      this.errorImageUrl = 'assets/custom_images/custom_user_image.png',
+      this.imageBlurHash,
+      this.height,
+      this.width,
+      this.boxFit,
+      this.marginShimmerContainer,
+      this.paddingShimmerContainer,
+      this.borderRadius})
       : super(key: key);
 
   @override
@@ -61,10 +62,9 @@ class ImageLoaderWidget extends StatelessWidget {
                   width: width,
                   height: height,
                   decoration:
-                  BoxDecoration(color: Colors.grey.shade200, borderRadius: borderRadius)));
+                      BoxDecoration(color: Colors.grey.shade200, borderRadius: borderRadius)));
         },
-        errorWidget: (context, url, error) =>
-            Image.asset(errorImageUrl,
-                height: height, width: width, fit: boxFit ?? BoxFit.scaleDown));
+        errorWidget: (context, url, error) => Image.asset(errorImageUrl,
+            height: height, width: width, fit: boxFit ?? BoxFit.scaleDown));
   }
 }

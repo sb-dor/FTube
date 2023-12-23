@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_player/video_player.dart';
-import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video/get_video.dart';
-import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/get_video_information/get_video_information.dart';
-import 'package:youtube/pages/youtube_video_player_screen/cubit/usecases/pick_quality/pick_quality.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_video/download_video.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
+import 'package:youtube/utils/enums.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'domain/usecases/get_video/get_video.dart';
+import 'domain/usecases/get_video_information/get_video_information.dart';
+import 'domain/usecases/pick_quality/pick_quality.dart';
 import 'state_model/youtube_video_state_model.dart';
 import 'youtube_video_states.dart';
 
@@ -124,11 +125,22 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void clickTypeOfDownloadingVideo(DownloadingType downloadingType) {
-    if (_currentState.downloadingType?.id == downloadingType.id) {
-      _currentState.downloadingType = null;
-    }else{
-      _currentState.downloadingType = downloadingType;
-    }
+    _currentState.downloadingType = downloadingType;
     emit(InitialYoutubeVideoState(_currentState));
+  }
+
+  void clearTypeOfDownloadingVideoOnPopup() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _currentState.downloadingType = null;
+      emit(InitialYoutubeVideoState(_currentState));
+    });
+  }
+
+  Future<void> downloadVideo(VideoStreamInfo video, DownloadingStoragePath path) async {
+    await DownloadVideo.downloadVideo(
+      video: video,
+      stateModel: _currentState,
+      path: path,
+    );
   }
 }

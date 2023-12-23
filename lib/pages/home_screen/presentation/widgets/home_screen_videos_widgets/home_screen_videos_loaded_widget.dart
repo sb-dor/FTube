@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/pages/home_screen/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/pages/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/utils/duration_from_iso8601_helper/duration_from_iso8601_parser.dart';
 import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
@@ -26,8 +27,8 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             var video = mainHomeScreenStateModel.videos[index];
             return GestureDetector(
-              onTap: () => ReusableGlobalWidgets.instance
-                  .showVideoScreen(context: context, videoId: video.id?.videoID ?? ''),
+              onTap: () => OpenVideoScreen.openVideoScreen(
+                  context: context, videoId: video.id?.videoID ?? ''),
               child: Container(
                 color: Colors.transparent,
                 child: Column(children: [
@@ -164,7 +165,8 @@ class HomeScreenVideosLoadedWidget extends StatelessWidget {
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w500,
                               )),
-                              const WidgetSpan(child: TextWidget(
+                              const WidgetSpan(
+                                  child: TextWidget(
                                 text: "  •  ",
                                 size: 12,
                                 color: Colors.grey,

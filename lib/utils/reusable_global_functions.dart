@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:youtube/utils/constants.dart';
 
 class ReusableGlobalFunctions {
@@ -11,7 +12,7 @@ class ReusableGlobalFunctions {
   ReusableGlobalFunctions._();
 
   int checkIsListHasMorePageInt(
-      {required List<dynamic> list, required int page, int limitInPage = perPage}) {
+      {required List<dynamic> list, required int page, int limitInPage = Constants.perPage}) {
     if (list.length < limitInPage) {
       page = 1;
     } else {
@@ -21,7 +22,8 @@ class ReusableGlobalFunctions {
   }
 
 //this fun will check is there more list in pag (returns boolean)
-  bool checkIsListHasMorePageBool({required List<dynamic> list, int limitInPage = perPage}) {
+  bool checkIsListHasMorePageBool(
+      {required List<dynamic> list, int limitInPage = Constants.perPage}) {
     if (list.length < limitInPage) {
       return false;
     } else {
@@ -45,5 +47,37 @@ class ReusableGlobalFunctions {
         (index) => characters.codeUnitAt(random.nextInt(characters.length)),
       ),
     );
+  }
+
+  void showToast({
+    required String msg,
+    bool typeError = false,
+    double fontSize = 14,
+    ToastGravity gravity = ToastGravity.BOTTOM,
+    Toast toastLength = Toast.LENGTH_SHORT,
+    Color textColor = Colors.white,
+  }) async {
+    await Fluttertoast.cancel();
+    await Fluttertoast.showToast(
+      msg: msg,
+      backgroundColor: typeError ? Colors.red : null,
+      fontSize: fontSize,
+      gravity: gravity,
+      textColor: textColor,
+      toastLength: toastLength,
+    );
+  }
+
+  String removeSpaceFromStringForDownloadingVideo(String value) {
+    String res = '';
+    for (int i = 0; i < value.length; i++) {
+      if (value[i] == ' ' || value[i] == '.') continue;
+      if (value[i] == '-' || value[i] == ":") {
+        res += '_';
+        continue;
+      }
+      res += value[i];
+    }
+    return res;
   }
 }

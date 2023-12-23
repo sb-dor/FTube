@@ -21,7 +21,7 @@ abstract class RestApiGetVideoData {
         queryParameters: {'id': videoId},
       );
 
-      if (res.statusCode != STATUS_SUCCESS) return {"server_error": true};
+      if (res.statusCode != Constants.STATUS_SUCCESS) return {"server_error": true};
 
       Map<String, dynamic> json = res.data;
 

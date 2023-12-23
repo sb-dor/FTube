@@ -5,7 +5,7 @@ import 'package:youtube/utils/constants.dart';
 abstract class JiffyHelper {
   static String timePassed(String? data) {
     Jiffy.setLocale('ru');
-    data = data ?? tempDateTime;
+    data = data ?? Constants.tempDateTime;
     return Jiffy.parse(data).fromNow();
   }
 

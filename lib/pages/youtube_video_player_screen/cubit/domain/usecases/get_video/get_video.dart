@@ -41,7 +41,6 @@ abstract class GetVideo {
       debugPrint("______");
       log(element.url.toString());
       log(element.videoQuality.name);
-      debugPrint("______");
     }
 
     if (!context.mounted) return;

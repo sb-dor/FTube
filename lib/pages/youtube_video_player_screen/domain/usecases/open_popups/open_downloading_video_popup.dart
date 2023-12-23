@@ -4,11 +4,10 @@ import 'package:youtube/widgets/wrapped_popup_widget.dart';
 
 abstract class OpenDownloadingVideoPopup {
   static openDownloadingVideoPopup({required BuildContext context}) async {
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      builder: (context) => const WrappedPopupWidget(
-        child: DownloadingVideoPopupWidget(),
-      ),
+      // isScrollControlled: true,
+      builder: (context) => DownloadingVideoPopupWidget(),
     );
   }
 }

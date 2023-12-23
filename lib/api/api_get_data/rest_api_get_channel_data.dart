@@ -17,7 +17,7 @@ abstract class RestApiGetChannelData {
         queryParameters: {'id': channelId},
       );
 
-      if (response.statusCode != STATUS_SUCCESS) return {"server_error": true};
+      if (response.statusCode != Constants.STATUS_SUCCESS) return {"server_error": true};
 
       Map<String, dynamic> json = response.data;
 

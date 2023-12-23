@@ -7,11 +7,4 @@ class ReusableGlobalWidgets {
   static ReusableGlobalWidgets get instance => _instance ??= ReusableGlobalWidgets._();
 
   ReusableGlobalWidgets._();
-
-  void showVideoScreen({required BuildContext context, required String videoId}) =>
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (context) => VideoPlayerScreen(videoId: videoId),
-      );
 }

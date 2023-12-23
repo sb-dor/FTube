@@ -10,7 +10,7 @@ import 'package:youtube/utils/reusable_global_functions.dart';
 class RestApiHomeScreen implements AbsHomeScreenGetVideos {
   @override
   Future<Map<String, dynamic>> homeScreenGetVideo({
-    int perPage = perPage,
+    int perPage = Constants.perPage,
     String? page,
     String? videoCategoryId,
     String? searchQuery,
@@ -22,7 +22,7 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
         "maxResults": perPage,
         "pageToken": page,
         'type': "video",
-        'q': ReusableGlobalFunctions.instance.generateRandomString(length: 3)
+        'q': searchQuery ?? ReusableGlobalFunctions.instance.generateRandomString(length: 3)
       };
 
       if (videoCategoryId != null) {
@@ -31,7 +31,7 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
 
       var response = await APISettings.dio.get(search + key + snippetPart, queryParameters: params);
 
-      if (response.statusCode != STATUS_SUCCESS) return {'server_error': true};
+      if (response.statusCode != Constants.STATUS_SUCCESS) return {'server_error': true};
       Map<String, dynamic> json = response.data;
       if (json.containsKey('items')) {
         List<dynamic> listItem = json['items'];

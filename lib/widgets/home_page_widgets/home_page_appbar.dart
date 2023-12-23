@@ -5,6 +5,7 @@ import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_states.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/authorization_service/google_service/google_service.dart';
 import 'package:youtube/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
+import 'package:youtube/pages/search_screen/presentation/search_screen.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 
@@ -49,9 +50,18 @@ class HomePageAppBar extends StatelessWidget {
           backgroundColor: Colors.white,
           title: const Text("FTube", style: TextStyle(color: Colors.black)),
           centerTitle: true,
+          leading: IconButton(
+            onPressed: () => [],
+            icon: const Icon(Icons.menu, color: Colors.black),
+          ),
           actions: [
             IconButton(
-              onPressed: () => [],
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchScreen(),
+                ),
+              ),
               icon: const Icon(
                 CupertinoIcons.search,
                 color: Colors.black,
@@ -83,10 +93,6 @@ class HomePageAppBar extends StatelessWidget {
                 ),
               )
           ],
-          leading: IconButton(
-            onPressed: () => [],
-            icon: const Icon(Icons.menu, color: Colors.black),
-          ),
         ),
       );
     });

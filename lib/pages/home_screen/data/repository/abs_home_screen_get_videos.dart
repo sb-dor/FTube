@@ -3,7 +3,7 @@ import 'package:youtube/utils/constants.dart';
 
 abstract class AbsHomeScreenGetVideos {
   Future<Map<String, dynamic>> homeScreenGetVideo({
-    int perPage = perPage,
+    int perPage = Constants.perPage,
     String? page,
     String? videoCategoryId,
     String? searchQuery,
