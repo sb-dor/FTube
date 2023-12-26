@@ -8,6 +8,8 @@ import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cu
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/enums.dart';
+import 'package:youtube/utils/global_context_helper.dart';
+import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {
@@ -194,30 +196,42 @@ class _VideosDownloadingInformation extends StatelessWidget {
             else if (youtubeStateModel.downloadingType?.id == 2)
               Expanded(
                 child: ListView.separated(
-                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                    separatorBuilder: (context, index) => Divider(
+                          height: 10,
+                          color: Colors.grey.shade300,
+                        ),
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    itemCount: youtubeStateModel.videosWithSound.length,
+                    itemCount: youtubeStateModel.allVideos.length,
                     itemBuilder: (context, index) {
-                      var video = youtubeStateModel.videosWithSound[index];
+                      var video = youtubeStateModel.allVideos[index];
                       return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
-                                text: "Качество: ${video.qualityLabel}",
+                                text: "Quality: ${video.qualityLabel}",
                                 color: Colors.black,
                                 size: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
                               TextWidget(
-                                text: "Размер: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
+                                text: "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
                                 color: Colors.black,
                                 size: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
+                              if (ReusableGlobalFunctions.instance
+                                  .checkMp4FromURI(value: video.url.toString()))
+                                const TextWidget(
+                                  text: "Recommended",
+                                  color: Colors.red,
+                                  size: 13,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.9,
+                                ),
                             ],
                           ),
                         ),

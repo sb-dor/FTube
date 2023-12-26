@@ -105,45 +105,54 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                    child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    FadeAnimation(
-                      beginInterval: 0.3,
-                      child: RichText(
-                          text: TextSpan(children: [
-                        // WidgetSpan(
-                        //     child: Icon(
-                        //   Icons.check_circle,
-                        //   color: Colors.red,
-                        //   size: 13,
-                        // )),
-                        // const WidgetSpan(
-                        //   child: SizedBox(width: 5),
-                        // ),
-                        WidgetSpan(
-                            child: TextWidget(
-                          text: channel?.channelSnippet?.title ?? '-',
+                    child: FadeAnimation(
+                  beginInterval: 0.3,
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: channel?.channelSnippet?.title ?? '-',
+                        style: TextStyle(
                           color: Colors.grey,
-                          size: 15,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         )),
-                        const WidgetSpan(
-                          child: SizedBox(width: 10),
-                        ),
-                        //
-                        WidgetSpan(
-                            child: TextWidget(
-                          text:
-                              "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
+                    TextSpan(
+                        text:
+                            " • ${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
+                        style: TextStyle(
                           color: Colors.grey,
-                          size: 13,
-                          textAlign: TextAlign.start,
-                        ))
-                      ])),
-                    ),
-                  ],
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    // WidgetSpan(
+                    //     child: Icon(
+                    //   Icons.check_circle,
+                    //   color: Colors.red,
+                    //   size: 13,
+                    // )),
+                    // const WidgetSpan(
+                    //   child: SizedBox(width: 5),
+                    // ),
+                    // WidgetSpan(
+                    //     child: TextWidget(
+                    //   text: channel?.channelSnippet?.title ?? '-',
+                    //   color: Colors.grey,
+                    //   size: 15,
+                    //   fontWeight: FontWeight.bold,
+                    // )),
+                    // const WidgetSpan(
+                    //   child: SizedBox(width: 10),
+                    // ),
+                    // //
+                    // WidgetSpan(
+                    //     child: TextWidget(
+                    //   text:
+                    //       "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
+                    //   color: Colors.grey,
+                    //   size: 13,
+                    //   textAlign: TextAlign.start,
+                    // ))
+                  ])),
                 )),
                 const SizedBox(width: 5),
                 FadeAnimation(
@@ -186,12 +195,15 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                     ],
                                   )
                                 else if (downloadingVideoCubit is VideoDownloadingErrorState)
-                                  const TextWidget(text: "Error downloading")
+                                  const TextWidget(
+                                    text: "Download error",
+                                    color: Colors.white,
+                                  )
                                 else if (downloadingVideoCubit is VideoDownloadingLoadingState)
                                   Row(
                                     children: [
                                       const TextWidget(
-                                        text: "Скачивается",
+                                        text: "Downloading",
                                         color: Colors.white,
                                         size: 12,
                                         fontWeight: FontWeight.bold,
@@ -206,6 +218,50 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                           color: Colors.red,
                                           value: downloadingVideoCubit
                                               .tempDownloadingVideoInfo?.downloadingProgress,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else if (downloadingVideoCubit
+                                    is VideoDownloadingMakingVideoBetterState)
+                                  const Row(
+                                    children: [
+                                      TextWidget(
+                                        text: "Processing sound",
+                                        color: Colors.white,
+                                        size: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.6,
+                                      ),
+                                      SizedBox(width: 7),
+                                      SizedBox(
+                                        width: 10,
+                                        height: 10,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                else if (downloadingVideoCubit
+                                    is VideoDownloadingSavingOnStorageState)
+                                  const Row(
+                                    children: [
+                                      TextWidget(
+                                        text: "A little more",
+                                        color: Colors.white,
+                                        size: 12,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: 0.6,
+                                      ),
+                                      SizedBox(width: 7),
+                                      SizedBox(
+                                        width: 10,
+                                        height: 10,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.red,
                                         ),
                                       ),
                                     ],
@@ -225,7 +281,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                           child: Row(
                                             children: [
                                               TextWidget(
-                                                text: "Скачать",
+                                                text: "Download",
                                                 color: Colors.white,
                                                 size: 12,
                                                 fontWeight: FontWeight.bold,

@@ -21,6 +21,16 @@ class VideoDownloadingErrorState extends VideoDownloadingStates {
       : super(tempDownloadingVideoInfo: tempDownloadingVideoInfo);
 }
 
+class VideoDownloadingMakingVideoBetterState extends VideoDownloadingStates {
+  VideoDownloadingMakingVideoBetterState({DownloadingVideoInfo? tempDownloadingVideoInfo})
+      : super(tempDownloadingVideoInfo: tempDownloadingVideoInfo);
+}
+
+class VideoDownloadingSavingOnStorageState extends VideoDownloadingStates {
+  VideoDownloadingSavingOnStorageState({DownloadingVideoInfo? tempDownloadingVideoInfo})
+      : super(tempDownloadingVideoInfo: tempDownloadingVideoInfo);
+}
+
 class VideoDownloadingLoadedState extends VideoDownloadingStates {
   VideoDownloadingLoadedState({DownloadingVideoInfo? tempDownloadingVideoInfo})
       : super(tempDownloadingVideoInfo: tempDownloadingVideoInfo);

@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'dart:math';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:dio/dio.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
@@ -38,19 +43,85 @@ abstract class DownloadVideo {
       );
       videoDownloadingCubit.videoDownloadingGettingInfoState();
 
-      var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
-          onReceiveProgress: (int receive, int total) {
-        var solvePercentage = receive / total * 100;
-        videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
-            solvePercentage / 100;
-        videoDownloadingCubit.videoDownloadingLoadingState();
-      },
-          options: Options(
-            headers: await APISettings.headers(),
-            responseType: ResponseType.bytes,
-          ));
+      // make here better
+      if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
+        debugPrint("is working first download");
+        var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
+            onReceiveProgress: (int receive, int total) {
+          var solvePercentage = receive / total * 100;
+          videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
+              solvePercentage / 100;
+          videoDownloadingCubit.videoDownloadingLoadingState();
+        },
+            options: Options(
+              headers: await APISettings.headers(),
+              responseType: ResponseType.bytes,
+            ));
 
-      await DownloadingVideoRepository(path).download(downloadingVideo.data);
+        await DownloadingVideoRepository(path).download(downloadingVideo.data);
+      } else {
+        debugPrint("is working second download 1 | video url : ${video.url.toString()}");
+        var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
+            onReceiveProgress: (int receive, int total) {
+          var solvePercentage = receive / total * 100;
+          videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
+              solvePercentage / 100;
+          videoDownloadingCubit.videoDownloadingLoadingState();
+        },
+            options: Options(
+              headers: await APISettings.headers(),
+              responseType: ResponseType.bytes,
+            ));
+        debugPrint(
+            "is working second download 2 | audio url : ${stateModel.tempMinAudioForVideo?.url.toString()}");
+        videoDownloadingCubit.videoDownloadingMakingVideoBetterState();
+        var downloadingAudio = await APISettings.dio
+            .get<List<int>>(stateModel.tempMinAudioForVideo?.url.toString() ?? '',
+                options: Options(
+                  headers: await APISettings.headers(),
+                  responseType: ResponseType.bytes,
+                ));
+
+        videoDownloadingCubit.videoDownloadingSavingOnStorageState();
+
+        debugPrint("is working second download 3");
+
+        var tempPath = await getTemporaryDirectory();
+
+        var dateTime = DateTime.now();
+
+        var newVideoPath =
+            "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
+        var newAudioPath =
+            "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
+
+        File newVideoFile = File(newVideoPath);
+        File newAudioFile = File(newAudioPath);
+
+        newVideoFile.writeAsBytesSync(downloadingVideo.data ?? []);
+        newAudioFile.writeAsBytesSync(downloadingAudio.data ?? []);
+
+        var getExStorage = await getExternalStorageDirectory();
+
+        // create output path where file will be saved
+        String outputPath =
+            '${getExStorage?.path}/${Random().nextInt(pow(2, 10).toInt())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
+
+        await FFmpegKit.execute(
+                '-i ${newVideoFile.path} -i ${newAudioFile.path} -c copy $outputPath')
+            .then((value) async {
+          final returnCode = await value.getReturnCode();
+          debugPrint("result of audio and video");
+
+          if (ReturnCode.isSuccess(returnCode)) {
+            debugPrint("SUCCESS");
+          } else if (ReturnCode.isCancel(returnCode)) {
+            debugPrint("CANCEL");
+          } else {
+            debugPrint("ERROR");
+          }
+        });
+      }
 
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
 

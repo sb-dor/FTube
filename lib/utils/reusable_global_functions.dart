@@ -37,6 +37,20 @@ class ReusableGlobalFunctions {
     return reg.hasMatch(value) && reg2.hasMatch(value);
   }
 
+  bool checkMp3FromURI({required String value}) {
+    // var reg = RegExp("mime=audio%2Fmp4");
+    var reg2 = RegExp("mime=audio%2F3gpp");
+    // var reg3 = RegExp("mime=audio%2Fwebm");
+    var reg4 = RegExp('gir=yes');
+    return ((
+            // reg.hasMatch(value)
+            // ||
+            reg2.hasMatch(value)
+        // || reg3.hasMatch(value)
+        ) &&
+        reg4.hasMatch(value));
+  }
+
   String generateRandomString({int length = 10}) {
     final random = Random();
     const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

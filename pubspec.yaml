@@ -59,6 +59,8 @@ dependencies:
   jiffy: ^6.2.1
   fluttertoast: ^8.2.4
   gal: ^2.2.0
+  ffmpeg_kit_flutter: ^6.0.3
+  hive: ^2.2.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

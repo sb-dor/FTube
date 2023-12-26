@@ -14,6 +14,12 @@ class VideoDownloadingCubit extends Cubit<VideoDownloadingStates> {
   void videoDownloadingErrorState() =>
       emit(VideoDownloadingErrorState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
 
+  void videoDownloadingMakingVideoBetterState() => emit(VideoDownloadingMakingVideoBetterState(
+      tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+
+  void videoDownloadingSavingOnStorageState() => emit(VideoDownloadingSavingOnStorageState(
+      tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+
   void videoDownloadingLoadedState() =>
       emit(VideoDownloadingLoadedState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
 }

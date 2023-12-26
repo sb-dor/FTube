@@ -26,6 +26,10 @@ class YoutubeVideoStateModel {
 
   List<VideoStreamInfo> videosWithSound = [], allVideos = [];
 
+  List<AudioStreamInfo> audios = [];
+
+  AudioStreamInfo? tempMinAudioForVideo;
+
   v.Video? video;
 
   DownloadingType? downloadingType;
