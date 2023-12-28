@@ -31,14 +31,14 @@ abstract class GetVideo {
     // array of sounds only
     stateModel.audios = (informationVideo?.audio ?? <AudioStreamInfo>[])
         .where((el) =>
-            el.size.totalMegaBytes >= 1.5 &&
+            // el.size.totalMegaBytes >= 1.5 &&
             stateModel.globalFunc.checkMp3FromURI(
               value: el.url.toString(),
             ))
         .toList();
 
     for (var each in stateModel.audios) {
-      debugPrint("media type: ${each.codec.type}");
+      debugPrint("media type: ${each.codec.subtype}");
     }
 
     // all videos both with and without sound
@@ -60,8 +60,7 @@ abstract class GetVideo {
       stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
     }
 
-    debugPrint(
-        "temp min audio for video size : ${stateModel.tempMinAudioForVideo?.size.totalMegaBytes}");
+    debugPrint("temo min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}");
 
     if (!context.mounted) return;
 

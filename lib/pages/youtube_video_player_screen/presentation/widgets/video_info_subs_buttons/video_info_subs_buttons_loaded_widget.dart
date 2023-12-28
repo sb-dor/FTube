@@ -24,9 +24,9 @@ class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 onTap: () => [],
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(),
-                  child: Center(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(),
+                  child: const Center(
                     child: Icon(
                       CupertinoIcons.bell,
                       color: Colors.white,
@@ -36,7 +36,7 @@ class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 15),
+            const SizedBox(width: 15),
             Material(
               color: Colors.red,
               borderRadius: BorderRadius.circular(10),
@@ -44,9 +44,9 @@ class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 onTap: () => [],
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: TextWidget(
-                    text: "Подписаться",
+                  padding: const EdgeInsets.all(10),
+                  child: const TextWidget(
+                    text: "Subscribe",
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.9,

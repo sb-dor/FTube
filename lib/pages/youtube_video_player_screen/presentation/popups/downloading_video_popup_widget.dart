@@ -177,6 +177,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
     return Builder(builder: (context) {
       var youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
       var downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
+      var arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
+          ? youtubeStateModel.videosWithSound
+          : youtubeStateModel.allVideos;
       return SizedBox(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,9 +204,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
                           color: Colors.grey.shade300,
                         ),
                     padding: const EdgeInsets.only(left: 10, right: 10),
-                    itemCount: youtubeStateModel.allVideos.length,
+                    itemCount: arrayOfVideos.length,
                     itemBuilder: (context, index) {
-                      var video = youtubeStateModel.allVideos[index];
+                      var video = arrayOfVideos[index];
                       return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                         Expanded(
                           child: Column(
@@ -253,15 +256,24 @@ class _VideosDownloadingInformation extends StatelessWidget {
                           else if (downloadingVideoStateModel is VideoDownloadingLoadingState)
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                  value: downloadingVideoStateModel
-                                      .tempDownloadingVideoInfo?.downloadingProgress,
-                                  color: Colors.red,
-                                ),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () async =>
+                                          await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                                      icon: Icon(Icons.cancel_outlined)),
+                                  SizedBox(width: 10),
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      value: downloadingVideoStateModel
+                                          .tempDownloadingVideoInfo?.downloadingProgress,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
                               ),
                             )
                           else if (downloadingVideoStateModel is VideoDownloadingErrorState)

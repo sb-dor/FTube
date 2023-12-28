@@ -7,6 +7,8 @@ import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_dow
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_disable_dowloading_popup.dart';
+import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_error_popup_info.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_video_popup.dart';
 import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
 import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
@@ -48,7 +50,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                   child: TextWidget(
                 text:
                     "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.statistic?.viewCount}"))} "
-                    "просмотров",
+                    "views",
                 color: Colors.grey,
                 size: 12,
                 fontWeight: FontWeight.w500,
@@ -69,7 +71,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
               )),
               const WidgetSpan(child: SizedBox(width: 5)),
               TextSpan(
-                  text: "Еще",
+                  text: "More",
                   recognizer: TapGestureRecognizer()..onTap = () => [],
                   style: const TextStyle(
                     color: Colors.black,
@@ -155,149 +157,161 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                   ])),
                 )),
                 const SizedBox(width: 5),
-                FadeAnimation(
-                  beginInterval: 0.5,
-                  child: Material(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(15),
-                    child: InkWell(
+                PopScope(
+                  canPop: false,
+                  child: FadeAnimation(
+                    beginInterval: 0.5,
+                    child: Material(
+                      color: Colors.black,
                       borderRadius: BorderRadius.circular(15),
-                      onTap: () {
-                        if (currentState.loadingVideo) return;
-                        OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
-                      },
-                      child: AnimatedSize(
-                        duration: const Duration(milliseconds: 500),
-                        child: Container(
-                            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (downloadingVideoCubit is VideoDownloadingGettingInfoState)
-                                  const Row(
-                                    children: [
-                                      TextWidget(
-                                        text: "Скачивается",
-                                        color: Colors.white,
-                                        size: 12,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.6,
-                                      ),
-                                      SizedBox(width: 7),
-                                      SizedBox(
-                                        width: 10,
-                                        height: 10,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.red,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(15),
+                        onTap: () {
+                          if (downloadingVideoCubit is VideoDownloadingErrorState) {
+                            OpenDownloadingErrorPopup.downloadingErrorPopup(context);
+                            return;
+                          }
+                          if (downloadingVideoCubit is VideoDownloadingLoadingState) {
+                            OpenDisableDownloadingPopup.openDisableDownloadingPopup(context);
+                            return;
+                          }
+                          if (currentState.loadingVideo) return;
+                          OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                        },
+                        child: AnimatedSize(
+                          duration: const Duration(milliseconds: 500),
+                          child: Container(
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (downloadingVideoCubit is VideoDownloadingGettingInfoState)
+                                    const Row(
+                                      children: [
+                                        TextWidget(
+                                          text: "Getting Information",
+                                          color: Colors.white,
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.6,
                                         ),
-                                      ),
-                                    ],
-                                  )
-                                else if (downloadingVideoCubit is VideoDownloadingErrorState)
-                                  const TextWidget(
-                                    text: "Download error",
-                                    color: Colors.white,
-                                  )
-                                else if (downloadingVideoCubit is VideoDownloadingLoadingState)
-                                  Row(
-                                    children: [
-                                      const TextWidget(
-                                        text: "Downloading",
-                                        color: Colors.white,
-                                        size: 12,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.6,
-                                      ),
-                                      const SizedBox(width: 7),
-                                      SizedBox(
-                                        width: 10,
-                                        height: 10,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.red,
-                                          value: downloadingVideoCubit
-                                              .tempDownloadingVideoInfo?.downloadingProgress,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                else if (downloadingVideoCubit
-                                    is VideoDownloadingMakingVideoBetterState)
-                                  const Row(
-                                    children: [
-                                      TextWidget(
-                                        text: "Processing sound",
-                                        color: Colors.white,
-                                        size: 12,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.6,
-                                      ),
-                                      SizedBox(width: 7),
-                                      SizedBox(
-                                        width: 10,
-                                        height: 10,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                else if (downloadingVideoCubit
-                                    is VideoDownloadingSavingOnStorageState)
-                                  const Row(
-                                    children: [
-                                      TextWidget(
-                                        text: "A little more",
-                                        color: Colors.white,
-                                        size: 12,
-                                        fontWeight: FontWeight.bold,
-                                        letterSpacing: 0.6,
-                                      ),
-                                      SizedBox(width: 7),
-                                      SizedBox(
-                                        width: 10,
-                                        height: 10,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                else
-                                  currentState.loadingVideo
-                                      ? const SizedBox(
-                                          width: 20,
-                                          height: 20,
+                                        SizedBox(width: 7),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 10,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 2,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : const FadeAnimation(
-                                          beginInterval: 0.6,
-                                          child: Row(
-                                            children: [
-                                              TextWidget(
-                                                text: "Download",
-                                                color: Colors.white,
-                                                size: 12,
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 0.6,
-                                              ),
-                                              SizedBox(width: 7),
-                                              Icon(
-                                                Icons.download,
-                                                size: 12,
-                                                color: Colors.white,
-                                              ),
-                                            ],
+                                            color: Colors.red,
                                           ),
                                         ),
-                              ],
-                            )),
+                                      ],
+                                    )
+                                  else if (downloadingVideoCubit is VideoDownloadingErrorState)
+                                    const TextWidget(
+                                      text: "Download error",
+                                      color: Colors.white,
+                                    )
+                                  else if (downloadingVideoCubit is VideoDownloadingLoadingState)
+                                    Row(
+                                      children: [
+                                        const TextWidget(
+                                          text: "Downloading",
+                                          color: Colors.white,
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.6,
+                                        ),
+                                        const SizedBox(width: 7),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 10,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.red,
+                                            value: downloadingVideoCubit
+                                                .tempDownloadingVideoInfo?.downloadingProgress,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else if (downloadingVideoCubit
+                                      is VideoDownloadingMakingVideoBetterState)
+                                    const Row(
+                                      children: [
+                                        TextWidget(
+                                          text: "Processing sound",
+                                          color: Colors.white,
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.6,
+                                        ),
+                                        SizedBox(width: 7),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 10,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else if (downloadingVideoCubit
+                                      is VideoDownloadingSavingOnStorageState)
+                                    const Row(
+                                      children: [
+                                        TextWidget(
+                                          text: "A little more",
+                                          color: Colors.white,
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.6,
+                                        ),
+                                        SizedBox(width: 7),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 10,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else
+                                    currentState.loadingVideo
+                                        ? const SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              color: Colors.white,
+                                            ),
+                                          )
+                                        : const FadeAnimation(
+                                            beginInterval: 0.6,
+                                            child: Row(
+                                              children: [
+                                                TextWidget(
+                                                  text: "Download",
+                                                  color: Colors.white,
+                                                  size: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 0.6,
+                                                ),
+                                                SizedBox(width: 7),
+                                                Icon(
+                                                  Icons.download,
+                                                  size: 12,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                ],
+                              )),
+                        ),
                       ),
                     ),
                   ),

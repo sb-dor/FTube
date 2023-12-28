@@ -103,7 +103,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     ),
                   ),
                   const TextWidget(
-                    text: "Поделиться",
+                    text: "Share",
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     size: 12,
@@ -138,7 +138,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     ),
                   ),
                   const TextWidget(
-                    text: "В избранное",
+                    text: "To bookmarks",
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     size: 12,

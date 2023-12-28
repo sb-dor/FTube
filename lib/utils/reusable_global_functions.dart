@@ -38,16 +38,16 @@ class ReusableGlobalFunctions {
   }
 
   bool checkMp3FromURI({required String value}) {
-    // var reg = RegExp("mime=audio%2Fmp4");
+    var reg = RegExp("mime=audio%2Fmp4");
     var reg2 = RegExp("mime=audio%2F3gpp");
-    // var reg3 = RegExp("mime=audio%2Fwebm");
+    var reg3 = RegExp("mime=audio%2Fwebm");
     var reg4 = RegExp('gir=yes');
-    return ((
-            // reg.hasMatch(value)
-            // ||
+    return (
+        (
+            reg.hasMatch(value)
+            ||
             reg2.hasMatch(value)
-        // || reg3.hasMatch(value)
-        ) &&
+        || reg3.hasMatch(value)) &&
         reg4.hasMatch(value));
   }
 
