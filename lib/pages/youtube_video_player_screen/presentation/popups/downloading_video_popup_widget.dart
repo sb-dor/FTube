@@ -181,144 +181,215 @@ class _VideosDownloadingInformation extends StatelessWidget {
           ? youtubeStateModel.videosWithSound
           : youtubeStateModel.allVideos;
       return SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
-            IconButton(
-                onPressed: () {
-                  pageController.animateToPage(((pageController.page ?? 0) - 1).toInt(),
-                      duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
-                },
-                icon: const Icon(Icons.arrow_back)),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                  onPressed: () {
+                    pageController.animateToPage(((pageController.page ?? 0) - 1).toInt(),
+                        duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                  },
+                  icon: const Icon(Icons.arrow_back)),
+            ),
             const SizedBox(height: 10),
             if (youtubeStateModel.downloadingType?.id == 1)
-              Expanded(
-                child: ListView.builder(
-                    itemCount: 3, itemBuilder: (context, index) => const SizedBox()),
-              )
-            else if (youtubeStateModel.downloadingType?.id == 2)
-              Expanded(
-                child: ListView.separated(
-                    separatorBuilder: (context, index) => Divider(
-                          height: 10,
-                          color: Colors.grey.shade300,
-                        ),
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    itemCount: arrayOfVideos.length,
-                    itemBuilder: (context, index) {
-                      var video = arrayOfVideos[index];
-                      return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              ListView.separated(
+                  padding: const EdgeInsets.only(left: 10),
+                  separatorBuilder: (context, index) => const Divider(height: 10),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: youtubeStateModel.audios.length,
+                  itemBuilder: (context, index) {
+                    var audio = youtubeStateModel.audios[index];
+                    return Row(
+                      children: [
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               TextWidget(
-                                text: "Quality: ${video.qualityLabel}",
+                                text: "Quality: ${audio.qualityLabel}",
                                 color: Colors.black,
                                 size: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
                               TextWidget(
-                                text: "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
+                                text: "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ",
                                 color: Colors.black,
                                 size: 16,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
-                              if (ReusableGlobalFunctions.instance
-                                  .checkMp4FromURI(value: video.url.toString()))
-                                const TextWidget(
-                                  text: "Recommended",
-                                  color: Colors.red,
-                                  size: 13,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.9,
-                                ),
                             ],
                           ),
                         ),
-                        if (downloadingVideoStateModel.tempDownloadingVideoInfo != null &&
-                            downloadingVideoStateModel.tempDownloadingVideoInfo?.urlId ==
-                                video.url.toString())
-                          if (downloadingVideoStateModel is VideoDownloadingGettingInfoState)
-                            const Padding(
-                              padding: EdgeInsets.only(right: 10),
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 3,
-                                  color: Colors.red,
-                                ),
+                        IconButton(
+                            onPressed: () async =>
+                                await context.read<YoutubeVideoCubit>().downloadAudio(audio),
+                            icon: const Icon(Icons.download))
+                      ],
+                    );
+                  })
+            else if (youtubeStateModel.downloadingType?.id == 2)
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  separatorBuilder: (context, index) => Divider(
+                        height: 10,
+                        color: Colors.grey.shade300,
+                      ),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  itemCount: arrayOfVideos.length,
+                  itemBuilder: (context, index) {
+                    var video = arrayOfVideos[index];
+                    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextWidget(
+                              text: "Quality: ${video.qualityLabel}",
+                              color: Colors.black,
+                              size: 16,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.9,
+                            ),
+                            TextWidget(
+                              text: "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
+                              color: Colors.black,
+                              size: 16,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.9,
+                            ),
+                            if (ReusableGlobalFunctions.instance
+                                .checkMp4FromURI(value: video.url.toString()))
+                              const TextWidget(
+                                text: "Recommended",
+                                color: Colors.red,
+                                size: 13,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.9,
                               ),
-                            )
-                          else if (downloadingVideoStateModel is VideoDownloadingLoadingState)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () async =>
-                                          await context.read<YoutubeVideoCubit>().cancelTheVideo(),
-                                      icon: Icon(Icons.cancel_outlined)),
-                                  SizedBox(width: 10),
-                                  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 3,
-                                      value: downloadingVideoStateModel
-                                          .tempDownloadingVideoInfo?.downloadingProgress,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
+                          ],
+                        ),
+                      ),
+                      if (downloadingVideoStateModel.tempDownloadingVideoInfo != null &&
+                          downloadingVideoStateModel.tempDownloadingVideoInfo?.urlId ==
+                              video.url.toString())
+                        if (downloadingVideoStateModel is VideoDownloadingGettingInfoState)
+                          const Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: Colors.red,
                               ),
-                            )
-                          else if (downloadingVideoStateModel is VideoDownloadingErrorState)
-                            const TextWidget(text: "Error downloading")
-                          else
-                            const SizedBox()
-                        else
-                          Row(
-                            children: [
-                              Tooltip(
-                                message: "Download video in Gallery",
-                                showDuration: const Duration(seconds: 10),
-                                child: IconButton(
-                                    onPressed: () =>
-                                        context.read<YoutubeVideoCubit>().downloadVideo(
-                                              video,
-                                              DownloadingStoragePath.gallery,
-                                            ),
-                                    icon: SizedBox(
-                                        width: 40,
-                                        height: 40,
-                                        child: Image.asset(
-                                          'assets/download_icons/gallery_save.png',
-                                        ))),
-                              ),
-                              Tooltip(
-                                message: "Download video in App Storage",
-                                showDuration: const Duration(seconds: 10),
-                                child: IconButton(
-                                    onPressed: () =>
-                                        context.read<YoutubeVideoCubit>().downloadVideo(
-                                              video,
-                                              DownloadingStoragePath.appStorage,
-                                            ),
-                                    icon: SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: Image.asset(
-                                            'assets/download_icons/in_app_download.png'))),
-                              )
-                            ],
+                            ),
                           )
-                      ]);
-                    }),
-              )
+                        else if (downloadingVideoStateModel is VideoDownloadingLoadingState)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () async =>
+                                        await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                                    icon: const Icon(Icons.cancel_outlined)),
+                                const SizedBox(width: 10),
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                    value: downloadingVideoStateModel
+                                        .tempDownloadingVideoInfo?.downloadingProgress,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        else if (downloadingVideoStateModel
+                            is VideoDownloadingGettingAudioInformationState)
+                          const Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3,
+                                color: Colors.blue,
+                              ),
+                            ),
+                          )
+                        else if (downloadingVideoStateModel is VideoDownloadingAudioState)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () async =>
+                                        await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                                    icon: const Icon(Icons.cancel_outlined)),
+                                const SizedBox(width: 10),
+                                SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 3,
+                                    value: downloadingVideoStateModel
+                                        .tempDownloadingAudioInfo?.downloadingProgress,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        else if (downloadingVideoStateModel is VideoDownloadingErrorState)
+                          const TextWidget(text: "Error downloading")
+                        else
+                          const SizedBox()
+                      else
+                        Row(
+                          children: [
+                            Tooltip(
+                              message: "Download video in Gallery",
+                              showDuration: const Duration(seconds: 10),
+                              child: IconButton(
+                                  onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
+                                        video,
+                                        DownloadingStoragePath.gallery,
+                                      ),
+                                  icon: SizedBox(
+                                      width: 40,
+                                      height: 40,
+                                      child: Image.asset(
+                                        'assets/download_icons/gallery_save.png',
+                                      ))),
+                            ),
+                            Tooltip(
+                              message: "Download video in App Storage",
+                              showDuration: const Duration(seconds: 10),
+                              child: IconButton(
+                                  onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
+                                        video,
+                                        DownloadingStoragePath.appStorage,
+                                      ),
+                                  icon: SizedBox(
+                                      width: 35,
+                                      height: 35,
+                                      child: Image.asset(
+                                          'assets/download_icons/in_app_download.png'))),
+                            )
+                          ],
+                        )
+                    ]);
+                  }),
+            const SizedBox(height: 10),
           ],
         ),
       );

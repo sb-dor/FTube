@@ -60,7 +60,7 @@ abstract class DownloadVideo {
       if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
         await DownloadingVideoRepository(path).download(downloadingVideo.data);
       } else {
-        await _download(
+        await _downloadVideoWithoutSound(
           videoDownloadingCubit: videoDownloadingCubit,
           stateModel: stateModel,
           downloadingVideo: downloadingVideo,
@@ -84,24 +84,26 @@ abstract class DownloadVideo {
     }
   }
 
-  static Future<void> _download({
+  static Future<void> _downloadVideoWithoutSound({
     required VideoDownloadingCubit videoDownloadingCubit,
     required YoutubeVideoStateModel stateModel,
     required Response<List<int>> downloadingVideo,
   }) async {
     debugPrint(
-        "is working second download 2 | audio url : ${stateModel.tempMinAudioForVideo?.url.toString()}");
-    videoDownloadingCubit.videoDownloadingMakingVideoBetterState();
-    var downloadingAudio =
-        await APISettings.dio.get<List<int>>(stateModel.tempMinAudioForVideo?.url.toString() ?? '',
+        "is working second download 2 | ${stateModel.tempMinAudioForVideo?.size.totalMegaBytes}"
+        " | audio url : ${stateModel.tempMinAudioForVideo?.url.toString()}");
+    videoDownloadingCubit.videoDownloadingGettingAudioInformationState();
+    var downloadingAudio = await APISettings.dio
+        .get<List<int>>(stateModel.tempMinAudioForVideo?.url.toString() ?? '',
+            onReceiveProgress: (int receive, int total) {
+      var solvePercentage = receive / total * 100;
+      videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
+          solvePercentage / 100;
+      videoDownloadingCubit.videoDownloadingAudioState();
+    },
             cancelToken: stateModel.cancelAudioToken,
             options: Options(
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json',
-                "Connection": "Keep-Alive",
-                "Keep-Alive": "timeout=500, max=1000"
-              },
+              headers: await APISettings.headers(),
               responseType: ResponseType.bytes,
               receiveTimeout: const Duration(minutes: 5),
             ));

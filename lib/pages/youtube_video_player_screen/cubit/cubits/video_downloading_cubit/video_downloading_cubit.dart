@@ -5,21 +5,39 @@ import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downlo
 class VideoDownloadingCubit extends Cubit<VideoDownloadingStates> {
   VideoDownloadingCubit() : super(VideoDownloadingLoadedState());
 
-  void videoDownloadingGettingInfoState() => emit(
-      VideoDownloadingGettingInfoState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+  void videoDownloadingGettingInfoState() => emit(VideoDownloadingGettingInfoState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 
-  void videoDownloadingLoadingState() =>
-      emit(VideoDownloadingLoadingState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+  void videoDownloadingLoadingState() => emit(VideoDownloadingLoadingState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 
-  void videoDownloadingErrorState() =>
-      emit(VideoDownloadingErrorState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+  void videoDownloadingErrorState() => emit(VideoDownloadingErrorState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 
-  void videoDownloadingMakingVideoBetterState() => emit(VideoDownloadingMakingVideoBetterState(
-      tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+  void videoDownloadingGettingAudioInformationState() =>
+      emit(VideoDownloadingGettingAudioInformationState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
+
+  void videoDownloadingAudioState() => emit(VideoDownloadingAudioState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 
   void videoDownloadingSavingOnStorageState() => emit(VideoDownloadingSavingOnStorageState(
-      tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 
-  void videoDownloadingLoadedState() =>
-      emit(VideoDownloadingLoadedState(tempDownloadingVideoInfo: state.tempDownloadingVideoInfo));
+  void videoDownloadingLoadedState() => emit(VideoDownloadingLoadedState(
+        tempDownloadingVideoInfo: state.tempDownloadingVideoInfo,
+        tempDownloadingAudioInfo: state.tempDownloadingAudioInfo,
+      ));
 }

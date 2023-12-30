@@ -113,7 +113,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                       text: TextSpan(children: [
                     TextSpan(
                         text: channel?.channelSnippet?.title ?? '-',
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -121,7 +121,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                     TextSpan(
                         text:
                             " • ${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -236,7 +236,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                       ],
                                     )
                                   else if (downloadingVideoCubit
-                                      is VideoDownloadingMakingVideoBetterState)
+                                      is VideoDownloadingGettingAudioInformationState)
                                     const Row(
                                       children: [
                                         TextWidget(
@@ -252,7 +252,30 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                           height: 10,
                                           child: CircularProgressIndicator(
                                             strokeWidth: 2,
-                                            color: Colors.red,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  else if (downloadingVideoCubit is VideoDownloadingAudioState)
+                                    Row(
+                                      children: [
+                                        const TextWidget(
+                                          text: "Processing sound",
+                                          color: Colors.white,
+                                          size: 12,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 0.6,
+                                        ),
+                                        const SizedBox(width: 7),
+                                        SizedBox(
+                                          width: 10,
+                                          height: 10,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            color: Colors.blue,
+                                            value: downloadingVideoCubit
+                                                .tempDownloadingAudioInfo?.downloadingProgress,
                                           ),
                                         ),
                                       ],

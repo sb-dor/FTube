@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_audio/download_audio.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_video/download_video.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
@@ -149,17 +151,9 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     clearTypeOfDownloadingVideoOnPopup();
   }
 
-  Future<void> downloadVideo(VideoStreamInfo video, DownloadingStoragePath path) async {
-    await DownloadVideo.downloadVideo(
-      video: video,
-      stateModel: _currentState,
-      path: path,
-    );
-  }
-
   Future<void> cancelTheVideo() async {
-    var downloadingCubit =
-        BlocProvider.of<VideoDownloadingCubit>(GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
+    var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
+        GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
     _currentState.cancelVideoToken.cancel();
     _currentState.cancelAudioToken.cancel();
     await initToken();
@@ -175,5 +169,17 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     if (_currentState.cancelAudioToken.isCancelled) {
       _currentState.cancelAudioToken = CancelToken();
     }
+  }
+
+  Future<void> downloadVideo(VideoStreamInfo video, DownloadingStoragePath path) async {
+    await DownloadVideo.downloadVideo(
+      video: video,
+      stateModel: _currentState,
+      path: path,
+    );
+  }
+
+  Future<void> downloadAudio(AudioStreamInfo audioStreamInfo) async {
+    await DownloadingAudioRepository().download(audioStreamInfo);
   }
 }

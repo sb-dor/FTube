@@ -39,6 +39,8 @@ abstract class GetVideo {
 
     for (var each in stateModel.audios) {
       debugPrint("media type: ${each.codec.subtype}");
+      debugPrint("media size: ${each.size.totalMegaBytes}");
+      debugPrint("media url: ${each.url}");
     }
 
     // all videos both with and without sound
@@ -49,18 +51,16 @@ abstract class GetVideo {
     // sort all videos both with and without sound with their size (MB)
     stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 
+    stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
     if (stateModel.audios.isNotEmpty) {
-      stateModel.tempMinAudioForVideo = stateModel.audios.fold<AudioStreamInfo>(
-          stateModel.audios.first,
-          (previousValue, element) =>
-              element.size.totalMegaBytes < previousValue.size.totalMegaBytes
-                  ? element
-                  : previousValue);
+      stateModel.tempMinAudioForVideo = stateModel.audios.last;
     } else {
       stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
     }
 
-    debugPrint("temo min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}");
+    debugPrint("temp min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}"
+        " | size: ${stateModel.tempMinAudioForVideo?.size.totalMegaBytes}");
 
     if (!context.mounted) return;
 

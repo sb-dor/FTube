@@ -38,6 +38,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             focusNode: _focusNode),
         leadingWidth: MediaQuery.of(context).size.width,
       ),
+      body: ListView(
+        children: [
+          SizedBox(height: 10),
+
+        ],
+      ),
     );
   }
 }
