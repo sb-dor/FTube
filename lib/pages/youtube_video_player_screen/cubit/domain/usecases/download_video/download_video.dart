@@ -7,6 +7,7 @@ import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
@@ -16,26 +17,23 @@ import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downlo
 import 'package:youtube/utils/constants.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/global_context_helper.dart';
+import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class DownloadVideo {
-  final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
-  late YoutubeVideoStateModel stateModelOne;
+abstract class DownloadVideo with SolvePercentageMixin {
+  static ReusableGlobalFunctions globalFunc = ReusableGlobalFunctions.instance;
 
-  DownloadVideo(YoutubeVideoStateModel state) {
-    stateModelOne = state;
-  }
-
-  Future<void> downloadVideo({
+  static Future<void> downloadVideo({
     required VideoStreamInfo video,
+    required YoutubeVideoStateModel stateModel,
     required DownloadingStoragePath path,
   }) async {
     var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
         GlobalContextHelper.instance.globalNavigatorContext.currentState!.context);
     try {
       if (videoDownloadingCubit.state.tempDownloadingVideoInfo != null) {
-        _globalFunc.showToast(
+        globalFunc.showToast(
           msg: Constants.videoDownloadingInfo,
           typeError: true,
           toastLength: Toast.LENGTH_LONG,
@@ -50,19 +48,13 @@ class DownloadVideo {
 
       // make here better
 
-      Response<List<int>>? listOfAudioCodec;
-      if (!_globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        debugPrint("working into isolate");
-        final receivePort = ReceivePort();
-
-        final isolate = await Isolate.spawn(_downloadAudio, receivePort.sendPort);
-
-        receivePort.listen((message) {
-          listOfAudioCodec = message;
-          receivePort.close();
-          isolate.kill();
-          debugPrint("finishing into isolate");
-        });
+      final receivePort = ReceivePort();
+      Isolate? isolate;
+      if (!globalFunc.checkMp4FromURI(value: video.url.toString())) {
+        isolate = await Isolate.spawn(
+          _downloadAudio,
+          [receivePort.sendPort, stateModel.tempMinAudioForVideo?.url.toString()],
+        );
       }
 
       var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
@@ -77,23 +69,28 @@ class DownloadVideo {
             responseType: ResponseType.bytes,
           ));
 
-      if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
+      if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
         await DownloadingVideoRepository(path).download(downloadingVideo.data);
       } else {
-        if (listOfAudioCodec != null) {
+        receivePort.listen((message) async {
           await _downloadVideoWithoutSound(
-              videoDownloadingCubit: videoDownloadingCubit,
-              downloadingVideo: downloadingVideo,
-              downloadingAudio: listOfAudioCodec!);
-        }
+            videoDownloadingCubit: videoDownloadingCubit,
+            stateModel: stateModel,
+            downloadingVideo: downloadingVideo,
+            downloadingAudio: message,
+            path: path,
+          );
+          receivePort.close();
+          isolate?.kill();
+        });
       }
 
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
 
       if (path.name == DownloadingStoragePath.appStorage.name) {
-        _globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
+        globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
       } else {
-        _globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
+        globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
       }
 
       videoDownloadingCubit.videoDownloadingLoadedState();
@@ -105,35 +102,38 @@ class DownloadVideo {
     }
   }
 
-  void _downloadAudio(
-    SendPort sendPort,
-  ) async {
-    var downloadingAudio = await APISettings.dio
-        .get<List<int>>(stateModelOne.tempMinAudioForVideo?.url.toString() ?? '',
-            onReceiveProgress: (int receive, int total) {
-      // var solvePercentage = receive / total * 100;
-      // videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
-      //     solvePercentage / 100;
-      // debugPrint("downloading audio receive: $receive | total $total");
-    },
-            cancelToken: stateModelOne.cancelAudioToken,
-            options: Options(
-              headers: await APISettings.headers(),
-              responseType: ResponseType.bytes,
-              receiveTimeout: const Duration(minutes: 5),
-            ));
+  static Future<void> _downloadAudio(List<dynamic> args) async {
+    final SendPort sendPort = args.first;
+    final String url = args.last;
+    try {
+      var downloadingAudio =
+          await Dio().get<List<int>>(url, onReceiveProgress: (int receive, int total) {
+        // var solvePercentage = receive / total * 100;
+        // videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
+        //     solvePercentage / 100;
+        // debugPrint("downloading audio receive: $receive | total $total");
+      },
+              // cancelToken: stateModel.cancelAudioToken,
+              options: Options(
+                headers: await APISettings.headers(),
+                responseType: ResponseType.bytes,
+                receiveTimeout: const Duration(minutes: 5),
+              ));
 
-    sendPort.send(downloadingAudio);
+      sendPort.send(downloadingAudio.data);
+    } catch (e) {
+      sendPort.send(<int>[]);
+    }
   }
 
-  Future<void> _downloadVideoWithoutSound({
-    required VideoDownloadingCubit videoDownloadingCubit,
-    required Response<List<int>> downloadingVideo,
-    required Response<List<int>> downloadingAudio,
-  }) async {
-    debugPrint(
-        "is working second download 2 | ${stateModelOne.tempMinAudioForVideo?.size.totalMegaBytes}"
-        " | audio url : ${stateModelOne.tempMinAudioForVideo?.url.toString()}");
+  static Future<void> _downloadVideoWithoutSound(
+      {required VideoDownloadingCubit videoDownloadingCubit,
+      required YoutubeVideoStateModel stateModel,
+      required Response<List<int>> downloadingVideo,
+      required List<int> downloadingAudio,
+      required DownloadingStoragePath path}) async {
+
+    debugPrint("getting downloading audio list: $downloadingAudio");
 
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
@@ -144,15 +144,15 @@ class DownloadVideo {
     var dateTime = DateTime.now();
 
     var newVideoPath =
-        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
+        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
     var newAudioPath =
-        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
+        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
 
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
 
     newVideoFile.writeAsBytesSync(downloadingVideo.data ?? []);
-    newAudioFile.writeAsBytesSync(downloadingAudio.data ?? []);
+    newAudioFile.writeAsBytesSync(downloadingAudio);
 
     var getExStorage = await getExternalStorageDirectory();
 
@@ -173,5 +173,11 @@ class DownloadVideo {
         debugPrint("ERROR");
       }
     });
+
+    if (path.name == DownloadingStoragePath.gallery.name) {
+      await Gal.putVideo(outputPath);
+    }
+
+    videoDownloadingCubit.videoDownloadingLoadedState();
   }
 }
