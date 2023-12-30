@@ -172,9 +172,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> downloadVideo(VideoStreamInfo video, DownloadingStoragePath path) async {
-    await DownloadVideo.downloadVideo(
+    await DownloadVideo(_currentState).downloadVideo(
       video: video,
-      stateModel: _currentState,
       path: path,
     );
   }
