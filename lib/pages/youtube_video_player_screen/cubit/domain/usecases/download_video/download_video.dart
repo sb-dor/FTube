@@ -144,9 +144,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
     var dateTime = DateTime.now();
 
     var newVideoPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
+        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_video.mp4";
     var newAudioPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
+        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_sound.mp3";
 
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
@@ -154,11 +154,18 @@ abstract class DownloadVideo with SolvePercentageMixin {
     newVideoFile.writeAsBytesSync(downloadingVideo.data ?? []);
     newAudioFile.writeAsBytesSync(downloadingAudio);
 
+
+    debugPrint("new video file path: ${newVideoFile.path}");
+    debugPrint("new audio file path: ${newAudioFile.path}");
+
     var getExStorage = await getExternalStorageDirectory();
 
     // create output path where file will be saved
+
+    dateTime = DateTime.now();
+
     String outputPath =
-        '${getExStorage?.path}/${Random().nextInt(pow(2, 10).toInt())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
+        '${getExStorage?.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
 
     await FFmpegKit.execute('-i ${newVideoFile.path} -i ${newAudioFile.path} -c copy $outputPath')
         .then((value) async {
