@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:math';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:dio/dio.dart';
@@ -18,19 +19,23 @@ import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-abstract class DownloadVideo {
-  static ReusableGlobalFunctions globalFunc = ReusableGlobalFunctions.instance;
+class DownloadVideo {
+  final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
+  late YoutubeVideoStateModel stateModelOne;
 
-  static Future<void> downloadVideo({
+  DownloadVideo(YoutubeVideoStateModel state) {
+    stateModelOne = state;
+  }
+
+  Future<void> downloadVideo({
     required VideoStreamInfo video,
-    required YoutubeVideoStateModel stateModel,
     required DownloadingStoragePath path,
   }) async {
     var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
         GlobalContextHelper.instance.globalNavigatorContext.currentState!.context);
     try {
       if (videoDownloadingCubit.state.tempDownloadingVideoInfo != null) {
-        globalFunc.showToast(
+        _globalFunc.showToast(
           msg: Constants.videoDownloadingInfo,
           typeError: true,
           toastLength: Toast.LENGTH_LONG,
@@ -45,6 +50,21 @@ abstract class DownloadVideo {
 
       // make here better
 
+      Response<List<int>>? listOfAudioCodec;
+      if (!_globalFunc.checkMp4FromURI(value: video.url.toString())) {
+        debugPrint("working into isolate");
+        final receivePort = ReceivePort();
+
+        final isolate = await Isolate.spawn(_downloadAudio, receivePort.sendPort);
+
+        receivePort.listen((message) {
+          listOfAudioCodec = message;
+          receivePort.close();
+          isolate.kill();
+          debugPrint("finishing into isolate");
+        });
+      }
+
       var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
           onReceiveProgress: (int receive, int total) {
         var solvePercentage = receive / total * 100;
@@ -57,22 +77,23 @@ abstract class DownloadVideo {
             responseType: ResponseType.bytes,
           ));
 
-      if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
+      if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
         await DownloadingVideoRepository(path).download(downloadingVideo.data);
       } else {
-        await _downloadVideoWithoutSound(
-          videoDownloadingCubit: videoDownloadingCubit,
-          stateModel: stateModel,
-          downloadingVideo: downloadingVideo,
-        );
+        if (listOfAudioCodec != null) {
+          await _downloadVideoWithoutSound(
+              videoDownloadingCubit: videoDownloadingCubit,
+              downloadingVideo: downloadingVideo,
+              downloadingAudio: listOfAudioCodec!);
+        }
       }
 
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
 
       if (path.name == DownloadingStoragePath.appStorage.name) {
-        globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
+        _globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
       } else {
-        globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
+        _globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
       }
 
       videoDownloadingCubit.videoDownloadingLoadedState();
@@ -84,29 +105,35 @@ abstract class DownloadVideo {
     }
   }
 
-  static Future<void> _downloadVideoWithoutSound({
-    required VideoDownloadingCubit videoDownloadingCubit,
-    required YoutubeVideoStateModel stateModel,
-    required Response<List<int>> downloadingVideo,
-  }) async {
-    debugPrint(
-        "is working second download 2 | ${stateModel.tempMinAudioForVideo?.size.totalMegaBytes}"
-        " | audio url : ${stateModel.tempMinAudioForVideo?.url.toString()}");
-    videoDownloadingCubit.videoDownloadingGettingAudioInformationState();
+  void _downloadAudio(
+    SendPort sendPort,
+  ) async {
     var downloadingAudio = await APISettings.dio
-        .get<List<int>>(stateModel.tempMinAudioForVideo?.url.toString() ?? '',
+        .get<List<int>>(stateModelOne.tempMinAudioForVideo?.url.toString() ?? '',
             onReceiveProgress: (int receive, int total) {
-      var solvePercentage = receive / total * 100;
-      videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
-          solvePercentage / 100;
-      videoDownloadingCubit.videoDownloadingAudioState();
+      // var solvePercentage = receive / total * 100;
+      // videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
+      //     solvePercentage / 100;
+      // debugPrint("downloading audio receive: $receive | total $total");
     },
-            cancelToken: stateModel.cancelAudioToken,
+            cancelToken: stateModelOne.cancelAudioToken,
             options: Options(
               headers: await APISettings.headers(),
               responseType: ResponseType.bytes,
               receiveTimeout: const Duration(minutes: 5),
             ));
+
+    sendPort.send(downloadingAudio);
+  }
+
+  Future<void> _downloadVideoWithoutSound({
+    required VideoDownloadingCubit videoDownloadingCubit,
+    required Response<List<int>> downloadingVideo,
+    required Response<List<int>> downloadingAudio,
+  }) async {
+    debugPrint(
+        "is working second download 2 | ${stateModelOne.tempMinAudioForVideo?.size.totalMegaBytes}"
+        " | audio url : ${stateModelOne.tempMinAudioForVideo?.url.toString()}");
 
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
@@ -117,9 +144,9 @@ abstract class DownloadVideo {
     var dateTime = DateTime.now();
 
     var newVideoPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4";
     var newAudioPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp3";
 
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
