@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/pages/search_screen/bloc/main_search_screen_bloc.dart';
+import 'package:youtube/pages/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/pages/search_screen/bloc/search_screen_states.dart';
 
 class AnimatedSearchBar extends StatelessWidget {
@@ -59,10 +60,12 @@ class AnimatedSearchBar extends StatelessWidget {
                               focusNode: focusNode,
                               controller: currentState.searchController,
                               onTapOutside: (v) => FocusManager.instance.primaryFocus?.unfocus(),
+                              onSubmitted: (v) => context
+                                  .read<MainSearchScreenBloc>()
+                                  .add(ClickSearchButtonEvent()),
+                              textInputAction: TextInputAction.search,
                               decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Search"
-                              ),
+                                  border: InputBorder.none, hintText: "Search"),
                             ),
                           ),
                         ),
