@@ -14,7 +14,6 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
     int perPage = Constants.perPage,
     String? page,
     String? videoCategoryId,
-    String? searchQuery,
   }) async {
     Map<String, dynamic> res = {};
     debugPrint("category id : $videoCategoryId");
@@ -23,7 +22,7 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
         "maxResults": perPage,
         "pageToken": page,
         'type': "video",
-        'q': searchQuery ?? ReusableGlobalFunctions.instance.generateRandomString(length: 3)
+        'q': ReusableGlobalFunctions.instance.generateRandomString(length: 3)
       };
 
       if (videoCategoryId != null) {

@@ -132,12 +132,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
       required Response<List<int>> downloadingVideo,
       required List<int> downloadingAudio,
       required DownloadingStoragePath path}) async {
-
     debugPrint("getting downloading audio list: $downloadingAudio");
 
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
-
-    debugPrint("is working second download 3");
 
     var tempPath = await getTemporaryDirectory();
 
@@ -153,10 +150,6 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
     newVideoFile.writeAsBytesSync(downloadingVideo.data ?? []);
     newAudioFile.writeAsBytesSync(downloadingAudio);
-
-
-    debugPrint("new video file path: ${newVideoFile.path}");
-    debugPrint("new audio file path: ${newAudioFile.path}");
 
     var getExStorage = await getExternalStorageDirectory();
 

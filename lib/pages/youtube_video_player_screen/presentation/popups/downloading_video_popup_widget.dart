@@ -104,8 +104,8 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
       var currentState = state.youtubeVideoStateModel;
       return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Spacer(),
           Container(
             height: 130,
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
@@ -266,7 +266,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                             if (ReusableGlobalFunctions.instance
                                 .checkMp4FromURI(value: video.url.toString()))
                               const TextWidget(
-                                text: "Recommended",
+                                text: "Recommended (Fast download)",
                                 color: Colors.red,
                                 size: 13,
                                 fontWeight: FontWeight.w500,

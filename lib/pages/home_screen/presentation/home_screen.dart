@@ -6,12 +6,12 @@ import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/h
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/pages/home_screen/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_error_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loaded_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loading_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_error_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
-import 'widgets/home_screen_videos_widgets/home_screen_videos_error_widget.dart';
-import 'widgets/home_screen_videos_widgets/home_screen_videos_loaded_widget.dart';
-import 'widgets/home_screen_videos_widgets/home_screen_videos_loading_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -64,12 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   children: [
+                    //
                     if (homeScreenVideosState is LoadingHomeScreenVideosState)
-                      const HomeScreenVideosLoadingWidget()
+                      const VideosLoadingWidget()
                     else if (homeScreenVideosState is ErrorHomeScreenVideosState)
-                      const HomeScreenVideosErrorWidget()
+                      const VideosErrorWidget()
                     else
-                      const HomeScreenVideosLoadedWidget(),
+                      VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
                     const SizedBox(height: 5),
                     if (homeScreenVideosState is LoadedHomeScreenVideosState &&
                         mainHomeScreenStateModel.hasMore)

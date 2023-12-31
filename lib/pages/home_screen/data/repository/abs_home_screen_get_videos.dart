@@ -6,7 +6,6 @@ abstract class AbsHomeScreenGetVideos {
     int perPage = Constants.perPage,
     String? page,
     String? videoCategoryId,
-    String? searchQuery,
   });
 
   factory AbsHomeScreenGetVideos(AbsHomeScreenGetVideos homeScreen) => homeScreen;

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube/utils/constants.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 
-class HomeScreenVideosLoadingWidget extends StatelessWidget {
-  const HomeScreenVideosLoadingWidget({Key? key}) : super(key: key);
+class VideosLoadingWidget extends StatelessWidget {
+  const VideosLoadingWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

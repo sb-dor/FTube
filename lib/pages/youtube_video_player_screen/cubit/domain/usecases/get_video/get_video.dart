@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/utils/extensions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class GetVideo {
@@ -50,6 +51,13 @@ abstract class GetVideo {
 
     // sort all videos both with and without sound with their size (MB)
     stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
+    stateModel.allVideos.removeWhere((el) {
+      int numb = el.size.totalMegaBytes.toInt();
+      return el.size.totalMegaBytes >= numb &&
+          el.size.totalMegaBytes < (numb + 0.7) &&
+          !stateModel.globalFunc.checkMp4FromURI(value: el.url.toString());
+    });
 
     stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 

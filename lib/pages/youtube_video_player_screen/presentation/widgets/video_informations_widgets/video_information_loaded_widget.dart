@@ -82,7 +82,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
           const SizedBox(height: 10),
           IntrinsicHeight(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 FadeAnimation(
                   beginInterval: 0.3,
