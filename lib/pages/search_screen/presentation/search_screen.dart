@@ -6,6 +6,9 @@ import 'package:youtube/pages/search_screen/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/pages/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/pages/search_screen/presentation/animated_search_bar/animated_search_bar.dart';
 import 'package:youtube/pages/search_screen/presentation/layouts/searching_body_sreen.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_error_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loaded_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loading_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -15,9 +18,9 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
-  final FocusNode _focusNode = FocusNode();
   late AnimationController _searchBarAnimationController;
   late Animation<double> _searchBarAnimation;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -30,7 +33,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     _searchBarAnimationController.forward();
     _searchBarAnimationController.addListener(() {
       if (_searchBarAnimationController.isCompleted) {
-        _focusNode.requestFocus();
+        context.read<MainSearchScreenBloc>().add(RequestToTextField());
+      }
+    });
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent == _scrollController.offset) {
+        context.read<MainSearchScreenBloc>().add(PaginateSearchScreenEvent(context: context));
       }
     });
   }
@@ -39,19 +47,57 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
       final searchBodyCubit = context.watch<SearchBodyCubit>();
+      final mainSearchScreenCubit = context.watch<MainSearchScreenBloc>().state;
+
+      // data
+      var mainSearchScreenStateModel = mainSearchScreenCubit.searchScreenStateModel;
       return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           leading: AnimatedSearchBar(
-              searchBarAnimationController: _searchBarAnimationController,
-              searchBarAnimation: _searchBarAnimation,
-              focusNode: _focusNode),
+            searchBarAnimationController: _searchBarAnimationController,
+            searchBarAnimation: _searchBarAnimation,
+            scrollController: _scrollController,
+          ),
           leadingWidth: MediaQuery.of(context).size.width,
         ),
-        body: ListView(
-          children: [
-            SizedBox(height: 10),
-            if (searchBodyCubit.state is SearchingBodyState) SearchingBodyScreen()
-          ],
+        body: GestureDetector(
+          onTap: () {
+            if (searchBodyCubit.state is SearchingBodyState) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          child: RefreshIndicator(
+            color: Colors.red,
+            onRefresh: () async =>
+                context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(context: context)),
+            child: ListView(
+              controller: _scrollController,
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              children: [
+                if (searchBodyCubit.state is SearchingBodyState)
+                  const SearchingBodyScreen()
+                else if (searchBodyCubit.state is LoadingSearchBodyState)
+                  const VideosLoadingWidget()
+                else if (searchBodyCubit.state is ErrorSearchBodyState)
+                  const VideosErrorWidget()
+                else
+                  VideosLoadedWidget(videoList: mainSearchScreenStateModel.videos),
+                if (mainSearchScreenStateModel.hasMore &&
+                    searchBodyCubit.state is LoadedSearchBodyState)
+                  const Column(
+                    children: [
+                      SizedBox(height: 20),
+                      SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2)),
+                    ],
+                  ),
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
         ),
       );
     });

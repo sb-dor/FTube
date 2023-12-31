@@ -27,4 +27,8 @@ extension ListEx on List {
       return this as List<T>;
     }
   }
+
+  void removeFirst() {
+    if (isNotEmpty) removeAt(0);
+  }
 }

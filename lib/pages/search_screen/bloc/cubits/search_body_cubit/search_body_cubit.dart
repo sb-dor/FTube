@@ -11,4 +11,16 @@ class SearchBodyCubit extends Cubit<SearchBodyStates> {
   void errorSearchBodyState() => emit(ErrorSearchBodyState());
 
   void loadedSearchBodyState() => emit(LoadedSearchBodyState());
+
+  void emitState() {
+    if (state is SearchingBodyState) {
+      searchingBodyState();
+    } else if (state is ErrorSearchBodyState) {
+      errorSearchBodyState();
+    } else if (state is LoadingSearchBodyState) {
+      loadingSearchBodyState();
+    } else {
+      loadedSearchBodyState();
+    }
+  }
 }
