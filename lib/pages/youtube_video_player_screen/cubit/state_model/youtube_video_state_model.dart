@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pod_player/pod_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downloading_video_info.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';

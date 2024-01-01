@@ -76,7 +76,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
               padding: const EdgeInsets.only(left: 10, right: 10),
               children: [
                 if (searchBodyCubit.state is SearchingBodyState)
-                  const SearchingBodyScreen()
+                  if (mainSearchScreenStateModel.suggestData.isNotEmpty)
+                    SearchingBodyScreen(suggests: mainSearchScreenStateModel.suggestData)
+                  else
+                    SearchingBodyScreen(suggests: mainSearchScreenStateModel.searchData)
                 else if (searchBodyCubit.state is LoadingSearchBodyState)
                   const VideosLoadingWidget()
                 else if (searchBodyCubit.state is ErrorSearchBodyState)

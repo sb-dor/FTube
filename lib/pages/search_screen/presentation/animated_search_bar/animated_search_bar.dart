@@ -57,25 +57,35 @@ class AnimatedSearchBar extends StatelessWidget {
                           ),
                           const SizedBox(width: 10),
                           Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 60),
-                              child: TextField(
-                                style: const TextStyle(fontSize: 14),
-                                focusNode: currentState.focusNode,
-                                controller: currentState.searchController,
-                                onSubmitted: (v) =>
-                                    context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(
-                                          context: context,
-                                          scrollController: scrollController,
-                                        )),
-                                onTap: () =>
-                                    context.read<MainSearchScreenBloc>().add(InitSearchScreenEvent(
-                                          context: context,
-                                          scrollController: scrollController,
-                                        )),
-                                textInputAction: TextInputAction.search,
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none, hintText: "Search"),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 60),
+                                child: TextField(
+                                  style: const TextStyle(fontSize: 14),
+                                  focusNode: currentState.focusNode,
+                                  controller: currentState.searchController,
+                                  onSubmitted: (v) => context
+                                      .read<MainSearchScreenBloc>()
+                                      .add(ClickSearchButtonEvent(
+                                        context: context,
+                                        scrollController: scrollController,
+                                      )),
+                                  onTap: () => context
+                                      .read<MainSearchScreenBloc>()
+                                      .add(InitSearchScreenEvent(
+                                        context: context,
+                                        scrollController: scrollController,
+                                      )),
+                                  onChanged: (v) => context
+                                      .read<MainSearchScreenBloc>()
+                                      .add(GetSuggestionRequestEvent(context: context)),
+                                  textInputAction: TextInputAction.search,
+                                  decoration: const InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.zero,
+                                      border: InputBorder.none,
+                                      hintText: "Search"),
+                                ),
                               ),
                             ),
                           ),

@@ -62,3 +62,9 @@ class PaginateSearchScreenEvent extends SearchScreenEvents {
 
   PaginateSearchScreenEvent({required this.context});
 }
+
+class GetSuggestionRequestEvent extends SearchScreenEvents {
+  BuildContext context;
+
+  GetSuggestionRequestEvent({required this.context});
+}

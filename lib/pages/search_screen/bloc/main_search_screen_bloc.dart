@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,8 +9,10 @@ import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/pages/search_screen/bloc/state_model/search_screen_state_model.dart';
+import 'package:youtube/pages/search_screen/data/source/rest_api_get_suggestion_text.dart';
 import 'package:youtube/pages/search_screen/data/source/rest_api_get_video_search.dart';
-
+import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
+import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'search_screen_events.dart';
 import 'search_screen_states.dart';
 
@@ -35,10 +39,13 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     on<ClickOnAlreadySearchedValueEvent>(_clickOnAlreadySearchedValueEvent);
 
     on<PaginateSearchScreenEvent>(_paginateSearchScreenEvent);
+
+    on<GetSuggestionRequestEvent>(_getSuggestionRequestEvent);
   }
 
   void _initSearchScreenEvent(InitSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    _currentState.suggestData.clear();
     searchBodyCubit.searchingBodyState();
     _currentState.searchData = await _currentState.hiveDatabaseHelper.getSearchData();
     await _currentState.speechToText.initialize();
@@ -55,6 +62,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
   void _clearTextField(ClearTextField event, Emitter<SearchScreenStates> emit) {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    _currentState.suggestData.clear();
     _currentState.searchController.clear();
     _currentState.focusNode.requestFocus();
     searchBodyCubit.searchingBodyState();
@@ -73,6 +81,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         _currentState.timerForAutoClosingSpeech?.cancel();
       }
       _currentState.timerForAutoClosingSpeech = Timer(const Duration(seconds: 1), () {
+        add(GetSuggestionRequestEvent(context: event.context));
         add(StopListeningSpeechEvent(popup: true, context: event.context));
       });
       _currentState.searchController.text = result.recognizedWords;
@@ -94,16 +103,20 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       ClickSearchButtonEvent event, Emitter<SearchScreenStates> emit) async {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     try {
+      if (_currentState.searchController.text.trim().isEmpty) return;
+
       event.scrollController?.animateTo(
         0,
         duration: const Duration(milliseconds: 500),
         curve: Curves.linear,
       );
       searchBodyCubit.loadingSearchBodyState();
-      if (!_currentState.searchData
-          .any((el) => el.trim() == _currentState.searchController.text.trim())) {
-        _currentState.searchData.insert(0, _currentState.searchController.text.trim());
-      }
+
+      _currentState.searchData.removeWhere((el) =>
+          el.trim().toLowerCase() == _currentState.searchController.text.trim().toLowerCase());
+
+      _currentState.searchData.insert(0, _currentState.searchController.text.trim());
+
       if (_currentState.searchData.length >= 30) _currentState.searchData.removeLast();
       await _currentState.hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
 
@@ -112,21 +125,20 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       _currentState.clearData();
 
       var data = await RestApiGetVideoSearch.getSearchVideo(
-        page: _currentState.pageToken,
         q: _currentState.searchController.text,
+        refresh: true,
       );
 
       if (data.containsKey("server_error")) {
         searchBodyCubit.errorSearchBodyState();
       } else if (data.containsKey("success")) {
-        _currentState.pageToken = data['next_page_token'];
-        List<Video> videos = data['videos'];
+        List<ytv.Video> videos = data['videos'];
+
         _currentState.addAndPag(value: videos);
+
         searchBodyCubit.loadedSearchBodyState();
-        for (var element in videos) {
-          await element.snippet?.loadSnippetData();
-          searchBodyCubit.emitState();
-        }
+
+        _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
         searchBodyCubit.errorSearchBodyState();
       }
@@ -151,21 +163,18 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     if (searchBodyCubit.state is! LoadedSearchBodyState) return;
     try {
       var data = await RestApiGetVideoSearch.getSearchVideo(
-        page: _currentState.pageToken,
         q: _currentState.searchController.text,
       );
 
       if (data.containsKey("server_error")) {
         searchBodyCubit.errorSearchBodyState();
       } else if (data.containsKey("success")) {
-        _currentState.pageToken = data['next_page_token'];
-        List<Video> videos = data['videos'];
+        // _currentState.pageToken = data['next_page_token'];
+        List<ytv.Video> videos = data['videos'];
         _currentState.addAndPag(value: videos, paginate: true);
         searchBodyCubit.loadedSearchBodyState();
-        for (var element in videos) {
-          await element.snippet?.loadSnippetData();
-          searchBodyCubit.emitState();
-        }
+
+        _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
         searchBodyCubit.errorSearchBodyState();
       }
@@ -173,5 +182,98 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       searchBodyCubit.errorSearchBodyState();
       debugPrint("_paginateSearchScreenEvent error is $e");
     }
+  }
+
+  void _getSuggestionRequestEvent(
+      GetSuggestionRequestEvent event, Emitter<SearchScreenStates> emit) async {
+    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+
+    if (_currentState.searchController.text.isEmpty) {
+      _currentState.suggestData.clear();
+      searchBodyCubit.searchingBodyState();
+    } else {
+      // if (_currentState.timerForMakingSuggestionRequest?.isActive ?? false) {
+      //   _currentState.timerForMakingSuggestionRequest?.cancel();
+      // }
+
+      // _currentState.timerForMakingSuggestionRequest = Timer(const Duration(seconds: 1), () async {
+      var data =
+          await RestApiGetSuggestionText.getSuggestionSearch(_currentState.searchController.text);
+      if (data.containsKey('server_error')) {
+        searchBodyCubit.errorSearchBodyState();
+      } else if (data.containsKey('success')) {
+        _currentState.suggestData = data['data'];
+        searchBodyCubit.searchingBodyState();
+      } else {
+        searchBodyCubit.errorSearchBodyState();
+      }
+      // });
+    }
+    emit(InitialSearchScreenState(_currentState));
+  }
+
+  ///
+  ///
+  ///
+  /// [run isolate here]
+  static void _getVideoDataInAnotherIsolate(
+    List<ytv.Video> list,
+    SearchBodyCubit searchBodyCubit,
+  ) async {
+    //
+    Map<String, dynamic> sendingList = {
+      "list": list.map((e) => e.toJson()).toList(),
+    };
+
+    var toStringing = jsonEncode(sendingList);
+
+    final rp = ReceivePort();
+
+    Isolate.spawn(_isolate, rp.sendPort);
+
+    final broadcastRp = rp.asBroadcastStream();
+
+    final SendPort communicatorSendPort = await broadcastRp.first;
+
+    communicatorSendPort.send(toStringing);
+
+    broadcastRp.listen((message) {
+      ytvdata.VideoData? videoData;
+      if(message != null) videoData = ytvdata.VideoData.fromJson(message);
+      for (var each in list) {
+        if (each.videoId == videoData?.video?.videoId) {
+          each.loadingVideoData = false;
+          each.videoData = videoData?.clone();
+        }
+      }
+      searchBodyCubit.emitState();
+      // rp.close();
+    });
+  }
+
+  static void _isolate(SendPort sendPort) async {
+    final rp = ReceivePort();
+    sendPort.send(rp.sendPort);
+
+    final messages = rp.takeWhile((element) => element is String).cast<String>();
+
+    await for (var each in messages) {
+      Map<String, dynamic> json = jsonDecode(each);
+
+      List<dynamic> comingList = [];
+      if (json['list'] != null) {
+        comingList = json['list'];
+      }
+
+      List<ytv.Video> videos = comingList.map((e) => ytv.Video.fromIsolate(e)).toList();
+
+      await Future.wait(videos
+          .map((e) => e.getVideoData().then((value) {
+                sendPort.send(e.videoData?.toJson());
+              }))
+          .toList());
+    }
+
+    // rp.close();
   }
 }

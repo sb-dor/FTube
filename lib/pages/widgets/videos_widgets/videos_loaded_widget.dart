@@ -7,9 +7,10 @@ import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class VideosLoadedWidget extends StatelessWidget {
-  final List<Video> videoList;
+  final List<ytv.Video> videoList;
 
   const VideosLoadedWidget({
     Key? key,
@@ -27,19 +28,19 @@ class VideosLoadedWidget extends StatelessWidget {
           var video = videoList[index];
           return GestureDetector(
             onTap: () =>
-                OpenVideoScreen.openVideoScreen(context: context, videoId: video.id?.videoID ?? ''),
+                OpenVideoScreen.openVideoScreen(context: context, videoId: video.videoId ?? ''),
             child: Container(
               color: Colors.transparent,
               child: Column(children: [
                 SizedBox(
-                  height: (video.snippet?.thumbnailHigh?.height ?? 180) / 2,
+                  height: (video.thumbnails?.last.height ?? 180) / 2,
                   child: Stack(
                     children: [
                       Positioned.fill(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: ImageLoaderWidget(
-                            url: video.snippet?.thumbnailHigh?.url ?? '',
+                            url: video.thumbnails?.last.url ?? '',
                             errorImageUrl: 'assets/custom_images/custom_user_image.png',
                             boxFit: BoxFit.cover,
                           ),
@@ -59,7 +60,7 @@ class VideosLoadedWidget extends StatelessWidget {
                                   color: Colors.red,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: (video.snippet?.loadingStatistics ?? true)
+                                child: (video.loadingVideoData)
                                     ? const TextWidget(
                                         text: ". . .",
                                         size: 12,
@@ -74,10 +75,7 @@ class VideosLoadedWidget extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 5),
                                         TextWidget(
-                                          text: (video.snippet?.loadingStatistics ?? true)
-                                              ? ""
-                                              : ViewFormatHelper.viewsFormatNumbers(int.tryParse(
-                                                  "${video.snippet?.statistic?.viewCount}")),
+                                          text: (video.loadingVideoData) ? "" : video.views ?? '',
                                           size: 12,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
@@ -103,8 +101,7 @@ class VideosLoadedWidget extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.black, borderRadius: BorderRadius.circular(3)),
                             child: TextWidget(
-                              text: DurationFromIso8601Helper.getDurationFromIso8601(
-                                  durationString: video.snippet?.videoContentDetails?.duration),
+                              text: video.duration ?? "",
                               color: Colors.white,
                               size: 10,
                             ),
@@ -115,10 +112,10 @@ class VideosLoadedWidget extends StatelessWidget {
                 const SizedBox(height: 5),
                 IntrinsicHeight(
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if ((video.snippet?.loadingChannel ?? false))
+                    if (video.loadingVideoData)
                       ShimmerContainer(
                           width: 50, height: 50, borderRadius: BorderRadius.circular(50))
-                    else if ((video.snippet?.errorChannel ?? false))
+                    else if (video.errorOfLoadingVideoData)
                       Container(
                           color: Colors.red,
                           width: 50,
@@ -138,7 +135,7 @@ class VideosLoadedWidget extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: ImageLoaderWidget(
-                              url: video.snippet?.channel?.channelSnippet?.thumbMedium?.url ?? '',
+                              url: video.videoData?.video?.channelThumb ?? '',
                               errorImageUrl: 'assets/custom_images/custom_user_image.png',
                             ),
                           )),
@@ -149,7 +146,7 @@ class VideosLoadedWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                           TextWidget(
-                            text: video.snippet?.title ?? '-',
+                            text: video.title ?? '-',
                             size: 14,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1.1,
@@ -158,7 +155,7 @@ class VideosLoadedWidget extends StatelessWidget {
                               text: TextSpan(children: [
                             WidgetSpan(
                                 child: TextWidget(
-                              text: video.snippet?.channelTitle ?? '-',
+                              text: video.videoData?.video?.channelName ?? '-',
                               size: 12,
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
@@ -172,7 +169,7 @@ class VideosLoadedWidget extends StatelessWidget {
                             )),
                             WidgetSpan(
                                 child: TextWidget(
-                              text: JiffyHelper.timePassed(video.snippet?.publishedAt),
+                              text: video.videoData?.video?.date ?? '',
                               size: 12,
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
