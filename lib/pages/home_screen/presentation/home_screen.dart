@@ -65,21 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   children: [
                     //
-                    if (homeScreenVideosState is LoadingHomeScreenVideosState)
-                      const VideosLoadingWidget()
-                    else if (homeScreenVideosState is ErrorHomeScreenVideosState)
-                      const VideosErrorWidget()
-                    else
-                      VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
-                    const SizedBox(height: 5),
-                    if (homeScreenVideosState is LoadedHomeScreenVideosState &&
-                        mainHomeScreenStateModel.hasMore)
-                      const Center(
-                          child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
-                    const SizedBox(height: kBottomNavigationBarHeight + 30)
+                    // if (homeScreenVideosState is LoadingHomeScreenVideosState)
+                    //   const VideosLoadingWidget()
+                    // else if (homeScreenVideosState is ErrorHomeScreenVideosState)
+                    //   const VideosErrorWidget()
+                    // else
+                    //   VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
+                    // const SizedBox(height: 5),
+                    // if (homeScreenVideosState is LoadedHomeScreenVideosState &&
+                    //     mainHomeScreenStateModel.hasMore)
+                    //   const Center(
+                    //       child: SizedBox(
+                    //           width: 20,
+                    //           height: 20,
+                    //           child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
+                    // const SizedBox(height: kBottomNavigationBarHeight + 30)
                   ]),
             ),
           ],

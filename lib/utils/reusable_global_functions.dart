@@ -94,4 +94,21 @@ class ReusableGlobalFunctions {
     }
     return res;
   }
+
+  Map<String, dynamic> convertMap(Map<dynamic, dynamic> originalMap) {
+    Map<String, dynamic> newMap = {};
+
+    originalMap.forEach((key, value) {
+      if (key is String) {
+        newMap[key] = value;
+      } else {
+        newMap[key.toString()] = value;
+      }
+      if (value is Map<dynamic, dynamic>) {
+        newMap[key.toString()] = convertMap(value);
+      }
+    });
+
+    return newMap;
+  }
 }

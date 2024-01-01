@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:youtube/api/api_settings.dart';
 import 'package:youtube/api/api_urls.dart';
 import 'package:youtube/models/channel_model/channel.dart';
-import 'package:youtube/models/video_modes/video_statistic.dart';
 import 'package:youtube/utils/constants.dart';
 import 'package:youtube/utils/enums.dart';
 

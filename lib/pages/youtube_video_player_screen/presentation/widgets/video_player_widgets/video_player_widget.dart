@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pod_player/pod_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
 
