@@ -268,7 +268,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       List<ytv.Video> videos = comingList.map((e) => ytv.Video.fromIsolate(e)).toList();
 
       await Future.wait(videos
-          .map((e) => e.getVideoData().then((value) {
+          .map((e) => e.getVideoData().then((_) {
                 sendPort.send(e.videoData?.toJson());
               }))
           .toList());

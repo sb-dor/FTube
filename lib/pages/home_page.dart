@@ -10,7 +10,7 @@ import 'home_screen/presentation/home_screen.dart';
 import 'inbox_screen/inbox_screen.dart';
 import 'library_screen/library_screen.dart';
 import 'subscriptions_screen/subscriptions_screen.dart';
-import 'trending_screen/trending_screen.dart';
+import 'trending_screen/presentation/trending_screen.dart';
 
 //main page begins here
 class HomePage extends StatefulWidget {
