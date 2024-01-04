@@ -3,9 +3,8 @@ import 'package:youtube/utils/constants.dart';
 
 abstract class AbsHomeScreenGetVideos {
   Future<Map<String, dynamic>> homeScreenGetVideo({
-    int perPage = Constants.perPage,
-    String? page,
-    String? videoCategoryId,
+    String? q,
+    bool clearSearch = false,
   });
 
   factory AbsHomeScreenGetVideos(AbsHomeScreenGetVideos homeScreen) => homeScreen;

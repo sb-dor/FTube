@@ -5,7 +5,7 @@ import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/models/video_category_models/video_category_snippet.dart';
 import 'package:youtube/pages/home_screen/data/repository/abs_home_screen_get_categories.dart';
 import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen.dart';
-import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen_get_categories.dart';
+import 'package:youtube/pages/trending_screen/data/source/rest_api_home_screen_get_categories.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   List<VideoCategory> videoCategories = [];
