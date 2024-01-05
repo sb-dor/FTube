@@ -43,14 +43,14 @@ class Video {
   });
 
   Video clone() => Video(
-    videoId: videoId,
-    duration: duration,
-    title: title,
-    channelName: channelName,
-    views: views,
-    thumbnails: thumbnails,
-    videoData: videoData?.clone(),
-  );
+        videoId: videoId,
+        duration: duration,
+        title: title,
+        channelName: channelName,
+        views: views,
+        thumbnails: thumbnails,
+        videoData: videoData?.clone(),
+      );
 
   factory Video.fromMap(Map<String, dynamic>? map) {
     List<Thumbnail>? thumbnails;

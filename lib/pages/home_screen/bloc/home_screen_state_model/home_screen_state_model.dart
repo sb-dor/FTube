@@ -9,6 +9,7 @@ import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 class HomeScreenStateModel {
   final globalFunc = ReusableGlobalFunctions.instance;
 
+  bool paginating = false;
   bool hasMore = false;
   VideoCategory? videoCategory;
   List<ytv.Video> videos = [];

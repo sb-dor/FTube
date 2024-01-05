@@ -18,10 +18,10 @@ import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'home_screen_bloc_events.dart';
 
 class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
-  late HomeScreenStateModel currentState;
+  late HomeScreenStateModel _currentState;
 
   MainHomeScreenBloc() : super(InitialHomeScreenState(HomeScreenStateModel())) {
-    currentState = state.homeScreenStateModel;
+    _currentState = state.homeScreenStateModel;
 
     on<RefreshHomeScreenEvent>((event, emit) async => await refreshHomeScreen(event, emit),
         transformer: restartable());
@@ -38,8 +38,8 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     var homeScreenVideosCubit = BlocProvider.of<HomeScreenVideosCubit>(event.context);
     var categoriesCubit = BlocProvider.of<MainVideoCategoryCubit>(event.context);
     homeScreenVideosCubit.loadingHomeScreenVideosState();
-    var data = await currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
-          q: currentState.videoCategory?.videoCategorySnippet?.title,
+    var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
+          q: _currentState.videoCategory?.videoCategorySnippet?.title,
           clearSearch: true,
         );
 
@@ -52,38 +52,14 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       homeScreenVideosCubit.errorHomeScreenVideosState();
     } else if (data.containsKey("success")) {
       List<ytv.Video> videos = data['videos'];
-      currentState.getAndPaginate(list: videos);
+      _currentState.getAndPaginate(list: videos);
       emitState(emit);
       homeScreenVideosCubit.loadedHomeScreenVideosState();
 
-      Map<String, dynamic> toIsolateData = {
-        "list": videos.map((e) => e.toJson()).toList(),
-      };
-
-      var toIsolateString = jsonEncode(toIsolateData);
-
-      final rp = ReceivePort();
-
-      Isolate.spawn(_getVideosDataIsolateCommunicator, rp.sendPort);
-
-      final broadCastRp = rp.asBroadcastStream();
-
-      final SendPort communicatorPort = await broadCastRp.first;
-
-      communicatorPort.send(toIsolateString);
-
-      broadCastRp.listen((event) {
-        ytvdata.VideoData? videoData;
-        if(event != null) videoData = ytvdata.VideoData.fromJson(event);
-        for (var each in videos) {
-          if (each.videoId == videoData?.video?.videoId) {
-            each.loadingVideoData = false;
-            each.videoData = videoData?.clone();
-          }
-        }
-        debugPrint("event coming: $event");
-        homeScreenVideosCubit.loadedHomeScreenVideosState();
-      });
+      await _getVideosDataIsolate(
+        videos: videos,
+        emit: emit,
+      );
 
       debugPrint("is coming here");
 
@@ -97,16 +73,27 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   }
 
   Future<void> paginateHomeScreen(
-      PaginateHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
-    if (!currentState.hasMore) return;
-    var data = await currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
-          q: currentState.videoCategory?.videoCategorySnippet?.title,
+    PaginateHomeScreenEvent event,
+    Emitter<HomeScreenStates> emit,
+  ) async {
+    if (!_currentState.hasMore) return;
+    if (_currentState.paginating) return;
+    _currentState.paginating = true;
+
+    var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
+          q: _currentState.videoCategory?.videoCategorySnippet?.title,
         );
+
+    _currentState.paginating = false;
+
     if (data.containsKey('server_error')) {
       //error
     } else if (data.containsKey('success')) {
       List<ytv.Video> videos = data['videos'];
-      currentState.getAndPaginate(list: videos, paginate: true);
+      _currentState.getAndPaginate(list: videos, paginate: true);
+
+      await _getVideosDataIsolate(videos: videos, emit: emit);
+
       emitState(emit);
     }
     emitState(emit);
@@ -114,17 +101,49 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
   Future<void> selectVideoCategoryEvent(
       SelectVideoCategoryEvent event, Emitter<HomeScreenStates> emit) async {
-    if (currentState.videoCategory?.id == event.videoCategory?.id) return;
-    currentState.videoCategory = event.videoCategory;
-    add(RefreshHomeScreenEvent(context: event.context, videoCategory: currentState.videoCategory));
+    if (_currentState.videoCategory?.id == event.videoCategory?.id) return;
+    _currentState.videoCategory = event.videoCategory;
+    add(RefreshHomeScreenEvent(context: event.context, videoCategory: _currentState.videoCategory));
     emitState(emit);
   }
 
   void emitState(Emitter<HomeScreenStates> emit) {
     if (state is InitialHomeScreenState) {
-      emit(InitialHomeScreenState(currentState));
+      emit(InitialHomeScreenState(_currentState));
     } else if (state is ErrorHomeScreenState) {
-      emit(ErrorHomeScreenState(currentState));
+      emit(ErrorHomeScreenState(_currentState));
+    }
+  }
+
+  Future<void> _getVideosDataIsolate(
+      {required List<ytv.Video> videos, required Emitter<HomeScreenStates> emit}) async {
+    Map<String, dynamic> toIsolateData = {
+      "list": videos.map((e) => e.toJson()).toList(),
+    };
+
+    var toIsolateString = jsonEncode(toIsolateData);
+
+    final rp = ReceivePort();
+
+    Isolate.spawn(_getVideosDataIsolateCommunicator, rp.sendPort);
+
+    final broadCastRp = rp.asBroadcastStream();
+
+    final SendPort communicatorPort = await broadCastRp.first;
+
+    communicatorPort.send(toIsolateString);
+
+    await for (final each in broadCastRp) {
+      ytvdata.VideoData? videoData;
+      if (each != null) videoData = ytvdata.VideoData.fromJson(each);
+      for (var each in videos) {
+        if (each.videoId == videoData?.video?.videoId) {
+          each.loadingVideoData = false;
+          each.videoData = videoData?.clone();
+        }
+      }
+      debugPrint("event coming: $each");
+      emitState(emit);
     }
   }
 
