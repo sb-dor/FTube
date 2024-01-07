@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -177,6 +178,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
     return Builder(builder: (context) {
       var youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
       var downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
+      var downloadingAudioStateModel = context.watch<AudioDownloadingCubit>().state;
       var arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
           ? youtubeStateModel.videosWithSound
           : youtubeStateModel.allVideos;
@@ -225,10 +227,13 @@ class _VideosDownloadingInformation extends StatelessWidget {
                             ],
                           ),
                         ),
-                        IconButton(
-                            onPressed: () async =>
-                                await context.read<YoutubeVideoCubit>().downloadAudio(audio),
-                            icon: const Icon(Icons.download))
+                        // IconButton(
+                        //     onPressed: () async =>
+                        //         await context.read<YoutubeVideoCubit>().downloadAudio(
+                        //               audioStreamInfo: audio,
+                        //               path: ,
+                        //             ),
+                        //     icon: const Icon(Icons.download))
                       ],
                     );
                   })

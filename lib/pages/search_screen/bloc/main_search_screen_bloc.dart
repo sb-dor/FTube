@@ -159,12 +159,16 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   void _paginateSearchScreenEvent(
       PaginateSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
     if (!_currentState.hasMore) return;
+    if (_currentState.paginating) return;
+    _currentState.paginating = true;
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     if (searchBodyCubit.state is! LoadedSearchBodyState) return;
     try {
       var data = await RestApiGetVideoSearch.getSearchVideo(
         q: _currentState.searchController.text,
       );
+
+      _currentState.paginating = false;
 
       if (data.containsKey("server_error")) {
         searchBodyCubit.errorSearchBodyState();
@@ -173,7 +177,6 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         List<ytv.Video> videos = data['videos'];
         _currentState.addAndPag(value: videos, paginate: true);
         searchBodyCubit.loadedSearchBodyState();
-
         _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
         searchBodyCubit.errorSearchBodyState();
@@ -239,7 +242,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
     broadcastRp.listen((message) {
       ytvdata.VideoData? videoData;
-      if(message != null) videoData = ytvdata.VideoData.fromJson(message);
+      if (message != null) videoData = ytvdata.VideoData.fromJson(message);
       for (var each in list) {
         if (each.videoId == videoData?.video?.videoId) {
           each.loadingVideoData = false;

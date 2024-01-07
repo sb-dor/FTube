@@ -26,7 +26,7 @@ class SearchScreenStateModel {
 
   String? pageToken;
 
-  bool hasMore = true;
+  bool hasMore = true, paginating = false;
 
   void addAndPag({required List<ytv.Video> value, bool paginate = false}) {
     if (paginate) {

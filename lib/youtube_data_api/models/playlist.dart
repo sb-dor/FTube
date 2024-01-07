@@ -33,7 +33,7 @@ class PlayList {
         thumbnails: thumbnails,
         title: map?['playlistRenderer']['title']['simpleText'],
         videoCount: map?['playlistRenderer']['videoCount'],
-        channelName: map?['playlistRenderer']['shortBylineText']['runs'][0]
+        channelName: map?['playlistRenderer']?['shortBylineText']?['runs'][0]?
             ['text']);
   }
 

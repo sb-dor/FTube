@@ -50,22 +50,39 @@ abstract class GetVideo {
         .toList();
 
     // sort all videos both with and without sound with their size (MB)
-    stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
+    // stateModel.allVideos.removeWhere((el) {
+    //   int numb = el.size.totalMegaBytes.toInt();
+    //   return el.size.totalMegaBytes >= numb &&
+    //       el.size.totalMegaBytes < (numb + 0.7) &&
+    //       !stateModel.globalFunc.checkMp4FromURI(value: el.url.toString());
+    // });
 
     stateModel.allVideos.removeWhere((el) {
-      int numb = el.size.totalMegaBytes.toInt();
-      return el.size.totalMegaBytes >= numb &&
-          el.size.totalMegaBytes < (numb + 0.7) &&
-          !stateModel.globalFunc.checkMp4FromURI(value: el.url.toString());
+      return stateModel.globalFunc.checkMp4FromURI(value: el.url.toString());
     });
 
-    stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+    await stateModel.removeSameVideosWithLowerQuality();
 
-    if (stateModel.audios.isNotEmpty) {
-      stateModel.tempMinAudioForVideo = stateModel.audios.last;
-    } else {
-      stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
-    }
+    debugPrint("after after deleting: ${stateModel.allVideos.length}");
+
+    stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
+
+    stateModel.allVideos.insertAll(0, stateModel.videosWithSound);
+
+    // if (stateModel.videosWithSound.isNotEmpty) {
+    //   stateModel.allVideos.removeWhere(
+    //       (el) => el.size.totalMegaBytes < stateModel.videosWithSound.first.size.totalMegaBytes);
+    // }
+
+    // stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
+    // if (stateModel.audios.isNotEmpty) {
+    //   stateModel.tempMinAudioForVideo = stateModel.audios.last;
+    // } else {
+    stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
+    // }
 
     debugPrint("temp min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}"
         " | size: ${stateModel.tempMinAudioForVideo?.size.totalMegaBytes}");

@@ -305,6 +305,22 @@ class YoutubeDataApi {
     return suggestions;
   }
 
+  Future<String?> fetchRandomWord() async {
+    String? res;
+    try {
+      var response = await Dio().get('https://random-word-api.herokuapp.com/word');
+
+      if (response.statusCode != 200) return "random";
+
+      List<dynamic> list = response.data;
+
+      res = list.first.toString();
+    } catch (e) {
+      return "random";
+    }
+    return res;
+  }
+
   ///Get channel data and videos in channel page
   Future<ChannelData?> fetchChannelData(String channelId) async {
     var response = await Dio().get(

@@ -25,7 +25,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
       var downloadingVideoCubit = context.watch<VideoDownloadingCubit>().state;
 
       var currentState = youtubeCubit.youtubeVideoStateModel;
-      var channel = currentState.video?.snippet?.channel;
+      // var channel = currentState.video?.snippet?.channel;
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +33,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
           FadeAnimation(
             beginInterval: 0.1,
             child: TextWidget(
-              text: currentState.video?.snippet?.title ?? '-',
+              text: currentState.videoData?.video?.title ?? '-',
               size: 18,
               maxLines: 2,
               overFlow: TextOverflow.ellipsis,
@@ -48,9 +48,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                 text: TextSpan(children: [
               WidgetSpan(
                   child: TextWidget(
-                text:
-                    "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.statistic?.viewCount}"))} "
-                    "views",
+                text: "${currentState.videoData?.video?.viewCount ?? ''}",
                 color: Colors.grey,
                 size: 12,
                 fontWeight: FontWeight.w500,
@@ -64,7 +62,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
               )),
               WidgetSpan(
                   child: TextWidget(
-                text: JiffyHelper.timePassed(currentState.video?.snippet?.publishedAt),
+                text: currentState.videoData?.video?.date ?? '',
                 color: Colors.grey,
                 size: 12,
                 fontWeight: FontWeight.w500,
@@ -100,7 +98,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: ImageLoaderWidget(
-                          url: channel?.channelSnippet?.thumbMedium?.url ?? '',
+                          url: currentState.videoData?.video?.channelThumb ?? '',
                           errorImageUrl: 'assets/custom_images/custom_user_image.png',
                         ),
                       )),
@@ -112,15 +110,14 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                   child: RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: channel?.channelSnippet?.title ?? '-',
+                        text: currentState.videoData?.video?.channelName ?? '-',
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         )),
                     TextSpan(
-                        text:
-                            " • ${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
+                        text: " • ${currentState.videoData?.video?.subscribeCount ?? '-'} ",
                         style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 15,
