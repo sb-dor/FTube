@@ -17,6 +17,7 @@ import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downlo
 import 'package:youtube/utils/constants.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/global_context_helper.dart';
+import 'package:youtube/utils/http_downloader/http_downloader_helper.dart';
 import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -57,20 +58,27 @@ abstract class DownloadVideo with SolvePercentageMixin {
         );
       }
 
-      var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
-          onReceiveProgress: (int receive, int total) {
-        var solvePercentage = receive / total * 100;
-        videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
-            solvePercentage / 100;
+      // var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
+      //     onReceiveProgress: (int receive, int total) {
+      //   var solvePercentage = receive / total * 100;
+      //   videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
+      //       solvePercentage / 100;
+      //   videoDownloadingCubit.videoDownloadingLoadingState();
+      // },
+      //     options: Options(
+      //       headers: await APISettings.headers(),
+      //       responseType: ResponseType.bytes,
+      //     ));
+
+      var downloadingVideo =
+          await HttpDownloaderHelper.download(video.url.toString(), (total, downloading, progress) {
+        debugPrint("total: $total | downloading: $downloading | progress: $progress");
+        videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress = progress / 100;
         videoDownloadingCubit.videoDownloadingLoadingState();
-      },
-          options: Options(
-            headers: await APISettings.headers(),
-            responseType: ResponseType.bytes,
-          ));
+      });
 
       if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        await DownloadingVideoRepository(path).download(downloadingVideo.data);
+        await DownloadingVideoRepository(path).download(downloadingVideo);
       } else {
         receivePort.listen((message) async {
           await _downloadVideoWithoutSound(
@@ -106,21 +114,25 @@ abstract class DownloadVideo with SolvePercentageMixin {
     final SendPort sendPort = args.first;
     final String url = args.last;
     try {
-      var downloadingAudio =
-          await Dio().get<List<int>>(url, onReceiveProgress: (int receive, int total) {
-        // var solvePercentage = receive / total * 100;
-        // videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
-        //     solvePercentage / 100;
-        // debugPrint("downloading audio receive: $receive | total $total");
-      },
-              // cancelToken: stateModel.cancelAudioToken,
-              options: Options(
-                headers: await APISettings.headers(),
-                responseType: ResponseType.bytes,
-                receiveTimeout: const Duration(minutes: 5),
-              ));
 
-      sendPort.send(downloadingAudio.data);
+      //var downloadingAudio =
+      //           await Dio().get<List<int>>(url, onReceiveProgress: (int receive, int total) {
+      //         // var solvePercentage = receive / total * 100;
+      //         // videoDownloadingCubit.state.tempDownloadingAudioInfo?.downloadingProgress =
+      //         //     solvePercentage / 100;
+      //         // debugPrint("downloading audio receive: $receive | total $total");
+      //       },
+      //               // cancelToken: stateModel.cancelAudioToken,
+      //               options: Options(
+      //                 headers: await APISettings.headers(),
+      //                 responseType: ResponseType.bytes,
+      //                 receiveTimeout: const Duration(minutes: 5),
+      //               ));
+
+      var downloadingAudio =
+          await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
+
+      sendPort.send(downloadingAudio);
     } catch (e) {
       sendPort.send(<int>[]);
     }
@@ -129,7 +141,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
   static Future<void> _downloadVideoWithoutSound(
       {required VideoDownloadingCubit videoDownloadingCubit,
       required YoutubeVideoStateModel stateModel,
-      required Response<List<int>> downloadingVideo,
+      required List<int> downloadingVideo,
       required List<int> downloadingAudio,
       required DownloadingStoragePath path}) async {
     debugPrint("getting downloading audio list: $downloadingAudio");
@@ -148,7 +160,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
 
-    newVideoFile.writeAsBytesSync(downloadingVideo.data ?? []);
+    newVideoFile.writeAsBytesSync(downloadingVideo);
     newAudioFile.writeAsBytesSync(downloadingAudio);
 
     var getExStorage = await getExternalStorageDirectory();

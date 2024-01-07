@@ -80,7 +80,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.playerController = null;
     _currentState.playPauseController.dispose();
     _currentState.youtubeExplode = null;
-    _currentState.video = null;
+    _currentState.videoData = null;
     _currentState.tempMinAudioForVideo = null;
     emit(InitialYoutubeVideoState(_currentState));
   }
@@ -179,7 +179,13 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     );
   }
 
-  Future<void> downloadAudio(AudioStreamInfo audioStreamInfo) async {
-    await DownloadingAudioRepository().download(audioStreamInfo);
+  Future<void> downloadAudio({
+    required AudioStreamInfo audioStreamInfo,
+    required DownloadingStoragePath path,
+  }) async {
+    await DownloadAudio.download(
+      audioStreamInfo: audioStreamInfo,
+      path: path,
+    );
   }
 }

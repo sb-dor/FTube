@@ -59,7 +59,7 @@ class Video {
       var lengthText = map?['videoRenderer']?['lengthText'];
       var simpleText = map?['videoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
-      map?['videoRenderer']['thumbnail']['thumbnails'].forEach((thumbnail) {
+      map?['videoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
         thumbnails!.add(Thumbnail(
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
@@ -67,7 +67,7 @@ class Video {
           videoId: map?['videoRenderer']?['videoId'],
           duration: (lengthText == null) ? "Live" : lengthText?['simpleText'],
           title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
-          channelName: map?['videoRenderer']['longBylineText']['runs'][0]['text'],
+          channelName: map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
           thumbnails: thumbnails,
           views: simpleText);
     } else if (map?.containsKey("compactVideoRenderer") ?? false) {
@@ -78,24 +78,24 @@ class Video {
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
       return Video(
-          videoId: map?['compactVideoRenderer']['videoId'],
+          videoId: map?['compactVideoRenderer']?['videoId'],
           title: map?['compactVideoRenderer']?['title']?['simpleText'],
           duration: map?['compactVideoRenderer']?['lengthText']?['simpleText'],
           thumbnails: thumbnails,
           channelName: map?['compactVideoRenderer']?['shortBylineText']?['runs']?[0]?['text'],
           views: map?['compactVideoRenderer']?['viewCountText']?['simpleText']);
     } else if (map?.containsKey("gridVideoRenderer") ?? false) {
-      String? simpleText = map?['gridVideoRenderer']['shortViewCountText']?['simpleText'];
+      String? simpleText = map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
-      map?['gridVideoRenderer']['thumbnail']['thumbnails'].forEach((thumbnail) {
+      map?['gridVideoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
         thumbnails!.add(Thumbnail(
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
       return Video(
-          videoId: map?['gridVideoRenderer']['videoId'],
-          title: map?['gridVideoRenderer']['title']['runs'][0]['text'],
-          duration: map?['gridVideoRenderer']['thumbnailOverlays'][0]
-              ['thumbnailOverlayTimeStatusRenderer']['text']['simpleText'],
+          videoId: map?['gridVideoRenderer']?['videoId'],
+          title: map?['gridVideoRenderer']?['title']?['runs']?[0]?['text'],
+          duration: map?['gridVideoRenderer']?['thumbnailOverlays']?[0]
+              ['thumbnailOverlayTimeStatusRenderer']?['text']?['simpleText'],
           thumbnails: thumbnails,
           views: (simpleText != null) ? simpleText : "???");
     }

@@ -7,6 +7,7 @@ import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downlo
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube/models/video_modes/video.dart' as v;
+import 'package:youtube/youtube_data_api/models/video_data.dart' as ytv;
 
 class YoutubeVideoStateModel {
   var globalFunc = ReusableGlobalFunctions.instance;
@@ -31,7 +32,7 @@ class YoutubeVideoStateModel {
 
   AudioStreamInfo? tempMinAudioForVideo;
 
-  v.Video? video;
+  ytv.VideoData? videoData;
 
   DownloadingType? downloadingType;
 
@@ -46,6 +47,21 @@ class YoutubeVideoStateModel {
         j--;
       }
     }
+  }
+
+  Future<void> removeSameVideosWithLowerQuality() async {
+    debugPrint("before deleting: ${allVideos.length}");
+    for (int i = 0; i < allVideos.length; i++) {
+      var tempVideo = allVideos[i];
+      for (int j = 0; j < allVideos.length; j++) {
+        if (allVideos[j].qualityLabel.trim() == tempVideo.qualityLabel.trim() &&
+            allVideos[j].size.totalMegaBytes < tempVideo.size.totalMegaBytes) {
+          allVideos.removeAt(j);
+          j--;
+        }
+      }
+    }
+    debugPrint("after deleting: ${allVideos.length}");
   }
 
   Future<VideoStreamInfo> minStreamFromArray() async {
@@ -70,7 +86,7 @@ class YoutubeVideoStateModel {
     clickedUpOnVideo = false;
     runningTime = '';
     youtubeExplode = null;
-    video = null;
+    videoData = null;
     tempMinAudioForVideo = null;
   }
 }

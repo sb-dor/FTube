@@ -14,7 +14,8 @@ abstract class RestApiGetSuggestionText {
       result['data'] = data;
       result['success'] = true;
     } catch (e) {
-      result['server_error'] = true;
+      result['success'] = true;
+      result['data'] = <String>[];
       debugPrint("getSuggestionSearch error is: $e");
     }
     return result;

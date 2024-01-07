@@ -73,27 +73,32 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                 body: Column(children: [
                   if (youtubeStateModel.loadingVideo || youtubeStateModel.playerController == null)
                     Container(
-                        color: Colors.black,
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.315,
-                        child: Stack(children: [
-                          if (youtubeStateModel.video?.snippet != null)
-                            Positioned.fill(
-                                child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: ImageLoaderWidget(
-                                url: youtubeStateModel.video?.snippet?.thumbnailHigh?.url ?? '',
-                                errorImageUrl: "assets/custom_images/error_image.png",
-                                boxFit: BoxFit.fill,
-                              ),
-                            )),
+                      color: Colors.black,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.315,
+                      child: Stack(
+                        children: [
+                          // if (youtubeStateModel.videoData?.video != null)
+                          //   Positioned.fill(
+                          //       child: SizedBox(
+                          //     width: MediaQuery.of(context).size.width,
+                          //     child: ImageLoaderWidget(
+                          //       url: youtubeStateModel
+                          //               .videoData.video?.snippet?.thumbnailHigh?.url ?? '',
+                          //       errorImageUrl: "assets/custom_images/error_image.png",
+                          //       boxFit: BoxFit.fill,
+                          //     ),
+                          //   )),
                           const Positioned.fill(
-                              child: Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.red,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.red,
+                              ),
                             ),
-                          )),
-                        ]))
+                          ),
+                        ],
+                      ),
+                    )
                   else
                     SizedBox(
                         width: MediaQuery.of(context).size.width,

@@ -42,8 +42,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     ),
                   ),
                   TextWidget(
-                    text: ViewFormatHelper.viewsFormatNumbers(int.tryParse(""
-                        "${currentState.video?.snippet?.statistic?.likeCount}")),
+                    text: currentState.videoData?.video?.likeCount ?? '-',
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
                     size: 12,

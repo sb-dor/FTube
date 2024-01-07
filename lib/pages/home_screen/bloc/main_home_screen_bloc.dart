@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:isolate';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
-import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_state_model/home_screen_state_model.dart';
-import 'package:youtube/pages/home_screen/data/repository/abs_home_screen_get_videos.dart';
 import 'package:youtube/pages/home_screen/data/sources/rest_api_home_screen.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
@@ -77,7 +74,9 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     Emitter<HomeScreenStates> emit,
   ) async {
     if (!_currentState.hasMore) return;
+
     if (_currentState.paginating) return;
+
     _currentState.paginating = true;
 
     var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
@@ -91,6 +90,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     } else if (data.containsKey('success')) {
       List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos, paginate: true);
+      emitState(emit);
 
       await _getVideosDataIsolate(videos: videos, emit: emit);
 

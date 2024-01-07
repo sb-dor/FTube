@@ -6,6 +6,7 @@ import 'package:youtube/api/api_urls.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/utils/constants.dart';
+import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/channel.dart' as ytch;
@@ -15,6 +16,7 @@ import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 // here rename
 class RestApiHomeScreen implements AbsHomeScreenGetVideos {
   final YoutubeDataApi _youtubeDataApi = YoutubeDataApi.instance;
+  final HiveDatabaseHelper _databaseHelper = HiveDatabaseHelper.instance;
 
   @override
   Future<Map<String, dynamic>> homeScreenGetVideo({
@@ -35,7 +37,7 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
       //   List<dynamic> listItem = json['items'];
       //   List<Video> videos = listItem.map((e) => Video.fromJson(e)).toList();
 
-      String query = q ?? ReusableGlobalFunctions.instance.generateRandomString();
+      String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
 
       debugPrint("making req: $query");
 

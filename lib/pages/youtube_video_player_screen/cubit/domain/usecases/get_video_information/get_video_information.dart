@@ -6,6 +6,7 @@ import 'package:youtube/pages/youtube_video_player_screen/cubit/state_model/yout
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/models/video_modes/video.dart' as v;
+import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 abstract class GetVideoInformation {
   static Future<void> getVideoInformation({
@@ -27,9 +28,10 @@ abstract class GetVideoInformation {
       if (data.containsKey('server_error') && data['server_error'] == true) {
         videoInfoCubit.errorVideoInformationState();
       } else if (data.containsKey('success') && data['success'] == true) {
-        stateModel.video = v.Video.fromJson(data['item']);
+        stateModel.videoData = data['item'];
         emit(InitialYoutubeVideoState(stateModel));
-        await stateModel.video?.snippet?.loadSnippetData();
+        // await stateModel.video?.snippet?.loadSnippetData();
+
         videoInfoCubit.loadedVideoInformationState();
         emit(InitialYoutubeVideoState(stateModel));
       } else {
