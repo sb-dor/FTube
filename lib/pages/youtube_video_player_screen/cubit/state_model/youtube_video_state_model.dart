@@ -7,7 +7,7 @@ import 'package:youtube/pages/youtube_video_player_screen/domain/entities/downlo
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube/models/video_modes/video.dart' as v;
-import 'package:youtube/youtube_data_api/models/video_data.dart' as ytv;
+import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 
 class YoutubeVideoStateModel {
   var globalFunc = ReusableGlobalFunctions.instance;
@@ -32,7 +32,7 @@ class YoutubeVideoStateModel {
 
   AudioStreamInfo? tempMinAudioForVideo;
 
-  ytv.VideoData? videoData;
+  ytvdata.VideoData? videoData;
 
   DownloadingType? downloadingType;
 
@@ -50,18 +50,24 @@ class YoutubeVideoStateModel {
   }
 
   Future<void> removeSameVideosWithLowerQuality() async {
-    debugPrint("before deleting: ${allVideos.length}");
-    for (int i = 0; i < allVideos.length; i++) {
-      var tempVideo = allVideos[i];
-      for (int j = 0; j < allVideos.length; j++) {
-        if (allVideos[j].qualityLabel.trim() == tempVideo.qualityLabel.trim() &&
-            allVideos[j].size.totalMegaBytes < tempVideo.size.totalMegaBytes) {
-          allVideos.removeAt(j);
-          j--;
+    Map<String, VideoStreamInfo> getUnique = {};
+
+    for (var each in allVideos) {
+      debugPrint("all videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
+      if (getUnique.containsKey(each.qualityLabel.trim())) {
+        var value = getUnique[each.qualityLabel.trim()] as VideoStreamInfo;
+        if (each.size.totalMegaBytes > value.size.totalMegaBytes) {
+          getUnique[each.qualityLabel.trim()] = each;
         }
+      } else {
+        getUnique[each.qualityLabel.trim()] = each;
       }
     }
-    debugPrint("after deleting: ${allVideos.length}");
+    allVideos = getUnique.entries.map((e) => e.value).toList();
+
+    for (var each in allVideos) {
+      debugPrint("all after videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
+    }
   }
 
   Future<VideoStreamInfo> minStreamFromArray() async {

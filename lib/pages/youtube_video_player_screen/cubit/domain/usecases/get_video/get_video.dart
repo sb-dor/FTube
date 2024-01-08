@@ -62,9 +62,11 @@ abstract class GetVideo {
       return stateModel.globalFunc.checkMp4FromURI(value: el.url.toString());
     });
 
+    debugPrint("before deleting: ${stateModel.allVideos.length}");
+
     await stateModel.removeSameVideosWithLowerQuality();
 
-    debugPrint("after after deleting: ${stateModel.allVideos.length}");
+    debugPrint("after deleting: ${stateModel.allVideos.length}");
 
     stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 
