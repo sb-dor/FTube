@@ -1,5 +1,6 @@
- class HomePageBottomNavbarStateModel {
+class HomePageBottomNavbarStateModel {
   int page = 0;
+  bool showBottomNavbar = true;
 }
 
 abstract class HomePageBottomNavbarStates {

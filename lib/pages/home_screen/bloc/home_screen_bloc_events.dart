@@ -6,8 +6,13 @@ abstract class HomeScreenBlocEvents {}
 class RefreshHomeScreenEvent extends HomeScreenBlocEvents {
   BuildContext context;
   VideoCategory? videoCategory;
+  ScrollController? scrollController;
 
-  RefreshHomeScreenEvent({required this.context, this.videoCategory});
+  RefreshHomeScreenEvent({
+    required this.context,
+    this.videoCategory,
+    this.scrollController,
+  });
 }
 
 class PaginateHomeScreenEvent extends HomeScreenBlocEvents {}
@@ -15,6 +20,11 @@ class PaginateHomeScreenEvent extends HomeScreenBlocEvents {}
 class SelectVideoCategoryEvent extends HomeScreenBlocEvents {
   VideoCategory? videoCategory;
   BuildContext context;
+  ScrollController? scrollController;
 
-  SelectVideoCategoryEvent({required this.videoCategory, required this.context});
+  SelectVideoCategoryEvent({
+    required this.videoCategory,
+    required this.context,
+    this.scrollController,
+  });
 }

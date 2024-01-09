@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
+import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_events.dart';
@@ -56,31 +58,42 @@ class _HomeScreenState extends State<HomeScreen> {
             else if (videoCategoryState is ErrorVideoCategoryState)
               const HomeScreenCategoriesErrorWidget()
             else
-              const HomeScreenSelectTypeContentLoadedWidget(),
+              HomeScreenSelectTypeContentLoadedWidget(scrollController: _scrollController),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView(
-                  controller: _scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  children: [
-                    //
-                    if (homeScreenVideosState is LoadingHomeScreenVideosState)
-                      const VideosLoadingWidget()
-                    else if (homeScreenVideosState is ErrorHomeScreenVideosState)
-                      const VideosErrorWidget()
-                    else
-                      VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
-                    const SizedBox(height: 5),
-                    if (homeScreenVideosState is LoadedHomeScreenVideosState &&
-                        mainHomeScreenStateModel.hasMore)
-                      const Center(
-                          child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
-                    const SizedBox(height: kBottomNavigationBarHeight + 30)
-                  ]),
+              child: NotificationListener<UserScrollNotification>(
+                onNotification: (notification) {
+                  if (notification.direction == ScrollDirection.forward) {
+                    context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
+                  } else if (notification.direction == ScrollDirection.reverse) {
+                    context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
+                  }
+                  return true;
+                },
+                child: ListView(
+                    controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    children: [
+                      //
+                      if (homeScreenVideosState is LoadingHomeScreenVideosState)
+                        const VideosLoadingWidget()
+                      else if (homeScreenVideosState is ErrorHomeScreenVideosState)
+                        const VideosErrorWidget()
+                      else
+                        VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
+                      const SizedBox(height: 5),
+                      if (homeScreenVideosState is LoadedHomeScreenVideosState &&
+                          mainHomeScreenStateModel.hasMore)
+                        const Center(
+                            child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child:
+                                    CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
+                      const SizedBox(height: 15)
+                    ]),
+              ),
             ),
           ],
         ),
