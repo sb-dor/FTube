@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/models/video_modes/video.dart';
+import 'package:flutter/rendering.dart';
 import 'package:youtube/pages/home_screen/usecases/open_video_screen/open_video_screen.dart';
-import 'package:youtube/utils/duration_from_iso8601_helper/duration_from_iso8601_parser.dart';
-import 'package:youtube/utils/jiffy_helper/jiffy_helper.dart';
-import 'package:youtube/utils/view_format_helper/view_format_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 import 'package:youtube/widgets/text_widget.dart';

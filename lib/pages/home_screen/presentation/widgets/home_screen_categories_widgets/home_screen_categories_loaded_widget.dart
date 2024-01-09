@@ -7,7 +7,12 @@ import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
-  const HomeScreenSelectTypeContentLoadedWidget({Key? key}) : super(key: key);
+  final ScrollController? scrollController;
+
+  const HomeScreenSelectTypeContentLoadedWidget({
+    Key? key,
+    this.scrollController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       return SizedBox(
           height: 40,
           child: ListView.separated(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               separatorBuilder: (context, index) => const SizedBox(width: 15),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -30,9 +35,11 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                 var category = listOfCategory[index];
                 return InkWell(
                   borderRadius: BorderRadius.circular(15),
-                  onTap: () => context
-                      .read<MainHomeScreenBloc>()
-                      .add(SelectVideoCategoryEvent(videoCategory: category, context: context)),
+                  onTap: () => context.read<MainHomeScreenBloc>().add(SelectVideoCategoryEvent(
+                        videoCategory: category,
+                        context: context,
+                        scrollController: scrollController,
+                      )),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 350),
                     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),

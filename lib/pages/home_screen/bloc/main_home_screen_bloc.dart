@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
+import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_bloc_states.dart';
 import 'package:youtube/pages/home_screen/bloc/home_screen_state_model/home_screen_state_model.dart';
@@ -32,11 +33,25 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
   Future<void> refreshHomeScreen(
       RefreshHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
+    if (_currentState.videoCategory != null) {
+      event.scrollController?.animateTo(
+        0.0,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
+      );
+      BlocProvider.of<HomePageBottomNavbarCubit>(event.context).showBottomNavbar();
+    }
+
     var homeScreenVideosCubit = BlocProvider.of<HomeScreenVideosCubit>(event.context);
+
     var categoriesCubit = BlocProvider.of<MainVideoCategoryCubit>(event.context);
+
     homeScreenVideosCubit.loadingHomeScreenVideosState();
+
     var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
-          q: _currentState.videoCategory?.videoCategorySnippet?.title,
+          q: _currentState.videoCategory?.id == null
+              ? null
+              : _currentState.videoCategory?.videoCategorySnippet?.title,
           clearSearch: true,
         );
 
@@ -103,7 +118,11 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       SelectVideoCategoryEvent event, Emitter<HomeScreenStates> emit) async {
     if (_currentState.videoCategory?.id == event.videoCategory?.id) return;
     _currentState.videoCategory = event.videoCategory;
-    add(RefreshHomeScreenEvent(context: event.context, videoCategory: _currentState.videoCategory));
+    add(RefreshHomeScreenEvent(
+      context: event.context,
+      videoCategory: _currentState.videoCategory,
+      scrollController: event.scrollController,
+    ));
     emitState(emit);
   }
 
