@@ -4,15 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 typedef DownloadingProgress = void Function(
-  int total,
-
-  /// [total mb]
-  int downloading,
-
-  /// [total downloaded]
-  double progress,
-
-  /// [percentage of downloaded]
+  int total, /// [total mb]
+  int downloading, /// [total downloaded]
+  double progress, /// [percentage of downloaded]
 );
 
 abstract class HttpDownloaderHelper {
