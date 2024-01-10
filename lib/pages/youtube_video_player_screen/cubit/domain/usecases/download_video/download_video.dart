@@ -21,6 +21,7 @@ import 'package:youtube/utils/http_downloader/http_downloader_helper.dart';
 import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'dart:developer' as dev;
 
 abstract class DownloadVideo with SolvePercentageMixin {
   static ReusableGlobalFunctions globalFunc = ReusableGlobalFunctions.instance;
@@ -131,7 +132,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
       // var downloadingAudio =
       //     await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
 
-      sendPort.send(downloadingAudio);
+      sendPort.send(downloadingAudio.data ?? []);
     } catch (e) {
       sendPort.send(<int>[]);
     }
@@ -143,7 +144,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
       required List<int> downloadingVideo,
       required List<int> downloadingAudio,
       required DownloadingStoragePath path}) async {
-    debugPrint("getting downloading audio list: $downloadingAudio");
+    dev.log("getting downloading audio list: $downloadingAudio");
 
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
