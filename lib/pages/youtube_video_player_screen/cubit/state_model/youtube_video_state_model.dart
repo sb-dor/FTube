@@ -8,6 +8,7 @@ import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube/models/video_modes/video.dart' as v;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
+import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class YoutubeVideoStateModel {
   var globalFunc = ReusableGlobalFunctions.instance;
