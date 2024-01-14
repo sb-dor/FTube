@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
 
@@ -16,12 +18,22 @@ class HomePageBottomNavbarCubit extends Cubit<HomePageBottomNavbarStates> {
   }
 
   void hideBottomNavbar() {
-    _currentState.showBottomNavbar = false;
-    emit(InitialHomePageBottomNavbarState(_currentState));
+    if (_currentState.timeForChangingBottomNavBar?.isActive ?? false) {
+      _currentState.timeForChangingBottomNavBar?.cancel();
+    }
+    _currentState.timeForChangingBottomNavBar = Timer(const Duration(milliseconds: 500), () {
+      _currentState.showBottomNavbar = false;
+      emit(InitialHomePageBottomNavbarState(_currentState));
+    });
   }
 
   void showBottomNavbar() {
-    _currentState.showBottomNavbar = true;
-    emit(InitialHomePageBottomNavbarState(_currentState));
+    if (_currentState.timeForChangingBottomNavBar?.isActive ?? false) {
+      _currentState.timeForChangingBottomNavBar?.cancel();
+    }
+    _currentState.timeForChangingBottomNavBar = Timer(const Duration(milliseconds: 500), () {
+      _currentState.showBottomNavbar = true;
+      emit(InitialHomePageBottomNavbarState(_currentState));
+    });
   }
 }

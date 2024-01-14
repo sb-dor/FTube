@@ -1,6 +1,9 @@
+import 'dart:async';
+
 class HomePageBottomNavbarStateModel {
   int page = 0;
   bool showBottomNavbar = true;
+  Timer? timeForChangingBottomNavBar;
 }
 
 abstract class HomePageBottomNavbarStates {
