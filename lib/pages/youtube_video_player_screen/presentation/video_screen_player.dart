@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_error_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loaded_widget.dart';
+import 'package:youtube/pages/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_states.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -10,6 +14,7 @@ import 'package:youtube/pages/youtube_video_player_screen/presentation/widgets/v
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import '../cubit/cubits/similar_videos_cubit/similar_videos_states.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';
 import 'widgets/video_informations_widgets/video_information_loaded_widget.dart';
@@ -59,6 +64,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
     return Builder(builder: (context) {
       final youtubeStates = context.watch<YoutubeVideoCubit>().state;
       final videoInformationStates = context.watch<VideoInformationCubit>().state;
+      final similarVideoCubit = context.watch<SimilarVideosCubit>();
 
       var youtubeStateModel = youtubeStates.youtubeVideoStateModel;
 
@@ -76,7 +82,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                       color: Colors.black,
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.315,
-                      child: Stack(
+                      child: const Stack(
                         children: [
                           // if (youtubeStateModel.videoData?.video != null)
                           //   Positioned.fill(
@@ -89,7 +95,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                           //       boxFit: BoxFit.fill,
                           //     ),
                           //   )),
-                          const Positioned.fill(
+                          Positioned.fill(
                             child: Center(
                               child: CircularProgressIndicator(
                                 color: Colors.red,
@@ -158,6 +164,24 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                               const VideoInfoSubsButtonsLoadedWidget(),
                           ],
                         ),
+                        const SizedBox(height: 10),
+                        if (similarVideoCubit.state is LoadingSimilarVideosState)
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: VideosLoadingWidget(),
+                          )
+                        else if (similarVideoCubit.state is ErrorSimilarVideosState)
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: VideosErrorWidget(),
+                          )
+                        else
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: VideosLoadedWidget(
+                              videoList: similarVideoCubit.state.similarVideos,
+                            ),
+                          )
                         // VideoInformationLoadedWidget(),
                       ],
                     ),

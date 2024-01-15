@@ -7,6 +7,7 @@ import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_dow
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_audio/download_audio.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_video/download_video.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/get_similar_videos/get_similar_videos.dart';
 import 'package:youtube/pages/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/enums.dart';
@@ -44,8 +45,9 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     // change the state
     emit(InitialYoutubeVideoState(_currentState));
     //get information about video
-    if (context.mounted) await getVideoInformation(videoId: url, context: context);
     if (context.mounted) await getVideo(videoId: url, context: context);
+    if (context.mounted) await getVideoInformation(videoId: url, context: context);
+    if (context.mounted) await getSimilarVideos(context: context);
   }
 
   Future<void> getVideo({required String videoId, required BuildContext context}) async {
@@ -72,6 +74,14 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       context: context,
       stateModel: _currentState,
       emit: emit,
+    );
+  }
+
+  Future<void> getSimilarVideos({required BuildContext context}) async {
+    await GetSimilarVideos.getSimilarVideos(
+      videoTitle: _currentState.videoData?.video?.title ?? '',
+      stateModel: _currentState,
+      context: context,
     );
   }
 
