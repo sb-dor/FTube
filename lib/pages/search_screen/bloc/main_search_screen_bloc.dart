@@ -5,12 +5,12 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:youtube/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/models/video_modes/video.dart';
 import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/pages/search_screen/bloc/state_model/search_screen_state_model.dart';
 import 'package:youtube/pages/search_screen/data/source/rest_api_get_suggestion_text.dart';
-import 'package:youtube/pages/search_screen/data/source/rest_api_get_video_search.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'search_screen_events.dart';
@@ -124,7 +124,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
       _currentState.clearData();
 
-      var data = await RestApiGetVideoSearch.getSearchVideo(
+      var data = await RestApiGetVideoData.getSearchVideo(
         q: _currentState.searchController.text,
         refresh: true,
       );
@@ -164,7 +164,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     if (searchBodyCubit.state is! LoadedSearchBodyState) return;
     try {
-      var data = await RestApiGetVideoSearch.getSearchVideo(
+      var data = await RestApiGetVideoData.getSearchVideo(
         q: _currentState.searchController.text,
       );
 

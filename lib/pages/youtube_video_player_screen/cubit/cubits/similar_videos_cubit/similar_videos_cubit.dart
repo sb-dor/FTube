@@ -3,13 +3,11 @@ import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/similar_v
 import 'package:youtube/youtube_data_api/models/video.dart';
 
 class SimilarVideosCubit extends Cubit<SimilarVideosStates> {
-  List<Video> sameVideos = [];
-
   SimilarVideosCubit() : super(LoadingSimilarVideosState(data: <Video>[]));
 
-  void loadingSimilarVideosState() => emit(LoadingSimilarVideosState());
+  void loadingSimilarVideosState() => emit(LoadingSimilarVideosState(data: state.similarVideos));
 
-  void errorSimilarVideosState() => emit(ErrorSimilarVideosState());
+  void errorSimilarVideosState() => emit(ErrorSimilarVideosState(data: state.similarVideos));
 
-  void loadedSimilarVideosState() => emit(LoadedSimilarVideosState());
+  void loadedSimilarVideosState() => emit(LoadedSimilarVideosState(data: state.similarVideos));
 }

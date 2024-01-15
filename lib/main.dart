@@ -20,6 +20,7 @@ import 'pages/home_screen/bloc/home_screen_bloc_events.dart';
 import 'pages/home_screen/bloc/main_home_screen_bloc.dart';
 import 'pages/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'pages/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
+import 'pages/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'pages/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'pages/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -54,6 +55,7 @@ Future<void> main() async {
     BlocProvider(create: (_) => VideoInformationCubit()),
     BlocProvider(create: (_) => VideoDownloadingCubit()),
     BlocProvider(create: (_) => AudioDownloadingCubit()),
+    BlocProvider(create: (_) => SimilarVideosCubit()),
 
     //search screen cubits:
     BlocProvider(create: (_) => MainSearchScreenBloc()),
