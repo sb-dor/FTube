@@ -88,6 +88,7 @@ class YoutubeVideoStateModel {
   }
 
   void clearData() {
+    playerController?.dispose();
     playerController = null;
     loadingVideo = false;
     clickedUpOnVideo = false;

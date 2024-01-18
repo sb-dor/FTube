@@ -1,21 +1,27 @@
 import 'package:youtube/youtube_data_api/models/video.dart';
 
-abstract class SimilarVideosStates {
+class SimilarVideoStateModel {
   List<Video> similarVideos = [];
+  bool hasMore = true;
+}
 
-  SimilarVideosStates({List<Video>? data}) {
-    similarVideos = data ?? [];
-  }
+abstract class SimilarVideosStates {
+  SimilarVideoStateModel similarVideoStateModel;
+
+  SimilarVideosStates({required this.similarVideoStateModel});
 }
 
 class LoadingSimilarVideosState extends SimilarVideosStates {
-  LoadingSimilarVideosState({List<Video>? data}) : super(data: data);
+  LoadingSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
+      : super(similarVideoStateModel: similarVideoStateModel);
 }
 
 class ErrorSimilarVideosState extends SimilarVideosStates {
-  ErrorSimilarVideosState({List<Video>? data}) : super(data: data);
+  ErrorSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
+      : super(similarVideoStateModel: similarVideoStateModel);
 }
 
 class LoadedSimilarVideosState extends SimilarVideosStates {
-  LoadedSimilarVideosState({List<Video>? data}) : super(data: data);
+  LoadedSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
+      : super(similarVideoStateModel: similarVideoStateModel);
 }

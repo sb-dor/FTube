@@ -8,10 +8,12 @@ import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class VideosLoadedWidget extends StatelessWidget {
   final List<ytv.Video> videoList;
+  final bool closeScreenBeforeOpeningAnotherOne;
 
   const VideosLoadedWidget({
     Key? key,
     required this.videoList,
+    this.closeScreenBeforeOpeningAnotherOne = false,
   }) : super(key: key);
 
   @override
@@ -24,8 +26,10 @@ class VideosLoadedWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           var video = videoList[index];
           return GestureDetector(
-            onTap: () =>
-                OpenVideoScreen.openVideoScreen(context: context, videoId: video.videoId ?? ''),
+            onTap: () {
+              if (closeScreenBeforeOpeningAnotherOne) Navigator.pop(context);
+              OpenVideoScreen.openVideoScreen(context: context, videoId: video.videoId ?? '');
+            },
             child: Container(
               color: Colors.transparent,
               child: Column(children: [
