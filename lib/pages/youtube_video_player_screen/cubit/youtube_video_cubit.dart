@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/api/api_settings.dart';
+import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
 import 'package:youtube/pages/youtube_video_player_screen/cubit/domain/usecases/download_audio/download_audio.dart';
@@ -28,11 +29,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   //
 
-  void init(
-      {required String url,
-      required SingleTickerProviderStateMixin mixin,
-      required BuildContext context}) async {
-    await initToken();
+  void init({
+    required String url,
+    required SingleTickerProviderStateMixin mixin,
+    required BuildContext context,
+    required bool paginating,
+  }) async {
     //clear data at first
     _currentState.clearData();
     _currentState.youtubeExplode = YoutubeExplode();
@@ -42,12 +44,17 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
         AnimationController(vsync: mixin, duration: const Duration(seconds: 1));
     _currentState.playPauseAnimation =
         Tween<double>(begin: 0, end: 1).animate(_currentState.playPauseController);
+
     // change the state
     emit(InitialYoutubeVideoState(_currentState));
+    var similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
+    similarVideosCubit.clearAndSetLoadingState();
+    await initToken();
+
     //get information about video
     if (context.mounted) await getVideo(videoId: url, context: context);
     if (context.mounted) await getVideoInformation(videoId: url, context: context);
-    if (context.mounted) await getSimilarVideos(context: context);
+    if (context.mounted) await getSimilarVideos(context: context, paginating: paginating);
   }
 
   Future<void> getVideo({required String videoId, required BuildContext context}) async {
@@ -77,11 +84,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     );
   }
 
-  Future<void> getSimilarVideos({required BuildContext context}) async {
+  Future<void> getSimilarVideos({required BuildContext context, bool paginating = false}) async {
     await GetSimilarVideos.getSimilarVideos(
       videoTitle: _currentState.videoData?.video?.title ?? '',
       stateModel: _currentState,
       context: context,
+      paginating: paginating,
     );
   }
 

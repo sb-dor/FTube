@@ -37,6 +37,7 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTickerProviderStateMixin {
+  late final ScrollController _scrollController;
   late final YoutubeVideoCubit _youtubeVideoCubit;
   late final VideoInformationCubit _videoInformationCubit;
   late final DraggableScrollableController _scrollableController;
@@ -45,10 +46,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
     super.initState();
+    _scrollController = ScrollController();
     _scrollableController = DraggableScrollableController();
     _youtubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context);
     _videoInformationCubit = BlocProvider.of<VideoInformationCubit>(context);
-    _youtubeVideoCubit.init(url: widget.videoId, mixin: this, context: context);
+    _youtubeVideoCubit.init(
+      url: widget.videoId,
+      mixin: this,
+      context: context,
+      paginating: false,
+    );
+
+    _scrollController.addListener(() {
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
+        _youtubeVideoCubit.getSimilarVideos(
+          context: context,
+          paginating: true,
+        );
+      }
+    });
   }
 
   @override
@@ -56,6 +72,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _youtubeVideoCubit.dispose();
     _videoInformationCubit.loadingVideoInformationState();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -121,6 +138,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                         )),
                   Expanded(
                     child: ListView(
+                      controller: _scrollController,
                       children: [
                         Stack(
                           children: [
@@ -179,8 +197,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                           Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: VideosLoadedWidget(
-                              videoList: similarVideoCubit.state.similarVideos,
+                              closeScreenBeforeOpeningAnotherOne: true,
+                              videoList:
+                                  similarVideoCubit.state.similarVideoStateModel.similarVideos,
                             ),
+                          ),
+                        const SizedBox(height: 10),
+                        if (similarVideoCubit.state.similarVideoStateModel.hasMore)
+                          const Column(
+                            children: [
+                              SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(
+                                  color: Colors.red,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                            ],
                           )
                         // VideoInformationLoadedWidget(),
                       ],

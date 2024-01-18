@@ -14,12 +14,13 @@ abstract class GetSimilarVideos {
     required String videoTitle,
     required YoutubeVideoStateModel stateModel,
     required BuildContext context,
+    required bool paginating,
   }) async {
     var similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
 
-    similarVideosCubit.state.similarVideos.clear();
+    if (!similarVideosCubit.state.similarVideoStateModel.hasMore) return;
 
-    similarVideosCubit.loadingSimilarVideosState();
+    if (!paginating) similarVideosCubit.loadingSimilarVideosState();
 
     var data = await RestApiGetVideoData.getSearchVideo(q: videoTitle.trim());
 
@@ -29,18 +30,16 @@ abstract class GetSimilarVideos {
       similarVideosCubit.errorSimilarVideosState();
     } else if (data.containsKey('success')) {
       List<Video> videos = data['videos'];
-      similarVideosCubit.state.similarVideos.addAll(videos);
-      similarVideosCubit.loadedSimilarVideosState();
-      _isolate(similarVideosCubit);
+      similarVideosCubit.addVideosAndSetLoadedState(videos);
+      _isolate(similarVideosCubit, videos);
     } else {
-      similarVideosCubit.state.similarVideos.clear();
-      similarVideosCubit.errorSimilarVideosState();
+      similarVideosCubit.clearAndSerErrorState();
     }
   }
 
-  static Future<void> _isolate(SimilarVideosCubit similarVideosCubit) async {
+  static Future<void> _isolate(SimilarVideosCubit similarVideosCubit, List<Video> videos) async {
     Map<String, dynamic> sendingList = {
-      "list": similarVideosCubit.state.similarVideos.map((e) => e.toJson()).toList(),
+      "list": videos.map((e) => e.toJson()).toList(),
     };
 
     var toStringing = jsonEncode(sendingList);
@@ -57,13 +56,7 @@ abstract class GetSimilarVideos {
     broadCast.listen((message) {
       VideoData? videoData;
       if (message != null) videoData = VideoData.fromJson(message);
-      for (var each in similarVideosCubit.state.similarVideos) {
-        if (each.videoId == videoData?.video?.videoId) {
-          each.loadingVideoData = false;
-          each.videoData = videoData?.clone();
-        }
-      }
-      similarVideosCubit.loadedSimilarVideosState();
+      similarVideosCubit.changeVideoData(videoData);
     });
   }
 
