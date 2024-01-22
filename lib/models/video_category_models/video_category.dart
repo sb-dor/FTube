@@ -2,7 +2,7 @@ import 'package:youtube/models/video_category_models/video_category_snippet.dart
 
 class VideoCategory {
   String? id;
-  String? kind;
+  String? kind; //name
   String? etag;
   VideoCategorySnippet? videoCategorySnippet;
 
@@ -15,4 +15,11 @@ class VideoCategory {
         videoCategorySnippet:
             json['snippet'] == null ? null : VideoCategorySnippet.fromJson(json['snippet']),
       );
+
+  static List<VideoCategory> categories = [
+    VideoCategory(id: "#all", kind: "Все"),
+    VideoCategory(id: "#films#animations#films#animations", kind: "Фильмы и анимации"),
+    VideoCategory(id: "#musics", kind: "Музыка"),
+    VideoCategory(id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Видеоигры"),
+  ];
 }
