@@ -11,6 +11,7 @@ import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search
 import 'package:youtube/pages/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/pages/search_screen/bloc/state_model/search_screen_state_model.dart';
 import 'package:youtube/pages/search_screen/data/source/rest_api_get_suggestion_text.dart';
+import 'package:youtube/youtube_data_api/models/order_by/order_by.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'search_screen_events.dart';
@@ -41,6 +42,11 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     on<PaginateSearchScreenEvent>(_paginateSearchScreenEvent);
 
     on<GetSuggestionRequestEvent>(_getSuggestionRequestEvent);
+
+    //
+    on<SelectOrderByTimeEvent>(_selectOrderByTimeEvent);
+
+    on<SelectOrderByTypeEvent>(_selectOrderByTypeEvent);
   }
 
   void _initSearchScreenEvent(InitSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
@@ -127,6 +133,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       var data = await RestApiGetVideoData.getSearchVideo(
         q: _currentState.searchController.text,
         refresh: true,
+        orderBy: _currentState.orderBy?.id
       );
 
       if (data.containsKey("server_error")) {
@@ -212,6 +219,16 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       }
       // });
     }
+    emit(InitialSearchScreenState(_currentState));
+  }
+
+  void _selectOrderByTimeEvent(SelectOrderByTimeEvent event, Emitter<SearchScreenStates> emit) {
+    _currentState.setOrderBy(time: event.orderByTime);
+    emit(InitialSearchScreenState(_currentState));
+  }
+
+  void _selectOrderByTypeEvent(SelectOrderByTypeEvent event, Emitter<SearchScreenStates> emit) {
+    _currentState.setOrderBy(type: event.orderByType);
     emit(InitialSearchScreenState(_currentState));
   }
 

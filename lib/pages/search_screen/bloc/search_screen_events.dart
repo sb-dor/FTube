@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/youtube_data_api/models/order_by/order_by_details/order_by_time.dart';
+import 'package:youtube/youtube_data_api/models/order_by/order_by_details/order_by_type.dart';
 
 abstract class SearchScreenEvents {}
 
@@ -67,4 +69,16 @@ class GetSuggestionRequestEvent extends SearchScreenEvents {
   BuildContext context;
 
   GetSuggestionRequestEvent({required this.context});
+}
+
+class SelectOrderByTimeEvent extends SearchScreenEvents {
+  OrderByTime orderByTime;
+
+  SelectOrderByTimeEvent({required this.orderByTime});
+}
+
+class SelectOrderByTypeEvent extends SearchScreenEvents {
+  OrderByType orderByType;
+
+  SelectOrderByTypeEvent({required this.orderByType});
 }

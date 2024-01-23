@@ -37,7 +37,12 @@ class YoutubeDataApi {
   String? lastQuery;
 
   ///Get list of videos and playlists and channels from youtube search with query
-  Future<List> fetchSearchVideo(String query, String apiKey, {bool clearLastSearch = false}) async {
+  Future<List> fetchSearchVideo(
+    String query,
+    String apiKey, {
+    bool clearLastSearch = false,
+    String? orderBy,
+  }) async {
     List list = [];
     List<Map<String, dynamic>> contentList = [];
 
@@ -74,9 +79,9 @@ class YoutubeDataApi {
     } else {
       debugPrint("working second query");
       lastQuery = query;
-      var response = await Dio().get(
-        'https://www.youtube.com/results?search_query=$query',
-      );
+      var url =
+          "https://www.youtube.com/results?search_query=$query${orderBy != null ? "&sp=$orderBy" : ''}";
+      var response = await Dio().get(url);
       var jsonMap = _getJsonMap(response);
       if (jsonMap != null) {
         var contents = jsonMap
