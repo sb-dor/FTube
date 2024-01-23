@@ -47,16 +47,15 @@ abstract class RestApiGetVideoData {
     return result;
   }
 
-  static Future<Map<String, dynamic>> getSearchVideo({
-    required String q,
-    bool refresh = false,
-  }) async {
+  static Future<Map<String, dynamic>> getSearchVideo(
+      {required String q, bool refresh = false, String? orderBy}) async {
     Map<String, dynamic> results = {};
     try {
       List<dynamic>? list = await _youtubeDataApi.fetchSearchVideo(
         q,
         YOUTUBE_API_KEY,
         clearLastSearch: refresh,
+        orderBy: orderBy,
       );
 
       debugPrint("okay: $list");

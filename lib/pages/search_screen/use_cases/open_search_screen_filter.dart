@@ -6,10 +6,12 @@ abstract class OpenSearchScreenFilter {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       builder: (context) {
         return DraggableScrollableSheet(
             initialChildSize: 0.96,
-            expand: false,
+            // expand: false,
             builder: (context, scrollController) {
               return const SearchScreenFilterLayout();
             });
