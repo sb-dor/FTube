@@ -65,6 +65,8 @@ dependencies:
   speech_to_text: ^6.5.1
   xml2json: ^6.2.2
 #  youtube_data_api:
+  dartz: ^0.10.1
+  equatable: ^2.0.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -73,6 +75,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'pages/home_page.dart';
-import 'pages/youtube_video_player_screen/presentation/video_screen_player.dart';
+import 'package:youtube/features/home_page.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/video_screen_player.dart';
 
 final goRouter = GoRouter(routes: [
   GoRoute(
