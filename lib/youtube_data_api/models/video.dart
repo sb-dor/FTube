@@ -1,38 +1,39 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
 import 'video_data.dart';
 
-class Video {
+class Video extends Equatable {
   ///Youtube video id
-  String? videoId;
+  final String? videoId;
 
   ///Youtube video duration
-  String? duration;
+  final String? duration;
 
   ///Youtube video title
-  String? title;
+  final String? title;
 
   ///Youtube video channel name
-  String? channelName;
+  final String? channelName;
 
   ///Youtube video views
-  String? views;
+  final String? views;
 
   ///Youtube video thumbnail
-  List<Thumbnail>? thumbnails;
+  final List<Thumbnail>? thumbnails;
 
   // video data
-  VideoData? videoData;
+  final VideoData? videoData;
 
   // loading video data boolean
-  bool loadingVideoData = true;
+  final bool loadingVideoData = true;
 
   // error if loading video data trows an error
-  bool errorOfLoadingVideoData = false;
+  final bool errorOfLoadingVideoData = false;
 
-  Video({
+  const Video({
     this.videoId,
     this.duration,
     this.title,
@@ -134,4 +135,18 @@ class Video {
       errorOfLoadingVideoData = true;
     }
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        videoId,
+        duration,
+        title,
+        channelName,
+        views,
+        thumbnails,
+        videoData,
+        loadingVideoData,
+        errorOfLoadingVideoData,
+      ];
 }
