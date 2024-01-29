@@ -1,6 +1,6 @@
 import 'package:youtube/features/trending_screen/data/datasource/trends_remote_data_source.dart';
-import 'package:youtube/features/trending_screen/domain/entities/trends_videos.dart';
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
+import 'package:youtube/youtube_data_api/models/video.dart';
 
 class TrendsRepositoryImpl implements TrendsRepository {
   final TrendsRemoteDataSource _remoteDataSource;
@@ -8,14 +8,14 @@ class TrendsRepositoryImpl implements TrendsRepository {
   TrendsRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<TrendsVideos>> fetchTrendingGaming() async => _remoteDataSource.fetchTrendingGaming();
+  Future<List<Video>> fetchTrendingGaming() async => _remoteDataSource.fetchTrendingGaming();
 
   @override
-  Future<List<TrendsVideos>> fetchTrendingMovies() async => _remoteDataSource.fetchTrendingMovies();
+  Future<List<Video>> fetchTrendingMovies() async => _remoteDataSource.fetchTrendingMovies();
 
   @override
-  Future<List<TrendsVideos>> fetchTrendingMusic() async => _remoteDataSource.fetchTrendingMusic();
+  Future<List<Video>> fetchTrendingMusic() async => _remoteDataSource.fetchTrendingMusic();
 
   @override
-  Future<List<TrendsVideos>> fetchTrendingVideo() async => _remoteDataSource.fetchTrendingVideo();
+  Future<List<Video>> fetchTrendingVideo() async => _remoteDataSource.fetchTrendingVideo();
 }

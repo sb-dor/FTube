@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/features/home_screen/data/repository/abs_home_screen_get_categories.dart';
-import 'package:youtube/features/trending_screen/data/source/rest_api_home_screen_get_categories.dart';
+import 'package:youtube/features/home_screen/data/sources/rest_api_home_screen_get_gategories.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/models/video_category_models/video_category_snippet.dart';
+
+import 'video_category_cubit_states.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   List<VideoCategory> videoCategories = [];

@@ -1,5 +1,5 @@
-import 'package:youtube/api/api_get_data/rest_api_get_channel_data.dart';
-import 'package:youtube/api/api_get_data/rest_api_get_video_data.dart';
+import 'package:youtube/core/api/api_get_data/rest_api_get_channel_data.dart';
+import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/models/channel_model/channel.dart';
 import 'package:youtube/models/thumbnails.dart';
 import 'package:youtube/models/video_modes/video.dart';

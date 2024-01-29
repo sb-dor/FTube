@@ -1,39 +1,39 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
 import 'video_data.dart';
 
-class Video extends Equatable {
+class Video {
   ///Youtube video id
-  final String? videoId;
+  String? videoId;
 
   ///Youtube video duration
-  final String? duration;
+  String? duration;
 
   ///Youtube video title
-  final String? title;
+  String? title;
 
   ///Youtube video channel name
-  final String? channelName;
+  String? channelName;
 
   ///Youtube video views
-  final String? views;
+  String? views;
 
   ///Youtube video thumbnail
-  final List<Thumbnail>? thumbnails;
+  List<Thumbnail>? thumbnails;
 
   // video data
-  final VideoData? videoData;
+  VideoData? videoData;
 
   // loading video data boolean
-  final bool loadingVideoData = true;
+  bool loadingVideoData = true;
 
   // error if loading video data trows an error
-  final bool errorOfLoadingVideoData = false;
+  bool errorOfLoadingVideoData = false;
 
-  const Video({
+  Video({
     this.videoId,
     this.duration,
     this.title,
@@ -128,25 +128,11 @@ class Video extends Equatable {
   Future<void> getVideoData() async {
     try {
       if (videoId == null) return;
-      videoData = await YoutubeDataApi.instance.fetchVideoData(videoId!);
+      videoData = await locator.get<YoutubeDataApi>().fetchVideoData(videoId!);
       loadingVideoData = false;
     } catch (e) {
       debugPrint("get video data error is $e");
       errorOfLoadingVideoData = true;
     }
   }
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [
-        videoId,
-        duration,
-        title,
-        channelName,
-        views,
-        thumbnails,
-        videoData,
-        loadingVideoData,
-        errorOfLoadingVideoData,
-      ];
 }

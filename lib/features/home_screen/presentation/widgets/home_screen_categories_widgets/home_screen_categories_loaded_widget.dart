@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/utils/extensions.dart';

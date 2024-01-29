@@ -1,5 +1,4 @@
 import 'package:youtube/features/trending_screen/data/models/trends_videos_model.dart';
-import 'package:youtube/features/trending_screen/domain/entities/trends_videos.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
@@ -21,7 +20,7 @@ class TrendsRemoteDataSourceImpl implements TrendsRemoteDataSource {
   @override
   Future<List<TrendsVideosModel>> fetchTrendingGaming() async {
     var data = await _youtubeDataApi.fetchTrendingGaming();
-    return data.map((e) => TrendsVideosModel.fromVideo(e)).toList();
+    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
   }
 
   @override
