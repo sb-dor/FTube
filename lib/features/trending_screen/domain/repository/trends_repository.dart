@@ -1,11 +1,11 @@
-import 'package:youtube/features/trending_screen/domain/entities/trends_videos.dart';
+import 'package:youtube/youtube_data_api/models/video.dart';
 
 abstract class TrendsRepository {
-  Future<List<TrendsVideos>> fetchTrendingVideo();
+  Future<List<Video>> fetchTrendingVideo();
 
-  Future<List<TrendsVideos>> fetchTrendingMusic();
+  Future<List<Video>> fetchTrendingMusic();
 
-  Future<List<TrendsVideos>> fetchTrendingGaming();
+  Future<List<Video>> fetchTrendingGaming();
 
-  Future<List<TrendsVideos>> fetchTrendingMovies();
+  Future<List<Video>> fetchTrendingMovies();
 }

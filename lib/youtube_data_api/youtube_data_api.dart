@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
-import 'package:youtube/api/api_settings.dart';
 import 'package:collection/collection.dart';
 import 'package:xml2json/xml2json.dart';
 import 'package:youtube/youtube_data_api/helpers/helpers_extension.dart';
@@ -18,12 +17,6 @@ import 'models/video_data.dart';
 import 'models/video_page.dart';
 
 class YoutubeDataApi {
-  static YoutubeDataApi? _instance;
-
-  static YoutubeDataApi get instance => _instance ??= YoutubeDataApi._();
-
-  YoutubeDataApi._();
-
   ///Continue token for load more videos on youtube search
   String? _searchToken;
 

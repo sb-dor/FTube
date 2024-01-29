@@ -1,4 +1,4 @@
-import 'package:youtube/blocs_and_cubits/auth_bloc/auth_state_model/auth_state_model.dart';
+import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_state_model/auth_state_model.dart';
 
 abstract class AuthBlocStates {
   AuthStateModel authStateModel;

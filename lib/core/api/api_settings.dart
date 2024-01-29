@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 import 'package:dio/dio.dart';
-import 'package:youtube/api/api_urls.dart';
+import 'api_urls.dart';
 
 abstract class APISettings {
   static late Dio dio;

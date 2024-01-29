@@ -1,4 +1,4 @@
-import 'package:youtube/api/api_get_data/rest_api_get_channel_data.dart';
+import 'package:youtube/core/api/api_get_data/rest_api_get_channel_data.dart';
 import 'package:youtube/models/channel_model/channel_statistics.dart';
 import 'package:youtube/models/thumbnails.dart';
 import 'package:youtube/utils/enums.dart';

@@ -1,8 +1,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
-import 'package:youtube/blocs_and_cubits/auth_bloc/auth_bloc_states.dart';
-import 'package:youtube/blocs_and_cubits/auth_bloc/auth_state_model/auth_state_model.dart';
+import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
+import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_bloc_states.dart';
+import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_state_model/auth_state_model.dart';
 
 class MainAuthBloc extends Bloc<AuthBlocEvents, AuthBlocStates> {
   late AuthStateModel _currentState;

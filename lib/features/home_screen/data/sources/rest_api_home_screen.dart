@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:youtube/api/api_env_example.dart';
+import 'package:youtube/core/api/api_env.dart';
 import 'package:youtube/features/home_screen/data/repository/abs_home_screen_get_videos.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/channel.dart' as ytch;
@@ -9,7 +10,6 @@ import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
 // here rename
 class RestApiHomeScreen implements AbsHomeScreenGetVideos {
-  final YoutubeDataApi _youtubeDataApi = YoutubeDataApi.instance;
   final HiveDatabaseHelper _databaseHelper = HiveDatabaseHelper.instance;
 
   @override
@@ -31,15 +31,15 @@ class RestApiHomeScreen implements AbsHomeScreenGetVideos {
       //   List<dynamic> listItem = json['items'];
       //   List<Video> videos = listItem.map((e) => Video.fromJson(e)).toList();
 
-      String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
+      String query = q ?? (await locator.get<YoutubeDataApi>().fetchRandomWord() ?? '');
 
       debugPrint("making req: $query");
 
-      var data = await _youtubeDataApi.fetchSearchVideo(
-        query,
-        YOUTUBE_API_KEY,
-        clearLastSearch: clearSearch,
-      );
+      var data = await locator.get<YoutubeDataApi>().fetchSearchVideo(
+            query,
+            YOUTUBE_API_KEY,
+            clearLastSearch: clearSearch,
+          );
 
       List<ytv.Video> videos = [];
       List<ytch.Channel> channels = [];
