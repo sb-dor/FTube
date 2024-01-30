@@ -6,10 +6,9 @@ import 'package:youtube/features/trending_screen/presentation/bloc/trending_scre
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
-
-import 'widgets/home_screen_categories_widgets/trending_screen_trends_error_widget.dart';
-import 'widgets/home_screen_categories_widgets/trending_screen_trends_loaded_widget.dart';
-import 'widgets/home_screen_categories_widgets/trentding_screen_trends_loading_widget.dart';
+import 'widgets/trends_categories_widget/trending_screen_trends_error_widget.dart';
+import 'widgets/trends_categories_widget/trending_screen_trends_loaded_widget.dart';
+import 'widgets/trends_categories_widget/trentding_screen_trends_loading_widget.dart';
 
 class TrendingScreen extends StatelessWidget {
   const TrendingScreen({Key? key}) : super(key: key);
@@ -23,8 +22,9 @@ class TrendingScreen extends StatelessWidget {
         children: [
           Expanded(
             child: RefreshIndicator(
-              onRefresh: () async =>
-                  context.read<TrendingScreenBloc>().add(RefreshTrendingScreen()),
+              color: Colors.red,
+              onRefresh: () async => context.read<TrendingScreenBloc>().add(
+                  RefreshTrendingScreen(category: trendsVideosState.trendingStateModel.category)),
               child: ListView(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 children: [
@@ -38,7 +38,7 @@ class TrendingScreen extends StatelessWidget {
                   if (trendsVideosState is LoadingTrendingScreenState)
                     const VideosLoadingWidget()
                   else if (trendsVideosState is ErrorTrendingScreenState)
-                    TextWidget(text: "${trendsVideosState.message}")
+                    TextWidget(text: trendsVideosState.message)
                   else
                     VideosLoadedWidget(
                       videoList: trendsVideosState.trendingStateModel.videos,

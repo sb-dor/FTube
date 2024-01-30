@@ -24,20 +24,20 @@ class TrendsRemoteDataSourceImpl implements TrendsRemoteDataSource {
   }
 
   @override
-  Future<List<TrendsVideosModel>> fetchTrendingMovies() {
-    // TODO: implement fetchTrendingMovies
-    throw UnimplementedError();
+  Future<List<TrendsVideosModel>> fetchTrendingMovies() async {
+    var data = await _youtubeDataApi.fetchTrendingMovies();
+    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
   }
 
   @override
-  Future<List<TrendsVideosModel>> fetchTrendingMusic() {
-    // TODO: implement fetchTrendingMusic
-    throw UnimplementedError();
+  Future<List<TrendsVideosModel>> fetchTrendingMusic() async {
+    var data = await _youtubeDataApi.fetchTrendingMusic();
+    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
   }
 
   @override
-  Future<List<TrendsVideosModel>> fetchTrendingVideo() {
-    // TODO: implement fetchTrendingVideo
-    throw UnimplementedError();
+  Future<List<TrendsVideosModel>> fetchTrendingVideo() async {
+    var data = await _youtubeDataApi.fetchTrendingVideo();
+    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
   }
 }
