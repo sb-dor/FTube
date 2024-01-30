@@ -10,7 +10,7 @@ import 'features/trending_screen/domain/repository/trends_repository.dart';
 final locator = GetIt.instance;
 
 Future<void> initGetIt() async {
-  locator.registerLazySingleton<YoutubeDataApi>(() => YoutubeDataApi());
+  initYoutubeDataApi();
   // trending screen initialization:
 
   locator.registerLazySingleton<TrendsRemoteDataSource>(
@@ -26,4 +26,8 @@ Future<void> initGetIt() async {
   );
 
   //
+}
+
+void initYoutubeDataApi() {
+  locator.registerLazySingleton<YoutubeDataApi>(() => YoutubeDataApi());
 }

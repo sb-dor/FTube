@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'dart:isolate';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +9,10 @@ import 'package:youtube/features/trending_screen/domain/usecases/get_trending_ga
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_movies.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_music.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_videos.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
+import 'package:youtube/youtube_data_api/models/video_data.dart';
 
 import 'state_model/trending_state_model.dart';
 
@@ -55,11 +58,106 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
         }
 
         emit(LoadedTrendingScreenState(_currentState));
+
+        await _getInfoFromIsolate(_currentState.videos, emit);
       } catch (e) {
         emit(ErrorTrendingScreenState("$e", state.trendingStateModel));
       }
     });
 
-    on<PaginateTrendingScreen>((event, emit) {});
+    on<PaginateTrendingScreen>((event, emit) async {
+      try {
+        if (!_currentState.hasMore) return;
+
+        List<Video> videos = [];
+
+        if (_currentState.category.id == '1') {
+          videos = await _getTrendingGaming.getTrendingGaming();
+        } else if (_currentState.category.id == '2') {
+          videos = await _getTrendingMovies.getTrendingMovies();
+        } else if (_currentState.category.id == '3') {
+          videos = await _getTrendingMusic.getTrendingMusic();
+        } else {
+          videos = await _getTrendingVideos.getTrendingVideos();
+        }
+
+        _currentState.videos.addAll(videos);
+
+        emit(LoadedTrendingScreenState(_currentState));
+
+        await _getInfoFromIsolate(videos, emit);
+      } catch (e) {
+        emit(ErrorTrendingScreenState("$e", state.trendingStateModel));
+      }
+    });
+  }
+
+  void _emitState(Emitter<TrendingScreenState> emit) {
+    if (state is LoadingTrendingScreenState) {
+      emit(LoadingTrendingScreenState(_currentState));
+    } else if (state is ErrorTrendingScreenState) {
+      emit(ErrorTrendingScreenState("Error state", _currentState));
+    } else if (state is LoadedTrendingScreenState) {
+      emit(LoadedTrendingScreenState(_currentState));
+    }
+  }
+
+  Future<void> _getInfoFromIsolate(
+    List<Video> videos,
+    Emitter<TrendingScreenState> emit,
+  ) async {
+    Map<String, dynamic> toIsolateData = {
+      "list": videos.map((e) => e.toJson()).toList(),
+    };
+
+    final jsonToString = jsonEncode(toIsolateData);
+
+    final receivePort = ReceivePort();
+
+    Isolate.spawn(_isolate, receivePort.sendPort);
+
+    final broadCast = receivePort.asBroadcastStream();
+
+    final SendPort communicator = await broadCast.first;
+
+    communicator.send(jsonToString);
+
+    await for (final each in broadCast) {
+      VideoData? videoData;
+      if (each != null) videoData = VideoData.fromJson(each);
+      for (var each in videos) {
+        if (each.videoId == videoData?.video?.videoId) {
+          each.loadingVideoData = false;
+          each.videoData = videoData?.clone();
+        }
+      }
+      debugPrint("event coming trending screen: $each");
+      _emitState(emit);
+    }
+  }
+
+  static void _isolate(SendPort sendPort) async {
+    final isolateRp = ReceivePort();
+    sendPort.send(isolateRp.sendPort);
+
+    final message = isolateRp.takeWhile((element) => element is String).cast<String>();
+
+    initYoutubeDataApi();
+
+    await for (final each in message) {
+      Map<String, dynamic> json = jsonDecode(each);
+
+      List<dynamic> list = [];
+
+      if (json.containsKey('list')) list = json['list'];
+
+      List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
+
+      await Future.wait(
+        isolateVideos.map(
+          (e) => e.getVideoData().then((value) => sendPort.send(e.videoData?.toJson())),
+        ),
+      );
+    }
   }
 }

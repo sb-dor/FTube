@@ -1,6 +1,5 @@
 import 'package:youtube/models/video_modes/video_id.dart';
 import 'package:youtube/models/video_modes/video_snippet.dart';
-import 'package:youtube/models/video_modes/video_statistic.dart';
 
 class Video {
   String? kind;

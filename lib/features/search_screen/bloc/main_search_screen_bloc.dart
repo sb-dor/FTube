@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/features/search_screen/data/source/rest_api_get_suggestion_text.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'cubits/search_body_cubit/search_body_cubit.dart';
@@ -273,6 +274,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     sendPort.send(rp.sendPort);
 
     final messages = rp.takeWhile((element) => element is String).cast<String>();
+
+    initYoutubeDataApi();
 
     await for (var each in messages) {
       Map<String, dynamic> json = jsonDecode(each);

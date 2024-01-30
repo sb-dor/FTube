@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 import 'package:youtube/youtube_data_api/models/video_data.dart';
 
@@ -64,6 +65,8 @@ abstract class GetSimilarVideos {
     sp.send(isoLateRP.sendPort);
 
     final message = isoLateRP.takeWhile((element) => element is String).cast<String>();
+
+    initYoutubeDataApi();
 
     await for (final eachM in message) {
       Map<String, dynamic> gettingData = jsonDecode(eachM);
