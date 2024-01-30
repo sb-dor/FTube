@@ -8,8 +8,8 @@ import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
-class TrendingScreenTrendsLoadedWidget extends StatelessWidget {
-  const TrendingScreenTrendsLoadedWidget({Key? key}) : super(key: key);
+class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
+  const TrendingScreenCategoriesLoadedWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class TrendingScreenTrendsLoadedWidget extends StatelessWidget {
       return SizedBox(
           height: 40,
           child: ListView.separated(
-              padding: const EdgeInsets.only(left: 10, right: 10),
               separatorBuilder: (context, index) => const SizedBox(width: 15),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,

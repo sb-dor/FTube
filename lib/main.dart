@@ -16,6 +16,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/firebase_options.dart';
 import 'package:youtube/injection_container.dart';
+import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
@@ -84,6 +85,9 @@ class _MainAppState extends State<MainApp> {
     // TODO: implement initState
     super.initState();
     context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context));
+    context
+        .read<TrendingScreenBloc>()
+        .add(RefreshTrendingScreen(category: VideoCategory.trendsCategories.first));
     context.read<MainAuthBloc>().add(CheckAuthEvent(authorizationService: GoogleService()));
   }
 

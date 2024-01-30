@@ -7,6 +7,7 @@ import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_v
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/features/home_screen/data/sources/rest_api_home_screen.dart';
+import 'package:youtube/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
@@ -133,8 +134,10 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     }
   }
 
-  Future<void> _getVideosDataIsolate(
-      {required List<ytv.Video> videos, required Emitter<HomeScreenStates> emit}) async {
+  Future<void> _getVideosDataIsolate({
+    required List<ytv.Video> videos,
+    required Emitter<HomeScreenStates> emit,
+  }) async {
     Map<String, dynamic> toIsolateData = {
       "list": videos.map((e) => e.toJson()).toList(),
     };
@@ -170,6 +173,8 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     sp.send(rp.sendPort);
 
     final message = rp.takeWhile((el) => el is String).cast<String>();
+
+    initYoutubeDataApi();
 
     await for (var each in message) {
       Map<String, dynamic> data = jsonDecode(each);
