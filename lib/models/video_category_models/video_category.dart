@@ -20,6 +20,14 @@ class VideoCategory {
     VideoCategory(id: "#all", kind: "Все"),
     VideoCategory(id: "#films#animations#films#animations", kind: "Фильмы и анимации"),
     VideoCategory(id: "#musics", kind: "Музыка"),
-    VideoCategory(id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Видеоигры"),
+    VideoCategory(
+        id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Видеоигры"),
+  ];
+
+    static List<VideoCategory> trendsCategories = [
+    VideoCategory(id: "1", kind: "Видеоигры"),
+    VideoCategory(id: "2", kind: "Фильмы"),
+    VideoCategory(id: "3", kind: "Музыка"),
+    VideoCategory(id: "4", kind: "Видео"),
   ];
 }

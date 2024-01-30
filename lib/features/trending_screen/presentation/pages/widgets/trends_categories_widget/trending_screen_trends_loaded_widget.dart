@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
+import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
@@ -12,32 +14,28 @@ class TrendingScreenTrendsLoadedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
+      final trendsVideosState = context.watch<TrendingScreenBloc>().state;
 
-      var videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>().videoCategories;
-      var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
-
-      var listOfCategory = videoCategoriesStateModel.limit(limit: 5);
       return SizedBox(
           height: 40,
           child: ListView.separated(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               separatorBuilder: (context, index) => const SizedBox(width: 15),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: listOfCategory.length,
+              itemCount: VideoCategory.trendsCategories.length,
               itemBuilder: (context, index) {
-                var category = listOfCategory[index];
+                var category = VideoCategory.trendsCategories[index];
                 return InkWell(
                   borderRadius: BorderRadius.circular(15),
                   onTap: () => context
-                      .read<MainHomeScreenBloc>()
-                      .add(SelectVideoCategoryEvent(videoCategory: category, context: context)),
+                      .read<TrendingScreenBloc>()
+                      .add(RefreshTrendingScreen(category: category)),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 350),
                     padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                     decoration: BoxDecoration(
-                      color: mainHomeScreenStateModel.videoCategory?.id == category.id
+                      color: trendsVideosState.trendingStateModel.category.id == category.id
                           ? Colors.red
                           : Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -45,11 +43,11 @@ class TrendingScreenTrendsLoadedWidget extends StatelessWidget {
                     ),
                     child: Center(
                         child: TextWidget(
-                            text: category.videoCategorySnippet?.title ?? '-',
+                            text: category.kind ?? '-',
                             size: 13,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.9,
-                            color: mainHomeScreenStateModel.videoCategory?.id == category.id
+                            color: trendsVideosState.trendingStateModel.category.id == category.id
                                 ? Colors.white
                                 : Colors.red)),
                   ),

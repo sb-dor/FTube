@@ -8,6 +8,7 @@ import 'package:youtube/features/trending_screen/domain/usecases/get_trending_ga
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_movies.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_music.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_videos.dart';
+import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 
 import 'state_model/trending_state_model.dart';
@@ -37,11 +38,21 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
     on<RefreshTrendingScreen>((event, emit) async {
       try {
-        _currentState.videos.clear();
-        LoadingTrendingScreenState(_currentState);
+        if (event.category.id != _currentState.category.id) _currentState.category = event.category;
 
-        _currentState.videos = await _getTrendingGaming.getTrendingGaming();
-        debugPrint("current list length: ${_currentState.videos.length}");
+        _currentState.videos.clear();
+
+        emit(LoadingTrendingScreenState(_currentState));
+
+        if (event.category.id == '1') {
+          _currentState.videos = await _getTrendingGaming.getTrendingGaming();
+        } else if (event.category.id == '2') {
+          _currentState.videos = await _getTrendingMovies.getTrendingMovies();
+        } else if (event.category.id == '3') {
+          _currentState.videos = await _getTrendingMusic.getTrendingMusic();
+        } else {
+          _currentState.videos = await _getTrendingVideos.getTrendingVideos();
+        }
 
         emit(LoadedTrendingScreenState(_currentState));
       } catch (e) {

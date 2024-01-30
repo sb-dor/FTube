@@ -33,7 +33,7 @@ class VideosLoadedWidget extends StatelessWidget {
               color: Colors.transparent,
               child: Column(children: [
                 SizedBox(
-                  height: (video.thumbnails?.last.height ?? 180) / 2,
+                  height: 180,
                   child: Stack(
                     children: [
                       Positioned.fill(
