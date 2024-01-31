@@ -36,6 +36,8 @@ abstract class GetVideo {
             ))
         .toList();
 
+    stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
     for (var each in stateModel.audios) {
       debugPrint("media type: ${each.codec.subtype}");
       debugPrint("media size: ${each.size.totalMegaBytes}");
@@ -81,6 +83,10 @@ abstract class GetVideo {
     //   stateModel.tempMinAudioForVideo = stateModel.audios.last;
     // } else {
     stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
+
+    if (stateModel.tempMinAudioForVideo != null) {
+      stateModel.audios.add(stateModel.tempMinAudioForVideo!);
+    }
     // }
 
     debugPrint("temp min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}"

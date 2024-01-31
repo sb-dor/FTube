@@ -20,6 +20,9 @@ class DownloadAudio {
       _contextHelper.globalNavigatorContext.currentState!.context,
     );
     try {
+
+      if(audioDownloadingCubit.state.downloadingAudioInfo != null) return;
+
       audioDownloadingCubit.state.downloadingAudioInfo = DownloadingAudioInfo(
         urlId: audioStreamInfo.url.toString(),
         downloadingProgress: 0.0,
@@ -46,6 +49,8 @@ class DownloadAudio {
       audioDownloadingCubit.audioSavingOnStorageState();
 
       await DownloadingAudioRepository(path).download(data.data);
+
+      audioDownloadingCubit.state.downloadingAudioInfo = null;
 
       audioDownloadingCubit.audioDownloadingLoadedState();
     } catch (e) {
