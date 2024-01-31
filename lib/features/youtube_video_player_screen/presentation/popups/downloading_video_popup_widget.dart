@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -176,6 +177,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
     return Builder(builder: (context) {
       var youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
       var downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
+      final downloadingAudiosState = context.watch<AudioDownloadingCubit>().state;
       var arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
           ? youtubeStateModel.videosWithSound
           : youtubeStateModel.allVideos;
@@ -224,13 +226,54 @@ class _VideosDownloadingInformation extends StatelessWidget {
                             ],
                           ),
                         ),
-                        // IconButton(
-                        //     onPressed: () async =>
-                        //         await context.read<YoutubeVideoCubit>().downloadAudio(
-                        //               audioStreamInfo: audio,
-                        //               path: ,
-                        //             ),
-                        //     icon: const Icon(Icons.download))
+                        if (audio.url.toString() ==
+                            downloadingAudiosState.downloadingAudioInfo?.urlId)
+                          if (downloadingAudiosState is AudioGettingInformationState)
+                            const Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 3,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            )
+                          else if (downloadingAudiosState is AudioDownloadingState)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () async => [],
+                                      icon: const Icon(Icons.cancel_outlined)),
+                                  const SizedBox(width: 10),
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 3,
+                                      value: downloadingAudiosState
+                                          .downloadingAudioInfo?.downloadingProgress,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          else if (downloadingAudiosState is AudioSavingOnStorageState)
+                            const TextWidget(text: "Error downloading")
+                          else
+                            const SizedBox()
+                        else
+                          IconButton(
+                              onPressed: () async =>
+                                  await context.read<YoutubeVideoCubit>().downloadAudio(
+                                        audioStreamInfo: audio,
+                                        path: DownloadingStoragePath.appStorage,
+                                      ),
+                              icon: const Icon(Icons.download))
                       ],
                     );
                   })
