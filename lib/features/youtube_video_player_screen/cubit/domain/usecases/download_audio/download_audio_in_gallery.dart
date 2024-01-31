@@ -2,8 +2,5 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/domain/reposi
 
 class DownloadAudioInGallery implements DownloadingAudioRepository {
   @override
-  Future<void> download(List<int>? downloadData) {
-    // TODO: implement download
-    throw UnimplementedError();
-  }
+  Future<void> download(List<int>? downloadData) async {}
 }
