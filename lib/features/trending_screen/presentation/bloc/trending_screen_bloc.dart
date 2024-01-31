@@ -11,6 +11,7 @@ import 'package:youtube/features/trending_screen/domain/usecases/get_trending_mu
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_videos.dart';
 import 'package:youtube/injection_container.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
+import 'package:youtube/youtube_data_api/helpers/helpers_extension.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 import 'package:youtube/youtube_data_api/models/video_data.dart';
 
@@ -60,32 +61,6 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
         emit(LoadedTrendingScreenState(_currentState));
 
         await _getInfoFromIsolate(_currentState.videos, emit);
-      } catch (e) {
-        emit(ErrorTrendingScreenState("$e", state.trendingStateModel));
-      }
-    });
-
-    on<PaginateTrendingScreen>((event, emit) async {
-      try {
-        if (!_currentState.hasMore) return;
-
-        List<Video> videos = [];
-
-        if (_currentState.category.id == '1') {
-          videos = await _getTrendingGaming.getTrendingGaming();
-        } else if (_currentState.category.id == '2') {
-          videos = await _getTrendingMovies.getTrendingMovies();
-        } else if (_currentState.category.id == '3') {
-          videos = await _getTrendingMusic.getTrendingMusic();
-        } else {
-          videos = await _getTrendingVideos.getTrendingVideos();
-        }
-
-        _currentState.videos.addAll(videos);
-
-        emit(LoadedTrendingScreenState(_currentState));
-
-        await _getInfoFromIsolate(videos, emit);
       } catch (e) {
         emit(ErrorTrendingScreenState("$e", state.trendingStateModel));
       }

@@ -12,26 +12,8 @@ import 'widgets/trends_categories_widget/trending_screen_categories_error_widget
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
 import 'widgets/trends_categories_widget/trentding_screen_categories_loading_widget.dart';
 
-class TrendingScreen extends StatefulWidget {
+class TrendingScreen extends StatelessWidget {
   const TrendingScreen({Key? key}) : super(key: key);
-
-  @override
-  State<TrendingScreen> createState() => _TrendingScreenState();
-}
-
-class _TrendingScreenState extends State<TrendingScreen> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
-        context.read<TrendingScreenBloc>().add(PaginateTrendingScreen());
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +37,6 @@ class _TrendingScreenState extends State<TrendingScreen> {
                   return true;
                 },
                 child: ListView(
-                  controller: _scrollController,
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   children: [
                     if (videoCategoryState is LoadingVideoCategoryState)
@@ -73,13 +54,6 @@ class _TrendingScreenState extends State<TrendingScreen> {
                       VideosLoadedWidget(
                         videoList: trendsVideosState.trendingStateModel.videos,
                       ),
-                    if (trendsVideosState is LoadedTrendingScreenState &&
-                        trendsVideosState.trendingStateModel.hasMore)
-                      const Center(
-                          child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
                     const SizedBox(height: 15)
                   ],
                 ),
