@@ -6,5 +6,4 @@ class TrendingStateModel {
 
   VideoCategory category = VideoCategory.trendsCategories.first;
 
-  bool hasMore = true;
 }

@@ -11,7 +11,3 @@ class RefreshTrendingScreen extends TrendingScreenEvent {
   List<Object?> get props => [category];
 }
 
-class PaginateTrendingScreen extends TrendingScreenEvent {
-  @override
-  List<Object?> get props => throw UnimplementedError();
-}
