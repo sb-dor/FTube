@@ -271,7 +271,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               onPressed: () async =>
                                   await context.read<YoutubeVideoCubit>().downloadAudio(
                                         audioStreamInfo: audio,
-                                        path: DownloadingStoragePath.appStorage,
+                                        path: DownloadingStoragePath.downloads,
                                       ),
                               icon: const Icon(Icons.download))
                       ],
