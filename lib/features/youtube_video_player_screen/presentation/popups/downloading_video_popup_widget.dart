@@ -246,7 +246,8 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               child: Row(
                                 children: [
                                   IconButton(
-                                      onPressed: () async => [],
+                                      onPressed: () async =>
+                                          await context.read<YoutubeVideoCubit>().cancelTheAudio(),
                                       icon: const Icon(Icons.cancel_outlined)),
                                   const SizedBox(width: 10),
                                   SizedBox(

@@ -4,7 +4,7 @@ import 'package:youtube/utils/enums.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadingAudioRepository {
-  Future<void> download(List<int>? downloadData);
+  Future<void> download(List<int>? downloadData, String audioName);
 
   factory DownloadingAudioRepository(DownloadingStoragePath path) {
     switch (path) {

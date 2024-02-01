@@ -7,13 +7,13 @@ class DownloadVideoInAppStorage implements DownloadingVideoRepository {
   ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
-  Future<void> download(List<int>? downloadingVideo) async {
+  Future<void> download(List<int>? downloadingVideo, String videoName) async {
     var getExternalStoragePath = await getExternalStorageDirectory();
 
     var dateTimeForVideoName = DateTime.now();
 
     var pathOfVideo = '${getExternalStoragePath?.path}/'
-        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp4';
+        '${videoName}_${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp4';
 
     File fileForSaving = File(pathOfVideo);
 
