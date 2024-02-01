@@ -16,7 +16,22 @@ abstract class Constants {
   static const String videoDownloadingInfo =
       "There is another video which is still downloading. Please wait before download another one.";
 
+  static const String audioDownloadingInfo =
+      "There is another video which is still downloading. Please wait before download another one.";
+
   static const String videoSavedInAppStorageInfo = "Video was successfully saved in App Storage!";
 
   static const String videoSavedInGalleryInfo = "Video was successfully saved in Gallery!";
+
+  static const String videoDownloadedErrorTitleMessage =
+      'Something went wrong while video was downloading';
+
+  static const String videoDownloadedErrorContentMessage =
+      'Please, try to download the "Recommended" video from video downloading section';
+
+  static const String audioDownloadedErrorTitleMessage =
+      'Something went wrong while audio was downloading';
+
+  static const String audioDownloadedErrorContentMessage =
+      'Please, try to download the "Recommended" audio from video downloading section';
 }

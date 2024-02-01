@@ -8,13 +8,13 @@ class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
   final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
-  Future<void> download(List<int>? downloadData) async {
+  Future<void> download(List<int>? downloadData, String audioName) async {
     var directory = await DownloadsPath.downloadsDirectory();
 
     var dateTimeForVideoName = DateTime.now();
 
     var pathOfVideo = '${directory?.path}/'
-        '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp3';
+        '${audioName}_${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp3';
 
     File fileForSaving = File(pathOfVideo);
 

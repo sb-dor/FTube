@@ -4,7 +4,11 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_video_popup.dart';
 
 abstract class OpenDownloadingErrorPopup {
-  static void downloadingErrorPopup(BuildContext context) async {
+  static void downloadingErrorPopup(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) async {
     await showDialog(
         barrierDismissible: false,
         context: context,

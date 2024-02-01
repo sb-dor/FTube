@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/core/api/api_settings.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
@@ -22,7 +23,8 @@ import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {
-  static ReusableGlobalFunctions globalFunc = ReusableGlobalFunctions.instance;
+  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
 
   static Future<void> downloadVideo({
     required VideoStreamInfo video,
@@ -30,11 +32,23 @@ abstract class DownloadVideo with SolvePercentageMixin {
     required DownloadingStoragePath path,
   }) async {
     var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
-        GlobalContextHelper.instance.globalNavigatorContext.currentState!.context);
+      _globalContextHelper.globalNavigatorContext.currentState!.context,
+    );
+    var audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
+      _globalContextHelper.globalNavigatorContext.currentState!.context,
+    );
     try {
-      if (videoDownloadingCubit.state.tempDownloadingVideoInfo != null) {
-        globalFunc.showToast(
+      if (audioDownloadingCubit.state.downloadingAudioInfo != null) {
+        _globalFunc.showToast(
           msg: Constants.videoDownloadingInfo,
+          typeError: true,
+          toastLength: Toast.LENGTH_LONG,
+        );
+        return;
+      }
+      if (videoDownloadingCubit.state.isDownloading) {
+        _globalFunc.showToast(
+          msg: Constants.audioDownloadingInfo,
           typeError: true,
           toastLength: Toast.LENGTH_LONG,
         );
@@ -51,8 +65,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
       final receivePort = ReceivePort();
       List<int>? audioList;
       Stream<dynamic>? broadcastRp;
-      if (!globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        Isolate.spawn(
+      if (!_globalFunc.checkMp4FromURI(value: video.url.toString())) {
+        stateModel.isolateForDownloadingAudio = Isolate.spawn(
           _downloadAudio,
           receivePort.sendPort,
         );
@@ -72,7 +86,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
       }
 
       var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
-          onReceiveProgress: (int receive, int total) {
+          cancelToken: stateModel.cancelVideoToken, onReceiveProgress: (int receive, int total) {
         var solvePercentage = receive / total * 100;
         videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
             solvePercentage / 100;
@@ -90,8 +104,12 @@ abstract class DownloadVideo with SolvePercentageMixin {
       //   videoDownloadingCubit.videoDownloadingLoadingState();
       // });
 
-      if (globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        await DownloadingVideoRepository(path).download(downloadingVideo.data);
+      if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
+        await DownloadingVideoRepository(path).download(
+          downloadingVideo.data,
+          stateModel.videoData?.video?.title ?? '-',
+        );
+        stateModel.isolateForDownloadingAudio = null;
       } else {
         debugPrint("then coming here");
         if (audioList == null) {
@@ -121,14 +139,18 @@ abstract class DownloadVideo with SolvePercentageMixin {
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
 
       if (path.name == DownloadingStoragePath.appStorage.name) {
-        globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
+        _globalFunc.showToast(msg: Constants.videoSavedInAppStorageInfo);
       } else {
-        globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
+        _globalFunc.showToast(msg: Constants.videoSavedInGalleryInfo);
       }
 
       videoDownloadingCubit.videoDownloadingLoadedState();
     } on DioException catch (e) {
       if (e.type.name == 'cancel') return;
+      videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
+      videoDownloadingCubit.videoDownloadingErrorState();
+      debugPrint("downloadInGallery error is $e");
+    } catch (e) {
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
       videoDownloadingCubit.videoDownloadingErrorState();
       debugPrint("downloadInGallery error is $e");
@@ -179,9 +201,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
     var dateTime = DateTime.now();
 
     var newVideoPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_video.mp4";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_video.mp4";
     var newAudioPath =
-        "${tempPath.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_sound.mp3";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_sound.mp3";
 
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
@@ -189,14 +211,13 @@ abstract class DownloadVideo with SolvePercentageMixin {
     newVideoFile.writeAsBytesSync(downloadingVideo);
     newAudioFile.writeAsBytesSync(downloadingAudio);
 
-    var getExStorage = await getExternalStorageDirectory();
-
     // create output path where file will be saved
 
     dateTime = DateTime.now();
 
-    String outputPath =
-        '${getExStorage?.path}/${globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
+    String outputPath = '${tempPath.path}/'
+        '${stateModel.videoData?.video?.title ?? '-'}'
+        '_${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
 
     await FFmpegKit.execute('-i ${newVideoFile.path} -i ${newAudioFile.path} -c copy $outputPath')
         .then((value) async {
@@ -215,6 +236,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
     if (path.name == DownloadingStoragePath.gallery.name) {
       await Gal.putVideo(outputPath);
     }
+
+    stateModel.isolateForDownloadingAudio = null;
 
     videoDownloadingCubit.videoDownloadingLoadedState();
   }

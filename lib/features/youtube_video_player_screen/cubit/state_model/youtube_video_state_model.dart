@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -37,6 +38,8 @@ class YoutubeVideoStateModel {
   DownloadingType? downloadingType;
 
   CancelToken cancelVideoToken = CancelToken(), cancelAudioToken = CancelToken();
+
+  Future<Isolate>? isolateForDownloadingAudio;
 
   Future<void> deleteDuplicatedVideos() async {
     for (int i = 0; i < videosWithSound.length; i++) {

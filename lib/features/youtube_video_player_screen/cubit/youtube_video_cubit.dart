@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
@@ -162,8 +164,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void onDownloadingError(BuildContext context) async {
-    var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(context);
-    downloadingCubit.videoDownloadingLoadedState();
+    var downloadingVideoCubit = BlocProvider.of<VideoDownloadingCubit>(context);
+    var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(context);
+    downloadingVideoCubit.videoDownloadingLoadedState();
+    downloadingAudioCubit.audioDownloadingLoadedState();
     clearTypeOfDownloadingVideoOnPopup();
   }
 
@@ -172,9 +176,23 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
         GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
     _currentState.cancelVideoToken.cancel();
     _currentState.cancelAudioToken.cancel();
+    _currentState.isolateForDownloadingAudio
+        ?.timeout(const Duration(milliseconds: 1))
+        .then((value) => value.kill());
     await initToken();
     downloadingCubit.state.tempDownloadingVideoInfo = null;
     downloadingCubit.videoDownloadingLoadedState();
+    emit(InitialYoutubeVideoState(_currentState));
+  }
+
+  Future<void> cancelTheAudio() async {
+    var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
+      GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
+    );
+    _currentState.cancelAudioToken.cancel();
+    await initToken();
+    downloadingAudioCubit.state.downloadingAudioInfo = null;
+    downloadingAudioCubit.audioDownloadingLoadedState();
     emit(InitialYoutubeVideoState(_currentState));
   }
 
@@ -202,6 +220,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     await DownloadAudio.download(
       audioStreamInfo: audioStreamInfo,
       path: path,
+      stateModel: _currentState,
     );
   }
 }

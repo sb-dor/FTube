@@ -8,13 +8,13 @@ class DownloadVideoInGallery implements DownloadingVideoRepository {
   ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
-  Future<void> download(List<int>? downloadingVideo) async {
-    var getExternalStoragePath = await getExternalStorageDirectory();
+  Future<void> download(List<int>? downloadingVideo, String videoName) async {
+    var getTemporaryPath = await getTemporaryDirectory();
 
     var dateTimeForVideoName = DateTime.now();
 
-    var pathOfVideo = '${getExternalStoragePath?.path}/'
-        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp4';
+    var pathOfVideo = '${getTemporaryPath.path}/'
+        '${videoName}_${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp4';
 
     File fileForSaving = File(pathOfVideo);
 
