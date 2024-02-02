@@ -85,6 +85,11 @@ abstract class GetVideo {
     stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
 
     if (stateModel.tempMinAudioForVideo != null) {
+      stateModel.audios.removeWhere(
+        (el) =>
+            el.url.toString() == stateModel.tempMinAudioForVideo?.url.toString() ||
+            el.size.totalMegaBytes == stateModel.tempMinAudioForVideo?.size.totalMegaBytes,
+      );
       stateModel.audios.add(stateModel.tempMinAudioForVideo!);
     }
     // }
