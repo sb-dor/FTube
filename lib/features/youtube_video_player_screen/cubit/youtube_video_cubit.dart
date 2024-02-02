@@ -174,12 +174,11 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   Future<void> cancelTheVideo() async {
     var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
         GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
+    await cancelTheAudio();
     _currentState.cancelVideoToken.cancel();
-    _currentState.cancelAudioToken.cancel();
     _currentState.isolateForDownloadingAudio
         ?.timeout(const Duration(milliseconds: 1))
         .then((value) => value.kill());
-    await initToken();
     downloadingCubit.state.tempDownloadingVideoInfo = null;
     downloadingCubit.videoDownloadingLoadedState();
     emit(InitialYoutubeVideoState(_currentState));

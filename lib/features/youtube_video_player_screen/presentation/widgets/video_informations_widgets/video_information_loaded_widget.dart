@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/animations/fade_animation.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -155,39 +156,72 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                   ])),
                 )),
                 const SizedBox(width: 5),
-                DownloadedButtonWidget(
-                  onTap: () {
-                    if (downloadingVideoCubit is VideoDownloadingErrorState) {
-                      OpenDownloadingErrorPopup.downloadingErrorPopup(
-                        context,
-                        title: Constants.videoDownloadedErrorTitleMessage,
-                        content: Constants.videoDownloadedErrorContentMessage,
-                      );
-                      return;
-                    }
-                    if (downloadingVideoCubit is VideoDownloadingLoadingState) {
-                      OpenDisableDownloadingPopup.openDisableDownloadingPopup(
-                        context,
-                        showOpenDownloadsPopup: true,
-                      );
-                      return;
-                    }
-                    if (currentState.loadingVideo) return;
-                    OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
-                  },
-                  showGettingInfo: downloadingVideoCubit is VideoDownloadingGettingInfoState,
-                  showErrorInfo: downloadingVideoCubit is VideoDownloadingErrorState,
-                  showDownloading: downloadingVideoCubit is VideoDownloadingLoadingState,
-                  showTheSoundGettingInfo:
-                      downloadingVideoCubit is VideoDownloadingGettingAudioInformationState,
-                  showPrecessingTheSound: downloadingVideoCubit is VideoDownloadingAudioState,
-                  savingOnStorage: downloadingVideoCubit is VideoDownloadingSavingOnStorageState,
-                  loading: currentState.loadingVideo,
-                  downloadingVideoProgress:
-                      downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ?? 0.0,
-                  downloadingAudioProgress:
-                      downloadingVideoCubit.tempDownloadingAudioInfo?.downloadingProgress ?? 0.0,
-                ),
+                if (downloadingVideoCubit.isDownloading)
+                  DownloadedButtonWidget(
+                    onTap: () {
+                      if (downloadingVideoCubit is VideoDownloadingErrorState) {
+                        OpenDownloadingErrorPopup.downloadingErrorPopup(
+                          context,
+                          title: Constants.videoDownloadedErrorTitleMessage,
+                          content: Constants.videoDownloadedErrorContentMessage,
+                        );
+                        return;
+                      }
+                      if (downloadingVideoCubit is VideoDownloadingLoadingState) {
+                        OpenDisableDownloadingPopup.openDisableDownloadingPopup(
+                          context,
+                          showOpenDownloadsPopup: true,
+                        );
+                        return;
+                      }
+                      if (currentState.loadingVideo) return;
+                      OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                    },
+                    showGettingInfo: downloadingVideoCubit is VideoDownloadingGettingInfoState,
+                    showErrorInfo: downloadingVideoCubit is VideoDownloadingErrorState,
+                    showDownloading: downloadingVideoCubit is VideoDownloadingLoadingState,
+                    showTheSoundGettingInfo:
+                        downloadingVideoCubit is VideoDownloadingGettingAudioInformationState,
+                    showPrecessingTheSound: downloadingVideoCubit is VideoDownloadingAudioState,
+                    savingOnStorage: downloadingVideoCubit is VideoDownloadingSavingOnStorageState,
+                    loading: currentState.loadingVideo,
+                    downloadingVideoProgress:
+                        downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ?? 0.0,
+                    downloadingAudioProgress:
+                        downloadingVideoCubit.tempDownloadingAudioInfo?.downloadingProgress ?? 0.0,
+                  )
+                else
+                  DownloadedButtonWidget(
+                    onTap: () {
+                      if (downloadingAudioCubit is AudioDownloadingErrorState) {
+                        OpenDownloadingErrorPopup.downloadingErrorPopup(
+                          context,
+                          title: Constants.audioDownloadedErrorTitleMessage,
+                          content: Constants.audioDownloadedErrorContentMessage,
+                        );
+                        return;
+                      }
+                      if (downloadingAudioCubit is AudioDownloadingState) {
+                        OpenDisableDownloadingPopup.openDisableDownloadingPopup(
+                          context,
+                          showOpenDownloadsPopup: true,
+                        );
+                        return;
+                      }
+                      if (currentState.loadingVideo) return;
+                      OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                    },
+                    showGettingInfo: downloadingAudioCubit is AudioGettingInformationState,
+                    showErrorInfo: downloadingAudioCubit is AudioDownloadingErrorState,
+                    showDownloading: downloadingAudioCubit is AudioDownloadingState,
+                    showTheSoundGettingInfo: false,
+                    showPrecessingTheSound: false,
+                    savingOnStorage: downloadingAudioCubit is AudioSavingOnStorageState,
+                    loading: currentState.loadingVideo,
+                    downloadingVideoProgress:
+                        downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ?? 0.0,
+                    downloadingAudioProgress: 0.0,
+                  ),
               ],
             ),
           ),

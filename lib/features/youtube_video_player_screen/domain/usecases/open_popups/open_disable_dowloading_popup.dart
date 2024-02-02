@@ -31,7 +31,10 @@ abstract class OpenDisableDownloadingPopup {
             },
             child: const Text("Open Downloads")),
       TextButton(
-          onPressed: () async => await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+          onPressed: () async {
+            Navigator.pop(context);
+            await context.read<YoutubeVideoCubit>().cancelTheVideo();
+          },
           child: const Text("Continue")),
       TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
     ];
