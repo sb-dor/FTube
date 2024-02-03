@@ -7,8 +7,18 @@ class DownloadingAudioInfo implements DownloadingInfo {
   @override
   String? urlId;
 
-  DownloadingAudioInfo({required this.urlId, this.downloadingProgress = 0.0});
+  @override
+  String? mainVideoId;
 
-  DownloadingAudioInfo clone() =>
-      DownloadingAudioInfo(urlId: urlId, downloadingProgress: downloadingProgress);
+  DownloadingAudioInfo({
+    required this.urlId,
+    this.downloadingProgress = 0.0,
+    this.mainVideoId,
+  });
+
+  DownloadingAudioInfo clone() => DownloadingAudioInfo(
+        urlId: urlId,
+        downloadingProgress: downloadingProgress,
+        mainVideoId: mainVideoId,
+      );
 }

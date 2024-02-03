@@ -7,13 +7,29 @@ import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/widgets/text_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_error_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
 import 'widgets/trends_categories_widget/trentding_screen_categories_loading_widget.dart';
 
-class TrendingScreen extends StatelessWidget {
+class TrendingScreen extends StatefulWidget {
   const TrendingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TrendingScreen> createState() => _TrendingScreenState();
+}
+
+class _TrendingScreenState extends State<TrendingScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
+          category: VideoCategory.trendsCategories.first,
+          refresh: false,
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +41,10 @@ class TrendingScreen extends StatelessWidget {
           Expanded(
             child: RefreshIndicator(
               color: Colors.red,
-              onRefresh: () async => context.read<TrendingScreenBloc>().add(
-                  RefreshTrendingScreen(category: trendsVideosState.trendingStateModel.category)),
+              onRefresh: () async => context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
+                    category: trendsVideosState.trendingStateModel.category,
+                    refresh: true,
+                  )),
               child: NotificationListener<UserScrollNotification>(
                 onNotification: (notification) {
                   if (notification.direction == ScrollDirection.reverse) {

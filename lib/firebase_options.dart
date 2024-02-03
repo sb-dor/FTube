@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBWPtKfwzHeSzpUqnuQdPlZpheCyuz8RuY',
+    apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
     appId: '1:583795295936:web:b6cf82f39ddc0c2ee50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB8QXVDde7X2g5q8hElo-_yzyIDFtUZz-Y',
+    apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
     appId: '1:583795295936:android:957ef652d416ac1be50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
@@ -62,7 +62,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAdlU4gKhoA30sYT4V956bnFZvmyZ85QMQ',
+    apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
     appId: '1:583795295936:ios:c1826c9d75a27a2ee50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
@@ -71,7 +71,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAdlU4gKhoA30sYT4V956bnFZvmyZ85QMQ',
+    apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
     appId: '1:583795295936:ios:72cf0a6b71830968e50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',

@@ -14,6 +14,7 @@ import 'package:youtube/utils/constants.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
+import 'downloaded_button_widget/another_video_downloading.dart';
 import 'downloaded_button_widget/downloaded_button_widget.dart';
 
 class VideoInformationLoadedWidget extends StatelessWidget {
@@ -22,11 +23,11 @@ class VideoInformationLoadedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final youtubeCubit = context.watch<YoutubeVideoCubit>().state;
+      final youtubeCubit = context.watch<YoutubeVideoCubit>();
       final downloadingVideoCubit = context.watch<VideoDownloadingCubit>().state;
       final downloadingAudioCubit = context.watch<AudioDownloadingCubit>().state;
 
-      var currentState = youtubeCubit.youtubeVideoStateModel;
+      var currentState = youtubeCubit.state.youtubeVideoStateModel;
       // var channel = currentState.video?.snippet?.channel;
 
       return Column(
@@ -107,121 +108,146 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                    child: FadeAnimation(
-                  beginInterval: 0.3,
-                  child: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: currentState.videoData?.video?.channelName ?? '-',
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    TextSpan(
-                        text: " • ${currentState.videoData?.video?.subscribeCount ?? '-'} ",
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )),
-                    // WidgetSpan(
-                    //     child: Icon(
-                    //   Icons.check_circle,
-                    //   color: Colors.red,
-                    //   size: 13,
-                    // )),
-                    // const WidgetSpan(
-                    //   child: SizedBox(width: 5),
-                    // ),
-                    // WidgetSpan(
-                    //     child: TextWidget(
-                    //   text: channel?.channelSnippet?.title ?? '-',
-                    //   color: Colors.grey,
-                    //   size: 15,
-                    //   fontWeight: FontWeight.bold,
-                    // )),
-                    // const WidgetSpan(
-                    //   child: SizedBox(width: 10),
-                    // ),
-                    // //
-                    // WidgetSpan(
-                    //     child: TextWidget(
-                    //   text:
-                    //       "${ViewFormatHelper.viewsFormatNumbers(int.tryParse("${currentState.video?.snippet?.channel?.channelSnippet?.channelStatistics?.subscriberCount}"))} ",
-                    //   color: Colors.grey,
-                    //   size: 13,
-                    //   textAlign: TextAlign.start,
-                    // ))
-                  ])),
-                )),
-                const SizedBox(width: 5),
-                if (downloadingVideoCubit.isDownloading)
-                  DownloadedButtonWidget(
-                    onTap: () {
-                      if (downloadingVideoCubit is VideoDownloadingErrorState) {
-                        OpenDownloadingErrorPopup.downloadingErrorPopup(
-                          context,
-                          title: Constants.videoDownloadedErrorTitleMessage,
-                          content: Constants.videoDownloadedErrorContentMessage,
-                        );
-                        return;
-                      }
-                      if (downloadingVideoCubit is VideoDownloadingLoadingState) {
-                        OpenDisableDownloadingPopup.openDisableDownloadingPopup(
-                          context,
-                          showOpenDownloadsPopup: true,
-                        );
-                        return;
-                      }
-                      if (currentState.loadingVideo) return;
-                      OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
-                    },
-                    showGettingInfo: downloadingVideoCubit is VideoDownloadingGettingInfoState,
-                    showErrorInfo: downloadingVideoCubit is VideoDownloadingErrorState,
-                    showDownloading: downloadingVideoCubit is VideoDownloadingLoadingState,
-                    showTheSoundGettingInfo:
-                        downloadingVideoCubit is VideoDownloadingGettingAudioInformationState,
-                    showPrecessingTheSound: downloadingVideoCubit is VideoDownloadingAudioState,
-                    savingOnStorage: downloadingVideoCubit is VideoDownloadingSavingOnStorageState,
-                    loading: currentState.loadingVideo,
-                    downloadingVideoProgress:
-                        downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ?? 0.0,
-                    downloadingAudioProgress:
-                        downloadingVideoCubit.tempDownloadingAudioInfo?.downloadingProgress ?? 0.0,
-                  )
-                else
-                  DownloadedButtonWidget(
-                    onTap: () {
-                      if (downloadingAudioCubit is AudioDownloadingErrorState) {
-                        OpenDownloadingErrorPopup.downloadingErrorPopup(
-                          context,
-                          title: Constants.audioDownloadedErrorTitleMessage,
-                          content: Constants.audioDownloadedErrorContentMessage,
-                        );
-                        return;
-                      }
-                      if (downloadingAudioCubit is AudioDownloadingState) {
-                        OpenDisableDownloadingPopup.openDisableDownloadingPopup(
-                          context,
-                          showOpenDownloadsPopup: true,
-                        );
-                        return;
-                      }
-                      if (currentState.loadingVideo) return;
-                      OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
-                    },
-                    showGettingInfo: downloadingAudioCubit is AudioGettingInformationState,
-                    showErrorInfo: downloadingAudioCubit is AudioDownloadingErrorState,
-                    showDownloading: downloadingAudioCubit is AudioDownloadingState,
-                    showTheSoundGettingInfo: false,
-                    showPrecessingTheSound: false,
-                    savingOnStorage: downloadingAudioCubit is AudioSavingOnStorageState,
-                    loading: currentState.loadingVideo,
-                    downloadingVideoProgress:
-                        downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ?? 0.0,
-                    downloadingAudioProgress: 0.0,
+                  child: FadeAnimation(
+                    beginInterval: 0.3,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                              text: currentState.videoData?.video?.channelName ?? '-',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          TextSpan(
+                            text: " • ${currentState.videoData?.video?.subscribeCount ?? '-'} ",
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (downloadingVideoCubit.isDownloading &&
+                        downloadingVideoCubit.tempDownloadingVideoInfo?.mainVideoId !=
+                            currentState.tempVideoId)
+                      AnotherVideosDownloading(
+                          onTap: () => context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                          downloadingProgress:
+                              downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ??
+                                  0.0)
+                    else if (downloadingAudioCubit.isAudioDownloading &&
+                        downloadingAudioCubit.downloadingAudioInfo?.mainVideoId !=
+                            currentState.tempVideoId)
+                      AnotherVideosDownloading(
+                          onTap: () => context.read<YoutubeVideoCubit>().cancelTheAudio(),
+                          downloadingProgress:
+                              downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ??
+                                  0.0)
+                    else
+                      const SizedBox(),
+                    if (downloadingVideoCubit.isDownloading)
+                      DownloadedButtonWidget(
+                        onTap: () {
+                          if (downloadingVideoCubit is VideoDownloadingErrorState) {
+                            OpenDownloadingErrorPopup.downloadingErrorPopup(
+                              context,
+                              title: Constants.videoDownloadedErrorTitleMessage,
+                              content: Constants.videoDownloadedErrorContentMessage,
+                            );
+                            return;
+                          }
+                          if (downloadingVideoCubit is VideoDownloadingLoadingState) {
+                            OpenDisableDownloadingPopup.openDisableDownloadingPopup(
+                              context,
+                              showOpenDownloadsPopup: true,
+                            );
+                            return;
+                          }
+                          if (currentState.loadingVideo) return;
+                          OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                        },
+                        showGettingInfo:
+                            downloadingVideoCubit is VideoDownloadingGettingInfoState &&
+                                youtubeCubit
+                                    .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        showErrorInfo: downloadingVideoCubit is VideoDownloadingErrorState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        showDownloading: downloadingVideoCubit is VideoDownloadingLoadingState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        showTheSoundGettingInfo:
+                            downloadingVideoCubit is VideoDownloadingGettingAudioInformationState &&
+                                youtubeCubit
+                                    .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        showPrecessingTheSound:
+                            downloadingVideoCubit is VideoDownloadingAudioState &&
+                                youtubeCubit
+                                    .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        savingOnStorage:
+                            downloadingVideoCubit is VideoDownloadingSavingOnStorageState &&
+                                youtubeCubit
+                                    .showInformationInButtonIfTheSameVideoIsDownloading(context),
+                        loading: currentState.loadingVideo,
+                        downloadingVideoProgress:
+                            downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ??
+                                0.0,
+                        downloadingAudioProgress:
+                            downloadingVideoCubit.tempDownloadingAudioInfo?.downloadingProgress ??
+                                0.0,
+                      )
+                    else
+                      DownloadedButtonWidget(
+                        onTap: () {
+                          if (downloadingAudioCubit is AudioDownloadingErrorState) {
+                            OpenDownloadingErrorPopup.downloadingErrorPopup(
+                              context,
+                              title: Constants.audioDownloadedErrorTitleMessage,
+                              content: Constants.audioDownloadedErrorContentMessage,
+                            );
+                            return;
+                          }
+                          if (downloadingAudioCubit is AudioDownloadingState) {
+                            OpenDisableDownloadingPopup.openDisableDownloadingPopup(
+                              context,
+                              showOpenDownloadsPopup: true,
+                            );
+                            return;
+                          }
+                          if (currentState.loadingVideo) return;
+                          OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+                        },
+                        showGettingInfo: downloadingAudioCubit is AudioGettingInformationState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideosAudioIsDownloading(context),
+                        showErrorInfo: downloadingAudioCubit is AudioDownloadingErrorState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideosAudioIsDownloading(context),
+                        showDownloading: downloadingAudioCubit is AudioDownloadingState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideosAudioIsDownloading(context),
+                        showTheSoundGettingInfo: false,
+                        showPrecessingTheSound: false,
+                        savingOnStorage: downloadingAudioCubit is AudioSavingOnStorageState &&
+                            youtubeCubit
+                                .showInformationInButtonIfTheSameVideosAudioIsDownloading(context),
+                        loading: currentState.loadingVideo,
+                        downloadingVideoProgress:
+                            downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ?? 0.0,
+                        downloadingAudioProgress: 0.0,
+                      ),
+                  ],
+                )
               ],
             ),
           ),

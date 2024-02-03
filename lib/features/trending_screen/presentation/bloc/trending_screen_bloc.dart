@@ -41,6 +41,8 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
     //
 
     on<RefreshTrendingScreen>((event, emit) async {
+      if (state is LoadedTrendingScreenState && event.refresh == false) return;
+
       try {
         if (event.category.id != _currentState.category.id) _currentState.category = event.category;
 
@@ -106,7 +108,7 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
           each.videoData = videoData?.clone();
         }
       }
-      debugPrint("event coming trending screen: $each");
+      // debugPrint("event coming trending screen: $each");
       _emitState(emit);
     }
   }

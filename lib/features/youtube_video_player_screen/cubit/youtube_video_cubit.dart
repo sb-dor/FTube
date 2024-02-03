@@ -175,11 +175,13 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
         GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
     await cancelTheAudio();
-    _currentState.cancelVideoToken.cancel();
+    _currentState.cancelVideoToken?.cancel();
+    _currentState.cancelVideoToken = null;
     _currentState.isolateForDownloadingAudio
         ?.timeout(const Duration(milliseconds: 1))
         .then((value) => value.kill());
     downloadingCubit.state.tempDownloadingVideoInfo = null;
+    downloadingCubit.state.tempDownloadingAudioInfo = null;
     downloadingCubit.videoDownloadingLoadedState();
     emit(InitialYoutubeVideoState(_currentState));
   }
@@ -188,7 +190,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
       GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
     );
-    _currentState.cancelAudioToken.cancel();
+    _currentState.cancelAudioToken?.cancel();
+    _currentState.cancelAudioToken = null;
     await initToken();
     downloadingAudioCubit.state.downloadingAudioInfo = null;
     downloadingAudioCubit.audioDownloadingLoadedState();
@@ -196,10 +199,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> initToken() async {
-    if (_currentState.cancelVideoToken.isCancelled) {
+    if ((_currentState.cancelVideoToken?.isCancelled ?? false)) {
       _currentState.cancelVideoToken = CancelToken();
     }
-    if (_currentState.cancelAudioToken.isCancelled) {
+    if ((_currentState.cancelAudioToken?.isCancelled ?? false)) {
       _currentState.cancelAudioToken = CancelToken();
     }
   }
@@ -221,5 +224,15 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       path: path,
       stateModel: _currentState,
     );
+  }
+
+  bool showInformationInButtonIfTheSameVideoIsDownloading(BuildContext context) {
+    var videoDownloaderCubit = BlocProvider.of<VideoDownloadingCubit>(context).state;
+    return videoDownloaderCubit.tempDownloadingVideoInfo?.mainVideoId == _currentState.tempVideoId;
+  }
+
+  bool showInformationInButtonIfTheSameVideosAudioIsDownloading(BuildContext context) {
+    var audioDownloadCubit = BlocProvider.of<AudioDownloadingCubit>(context).state;
+    return audioDownloadCubit.downloadingAudioInfo?.mainVideoId == _currentState.tempVideoId;
   }
 }
