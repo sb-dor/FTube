@@ -3,6 +3,8 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 abstract class AudioDownloadingStates {
   DownloadingAudioInfo? downloadingAudioInfo;
 
+  bool get isAudioDownloading => downloadingAudioInfo != null;
+
   AudioDownloadingStates({this.downloadingAudioInfo});
 }
 

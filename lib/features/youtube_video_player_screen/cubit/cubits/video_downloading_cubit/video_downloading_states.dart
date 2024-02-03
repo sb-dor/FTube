@@ -5,7 +5,7 @@ abstract class VideoDownloadingStates {
   DownloadingVideoInfo? tempDownloadingVideoInfo;
   DownloadingAudioInfo? tempDownloadingAudioInfo;
 
-  bool get isDownloading => tempDownloadingAudioInfo != null || tempDownloadingVideoInfo != null;
+  bool get isDownloading => tempDownloadingVideoInfo != null;
 
   VideoDownloadingStates({
     this.tempDownloadingVideoInfo,

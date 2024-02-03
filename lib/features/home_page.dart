@@ -8,7 +8,7 @@ import 'package:youtube/widgets/home_page_widgets/home_page_appbar.dart';
 import '../widgets/home_page_widgets/bottom_navigation_widget.dart';
 import 'home_screen/presentation/home_screen.dart';
 import 'inbox_screen/inbox_screen.dart';
-import 'library_screen/library_screen.dart';
+import 'library_screen/presentation/pages/library_screen.dart';
 import 'subscriptions_screen/subscriptions_screen.dart';
 import 'trending_screen/presentation/pages/trending_screen.dart';
 

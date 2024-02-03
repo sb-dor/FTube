@@ -13,6 +13,8 @@ abstract class GetVideo {
   }) async {
     if (!context.mounted) return;
 
+    stateModel.tempVideoId = videoId;
+
     var informationVideo =
         await stateModel.youtubeExplode?.videos.streamsClient.getManifest(videoId);
 

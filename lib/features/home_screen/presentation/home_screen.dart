@@ -29,6 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    context
+        .read<MainHomeScreenBloc>()
+        .add(RefreshHomeScreenEvent(context: context, refresh: false));
+
     _scrollController.addListener(() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         debugPrint("last");
@@ -49,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       return RefreshIndicator(
         onRefresh: () async {
-          context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context));
+          context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context,refresh: true));
         },
         child: Column(
           children: [

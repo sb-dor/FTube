@@ -52,6 +52,8 @@ class DownloadAudio {
       audioDownloadingCubit.state.downloadingAudioInfo = DownloadingAudioInfo(
         urlId: audioStreamInfo.url.toString(),
         downloadingProgress: 0.0,
+        mainVideoId: stateModel.tempVideoId,
+
       );
       audioDownloadingCubit.audioGettingInformationState();
       debugPrint(

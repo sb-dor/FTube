@@ -57,7 +57,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
       videoDownloadingCubit.state.tempDownloadingVideoInfo = DownloadingVideoInfo(
         urlId: video.url.toString(),
         downloadingProgress: 0.0,
+        mainVideoId: stateModel.tempVideoId,
       );
+
       videoDownloadingCubit.videoDownloadingGettingInfoState();
 
       // make here better
@@ -226,16 +228,20 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("SUCCESS");
+        if (path.name == DownloadingStoragePath.gallery.name) {
+          await Gal.putVideo(outputPath);
+        }
       } else if (ReturnCode.isCancel(returnCode)) {
         debugPrint("CANCEL");
       } else {
+        stateModel.globalFunc.showToast(
+          msg: Constants.videoDownloadingErrorOccurred,
+          typeError: true,
+          toastLength: Toast.LENGTH_LONG,
+        );
         debugPrint("ERROR");
       }
     });
-
-    if (path.name == DownloadingStoragePath.gallery.name) {
-      await Gal.putVideo(outputPath);
-    }
 
     stateModel.isolateForDownloadingAudio = null;
 

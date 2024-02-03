@@ -7,11 +7,13 @@ class RefreshHomeScreenEvent extends HomeScreenBlocEvents {
   BuildContext context;
   VideoCategory? videoCategory;
   ScrollController? scrollController;
+  final bool refresh;
 
   RefreshHomeScreenEvent({
     required this.context,
     this.videoCategory,
     this.scrollController,
+    this.refresh = false,
   });
 }
 

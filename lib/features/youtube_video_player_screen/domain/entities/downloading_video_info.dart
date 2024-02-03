@@ -3,13 +3,22 @@ import 'package:youtube/features/youtube_video_player_screen/domain/repositories
 class DownloadingVideoInfo implements DownloadingInfo {
   @override
   String? urlId;
+
   @override
   double? downloadingProgress;
 
-  DownloadingVideoInfo({required this.urlId, this.downloadingProgress = 0.0});
+  @override
+  String? mainVideoId;
+
+  DownloadingVideoInfo({
+    required this.urlId,
+    this.downloadingProgress = 0.0,
+    this.mainVideoId,
+  });
 
   DownloadingVideoInfo clone() => DownloadingVideoInfo(
         urlId: urlId,
         downloadingProgress: downloadingProgress,
+        mainVideoId: mainVideoId,
       );
 }

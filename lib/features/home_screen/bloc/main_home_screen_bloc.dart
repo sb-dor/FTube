@@ -11,6 +11,7 @@ import 'package:youtube/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
+import 'cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'home_screen_bloc_events.dart';
 import 'home_screen_bloc_states.dart';
 import 'home_screen_state_model/home_screen_state_model.dart';
@@ -33,6 +34,10 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
   Future<void> refreshHomeScreen(
       RefreshHomeScreenEvent event, Emitter<HomeScreenStates> emit) async {
+    var homeScreenVideosState = BlocProvider.of<HomeScreenVideosCubit>(event.context).state;
+
+    if (homeScreenVideosState is LoadedHomeScreenVideosState && event.refresh == false) return;
+
     if (_currentState.videoCategory != null) {
       event.scrollController?.animateTo(
         0.0,
@@ -122,6 +127,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       context: event.context,
       videoCategory: _currentState.videoCategory,
       scrollController: event.scrollController,
+      refresh: true,
     ));
     emitState(emit);
   }

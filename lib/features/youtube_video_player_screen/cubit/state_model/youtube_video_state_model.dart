@@ -37,9 +37,11 @@ class YoutubeVideoStateModel {
 
   DownloadingType? downloadingType;
 
-  CancelToken cancelVideoToken = CancelToken(), cancelAudioToken = CancelToken();
+  CancelToken? cancelVideoToken = CancelToken(), cancelAudioToken = CancelToken();
 
   Future<Isolate>? isolateForDownloadingAudio;
+
+  String? tempVideoId;
 
   Future<void> deleteDuplicatedVideos() async {
     for (int i = 0; i < videosWithSound.length; i++) {

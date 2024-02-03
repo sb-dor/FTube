@@ -84,10 +84,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context));
-    context
-        .read<TrendingScreenBloc>()
-        .add(RefreshTrendingScreen(category: VideoCategory.trendsCategories.first));
+
     context.read<MainAuthBloc>().add(CheckAuthEvent(authorizationService: GoogleService()));
   }
 
