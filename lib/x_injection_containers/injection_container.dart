@@ -3,27 +3,17 @@ import 'package:youtube/features/trending_screen/data/datasource/trends_remote_d
 import 'package:youtube/features/trending_screen/data/repository/trends_repository_impl.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/pages/trending_screen.dart';
+import 'package:youtube/x_injection_containers/trends_inj/trends_inj.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
-import 'features/trending_screen/domain/repository/trends_repository.dart';
+import '../features/trending_screen/domain/repository/trends_repository.dart';
 
 final locator = GetIt.instance;
 
 Future<void> initGetIt() async {
   initYoutubeDataApi();
   // trending screen initialization:
-
-  locator.registerLazySingleton<TrendsRemoteDataSource>(
-    () => TrendsRemoteDataSourceImpl(locator<YoutubeDataApi>()),
-  );
-
-  locator.registerLazySingleton<TrendsRepository>(
-    () => TrendsRepositoryImpl(locator<TrendsRemoteDataSource>()),
-  );
-
-  locator.registerFactory<TrendingScreenBloc>(
-    () => TrendingScreenBloc(locator<TrendsRepository>()),
-  );
+  await TrendsInj.trendsInj();
 
   //
 }
