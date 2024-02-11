@@ -97,6 +97,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
           options: Options(
             headers: await APISettings.headers(),
             responseType: ResponseType.bytes,
+            receiveDataWhenStatusError: true,
           ));
 
       // var downloadingVideo =

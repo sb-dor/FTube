@@ -15,7 +15,7 @@ import 'package:youtube/features/trending_screen/presentation/bloc/trending_scre
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/firebase_options.dart';
-import 'package:youtube/injection_container.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database.dart';
