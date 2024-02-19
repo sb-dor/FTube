@@ -135,4 +135,8 @@ class Video {
       errorOfLoadingVideoData = true;
     }
   }
+
+  Map<String, dynamic> toDb() {
+    return {};
+  }
 }
