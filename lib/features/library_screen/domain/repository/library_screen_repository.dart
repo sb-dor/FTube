@@ -8,7 +8,7 @@ abstract class LibraryScreenRepository {
 
   Future<void> createPlayList();
 
-  Future<List<Video>> getHistory();
+  Future<List<Video>> getHistory({int page = 1});
 
   Future<List<PlayList>> getPlaylists();
 

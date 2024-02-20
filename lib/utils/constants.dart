@@ -37,4 +37,6 @@ abstract class Constants {
 
   static const String videoDownloadingErrorOccurred =
       "An error occurred while downloading, please try to download another format.";
+
+  static const String errorMessage = "Something went wrong. Please try again";
 }
