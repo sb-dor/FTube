@@ -3,6 +3,7 @@ import 'package:youtube/features/trending_screen/data/datasource/trends_remote_d
 import 'package:youtube/features/trending_screen/data/repository/trends_repository_impl.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/pages/trending_screen.dart';
+import 'package:youtube/x_injection_containers/library_inj/library_inj.dart';
 import 'package:youtube/x_injection_containers/trends_inj/trends_inj.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
@@ -15,6 +16,7 @@ Future<void> initGetIt() async {
   // trending screen initialization:
   await TrendsInj.trendsInj();
 
+  await LibraryInj.libraryInj();
   //
 }
 
