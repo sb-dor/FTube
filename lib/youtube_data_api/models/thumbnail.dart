@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class Thumbnail {
   String? url;
   int? width, height;
