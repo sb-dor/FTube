@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
-
 import 'video_data.dart';
+import 'package:floor/floor.dart';
 
 class Video {
   ///Youtube video id
