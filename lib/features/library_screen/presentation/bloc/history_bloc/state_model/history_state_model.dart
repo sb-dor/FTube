@@ -3,7 +3,7 @@ import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 
 class HistoryStateModel {
-  final _globalFunctions = locator<ReusableGlobalFunctions>();
+  final _globalFunctions = ReusableGlobalFunctions.instance;
 
   List<Video> videos = [];
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 import 'package:youtube/widgets/text_widget.dart';
@@ -27,6 +29,7 @@ class VideosLoadedWidget extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               if (closeScreenBeforeOpeningAnotherOne) Navigator.pop(context);
+              context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
               OpenVideoScreen.openVideoScreen(context: context, videoId: video.videoId ?? '');
             },
             child: Container(
