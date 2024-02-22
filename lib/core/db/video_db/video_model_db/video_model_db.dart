@@ -17,10 +17,21 @@ class VideoModelDb {
   String? title;
 
   VideoModelDb({
+    this.id,
     this.videoId,
     this.videoThumbnailUrl,
     this.views,
     this.duration,
     this.title,
   });
+
+  factory VideoModelDb.fromVideo(Video? video){
+    return VideoModelDb(
+      videoId: video?.videoId,
+      videoThumbnailUrl: video?.thumbnails?.last.url,
+      views: video?.views,
+      duration: video?.duration,
+      title: video?.title,
+    );
+  }
 }
