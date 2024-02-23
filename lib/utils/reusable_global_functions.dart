@@ -5,11 +5,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:youtube/utils/constants.dart';
 
 class ReusableGlobalFunctions {
-  static ReusableGlobalFunctions? _instance;
+  // static ReusableGlobalFunctions? _instance;
 
-  static ReusableGlobalFunctions get instance => _instance ??= ReusableGlobalFunctions._();
+  // static ReusableGlobalFunctions get instance => _instance ??= ReusableGlobalFunctions._();
 
-  ReusableGlobalFunctions._();
+  // ReusableGlobalFunctions._();
 
   int checkIsListHasMorePageInt(
       {required List<dynamic> list, required int page, int limitInPage = Constants.perPage}) {

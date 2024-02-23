@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube/models/video_modes/video.dart' as v;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class YoutubeVideoStateModel {
-  var globalFunc = ReusableGlobalFunctions.instance;
+  var globalFunc = locator<ReusableGlobalFunctions>();
 
   YoutubeExplode? youtubeExplode;
 

@@ -11,6 +11,7 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {
   const DownloadingVideoPopupWidget({Key? key}) : super(key: key);
@@ -309,7 +310,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.9,
                             ),
-                            if (ReusableGlobalFunctions.instance
+                            if (locator<ReusableGlobalFunctions>()
                                 .checkMp4FromURI(value: video.url.toString()))
                               const TextWidget(
                                 text: "Recommended (Fast download)",

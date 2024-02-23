@@ -1,7 +1,7 @@
 class ReusableGlobalWidgets {
-  static ReusableGlobalWidgets? _instance;
+  // static ReusableGlobalWidgets? _instance;
 
-  static ReusableGlobalWidgets get instance => _instance ??= ReusableGlobalWidgets._();
+  // static ReusableGlobalWidgets get instance => _instance ??= ReusableGlobalWidgets._();
 
-  ReusableGlobalWidgets._();
+  // ReusableGlobalWidgets._();
 }

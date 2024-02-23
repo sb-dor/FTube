@@ -29,6 +29,7 @@ abstract class GetVideoInformation {
         videoInfoCubit.errorVideoInformationState();
       } else if (data.containsKey('success') && data['success'] == true) {
         stateModel.videoData = data['item'];
+
         emit(InitialYoutubeVideoState(stateModel));
         // await stateModel.video?.snippet?.loadSnippetData();
 
