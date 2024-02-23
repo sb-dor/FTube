@@ -12,11 +12,12 @@ import 'package:youtube/utils/constants.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadAudio {
-  static final GlobalContextHelper _contextHelper = GlobalContextHelper.instance;
-  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _contextHelper = locator<GlobalContextHelper>();
+  static final ReusableGlobalFunctions _globalFunc = locator<ReusableGlobalFunctions>();
 
   static Future<void> download({
     required AudioStreamInfo audioStreamInfo,

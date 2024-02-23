@@ -3,9 +3,10 @@ import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class DownloadVideoInGallery implements DownloadingVideoRepository {
-  ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+  ReusableGlobalFunctions reusableGlobalFunctions = locator<ReusableGlobalFunctions>();
 
   @override
   Future<void> download(List<int>? downloadingVideo, String videoName) async {

@@ -9,6 +9,7 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/global_context_helper.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'domain/usecases/download_audio/download_audio.dart';
@@ -173,7 +174,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> cancelTheVideo() async {
     var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
-        GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
+        locator<GlobalContextHelper>().globalNavigatorContext.currentContext!);
     await cancelTheAudio();
     _currentState.cancelVideoToken?.cancel();
     _currentState.cancelVideoToken = null;
@@ -188,7 +189,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> cancelTheAudio() async {
     var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
-      GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
+      locator<GlobalContextHelper>().globalNavigatorContext.currentContext!,
     );
     _currentState.cancelAudioToken?.cancel();
     _currentState.cancelAudioToken = null;

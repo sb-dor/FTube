@@ -16,6 +16,12 @@ class VideoModelDb {
 
   String? title;
 
+  String? channelName;
+
+  String? channelThumb;
+
+  String? videoDate;
+
   VideoModelDb({
     this.id,
     this.videoId,
@@ -23,15 +29,21 @@ class VideoModelDb {
     this.views,
     this.duration,
     this.title,
+    this.channelName,
+    this.channelThumb,
+    this.videoDate,
   });
 
-  factory VideoModelDb.fromVideo(Video? video){
+  factory VideoModelDb.fromVideo(Video? video) {
     return VideoModelDb(
       videoId: video?.videoId,
       videoThumbnailUrl: video?.thumbnails?.last.url,
       views: video?.views,
       duration: video?.duration,
       title: video?.title,
+      channelName: video?.channelName,
+      channelThumb: video?.videoData?.video?.channelThumb,
+      videoDate: video?.videoData?.video?.date,
     );
   }
 }

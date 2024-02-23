@@ -5,11 +5,12 @@ import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/au
 import 'package:youtube/models/user.dart' as u;
 import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class GoogleService implements AuthorizationService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final SharedPreferencesHelper _sharedPreferencesHelper = SharedPreferencesHelper.instance;
+  final SharedPreferencesHelper _sharedPreferencesHelper = locator<SharedPreferencesHelper>();
 
   @override
   Future<Map<String, dynamic>> checkAuth() async {

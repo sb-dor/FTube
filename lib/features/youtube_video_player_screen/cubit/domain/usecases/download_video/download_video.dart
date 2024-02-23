@@ -20,11 +20,12 @@ import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {
-  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
-  static final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
+  static final ReusableGlobalFunctions _globalFunc = locator<ReusableGlobalFunctions>();
+  static final GlobalContextHelper _globalContextHelper = locator<GlobalContextHelper>();
 
   static Future<void> downloadVideo({
     required VideoStreamInfo video,

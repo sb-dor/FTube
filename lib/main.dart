@@ -33,9 +33,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await SharedPreferencesHelper.instance.initPreferences();
+  await locator<SharedPreferencesHelper>().initPreferences();
   await APISettings.initDio();
-  await HiveDatabase.instance.initHive();
+  await locator<HiveDatabase>().initHive();
 
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -96,7 +96,7 @@ class _MainAppState extends State<MainApp> {
     return MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
         child: MaterialApp.router(
-          scaffoldMessengerKey: GlobalContextHelper.instance.globalNavigatorContext,
+          scaffoldMessengerKey: locator<GlobalContextHelper>().globalNavigatorContext,
           theme: ThemeData(useMaterial3: true),
           debugShowCheckedModeBanner: false,
           routerConfig: goRouter,

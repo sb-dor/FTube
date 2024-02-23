@@ -2,11 +2,11 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveDatabase {
-  HiveDatabase._();
+  // HiveDatabase._();
 
-  static HiveDatabase? _instance;
+  // static HiveDatabase? _instance;
 
-  static HiveDatabase get instance => _instance ??= HiveDatabase._();
+  // static HiveDatabase get instance => _instance ??= HiveDatabase._();
 
   Future<void> initHive() async {
     var directory = await getApplicationDocumentsDirectory();

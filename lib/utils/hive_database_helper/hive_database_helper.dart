@@ -1,13 +1,14 @@
 import 'package:youtube/utils/hive_database_helper/hive_database.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class HiveDatabaseHelper {
-  HiveDatabaseHelper._();
+  // HiveDatabaseHelper._();
 
-  static HiveDatabaseHelper? _instance;
+  // static HiveDatabaseHelper? _instance;
 
-  static HiveDatabaseHelper get instance => _instance ??= HiveDatabaseHelper._();
+  // static HiveDatabaseHelper get instance => _instance ??= HiveDatabaseHelper._();
 
-  final HiveDatabase _database = HiveDatabase.instance;
+  final HiveDatabase _database = locator<HiveDatabase>();
 
   Future<List<String>> getSearchData() async {
     var data = await _database.getFromBox(boxName: 'search_data');

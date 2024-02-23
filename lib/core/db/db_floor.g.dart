@@ -10,8 +10,7 @@ part of 'db_floor.dart';
 class $FloorDbFloor {
   /// Creates a database builder for a persistent database.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$DbFloorBuilder databaseBuilder(String name) =>
-      _$DbFloorBuilder(name);
+  static _$DbFloorBuilder databaseBuilder(String name) => _$DbFloorBuilder(name);
 
   /// Creates a database builder for an in memory database.
   /// Information stored in an in memory database disappears when the process is killed.
@@ -42,9 +41,7 @@ class _$DbFloorBuilder {
 
   /// Creates the database and initializes it.
   Future<DbFloor> build() async {
-    final path = name != null
-        ? await sqfliteDatabaseFactory.getDatabasePath(name!)
-        : ':memory:';
+    final path = name != null ? await sqfliteDatabaseFactory.getDatabasePath(name!) : ':memory:';
     final database = _$DbFloor();
     database.database = await database.open(
       path,
@@ -77,14 +74,13 @@ class _$DbFloor extends DbFloor {
         await callback?.onOpen?.call(database);
       },
       onUpgrade: (database, startVersion, endVersion) async {
-        await MigrationAdapter.runMigrations(
-            database, startVersion, endVersion, migrations);
+        await MigrationAdapter.runMigrations(database, startVersion, endVersion, migrations);
 
         await callback?.onUpgrade?.call(database, startVersion, endVersion);
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `video_history` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `video_history` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT, `channelThumb` TEXT, `videoDate` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -112,7 +108,10 @@ class _$VideoModelDbDao extends VideoModelDbDao {
                   'videoThumbnailUrl': item.videoThumbnailUrl,
                   'views': item.views,
                   'duration': item.duration,
-                  'title': item.title
+                  'title': item.title,
+                  'channelName': item.channelName,
+                  'channelThumb': item.channelThumb,
+                  'videoDate': item.videoDate
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -127,34 +126,40 @@ class _$VideoModelDbDao extends VideoModelDbDao {
   Future<List<VideoModelDb>> getAllVideos() async {
     return _queryAdapter.queryList('select * from video_history',
         mapper: (Map<String, Object?> row) => VideoModelDb(
+            id: row['id'] as int?,
             videoId: row['videoId'] as String?,
             videoThumbnailUrl: row['videoThumbnailUrl'] as String?,
             views: row['views'] as String?,
             duration: row['duration'] as String?,
-            title: row['title'] as String?));
+            title: row['title'] as String?,
+            channelName: row['channelName'] as String?,
+            channelThumb: row['channelThumb'] as String?,
+            videoDate: row['videoDate'] as String?));
   }
 
   @override
   Future<List<VideoModelDb>> getLimitVideos(int limit) async {
     return _queryAdapter.queryList('select * from video_history limit ?1',
         mapper: (Map<String, Object?> row) => VideoModelDb(
+            id: row['id'] as int?,
             videoId: row['videoId'] as String?,
             videoThumbnailUrl: row['videoThumbnailUrl'] as String?,
             views: row['views'] as String?,
             duration: row['duration'] as String?,
-            title: row['title'] as String?),
+            title: row['title'] as String?,
+            channelName: row['channelName'] as String?,
+            channelThumb: row['channelThumb'] as String?,
+            videoDate: row['videoDate'] as String?),
         arguments: [limit]);
   }
 
   @override
   Future<void> deleteVideo(int id) async {
-    await _queryAdapter.queryNoReturn('delete from video_history where id = ?1',
-        arguments: [id]);
+    await _queryAdapter.queryNoReturn('delete from video_history where id = ?1', arguments: [id]);
   }
 
   @override
   Future<void> insertVideo(VideoModelDb videoModelDb) async {
-    await _videoModelDbInsertionAdapter.insert(
-        videoModelDb, OnConflictStrategy.abort);
+    await _videoModelDbInsertionAdapter.insert(videoModelDb, OnConflictStrategy.abort);
   }
 }

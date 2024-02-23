@@ -10,7 +10,7 @@ import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
 // here rename
 class RestApiHomeScreen implements AbsHomeScreenGetVideos {
-  final HiveDatabaseHelper _databaseHelper = HiveDatabaseHelper.instance;
+  final HiveDatabaseHelper _databaseHelper = locator<HiveDatabaseHelper>();
 
   @override
   Future<Map<String, dynamic>> homeScreenGetVideo({

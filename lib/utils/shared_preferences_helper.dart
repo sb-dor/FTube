@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferencesHelper {
   late SharedPreferences sharedPreferences;
 
-  static SharedPreferencesHelper? _instance;
+  // static SharedPreferencesHelper? _instance;
 
-  static SharedPreferencesHelper get instance => _instance ??= SharedPreferencesHelper._();
+  // static SharedPreferencesHelper get instance => _instance ??= SharedPreferencesHelper._();
 
-  SharedPreferencesHelper._();
+  // SharedPreferencesHelper._();
 
   Future<void> initPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
