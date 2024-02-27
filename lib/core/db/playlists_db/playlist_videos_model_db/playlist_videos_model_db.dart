@@ -1,11 +1,22 @@
 import 'package:floor/floor.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 
-@Entity(tableName: 'video_history')
-class VideoModelDb extends BaseVideoModelDb {
-  VideoModelDb({
+@Entity(tableName: 'playlist_videos', foreignKeys: [
+  ForeignKey(
+    childColumns: ['play_list_id'],
+    parentColumns: ['id'],
+    entity: PlaylistModelDb,
+  )
+])
+class PlaylistVideosModelDb extends BaseVideoModelDb {
+  @ColumnInfo(name: "play_list_id")
+  final int? playlistId;
+
+  PlaylistVideosModelDb({
     int? id,
+    this.playlistId,
     String? videoId,
     String? videoThumbnailUrl,
     String? views,
@@ -28,8 +39,8 @@ class VideoModelDb extends BaseVideoModelDb {
           dateTime: dateTime,
         );
 
-  factory VideoModelDb.fromVideo(Video? video) {
-    return VideoModelDb(
+  factory PlaylistVideosModelDb.fromVideo(Video? video) {
+    return PlaylistVideosModelDb(
       videoId: video?.videoId,
       videoThumbnailUrl: video?.thumbnails?.last.url,
       views: video?.views,

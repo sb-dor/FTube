@@ -9,6 +9,7 @@ import 'package:youtube/features/library_screen/data/data_sources/library_save_i
 import 'package:youtube/features/library_screen/data/repository/library_screen_repository_impl.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
 abstract class LibraryInj {
@@ -52,6 +53,10 @@ abstract class LibraryInj {
   static Future<void> _blocInit() async {
     locator.registerFactory<HistoryBloc>(
       () => HistoryBloc(locator<LibraryScreenRepository>()),
+    );
+
+    locator.registerFactory<PlaylistsBloc>(
+      () => PlaylistsBloc(locator<LibraryScreenRepository>()),
     );
   }
 }

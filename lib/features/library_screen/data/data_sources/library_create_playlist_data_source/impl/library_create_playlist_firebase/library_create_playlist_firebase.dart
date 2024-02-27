@@ -2,7 +2,7 @@ import 'package:youtube/features/library_screen/data/data_sources/library_create
 
 class LibraryCreatePlaylistFirebase implements LibraryCreatePlaylistDataSource {
   @override
-  Future<void> createPlayList() async {
+  Future<void> createPlayList(String name) async {
     // TODO: implement createPlayList
   }
 }
