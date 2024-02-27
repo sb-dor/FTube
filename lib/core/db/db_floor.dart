@@ -1,16 +1,26 @@
 import 'dart:async';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
+import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
+import 'package:youtube/core/db/playlists_db/playlist_videos_model_db/playlist_videos_model_db.dart';
 
+import 'playlists_db/data_access_object/playlist_model_db_dao.dart';
 import 'video_db/data_access_object/video_model_db_dao.dart';
 import 'video_db/video_model_db/video_model_db.dart';
 
 part 'db_floor.g.dart';
 
-// last version 1
-@Database(version: 1, entities: [
+abstract class Versions {
+  static const int currentVersion = 2;
+}
+
+@Database(version: Versions.currentVersion, entities: [
   VideoModelDb,
+  PlaylistModelDb,
+  PlaylistVideosModelDb
 ])
 abstract class DbFloor extends FloorDatabase {
   VideoModelDbDao get videoDbDao;
+
+  PlaylistModelDao get playListDao;
 }

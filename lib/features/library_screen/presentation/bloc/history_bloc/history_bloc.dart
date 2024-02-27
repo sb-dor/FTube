@@ -37,11 +37,14 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
   }
 
   void _getHistoryEvent(GetHistoryEvent event, Emitter<HistoryStates> emit) async {
+
+    emit(LoadingHistoryState(_currentState));
+
     final data = await _getHistory.getHistory();
 
     _currentState.addPaginate(videos: data);
 
-    _emitter(emit);
+    emit(LoadedHistoryState(_currentState));
   }
 
   void _paginateHistoryEvent(PaginateHistoryEvent event, Emitter<HistoryStates> emit) async {

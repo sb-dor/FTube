@@ -8,8 +8,11 @@ import 'package:youtube/youtube_data_api/models/video.dart';
 class LibrarySaveInHistoryLocally implements LibrarySaveInHistoryDataSource {
   @override
   Future<void> saveInHistory(Video? video) async {
-    final videoModelDb = VideoModelDb.fromVideo(video);
-    debugPrint("saving locally");
-    locator<DbFloor>().videoDbDao.insertVideo(videoModelDb);
+    final DateTime dateTime = DateTime.now();
+
+    final videoModelDb = VideoModelDb.fromVideo(video)
+      ..dateTime = dateTime.toString().substring(0, 16);
+
+    await locator<DbFloor>().videoDbDao.insertVideo(videoModelDb);
   }
 }

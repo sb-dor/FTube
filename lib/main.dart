@@ -11,6 +11,7 @@ import 'package:youtube/core/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -67,6 +68,7 @@ Future<void> main() async {
 
     // library screen bloc
     BlocProvider(create: (_) => locator<HistoryBloc>()),
+    BlocProvider(create: (_) => locator<PlaylistsBloc>()),
 
     BlocProvider<TrendingScreenBloc>(
       create: (_) => locator<TrendingScreenBloc>(),
