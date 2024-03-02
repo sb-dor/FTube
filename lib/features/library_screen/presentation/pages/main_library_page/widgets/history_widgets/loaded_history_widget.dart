@@ -1,16 +1,15 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/pages/main_library_page/popups/create_playlist_popup/select_playlist_popup.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/library_module_title_widget/library_module_title_widget.dart';
+import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class LoadedHistoryWidget extends StatelessWidget {
   const LoadedHistoryWidget({super.key});
@@ -135,7 +134,11 @@ class _Widget extends StatelessWidget {
                               style: const ButtonStyle(
                                 padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
                               ),
-                              onPressed: () => [],
+                              onPressed: () {
+                                locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                  videoModelDb: videoModelDb,
+                                );
+                              },
                               icon: const Center(
                                 child: Icon(
                                   Icons.more_vert,
@@ -166,11 +169,14 @@ class _Widget extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          TextWidget(
-                            text: "${videoModelDb?.channelName}",
-                            maxLines: 1,
-                            size: 13,
-                            color: Colors.grey,
+                          Expanded(
+                            child: TextWidget(
+                              text: "${videoModelDb?.channelName}",
+                              maxLines: 1,
+                              size: 13,
+                              color: Colors.grey,
+                              overFlow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       )

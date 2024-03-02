@@ -194,7 +194,23 @@ class _$PlaylistModelDao extends PlaylistModelDao {
             database,
             'playlists',
             (PlaylistModelDb item) =>
-                <String, Object?>{'id': item.id, 'name': item.name});
+                <String, Object?>{'id': item.id, 'name': item.name}),
+        _playlistVideosModelDbInsertionAdapter = InsertionAdapter(
+            database,
+            'playlist_videos',
+            (PlaylistVideosModelDb item) => <String, Object?>{
+                  'play_list_id': item.playlistId,
+                  'id': item.id,
+                  'videoId': item.videoId,
+                  'videoThumbnailUrl': item.videoThumbnailUrl,
+                  'views': item.views,
+                  'duration': item.duration,
+                  'title': item.title,
+                  'channelName': item.channelName,
+                  'channelThumb': item.channelThumb,
+                  'videoDate': item.videoDate,
+                  'date_time': item.dateTime
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -203,6 +219,9 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<PlaylistModelDb> _playlistModelDbInsertionAdapter;
+
+  final InsertionAdapter<PlaylistVideosModelDb>
+      _playlistVideosModelDbInsertionAdapter;
 
   @override
   Future<List<PlaylistModelDb>> getPlaylists(int limit) async {
@@ -270,5 +289,12 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   Future<void> createPlaylist(PlaylistModelDb playlistModelDb) async {
     await _playlistModelDbInsertionAdapter.insert(
         playlistModelDb, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertVideoIntoPlaylist(
+      PlaylistVideosModelDb playlistVideosModelDb) async {
+    await _playlistVideosModelDbInsertionAdapter.insert(
+        playlistVideosModelDb, OnConflictStrategy.abort);
   }
 }
