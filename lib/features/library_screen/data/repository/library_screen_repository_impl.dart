@@ -43,7 +43,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   Future<void> saveInHistory(Video? video) => _saveInHistoryDataSource.saveInHistory(video);
 
   @override
-  Future<void> saveInPlayList(BaseVideoModelDb? video) {
+  Future<void> saveInPlayList(BaseVideoModelDb? video, PlaylistModelDb? playlistModelDb) {
     // TODO: implement saveInPlayList
     throw UnimplementedError();
   }

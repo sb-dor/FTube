@@ -15,6 +15,8 @@ class LibraryGetPlaylistLocally implements LibraryGetPlaylistDataSource {
       playlists[i].videos = await dbOfPlaylists.getPlaylistAllVideos(playlists[i].id ?? 0);
     }
 
+    playlists = playlists.reversed.toList();
+
     return playlists;
   }
 }

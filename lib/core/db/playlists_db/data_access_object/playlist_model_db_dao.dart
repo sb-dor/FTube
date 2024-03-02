@@ -22,5 +22,8 @@ abstract class PlaylistModelDao {
   @insert
   Future<void> createPlaylist(PlaylistModelDb playlistModelDb);
 
+  @insert
+  Future<void> insertVideoIntoPlaylist(PlaylistVideosModelDb playlistVideosModelDb);
+
 // here deletion for playlist videos if after deleting playlist videos will not be deleted
 }

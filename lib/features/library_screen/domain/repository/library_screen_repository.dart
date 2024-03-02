@@ -7,7 +7,7 @@ import 'package:youtube/youtube_data_api/models/video.dart';
 abstract class LibraryScreenRepository {
   Future<void> saveInHistory(Video? video);
 
-  Future<void> saveInPlayList(BaseVideoModelDb? video);
+  Future<void> saveInPlayList(BaseVideoModelDb? video, PlaylistModelDb? playlistModelDb);
 
   Future<void> createPlayList(String name);
 
