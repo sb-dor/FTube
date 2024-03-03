@@ -21,7 +21,7 @@ final goRouter = GoRouter(routes: [
               debugPrint("uri : ${state.uri}");
               debugPrint("uri query: ${state.uri.query}");
               debugPrint("uri query parameters: ${state.uri.queryParameters}");
-              var param = state.uri.queryParameters;
+              // var param = state.uri.queryParameters;
               // reg ex -> .be\/(.{1,})\?
               // for finding id from url
               // get first group from regex there will be id inside of it

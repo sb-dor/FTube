@@ -5,8 +5,6 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/utils/enums.dart';
-import 'package:youtube/models/video_modes/video.dart' as v;
-import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 abstract class GetVideoInformation {
   static Future<void> getVideoInformation({

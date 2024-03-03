@@ -3,7 +3,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:youtube/features/trending_screen/data/datasource/trends_remote_data_source.dart';
 import 'package:youtube/features/trending_screen/data/models/trends_videos_model.dart';
 import 'package:youtube/features/trending_screen/data/repository/trends_repository_impl.dart';
-import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 
 class MockTrendsRemoteDataSource extends Mock implements TrendsRemoteDataSource {}

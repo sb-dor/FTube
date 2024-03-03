@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/db/db_floor.dart';
-import 'package:floor/floor.dart';
 import 'package:youtube/core/db/db_floor_migrations.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 

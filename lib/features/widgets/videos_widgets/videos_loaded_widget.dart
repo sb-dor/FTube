@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class VideosLoadedWidget extends StatelessWidget {
@@ -30,7 +33,11 @@ class VideosLoadedWidget extends StatelessWidget {
             onTap: () {
               if (closeScreenBeforeOpeningAnotherOne) Navigator.pop(context);
               context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
-              OpenVideoScreen.openVideoScreen(context: context, videoId: video.videoId ?? '');
+              OpenVideoScreen.openVideoScreen(
+                context: context,
+                videoId: video.videoId ?? '',
+                videoThumb: (video.thumbnails ?? []).isEmpty ? null : video.thumbnails?.first.url,
+              );
             },
             child: Container(
               color: Colors.transparent,
@@ -89,7 +96,13 @@ class VideosLoadedWidget extends StatelessWidget {
                                   style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStatePropertyAll(Colors.black.withOpacity(0.2))),
-                                  onPressed: () => [],
+                                  onPressed: () {
+                                    VideoModelDb model = VideoModelDb.fromVideo(video);
+                                    locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                      context: context,
+                                      videoModelDb: model,
+                                    );
+                                  },
                                   icon: const Icon(
                                     Icons.more_horiz,
                                     color: Colors.white,

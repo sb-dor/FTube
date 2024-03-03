@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,9 +34,11 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     required SingleTickerProviderStateMixin mixin,
     required BuildContext context,
     required bool paginating,
+    String? videoPicture,
   }) async {
     //clear data at first
     _currentState.clearData();
+    _currentState.videoPicture = videoPicture;
     _currentState.youtubeExplode = YoutubeExplode();
     _currentState.loadingVideo = true;
     //init _stop_play button

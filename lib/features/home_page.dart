@@ -36,8 +36,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     _screens = const [
       HomeScreen(),
       TrendingScreen(),
-      SubscriptionsScreen(),
-      InboxScreen(),
+      // SubscriptionsScreen(),
+      // InboxScreen(),
       LibraryScreen(),
     ];
   }

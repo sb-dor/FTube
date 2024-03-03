@@ -43,7 +43,7 @@ class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
           child: const Text(
             "Cancel",
             style: TextStyle(
-              color: Colors.blue,
+              color: Colors.red,
             ),
           ),
         ),
@@ -58,7 +58,7 @@ class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
           child: Text(
             "Create",
             style: TextStyle(
-              color: valueIsEmpty ? Colors.blue.shade200 : Colors.blue,
+              color: valueIsEmpty ? Colors.red.shade200 : Colors.red,
             ),
           ),
         ),

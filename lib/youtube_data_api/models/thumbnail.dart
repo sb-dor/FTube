@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 class Thumbnail {
   String? url;

@@ -54,9 +54,9 @@ class _Widget extends StatelessWidget {
   final PlaylistModelDb? playlist;
 
   const _Widget({
-    super.key,
+    Key? key,
     required this.playlist,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,15 +89,50 @@ class _Widget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
-                      BoxShadow(color: Colors.grey, offset: Offset(0.5, 0.5), blurRadius: 5),
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        offset: const Offset(0.5, 0.5),
+                        blurRadius: 5,
+                      ),
                     ],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: (playlist?.videos ?? []).isNotEmpty
-                      ? ImageLoaderWidget(
-                          url: playlist?.videos?.first.videoThumbnailUrl ?? '',
-                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
-                          boxFit: BoxFit.cover,
+                      ? Stack(
+                          children: [
+                            Positioned.fill(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: ImageLoaderWidget(
+                                  url: playlist?.videos?.first.videoThumbnailUrl ?? '',
+                                  errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                                  boxFit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Positioned.fill(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.3),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.ondemand_video_sharp,
+                                      color: Colors.white,
+                                    ),
+                                    TextWidget(
+                                      text: "${playlist?.videos?.length ?? 0}",
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
                         )
                       : Image.asset(
                           'assets/custom_images/empty_data.png',

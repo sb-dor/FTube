@@ -1,6 +1,9 @@
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
+import 'package:youtube/core/db/playlists_db/playlist_videos_model_db/playlist_videos_model_db.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/library_set_video_in_playlist_data_source.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class LibrarySetVideoInPlaylistLocally implements LibrarySetVideoInPlaylistDataSource {
   @override
@@ -8,7 +11,11 @@ class LibrarySetVideoInPlaylistLocally implements LibrarySetVideoInPlaylistDataS
     BaseVideoModelDb? video,
     PlaylistModelDb? playlistModelDb,
   ) async {
-    // TODO: implement setVideoInPlaylist
-    throw UnimplementedError();
+    if (video == null || playlistModelDb == null) return;
+    final DateTime dateTime = DateTime.now();
+    PlaylistVideosModelDb pListVideoModel = PlaylistVideosModelDb.fromEntity(video)!;
+    pListVideoModel = pListVideoModel.copyWith(playlistId: playlistModelDb.id);
+    pListVideoModel.dateTime = dateTime.toString().substring(0, 16);
+    await locator<DbFloor>().playListDao.insertVideoIntoPlaylist(pListVideoModel);
   }
 }

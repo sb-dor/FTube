@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_gaming.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_movies.dart';
@@ -11,7 +10,6 @@ import 'package:youtube/features/trending_screen/domain/usecases/get_trending_mu
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_videos.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
-import 'package:youtube/youtube_data_api/helpers/helpers_extension.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 import 'package:youtube/youtube_data_api/models/video_data.dart';
 

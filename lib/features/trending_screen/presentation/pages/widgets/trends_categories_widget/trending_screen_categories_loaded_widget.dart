@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
-import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
-import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/utils/extensions.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
@@ -22,7 +23,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       var videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>().videoCategories;
       var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
 
-      var listOfCategory = videoCategoriesStateModel.limit(limit: 5);
+      var listOfCategory = videoCategoriesStateModel.limit<VideoCategory>(limit: 5);
       return SizedBox(
           height: 40,
           child: ListView.separated(

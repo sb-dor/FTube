@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
@@ -10,6 +9,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
+import 'package:youtube/widgets/image_loader_widget.dart';
 import '../cubit/cubits/similar_videos_cubit/similar_videos_states.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';
@@ -25,10 +25,12 @@ import 'widgets/video_player_widgets/video_settings_button.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String videoId;
+  final String? videoThumb;
 
   const VideoPlayerScreen({
     Key? key,
     required this.videoId,
+    this.videoThumb,
   }) : super(key: key);
 
   @override
@@ -54,6 +56,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
       mixin: this,
       context: context,
       paginating: false,
+      videoPicture: widget.videoThumb,
     );
 
     _scrollController.addListener(() {
@@ -98,20 +101,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                       color: Colors.black,
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.315,
-                      child: const Stack(
+                      child: Stack(
                         children: [
-                          // if (youtubeStateModel.videoData?.video != null)
-                          //   Positioned.fill(
-                          //       child: SizedBox(
-                          //     width: MediaQuery.of(context).size.width,
-                          //     child: ImageLoaderWidget(
-                          //       url: youtubeStateModel
-                          //               .videoData.video?.snippet?.thumbnailHigh?.url ?? '',
-                          //       errorImageUrl: "assets/custom_images/error_image.png",
-                          //       boxFit: BoxFit.fill,
-                          //     ),
-                          //   )),
-                          Positioned.fill(
+                          if (youtubeStateModel.videoPicture != null)
+                            Positioned.fill(
+                                child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: ImageLoaderWidget(
+                                url: youtubeStateModel.videoPicture ?? '',
+                                errorImageUrl: "assets/custom_images/error_image.png",
+                                boxFit: BoxFit.fill,
+                              ),
+                            )),
+                          const Positioned.fill(
                             child: Center(
                               child: CircularProgressIndicator(
                                 color: Colors.red,

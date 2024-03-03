@@ -1,5 +1,4 @@
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/authorization_service.dart';
-import 'package:youtube/models/user.dart';
 
 class BackendLaravelService implements AuthorizationService {
   @override
