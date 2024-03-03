@@ -51,4 +51,47 @@ class PlaylistVideosModelDb extends BaseVideoModelDb {
       videoDate: video?.videoData?.video?.date,
     );
   }
+
+  static PlaylistVideosModelDb? fromEntity(BaseVideoModelDb? baseVideoModelDb) {
+    if (baseVideoModelDb == null) return null;
+    return PlaylistVideosModelDb(
+      id: baseVideoModelDb.id,
+      videoId: baseVideoModelDb.videoId,
+      videoThumbnailUrl: baseVideoModelDb.videoThumbnailUrl,
+      views: baseVideoModelDb.views,
+      duration: baseVideoModelDb.duration,
+      title: baseVideoModelDb.title,
+      channelName: baseVideoModelDb.channelName,
+      channelThumb: baseVideoModelDb.channelThumb,
+      videoDate: baseVideoModelDb.videoDate,
+      dateTime: baseVideoModelDb.dateTime,
+    );
+  }
+
+  PlaylistVideosModelDb copyWith({
+    int? id,
+    int? playlistId,
+    String? videoId,
+    String? videoThumbnailUrl,
+    String? views,
+    String? duration,
+    String? title,
+    String? channelName,
+    String? channelThumb,
+    String? videoDate,
+    String? dateTime,
+  }) =>
+      PlaylistVideosModelDb(
+        id: id ?? this.id,
+        playlistId: playlistId ?? this.playlistId,
+        videoId: videoId ?? this.videoId,
+        videoThumbnailUrl: videoThumbnailUrl ?? this.videoThumbnailUrl,
+        views: views ?? this.views,
+        duration: duration ?? this.duration,
+        title: title ?? this.title,
+        channelName: channelName ?? this.channelName,
+        channelThumb: channelThumb ?? this.channelThumb,
+        videoDate: videoDate ?? this.videoDate,
+        dateTime: dateTime ?? this.dateTime,
+      );
 }

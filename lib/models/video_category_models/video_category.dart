@@ -17,17 +17,17 @@ class VideoCategory {
       );
 
   static List<VideoCategory> categories = [
-    VideoCategory(id: "#all", kind: "Все"),
-    VideoCategory(id: "#films#animations#films#animations", kind: "Фильмы и анимации"),
-    VideoCategory(id: "#musics", kind: "Музыка"),
+    VideoCategory(id: "#all", kind: "All"),
+    VideoCategory(id: "#films#animations#films#animations", kind: "Films and animations"),
+    VideoCategory(id: "#musics", kind: "Music"),
     VideoCategory(
-        id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Видеоигры"),
+        id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Video games"),
   ];
 
-    static List<VideoCategory> trendsCategories = [
-    VideoCategory(id: "1", kind: "Видеоигры"),
-    VideoCategory(id: "2", kind: "Фильмы"),
-    VideoCategory(id: "3", kind: "Музыка"),
-    VideoCategory(id: "4", kind: "Видео"),
+  static List<VideoCategory> trendsCategories = [
+    VideoCategory(id: "1", kind: "Video games"),
+    VideoCategory(id: "2", kind: "Films"),
+    VideoCategory(id: "3", kind: "Music"),
+    VideoCategory(id: "4", kind: "Videos"),
   ];
 }

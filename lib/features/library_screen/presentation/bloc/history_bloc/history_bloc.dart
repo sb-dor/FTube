@@ -4,7 +4,6 @@ import 'package:youtube/features/library_screen/domain/usecases/get_history.dart
 import 'package:youtube/features/library_screen/domain/usecases/save_in_history.dart';
 import 'package:youtube/utils/constants.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
-import 'package:youtube/youtube_data_api/models/video_page.dart';
 import 'state_model/history_state_model.dart';
 
 part 'history_events.dart';

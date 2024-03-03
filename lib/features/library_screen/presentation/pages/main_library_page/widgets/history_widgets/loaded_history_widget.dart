@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
+import 'package:youtube/features/library_inner_screens/presentation/pages/history_inner_screen/history_inner_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/popups/create_playlist_popup/select_playlist_popup.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/library_module_title_widget/library_module_title_widget.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
@@ -26,7 +26,12 @@ class LoadedHistoryWidget extends StatelessWidget {
           children: [
             LibraryModuleTitleWidget(
               title: 'History',
-              onButtonTap: () {},
+              onButtonTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HistoryInnerScreen(),
+                ),
+              ),
               showAdd: false,
             ),
             const SizedBox(height: 15),
@@ -62,7 +67,11 @@ class _Widget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
-        OpenVideoScreen.openVideoScreen(context: context, videoId: videoModelDb?.videoId ?? '');
+        OpenVideoScreen.openVideoScreen(
+          context: context,
+          videoId: videoModelDb?.videoId ?? '',
+          videoThumb: videoModelDb?.videoThumbnailUrl,
+        );
       },
       child: SizedBox(
         width: 150,
@@ -136,6 +145,7 @@ class _Widget extends StatelessWidget {
                               ),
                               onPressed: () {
                                 locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                  context: context,
                                   videoModelDb: videoModelDb,
                                 );
                               },

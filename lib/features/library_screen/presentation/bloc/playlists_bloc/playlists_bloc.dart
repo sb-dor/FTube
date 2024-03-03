@@ -90,7 +90,11 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     SelectTempPlaylist event,
     Emitter<PlaylistsStates> emit,
   ) {
-    _currentState.tempSelectedPlaylist = event.playlistModelDb;
+    if (_currentState.tempSelectedPlaylist?.id == event.playlistModelDb?.id) {
+      _currentState.tempSelectedPlaylist = null;
+    } else {
+      _currentState.tempSelectedPlaylist = event.playlistModelDb;
+    }
     _emitter(emit);
   }
 

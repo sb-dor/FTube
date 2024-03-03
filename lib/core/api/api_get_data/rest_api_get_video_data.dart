@@ -5,7 +5,6 @@ import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
-import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/youtube_data_api/models/channel.dart' as ytc;
 
 abstract class RestApiGetVideoData {

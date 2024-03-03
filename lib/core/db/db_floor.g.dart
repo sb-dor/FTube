@@ -295,6 +295,6 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   Future<void> insertVideoIntoPlaylist(
       PlaylistVideosModelDb playlistVideosModelDb) async {
     await _playlistVideosModelDbInsertionAdapter.insert(
-        playlistVideosModelDb, OnConflictStrategy.abort);
+        playlistVideosModelDb, OnConflictStrategy.ignore);
   }
 }

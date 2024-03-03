@@ -4,7 +4,6 @@ import 'package:youtube/youtube_data_api/models/video.dart';
 
 void main() {
   final tTrendingVideoModel = TrendsVideosModel();
-  final video = Video();
 
   group('models equality checker', () {
     test('model equality to trending_video test', () {

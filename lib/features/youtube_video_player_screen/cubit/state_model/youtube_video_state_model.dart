@@ -7,9 +7,7 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:youtube/models/video_modes/video.dart' as v;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
-import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class YoutubeVideoStateModel {
   var globalFunc = locator<ReusableGlobalFunctions>();
@@ -42,7 +40,7 @@ class YoutubeVideoStateModel {
 
   Future<Isolate>? isolateForDownloadingAudio;
 
-  String? tempVideoId;
+  String? tempVideoId, videoPicture;
 
   Future<void> deleteDuplicatedVideos() async {
     for (int i = 0; i < videosWithSound.length; i++) {

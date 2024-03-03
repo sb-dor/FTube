@@ -1,4 +1,3 @@
-import 'package:youtube/models/user.dart';
 
 abstract class AuthorizationService {
   Future<Map<String, dynamic>> login();

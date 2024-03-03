@@ -15,9 +15,11 @@ class ReusableGlobalWidgets {
 
   // ReusableGlobalWidgets._();
 
-  BuildContext context = locator<GlobalContextHelper>().globalNavigatorContext.currentContext!;
+  BuildContext context =
+      locator<GlobalContextHelper>().globalNavigatorContext.currentState!.context;
 
   void showPlaylistAddingPopup({
+    required BuildContext context,
     required BaseVideoModelDb? videoModelDb,
   }) async {
     await showModalBottomSheet(

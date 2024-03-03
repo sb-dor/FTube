@@ -95,6 +95,72 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                               ),
                             )
                           ])))),
+          // Expanded(
+          //     child: GestureDetector(
+          //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
+          //   child: Container(
+          //       color: Colors.transparent,
+          //       child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             FaIcon(
+          //               FontAwesomeIcons.peopleGroup,
+          //               size: 25,
+          //               color: bottomNavBarState.page == 2
+          //                   ? Colors.red
+          //                   : Colors.black.withOpacity(0.3),
+          //             ),
+          //             const SizedBox(height: 5),
+          //             AnimatedDefaultTextStyle(
+          //               style: TextStyle(
+          //                   fontSize: 10,
+          //                   fontWeight: FontWeight.bold,
+          //                   overflow: TextOverflow.ellipsis,
+          //                   color: bottomNavBarState.page == 2
+          //                       ? Colors.red
+          //                       : Colors.black.withOpacity(0.3)),
+          //               duration: const Duration(milliseconds: 375),
+          //               child: const Text(
+          //                 "Subscription",
+          //                 maxLines: 1,
+          //               ),
+          //             )
+          //           ])),
+          // )),
+          // Expanded(
+          //     child: GestureDetector(
+          //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 3),
+          //   child: Container(
+          //       color: Colors.transparent,
+          //       child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.center,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             FaIcon(
+          //               FontAwesomeIcons.inbox,
+          //               size: 25,
+          //               color: bottomNavBarState.page == 3
+          //                   ? Colors.red
+          //                   : Colors.black.withOpacity(0.3),
+          //             ),
+          //             const SizedBox(height: 5),
+          //             AnimatedDefaultTextStyle(
+          //               duration: const Duration(milliseconds: 375),
+          //               style: TextStyle(
+          //                   fontSize: 10,
+          //                   fontWeight: FontWeight.bold,
+          //                   overflow: TextOverflow.ellipsis,
+          //                   color: bottomNavBarState.page == 3
+          //                       ? Colors.red
+          //                       : Colors.black.withOpacity(0.3)),
+          //               child: const Text(
+          //                 "Inbox",
+          //                 maxLines: 1,
+          //               ),
+          //             )
+          //           ])),
+          // )),
           Expanded(
               child: GestureDetector(
             onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
@@ -104,75 +170,9 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      FaIcon(
-                        FontAwesomeIcons.peopleGroup,
-                        size: 25,
-                        color: bottomNavBarState.page == 2
-                            ? Colors.red
-                            : Colors.black.withOpacity(0.3),
-                      ),
-                      const SizedBox(height: 5),
-                      AnimatedDefaultTextStyle(
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 2
-                                ? Colors.red
-                                : Colors.black.withOpacity(0.3)),
-                        duration: const Duration(milliseconds: 375),
-                        child: const Text(
-                          "Subscription",
-                          maxLines: 1,
-                        ),
-                      )
-                    ])),
-          )),
-          Expanded(
-              child: GestureDetector(
-            onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 3),
-            child: Container(
-                color: Colors.transparent,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(
-                        FontAwesomeIcons.inbox,
-                        size: 25,
-                        color: bottomNavBarState.page == 3
-                            ? Colors.red
-                            : Colors.black.withOpacity(0.3),
-                      ),
-                      const SizedBox(height: 5),
-                      AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 375),
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 3
-                                ? Colors.red
-                                : Colors.black.withOpacity(0.3)),
-                        child: const Text(
-                          "Inbox",
-                          maxLines: 1,
-                        ),
-                      )
-                    ])),
-          )),
-          Expanded(
-              child: GestureDetector(
-            onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 4),
-            child: Container(
-                color: Colors.transparent,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
                       FaIcon(FontAwesomeIcons.folder,
                           size: 25,
-                          color: bottomNavBarState.page == 4
+                          color: bottomNavBarState.page == 2
                               ? Colors.red
                               : Colors.black.withOpacity(0.3)),
                       const SizedBox(height: 5),
@@ -181,7 +181,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.ellipsis,
-                              color: bottomNavBarState.page == 4
+                              color: bottomNavBarState.page == 2
                                   ? Colors.red
                                   : Colors.black.withOpacity(0.3)),
                           duration: const Duration(milliseconds: 375),

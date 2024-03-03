@@ -6,6 +6,8 @@ import 'package:youtube/features/library_screen/data/data_sources/library_get_pl
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/impl/library_save_in_history_locally/library_save_in_history_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/library_save_in_history_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/impl/library_set_video_in_playlist_locally/library_set_video_in_playlist_locally.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/library_set_video_in_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/repository/library_screen_repository_impl.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
@@ -39,12 +41,18 @@ abstract class LibraryInj {
       () => LibrarySaveInHistoryLocally(),
     );
 
+    locator.registerLazySingleton<LibrarySetVideoInPlaylistDataSource>(
+      () => LibrarySetVideoInPlaylistLocally(),
+    );
+
     locator.registerLazySingleton<LibraryScreenRepository>(
       () => LibraryScreenRepositoryImpl(
-          locator<LibraryCreatePlaylistDataSource>(),
-          locator<LibraryGetPlaylistDataSource>(),
-          locator<LibraryGetHistoryDataSource>(),
-          locator<LibrarySaveInHistoryDataSource>()),
+        locator<LibraryCreatePlaylistDataSource>(),
+        locator<LibraryGetPlaylistDataSource>(),
+        locator<LibraryGetHistoryDataSource>(),
+        locator<LibrarySaveInHistoryDataSource>(),
+        locator<LibrarySetVideoInPlaylistDataSource>()
+      ),
     );
   }
 

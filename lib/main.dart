@@ -10,6 +10,7 @@ import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/go
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
+import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
@@ -69,6 +70,9 @@ Future<void> main() async {
     // library screen bloc
     BlocProvider(create: (_) => locator<HistoryBloc>()),
     BlocProvider(create: (_) => locator<PlaylistsBloc>()),
+
+    // library inner screens bloc
+    BlocProvider(create: (_) => locator<HistoryInnerScreenBloc>()),
 
     BlocProvider<TrendingScreenBloc>(
       create: (_) => locator<TrendingScreenBloc>(),

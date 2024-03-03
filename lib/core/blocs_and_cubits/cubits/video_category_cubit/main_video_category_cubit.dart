@@ -25,7 +25,7 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
       videoCategories = data['categories'];
       if (videoCategories.isNotEmpty) {
         videoCategories.insert(
-            0, VideoCategory(id: null, videoCategorySnippet: VideoCategorySnippet(title: "Все")));
+            0, VideoCategory(id: null, videoCategorySnippet: VideoCategorySnippet(title: "All")));
       }
       emit(LoadedVideoCategoryState());
     } else {

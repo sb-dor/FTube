@@ -5,6 +5,7 @@ import 'package:youtube/features/library_screen/data/data_sources/library_create
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/library_get_history_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/library_save_in_history_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/library_set_video_in_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/youtube_data_api/models/playlist.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
@@ -14,12 +15,14 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   final LibraryGetPlaylistDataSource _getPlaylistDataSource;
   final LibraryGetHistoryDataSource _getHistoryDataSource;
   final LibrarySaveInHistoryDataSource _saveInHistoryDataSource;
+  final LibrarySetVideoInPlaylistDataSource _setVideoInPlaylistDataSource;
 
   LibraryScreenRepositoryImpl(
     this._createPlaylistDataSource,
     this._getPlaylistDataSource,
     this._getHistoryDataSource,
     this._saveInHistoryDataSource,
+    this._setVideoInPlaylistDataSource,
   );
 
   @override
@@ -43,8 +46,9 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   Future<void> saveInHistory(Video? video) => _saveInHistoryDataSource.saveInHistory(video);
 
   @override
-  Future<void> saveInPlayList(BaseVideoModelDb? video, PlaylistModelDb? playlistModelDb) {
-    // TODO: implement saveInPlayList
-    throw UnimplementedError();
-  }
+  Future<void> saveInPlayList(BaseVideoModelDb? video, PlaylistModelDb? playlistModelDb) =>
+      _setVideoInPlaylistDataSource.setVideoInPlaylist(
+        video,
+        playlistModelDb,
+      );
 }

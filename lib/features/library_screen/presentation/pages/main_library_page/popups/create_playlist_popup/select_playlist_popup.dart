@@ -43,12 +43,12 @@ class SelectPlaylistPopup extends StatelessWidget {
                   ),
                   icon: const Icon(
                     Icons.add,
-                    color: Colors.blue,
+                    color: Colors.red,
                     size: 20,
                   ),
                   label: const Text(
                     "New",
-                    style: TextStyle(color: Colors.blue, fontSize: 18),
+                    style: TextStyle(color: Colors.red, fontSize: 18),
                   ),
                 )
               ],
@@ -65,25 +65,33 @@ class SelectPlaylistPopup extends StatelessWidget {
               itemCount: playlistStateModel.playlist.length,
               itemBuilder: (context, index) {
                 final playlist = playlistStateModel.playlist[index];
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Checkbox(
-                      value: playlistStateModel.tempSelectedPlaylist?.id == playlist.id,
-                      onChanged: (v) {
-                        context
-                            .read<PlaylistsBloc>()
-                            .add(SelectTempPlaylist(playlistModelDb: playlist));
-                      },
-                    ),
-                    Expanded(
-                      child: TextWidget(
-                        text: "${playlist.name}",
-                        size: 16,
-                        fontWeight: FontWeight.bold,
+                return GestureDetector(
+                  onTap: () {
+                    context
+                        .read<PlaylistsBloc>()
+                        .add(SelectTempPlaylist(playlistModelDb: playlist));
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        activeColor: Colors.red,
+                        value: playlistStateModel.tempSelectedPlaylist?.id == playlist.id,
+                        onChanged: (v) {
+                          context
+                              .read<PlaylistsBloc>()
+                              .add(SelectTempPlaylist(playlistModelDb: playlist));
+                        },
                       ),
-                    )
-                  ],
+                      Expanded(
+                        child: TextWidget(
+                          text: "${playlist.name}",
+                          size: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             ),
@@ -113,16 +121,16 @@ class SelectPlaylistPopup extends StatelessWidget {
                         Icons.check,
                         size: 20,
                         color: playlistStateModel.tempSelectedPlaylist == null
-                            ? Colors.blue.shade200
-                            : Colors.blue,
+                            ? Colors.red.shade200
+                            : Colors.red,
                       ),
                       label: Text(
                         "Done",
                         style: TextStyle(
                           fontSize: 18,
                           color: playlistStateModel.tempSelectedPlaylist == null
-                              ? Colors.blue.shade200
-                              : Colors.blue,
+                              ? Colors.red.shade200
+                              : Colors.red,
                         ),
                       ),
                     ),

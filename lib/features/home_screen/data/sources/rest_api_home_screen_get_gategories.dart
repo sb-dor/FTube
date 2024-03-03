@@ -11,7 +11,7 @@ class RestApiHomeScreenGetCategories implements AbsHomeScreenGetCategories {
     Map<String, dynamic> res = {};
     try {
       final response =
-          await APISettings.dio.get(videoCategories + key + snippetPart + regionCode + language);
+          await APISettings.dio.get(videoCategories + key + snippetPart + regionCode + languageEn);
 
       if (response.statusCode != Constants.STATUS_SUCCESS) return {'server_error': true};
 

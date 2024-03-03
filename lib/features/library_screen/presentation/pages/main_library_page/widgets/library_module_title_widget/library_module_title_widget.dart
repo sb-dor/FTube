@@ -34,15 +34,23 @@ class LibraryModuleTitleWidget extends StatelessWidget {
                   onPressed: onAddTap,
                   icon: const Icon(
                     Icons.add,
-                    color: Colors.blue,
+                    color: Colors.red,
                   ),
                 ),
             ],
           ),
         ),
         OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Colors.red),
+          ),
           onPressed: onButtonTap,
-          child: const Text("See all"),
+          child: const Text(
+            "See all",
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
         ),
       ],
     );
