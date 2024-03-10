@@ -6,7 +6,7 @@ abstract class VideoModelDbDao {
   @Query("select * from video_history")
   Future<List<VideoModelDb>> getAllVideos();
 
-  @Query("select * from video_history limit :limit")
+  @Query("select * from video_history order by id desc limit :limit")
   Future<List<VideoModelDb>> getLimitVideos(int limit);
 
   @Query("delete from video_history where id = :id")

@@ -6,6 +6,9 @@ class GetAllHistoryUsecase {
 
   GetAllHistoryUsecase(this._historyInnerScreenRepository);
 
-  Future<List<BaseVideoModelDb>> getAllHistory({int page = 1}) =>
-      _historyInnerScreenRepository.getHistory(page: page);
+  Future<List<BaseVideoModelDb>> getAllHistory({int page = 1, int currentListLength = 0}) =>
+      _historyInnerScreenRepository.getHistory(
+        page: page,
+        currentListLength: currentListLength,
+      );
 }

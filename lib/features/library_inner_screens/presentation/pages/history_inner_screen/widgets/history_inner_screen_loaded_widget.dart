@@ -7,28 +7,27 @@ import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
-  const HistoryInnerScreenLoadedWidget({super.key});
+  final List<BaseVideoModelDb> historyVideos;
+
+  const HistoryInnerScreenLoadedWidget({
+    super.key,
+    required this.historyVideos,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final historyInnerScreenBloc = context.watch<HistoryInnerScreenBloc>();
-
-      // data
-      final historyInnerScreenStateModel =
-          historyInnerScreenBloc.state.historyInnerScreenStateModel;
-      return ListView.separated(
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: historyInnerScreenStateModel.historyVideos.length,
-          itemBuilder: (context, index) {
-            final video = historyInnerScreenStateModel.historyVideos[index];
-            return _Widget(
-              baseVideoModelDb: video,
-            );
-          });
-    });
+    return ListView.separated(
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: historyVideos.length,
+      itemBuilder: (context, index) {
+        final video = historyVideos[index];
+        return _Widget(
+          baseVideoModelDb: video,
+        );
+      },
+    );
   }
 }
 

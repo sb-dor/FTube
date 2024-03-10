@@ -122,7 +122,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
             await _downloadVideoWithoutSound(
               videoDownloadingCubit: videoDownloadingCubit,
               stateModel: stateModel,
-              downloadingVideo: downloadingVideo.data ?? [],
+              downloadingVideo: downloadingVideo.data ?? <int>[],
               downloadingAudio: message,
               path: path,
             );
@@ -183,9 +183,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
         // var downloadingAudio =
         //     await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
 
-        sendPort.send(downloadingAudio.data ?? []);
+        sendPort.send(downloadingAudio.data ?? <int>[]);
       } catch (e) {
-        sendPort.send(downloadingAudio?.data ?? []);
+        sendPort.send(downloadingAudio?.data ?? <int>[]);
       }
     }
   }
@@ -219,14 +219,18 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
     dateTime = DateTime.now();
 
-    String outputPath = '${tempPath.path}/'
-        '${stateModel.videoData?.video?.title ?? '-'}'
-        '_${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}.mp4'; // remember to rename file all the time, other way file will be replaced with another file
+    String outputPath =
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
 
+    debugPrint("output path is: $outputPath");
+
+    //-y -i $videoPath -i $audioPath -map 0:v -map 1:a -c:v copy "
+    //               "-shortest $savedFileLocation
     await FFmpegKit.execute('-i ${newVideoFile.path} -i ${newAudioFile.path} -c copy $outputPath')
         .then((value) async {
       final returnCode = await value.getReturnCode();
-      debugPrint("result of audio and video");
+      log("result of audio and video logs: ${await value.getAllLogsAsString()}");
+      log("result of fail: ${await value.getFailStackTrace()}");
 
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("SUCCESS");

@@ -38,5 +38,13 @@ class HistoryInnerScreenBloc extends Bloc<HistoryInnerScreenEvent, HistoryInnerS
   void _paginateHistoryInnerScreenEvent(
     PaginateHistoryInnerScreenEvent event,
     Emitter<HistoryInnerScreenState> emit,
-  ) {}
+  ) async {
+    final data = await _getAllHistoryUsecase.getAllHistory(
+      currentListLength: _currentState.historyVideos.length,
+    );
+
+    _currentState.addPaginate(videos: data, paginate: true);
+
+    emit(LoadedHistoryInnerScreen(_currentState));
+  }
 }
