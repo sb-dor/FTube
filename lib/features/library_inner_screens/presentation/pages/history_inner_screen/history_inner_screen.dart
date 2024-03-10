@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_event.dart';
+import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_state.dart';
 import 'package:youtube/features/library_inner_screens/presentation/pages/history_inner_screen/widgets/history_inner_screen_loaded_widget.dart';
+import 'package:youtube/features/library_inner_screens/presentation/pages/history_inner_screen/widgets/history_inner_screen_loading_widget.dart';
+
+import 'widgets/history_inner_screen_error_widget.dart';
 
 class HistoryInnerScreen extends StatefulWidget {
   const HistoryInnerScreen({super.key});
@@ -38,7 +42,7 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text("History"),
+          title: const Text("History"),
           scrolledUnderElevation: 0,
         ),
         body: RefreshIndicator(
@@ -46,13 +50,23 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
           onRefresh: () async =>
               context.read<HistoryInnerScreenBloc>().add(RefreshHistoryInnerScreenEvent()),
           child: ListView(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
-              HistoryInnerScreenLoadedWidget(),
+              if (historyInnerScreenBloc.state is LoadingHistoryInnerScreen)
+                const HistoryInnerScreenLoadingWidget()
+              else if (historyInnerScreenBloc.state is ErrorHistoryInnerScreen)
+                const HistoryInnerScreenErrorWidget()
+              else if (historyInnerScreenBloc.state is LoadedHistoryInnerScreen &&
+                  historyInnerScreenStateModel.historyVideos.isEmpty)
+                const SizedBox()
+              else
+                HistoryInnerScreenLoadedWidget(
+                  historyVideos: historyInnerScreenStateModel.historyVideos,
+                ),
               if (historyInnerScreenStateModel.hasMore)
-                Column(
+                const Column(
                   children: [
                     SizedBox(height: 15),
                     SizedBox(
@@ -65,7 +79,7 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
                     )
                   ],
                 ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
             ],
           ),
         ),

@@ -211,7 +211,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         searchBodyCubit.errorSearchBodyState();
       } else if (data.containsKey('success')) {
         _currentState.suggestData = data['data'];
-        searchBodyCubit.searchingBodyState();
+        searchBodyCubit.emitState();
       } else {
         searchBodyCubit.errorSearchBodyState();
       }

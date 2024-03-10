@@ -1,6 +1,7 @@
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
+import 'package:youtube/utils/list_paginator/list_paginator.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
@@ -30,6 +31,10 @@ abstract class UtilsInj {
 
     locator.registerLazySingleton<HiveDatabaseHelper>(
       () => HiveDatabaseHelper(),
+    );
+
+    locator.registerLazySingleton<ListPaginator>(
+      () => ListPaginator(),
     );
   }
 }

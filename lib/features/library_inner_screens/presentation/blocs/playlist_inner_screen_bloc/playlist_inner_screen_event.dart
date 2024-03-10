@@ -1,4 +1,5 @@
-part of 'playlist_inner_screen_bloc.dart';
-
-@immutable
 abstract class PlaylistInnerScreenEvent {}
+
+class RefreshInnerPlaylistScreen extends PlaylistInnerScreenEvent {}
+
+class PaginateInnerPlaylistScreen extends PlaylistInnerScreenEvent {}

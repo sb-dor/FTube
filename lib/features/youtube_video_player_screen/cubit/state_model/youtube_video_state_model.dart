@@ -14,7 +14,7 @@ class YoutubeVideoStateModel {
 
   YoutubeExplode? youtubeExplode;
 
-  late AnimationController playPauseController;
+  late AnimationController? playPauseController;
 
   late Animation<double> playPauseAnimation;
 

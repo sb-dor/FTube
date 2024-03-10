@@ -4,12 +4,12 @@ import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/h
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_state.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/history_widgets/error_history_widget.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/history_widgets/loaded_history_widget.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/history_widgets/loading_history_widget.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/playlist_widgets/error_playlist_widget.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/playlist_widgets/loaded_playlist_widget.dart';
-import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/playlist_widgets/loading_playlist_widget.dart';
+import 'package:youtube/features/widgets/history_widgets/error_history_widget.dart';
+import 'package:youtube/features/widgets/history_widgets/loaded_history_widget.dart';
+import 'package:youtube/features/widgets/history_widgets/loading_history_widget.dart';
+import 'package:youtube/features/widgets/playlist_widgets/error_playlist_widget.dart';
+import 'package:youtube/features/widgets/playlist_widgets/loaded_playlist_widget.dart';
+import 'package:youtube/features/widgets/playlist_widgets/loading_playlist_widget.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -40,6 +40,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         //
         return Scaffold(
           body: RefreshIndicator(
+            color: Colors.red,
             onRefresh: () async {
               context.read<HistoryBloc>().add(GetHistoryEvent());
               context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
@@ -56,7 +57,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     historyStateModel.videos.isEmpty)
                   const SizedBox()
                 else
-                  const LoadedHistoryWidget(),
+                  LoadedHistoryWidget(videos: historyStateModel.videos),
                 if (playlistBloc.state is LoadingPlaylistsState)
                   const LoadingPlaylistWidget()
                 else if (playlistBloc.state is ErrorPlaylistsState)
@@ -65,7 +66,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     playlistStateModel.playlist.isEmpty)
                   const SizedBox()
                 else
-                  const LoadedPlaylistWidget(),
+                  LoadedPlaylistWidget(
+                    playlist: playlistStateModel.playlist,
+                  ),
                 const SizedBox(height: 30)
               ],
             ),

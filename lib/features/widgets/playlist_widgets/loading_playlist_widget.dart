@@ -1,42 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/utils/constants.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 
 class LoadingPlaylistWidget extends StatelessWidget {
-  const LoadingPlaylistWidget({super.key});
+  final bool listView;
+  final bool gridView;
+
+  const LoadingPlaylistWidget({
+    super.key,
+    this.listView = true,
+    this.gridView = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 30),
-        Row(
-          children: [
-            Expanded(
-              child: ShimmerContainer(
-                height: 20,
+        if (!gridView) const SizedBox(height: 30),
+        if (!gridView)
+          Row(
+            children: [
+              Expanded(
+                child: ShimmerContainer(
+                  height: 20,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              const SizedBox(width: 30),
+              ShimmerContainer(
+                width: 100,
+                height: 50,
                 borderRadius: BorderRadius.circular(10),
               ),
-            ),
-            const SizedBox(width: 30),
-            ShimmerContainer(
-              width: 100,
-              height: 50,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ],
-        ),
-        const SizedBox(height: 15),
-        SizedBox(
-          height: 210,
-          child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
-            itemCount: 15,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return const _Widget();
-            },
+            ],
           ),
-        ),
+        if (!gridView) const SizedBox(height: 15),
+        if (gridView)
+          GridView.builder(
+            shrinkWrap: true,
+            itemCount: Constants.kGridViewLength,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
+            itemBuilder: (context, index) => const _Widget(),
+          )
+        else
+          SizedBox(
+            height: 210,
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              itemCount: Constants.kListViewLength,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return const _Widget();
+              },
+            ),
+          ),
       ],
     );
   }
@@ -50,7 +70,6 @@ class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: 150,
@@ -67,7 +86,7 @@ class _Widget extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 8,
+                top: 5,
                 right: 0,
                 left: 0,
                 bottom: 0,
@@ -92,9 +111,12 @@ class _Widget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        ShimmerContainer(
-          borderRadius: BorderRadius.circular(10),
-          height: 15,
+        Center(
+          child: ShimmerContainer(
+            width: 110,
+            borderRadius: BorderRadius.circular(10),
+            height: 15,
+          ),
         )
       ],
     );

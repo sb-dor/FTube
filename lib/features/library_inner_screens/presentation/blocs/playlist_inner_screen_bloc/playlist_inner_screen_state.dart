@@ -1,6 +1,22 @@
-part of 'playlist_inner_screen_bloc.dart';
+import 'state_model/playlist_inner_screen_state_model.dart';
 
-@immutable
-abstract class PlaylistInnerScreenState {}
+abstract class PlaylistInnerScreenState {
+  PlaylistInnerScreenStateModel playlistInnerScreenStateModel;
 
-class PlaylistInnerScreenInitial extends PlaylistInnerScreenState {}
+  PlaylistInnerScreenState({required this.playlistInnerScreenStateModel});
+}
+
+class LoadingPlaylistInnerState extends PlaylistInnerScreenState {
+  LoadingPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
+      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+}
+
+class ErrorPlaylistInnerState extends PlaylistInnerScreenState {
+  ErrorPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
+      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+}
+
+class LoadedPlaylistInnerState extends PlaylistInnerScreenState {
+  LoadedPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
+      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+}

@@ -13,7 +13,7 @@ class LastNextStopPlayWidget extends StatelessWidget {
       var currentState = state.youtubeVideoStateModel;
       return Positioned.fill(
           child: AnimatedBuilder(
-              animation: currentState.playPauseController,
+              animation: currentState.playPauseController ?? ChangeNotifier(),
               builder: (context, child) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,9 +28,9 @@ class LastNextStopPlayWidget extends StatelessWidget {
                       onTap: () {
                         context.read<YoutubeVideoCubit>().stopVideo();
                         if (currentState.stopVideo) {
-                          currentState.playPauseController.forward();
+                          currentState.playPauseController?.forward();
                         } else {
-                          currentState.playPauseController.reverse();
+                          currentState.playPauseController?.reverse();
                         }
                       },
                       child: Container(

@@ -157,7 +157,8 @@ class _$VideoModelDbDao extends VideoModelDbDao {
 
   @override
   Future<List<VideoModelDb>> getLimitVideos(int limit) async {
-    return _queryAdapter.queryList('select * from video_history limit ?1',
+    return _queryAdapter.queryList(
+        'select * from video_history order by id desc limit ?1',
         mapper: (Map<String, Object?> row) => VideoModelDb(
             id: row['id'] as int?,
             videoId: row['videoId'] as String?,

@@ -12,44 +12,41 @@ import 'package:youtube/widgets/text_widget.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class LoadedHistoryWidget extends StatelessWidget {
-  const LoadedHistoryWidget({super.key});
+  final List<BaseVideoModelDb> videos;
+
+  const LoadedHistoryWidget({
+    super.key,
+    required this.videos,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        final historyState = context.watch<HistoryBloc>().state;
-
-        // data
-        final historyStateModel = historyState.historyStateModel;
-        return Column(
-          children: [
-            LibraryModuleTitleWidget(
-              title: 'History',
-              onButtonTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HistoryInnerScreen(),
-                ),
-              ),
-              showAdd: false,
+    return Column(
+      children: [
+        LibraryModuleTitleWidget(
+          title: 'History',
+          onButtonTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HistoryInnerScreen(),
             ),
-            const SizedBox(height: 15),
-            SizedBox(
-              height: 210,
-              child: ListView.separated(
-                separatorBuilder: (context, index) => const SizedBox(width: 10),
-                itemCount: historyStateModel.videos.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final video = historyStateModel.videos[index];
-                  return _Widget(videoModelDb: video);
-                },
-              ),
-            ),
-          ],
-        );
-      },
+          ),
+          showAdd: false,
+        ),
+        const SizedBox(height: 15),
+        SizedBox(
+          height: 210,
+          child: ListView.separated(
+            separatorBuilder: (context, index) => const SizedBox(width: 10),
+            itemCount: videos.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final video = videos[index];
+              return _Widget(videoModelDb: video);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

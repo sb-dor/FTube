@@ -10,6 +10,6 @@ class LibraryGetHistoryLocally implements LibraryGetHistoryDataSource {
     var data = <VideoModelDb>[];
     if (page == 1) data = await locator<DbFloor>().videoDbDao.getLimitVideos(15);
     debugPrint("working here list : ${data.length}");
-    return data.reversed.toList();
+    return data;
   }
 }

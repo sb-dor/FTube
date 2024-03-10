@@ -39,4 +39,8 @@ abstract class Constants {
       "An error occurred while downloading, please try to download another format.";
 
   static const String errorMessage = "Something went wrong. Please try again";
+
+  static const int kGridViewLength = 16;
+
+  static const int kListViewLength = 15;
 }
