@@ -281,6 +281,26 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   }
 
   @override
+  Future<PlaylistVideosModelDb?> getVideoFromPlaylistVideos(
+      String videoId) async {
+    return _queryAdapter.query(
+        'select * from playlist_videos where videoId = ?1',
+        mapper: (Map<String, Object?> row) => PlaylistVideosModelDb(
+            id: row['id'] as int?,
+            playlistId: row['play_list_id'] as int?,
+            videoId: row['videoId'] as String?,
+            videoThumbnailUrl: row['videoThumbnailUrl'] as String?,
+            views: row['views'] as String?,
+            duration: row['duration'] as String?,
+            title: row['title'] as String?,
+            channelName: row['channelName'] as String?,
+            channelThumb: row['channelThumb'] as String?,
+            videoDate: row['videoDate'] as String?,
+            dateTime: row['date_time'] as String?),
+        arguments: [videoId]);
+  }
+
+  @override
   Future<void> deletePlaylist(int id) async {
     await _queryAdapter
         .queryNoReturn('delete from playlists where id ?1', arguments: [id]);

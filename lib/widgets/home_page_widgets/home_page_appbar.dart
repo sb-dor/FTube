@@ -49,11 +49,11 @@ class HomePageAppBar extends StatelessWidget {
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
           title: const Text("FTube", style: TextStyle(color: Colors.black)),
-          centerTitle: true,
-          leading: IconButton(
-            onPressed: () => [],
-            icon: const Icon(Icons.menu, color: Colors.black),
-          ),
+          // centerTitle: true,
+          // leading: IconButton(
+          //   onPressed: () => [],
+          //   icon: const Icon(Icons.menu, color: Colors.black),
+          // ),
           actions: [
             IconButton(
               onPressed: () => Navigator.push(
@@ -67,31 +67,33 @@ class HomePageAppBar extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            if (authBlocStates is LoadingAuthState)
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: SizedBox(
-                    width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 3)),
-              )
-            else if (authBlocStates is ErrorAuthState)
-              IconButton(
-                  onPressed: () => context
-                      .read<MainAuthBloc>()
-                      .add(LoginEvent(authorizationService: GoogleService())),
-                  icon: const Icon(Icons.person))
-            else
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: ImageLoaderWidget(
-                          url: authBlocStateModel.user?.imageUrl ?? "",
-                          errorImageUrl: 'assets/custom_images/custom_user_image.png')),
-                ),
-              )
+            // uncomment here for further development
+
+            // if (authBlocStates is LoadingAuthState)
+            //   const Padding(
+            //     padding: EdgeInsets.all(10.0),
+            //     child: SizedBox(
+            //         width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 3)),
+            //   )
+            // else if (authBlocStates is ErrorAuthState)
+            //   IconButton(
+            //       onPressed: () => context
+            //           .read<MainAuthBloc>()
+            //           .add(LoginEvent(authorizationService: GoogleService())),
+            //       icon: const Icon(Icons.person))
+            // else
+            //   Padding(
+            //     padding: const EdgeInsets.all(10),
+            //     child: ClipRRect(
+            //       borderRadius: BorderRadius.circular(30),
+            //       child: SizedBox(
+            //           width: 30,
+            //           height: 30,
+            //           child: ImageLoaderWidget(
+            //               url: authBlocStateModel.user?.imageUrl ?? "",
+            //               errorImageUrl: 'assets/custom_images/custom_user_image.png')),
+            //     ),
+            //   )
           ],
         ),
       );

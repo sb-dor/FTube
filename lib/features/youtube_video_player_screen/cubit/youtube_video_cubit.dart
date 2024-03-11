@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/domain/usecases/check_video_in_bookmarks/check_video_in_bookmarks.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/enums.dart';
@@ -41,6 +42,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.videoPicture = videoPicture;
     _currentState.youtubeExplode = YoutubeExplode();
     _currentState.loadingVideo = true;
+    _currentState.isVideoAddedToBookMarks = false;
     //init _stop_play button
     _currentState.playPauseController =
         AnimationController(vsync: mixin, duration: const Duration(seconds: 1));
@@ -56,6 +58,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     //get information about video
     if (context.mounted) await getVideo(videoId: url, context: context);
     if (context.mounted) await getVideoInformation(videoId: url, context: context);
+    await checkVideoInBookmarks(videoId: url);
     if (context.mounted) await getSimilarVideos(context: context, paginating: paginating);
   }
 
@@ -237,5 +240,13 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   bool showInformationInButtonIfTheSameVideosAudioIsDownloading(BuildContext context) {
     var audioDownloadCubit = BlocProvider.of<AudioDownloadingCubit>(context).state;
     return audioDownloadCubit.downloadingAudioInfo?.mainVideoId == _currentState.tempVideoId;
+  }
+
+  Future<void> checkVideoInBookmarks({required String videoId}) async {
+    await CheckVideoInBookmarks.checkVideoInBookmarks(
+      stateModel: _currentState,
+      videoId: videoId,
+      emit: emit,
+    );
   }
 }

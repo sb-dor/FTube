@@ -134,11 +134,13 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                       child: Container(
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(10),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
-                            FontAwesomeIcons.bookmark,
+                            currentState.isVideoAddedToBookMarks
+                                ? FontAwesomeIcons.solidBookmark
+                                : FontAwesomeIcons.bookmark,
                             weight: 0.5,
-                            color: Colors.grey,
+                            color: currentState.isVideoAddedToBookMarks ? Colors.red : Colors.grey,
                             size: 20,
                           ),
                         ),

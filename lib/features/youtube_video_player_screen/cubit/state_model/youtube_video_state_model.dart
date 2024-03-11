@@ -20,7 +20,10 @@ class YoutubeVideoStateModel {
 
   VideoPlayerController? playerController;
 
-  bool loadingVideo = false, clickedUpOnVideo = false, stopVideo = false;
+  bool loadingVideo = false,
+      clickedUpOnVideo = false,
+      stopVideo = false,
+      isVideoAddedToBookMarks = false;
 
   Timer? timerForClickedUpOnVideo;
 
