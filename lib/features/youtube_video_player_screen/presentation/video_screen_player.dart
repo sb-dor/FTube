@@ -147,7 +147,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                               clipper: _Clipper(),
                               blurRadius: 1,
                               child: Container(
-                                padding: const EdgeInsets.only(bottom: 80),
+                                // change bottom to 80 if you want to show bottom subscription buttons
+                                padding: const EdgeInsets.only(bottom: 50),
                                 color: Colors.white,
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 10, right: 10),
@@ -175,15 +176,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                                 ),
                               ),
                             ),
-                            if (videoInformationStates is LoadingVideoInformationState)
-                              const VideoInfoSubsButtonsLoadingWidget()
-                            else if (videoInformationStates is ErrorVideoInformationState)
-                              const SizedBox()
-                            else
-                              const VideoInfoSubsButtonsLoadedWidget(),
+                            // if (videoInformationStates is LoadingVideoInformationState)
+                            //   const VideoInfoSubsButtonsLoadingWidget()
+                            // else if (videoInformationStates is ErrorVideoInformationState)
+                            //   const SizedBox()
+                            // else
+                            //   const VideoInfoSubsButtonsLoadedWidget(),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        // const SizedBox(height: 10),
                         if (similarVideoCubit.state is LoadingSimilarVideosState)
                           const Padding(
                             padding: EdgeInsets.only(left: 10, right: 10),
