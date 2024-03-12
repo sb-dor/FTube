@@ -25,6 +25,7 @@ final goRouter = GoRouter(routes: [
               // reg ex -> .be\/(.{1,})\?
               // for finding id from url
               // get first group from regex there will be id inside of it
+              // https://youtu.be/NQDinnsjabs
               return const VideoPlayerScreen(videoId: '1');
             })
       ]),

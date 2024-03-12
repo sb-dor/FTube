@@ -4,6 +4,7 @@ import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
 import 'package:youtube/utils/list_paginator/list_paginator.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
+import 'package:youtube/utils/share_helper/share_helper.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
@@ -35,6 +36,10 @@ abstract class UtilsInj {
 
     locator.registerLazySingleton<ListPaginator>(
       () => ListPaginator(),
+    );
+
+    locator.registerLazySingleton<ShareHelper>(
+      () => ShareHelper(),
     );
   }
 }
