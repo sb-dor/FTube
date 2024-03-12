@@ -9,13 +9,27 @@ import 'package:youtube/widgets/wrapped_popup_widget.dart';
 
 import 'create_playlist_popup.dart';
 
-class SelectPlaylistPopup extends StatelessWidget {
+class SelectPlaylistPopup extends StatefulWidget {
   final BaseVideoModelDb? videoModelDb;
 
   const SelectPlaylistPopup({
     super.key,
     required this.videoModelDb,
   });
+
+  @override
+  State<SelectPlaylistPopup> createState() => _SelectPlaylistPopupState();
+}
+
+class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context
+        .read<PlaylistsBloc>()
+        .add(CheckIsVideoInPlaylistEvent(baseVideoModelDb: widget.videoModelDb));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +125,7 @@ class SelectPlaylistPopup extends StatelessWidget {
                         if (playlistStateModel.tempSelectedPlaylist == null) return;
                         context.read<PlaylistsBloc>().add(
                               SaveInPlaylistEvent(
-                                videoModelDb: videoModelDb,
+                                videoModelDb: widget.videoModelDb,
                                 playlistModelDb: null,
                               ),
                             );

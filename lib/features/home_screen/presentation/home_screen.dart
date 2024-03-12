@@ -52,29 +52,28 @@ class _HomeScreenState extends State<HomeScreen> {
       //data
       var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
 
-      return RefreshIndicator(
-        onRefresh: () async {
-          context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context,refresh: true));
-        },
-        child: Column(
-          children: [
-            if (videoCategoryState is LoadingVideoCategoryState)
-              const HomeScreenCategoriesLoadingWidget()
-            else if (videoCategoryState is ErrorVideoCategoryState)
-              const HomeScreenCategoriesErrorWidget()
-            else
-              HomeScreenSelectTypeContentLoadedWidget(scrollController: _scrollController),
-            const SizedBox(height: 10),
-            Expanded(
-              child: NotificationListener<UserScrollNotification>(
-                onNotification: (notification) {
-                  if (notification.direction == ScrollDirection.forward) {
-                    context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
-                  } else if (notification.direction == ScrollDirection.reverse) {
-                    context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
-                  }
-                  return true;
-                },
+      return Column(
+        children: [
+          if (videoCategoryState is LoadingVideoCategoryState)
+            const HomeScreenCategoriesLoadingWidget()
+          else if (videoCategoryState is ErrorVideoCategoryState)
+            const HomeScreenCategoriesErrorWidget()
+          else
+            HomeScreenSelectTypeContentLoadedWidget(scrollController: _scrollController),
+          const SizedBox(height: 10),
+          Expanded(
+            child: NotificationListener<UserScrollNotification>(
+              onNotification: (notification) {
+                if (notification.direction == ScrollDirection.forward) {
+                  context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
+                } else if (notification.direction == ScrollDirection.reverse) {
+                  context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
+                }
+                return true;
+              },
+              child: RefreshIndicator(
+                color: Colors.red,
+                onRefresh: () async =>   context.read<MainHomeScreenBloc>().add(RefreshHomeScreenEvent(context: context,refresh: true)),
                 child: ListView(
                     controller: _scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -100,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ]),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
     });
   }

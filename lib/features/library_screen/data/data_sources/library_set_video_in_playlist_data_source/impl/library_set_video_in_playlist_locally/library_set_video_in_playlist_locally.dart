@@ -16,6 +16,7 @@ class LibrarySetVideoInPlaylistLocally implements LibrarySetVideoInPlaylistDataS
     PlaylistVideosModelDb pListVideoModel = PlaylistVideosModelDb.fromEntity(video)!;
     pListVideoModel = pListVideoModel.copyWith(playlistId: playlistModelDb.id);
     pListVideoModel.dateTime = dateTime.toString().substring(0, 16);
+    await locator<DbFloor>().playListDao.deleteVideoFromAllPlaylists(video.videoId ?? "0");
     await locator<DbFloor>().playListDao.insertVideoIntoPlaylist(pListVideoModel);
   }
 }

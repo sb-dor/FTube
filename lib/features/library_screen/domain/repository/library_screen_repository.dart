@@ -15,4 +15,6 @@ abstract class LibraryScreenRepository {
   Future<List<PlaylistModelDb>> getPlaylists({int page = 1});
 
   Future<List<Video>> getVideosFromPlaylist(PlayList? playList);
+
+  Future<PlaylistModelDb?> videoPlaylist(BaseVideoModelDb? baseVideoModelDb);
 }

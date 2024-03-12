@@ -4,6 +4,8 @@ import 'package:youtube/features/library_screen/data/data_sources/library_get_hi
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/library_get_history_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/impl/library_get_playlist_locally/library_get_playlist_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_video_playlist_data_source/impl/library_get_video_playlist_locally/library_get_video_playlist_locally.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_video_playlist_data_source/library_get_video_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/impl/library_save_in_history_locally/library_save_in_history_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/library_save_in_history_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/impl/library_set_video_in_playlist_locally/library_set_video_in_playlist_locally.dart';
@@ -45,13 +47,18 @@ abstract class LibraryInj {
       () => LibrarySetVideoInPlaylistLocally(),
     );
 
+    locator.registerLazySingleton<LibraryGetVideoPlaylistDataSource>(
+      () => LibraryGetVideoPlaylistLocally(),
+    );
+
     locator.registerLazySingleton<LibraryScreenRepository>(
       () => LibraryScreenRepositoryImpl(
         locator<LibraryCreatePlaylistDataSource>(),
         locator<LibraryGetPlaylistDataSource>(),
         locator<LibraryGetHistoryDataSource>(),
         locator<LibrarySaveInHistoryDataSource>(),
-        locator<LibrarySetVideoInPlaylistDataSource>()
+        locator<LibrarySetVideoInPlaylistDataSource>(),
+        locator<LibraryGetVideoPlaylistDataSource>(),
       ),
     );
   }

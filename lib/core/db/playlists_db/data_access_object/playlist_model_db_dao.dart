@@ -19,8 +19,14 @@ abstract class PlaylistModelDao {
   @Query("select * from playlist_videos where videoId = :videoId")
   Future<PlaylistVideosModelDb?> getVideoFromPlaylistVideos(String videoId);
 
+  @Query("select * from playlists where id = :playlistId")
+  Future<PlaylistModelDb?> getVideoPlaylist(int playlistId);
+  
   @Query('delete from playlists where id :id')
   Future<void> deletePlaylist(int id);
+
+  @Query('delete from playlist_videos where videoId = :videoId')
+  Future<void> deleteVideoFromAllPlaylists(String videoId);
 
   @insert
   Future<void> createPlaylist(PlaylistModelDb playlistModelDb);

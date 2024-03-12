@@ -180,11 +180,16 @@ class _Widget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          TextWidget(
-            text: "${playlist?.name}",
-            size: 16,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.9,
+          SizedBox(
+            width: 150,
+            child: TextWidget(
+              text: "${playlist?.name}",
+              size: 16,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.9,
+              maxLines: 1,
+              overFlow: TextOverflow.ellipsis,
+            ),
           )
         ],
       ),

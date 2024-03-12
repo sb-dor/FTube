@@ -301,9 +301,24 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   }
 
   @override
+  Future<PlaylistModelDb?> getVideoPlaylist(int playlistId) async {
+    return _queryAdapter.query('select * from playlists where id = ?1',
+        mapper: (Map<String, Object?> row) => PlaylistModelDb(
+            id: row['id'] as int?, name: row['name'] as String?),
+        arguments: [playlistId]);
+  }
+
+  @override
   Future<void> deletePlaylist(int id) async {
     await _queryAdapter
         .queryNoReturn('delete from playlists where id ?1', arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteVideoFromAllPlaylists(String videoId) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from playlist_videos where videoId = ?1',
+        arguments: [videoId]);
   }
 
   @override
