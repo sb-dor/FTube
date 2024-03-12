@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 abstract class Constants {
+  static const youtubeUrlVideo = "https://youtu.be/";
+
   static const int perPage = 15;
 
   static const int STATUS_SUCCESS = 200;
