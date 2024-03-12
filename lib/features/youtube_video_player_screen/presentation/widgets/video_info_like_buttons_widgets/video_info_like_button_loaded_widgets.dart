@@ -122,12 +122,20 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
                         VideoModelDb? model = VideoModelDb.fromVideoData(currentState.videoData);
                         model?.videoThumbnailUrl = currentState.videoPicture;
-                        locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                        await locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
                           context: context,
                           videoModelDb: model,
+                          onFunc: () async {
+                            await Future.delayed(const Duration(seconds: 1));
+                            if (context.mounted) {
+                              context
+                                  .read<YoutubeVideoCubit>()
+                                  .checkVideoInBookmarks(videoId: currentState.tempVideoId ?? '0');
+                            }
+                          },
                         );
                       },
                       borderRadius: BorderRadius.circular(50),

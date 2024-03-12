@@ -18,9 +18,10 @@ class ReusableGlobalWidgets {
   BuildContext context =
       locator<GlobalContextHelper>().globalNavigatorContext.currentState!.context;
 
-  void showPlaylistAddingPopup({
+  Future<void> showPlaylistAddingPopup({
     required BuildContext context,
     required BaseVideoModelDb? videoModelDb,
+    VoidCallback? onFunc,
   }) async {
     await showModalBottomSheet(
       context: context,
@@ -30,7 +31,11 @@ class ReusableGlobalWidgets {
         );
       },
     ).then((value) {
-      context.read<PlaylistsBloc>().add(ClearTempPlaylist());
+      if (onFunc != null) {
+        onFunc();
+      } else {
+        context.read<PlaylistsBloc>().add(ClearTempPlaylist());
+      }
     });
   }
 }

@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
@@ -138,88 +140,105 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                           ],
                         )),
                   Expanded(
-                    child: ListView(
-                      controller: _scrollController,
+                    child: Stack(
                       children: [
-                        Stack(
-                          children: [
-                            CustomerClipperWithShadow(
-                              clipper: _Clipper(),
-                              blurRadius: 1,
-                              child: Container(
-                                // change bottom to 80 if you want to show bottom subscription buttons
-                                padding: const EdgeInsets.only(bottom: 50),
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 10),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 10),
-                                      //
-                                      if (videoInformationStates is LoadingVideoInformationState)
-                                        const VideoInformationLoadingWidget()
-                                      else if (videoInformationStates is ErrorVideoInformationState)
-                                        const SizedBox()
-                                      else
-                                        const VideoInformationLoadedWidget(),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: MediaQuery.of(context).size.height / 2,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            color: Colors.white,
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: ListView(
+                            controller: _scrollController,
+                            children: [
+                              Stack(
+                                children: [
+                                  CustomerClipperWithShadow(
+                                    clipper: _Clipper(),
+                                    blurRadius: 1,
+                                    child: Container(
+                                      // change bottom to 80 if you want to show bottom subscription buttons
+                                      padding: const EdgeInsets.only(bottom: 50),
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 10, right: 10),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 10),
+                                            //
+                                            if (videoInformationStates is LoadingVideoInformationState)
+                                              const VideoInformationLoadingWidget()
+                                            else if (videoInformationStates is ErrorVideoInformationState)
+                                              const SizedBox()
+                                            else
+                                              const VideoInformationLoadedWidget(),
 
-                                      //
-                                      const SizedBox(height: 10),
-                                      if (videoInformationStates is LoadingVideoInformationState)
-                                        const VideoInfoLikeButtonLoadingWidgets()
-                                      else if (videoInformationStates is ErrorVideoInformationState)
-                                        const SizedBox()
-                                      else
-                                        const VideoInfoLikeButtonLoadedWidget()
-                                    ],
+                                            //
+                                            const SizedBox(height: 10),
+                                            if (videoInformationStates is LoadingVideoInformationState)
+                                              const VideoInfoLikeButtonLoadingWidgets()
+                                            else if (videoInformationStates is ErrorVideoInformationState)
+                                              const SizedBox()
+                                            else
+                                              const VideoInfoLikeButtonLoadedWidget()
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // if (videoInformationStates is LoadingVideoInformationState)
+                                  //   const VideoInfoSubsButtonsLoadingWidget()
+                                  // else if (videoInformationStates is ErrorVideoInformationState)
+                                  //   const SizedBox()
+                                  // else
+                                  //   const VideoInfoSubsButtonsLoadedWidget(),
+                                ],
+                              ),
+                              // const SizedBox(height: 10),
+                              if (similarVideoCubit.state is LoadingSimilarVideosState)
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: VideosLoadingWidget(),
+                                )
+                              else if (similarVideoCubit.state is ErrorSimilarVideosState)
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: VideosErrorWidget(),
+                                )
+                              else
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
+                                  child: VideosLoadedWidget(
+                                    closeScreenBeforeOpeningAnotherOne: true,
+                                    videoList:
+                                        similarVideoCubit.state.similarVideoStateModel.similarVideos,
                                   ),
                                 ),
-                              ),
-                            ),
-                            // if (videoInformationStates is LoadingVideoInformationState)
-                            //   const VideoInfoSubsButtonsLoadingWidget()
-                            // else if (videoInformationStates is ErrorVideoInformationState)
-                            //   const SizedBox()
-                            // else
-                            //   const VideoInfoSubsButtonsLoadedWidget(),
-                          ],
-                        ),
-                        // const SizedBox(height: 10),
-                        if (similarVideoCubit.state is LoadingSimilarVideosState)
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: VideosLoadingWidget(),
-                          )
-                        else if (similarVideoCubit.state is ErrorSimilarVideosState)
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: VideosErrorWidget(),
-                          )
-                        else
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: VideosLoadedWidget(
-                              closeScreenBeforeOpeningAnotherOne: true,
-                              videoList:
-                                  similarVideoCubit.state.similarVideoStateModel.similarVideos,
-                            ),
-                          ),
-                        const SizedBox(height: 10),
-                        if (similarVideoCubit.state.similarVideoStateModel.hasMore)
-                          const Column(
-                            children: [
-                              SizedBox(
-                                width: 15,
-                                height: 15,
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                  strokeWidth: 2,
-                                ),
-                              ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
+                              if (similarVideoCubit.state.similarVideoStateModel.hasMore)
+                                const Column(
+                                  children: [
+                                    SizedBox(
+                                      width: 15,
+                                      height: 15,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.red,
+                                        strokeWidth: 2,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                  ],
+                                )
+                              // VideoInformationLoadedWidget(),
                             ],
-                          )
-                        // VideoInformationLoadedWidget(),
+                          ),
+                        ),
                       ],
                     ),
                   ),

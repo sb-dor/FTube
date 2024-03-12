@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/domain/usecases/create_playlist.dart';
 import 'package:youtube/features/library_screen/domain/usecases/get_playlists.dart';
+import 'package:youtube/features/library_screen/domain/usecases/get_video_playlist.dart';
 import 'package:youtube/features/library_screen/domain/usecases/save_in_playlist.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/state_model/playlists_state_model.dart';
 import 'playlists_event.dart';
@@ -12,6 +13,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
   late GetPlaylist _getPlaylist;
   late CreatePlaylist _createPlaylist;
   late SaveInPlaylist _saveInPlaylist;
+  late GetVideoPlaylist _getVideoPlaylist;
   final LibraryScreenRepository _libraryScreenRepository;
 
   PlaylistsBloc(this._libraryScreenRepository)
@@ -21,6 +23,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     _getPlaylist = GetPlaylist(_libraryScreenRepository);
     _createPlaylist = CreatePlaylist(_libraryScreenRepository);
     _saveInPlaylist = SaveInPlaylist(_libraryScreenRepository);
+    _getVideoPlaylist = GetVideoPlaylist(_libraryScreenRepository);
 
     //
     on<GetPlaylistsEvent>(_getPlaylistsEvent);
@@ -41,6 +44,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     on<SelectTempPlaylist>(_selectTempPlaylist);
 
     //
+    on<CheckIsVideoInPlaylistEvent>(_checkIsVideoInPlaylistEvent);
   }
 
   void _getPlaylistsEvent(
@@ -95,6 +99,15 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     } else {
       _currentState.tempSelectedPlaylist = event.playlistModelDb;
     }
+    _emitter(emit);
+  }
+
+  void _checkIsVideoInPlaylistEvent(
+    CheckIsVideoInPlaylistEvent event,
+    Emitter<PlaylistsStates> emit,
+  ) async {
+    _currentState.tempSelectedPlaylist =
+        await _getVideoPlaylist.videoPlaylist(event.baseVideoModelDb);
     _emitter(emit);
   }
 

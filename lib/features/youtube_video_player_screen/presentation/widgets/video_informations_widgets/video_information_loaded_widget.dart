@@ -48,37 +48,43 @@ class VideoInformationLoadedWidget extends StatelessWidget {
           FadeAnimation(
             beginInterval: 0.1,
             child: RichText(
-                text: TextSpan(children: [
-              WidgetSpan(
-                  child: TextWidget(
-                text: "${currentState.videoData?.video?.viewCount ?? ''}",
-                color: Colors.grey,
-                size: 12,
-                fontWeight: FontWeight.w500,
-              )),
-              const WidgetSpan(
-                  child: TextWidget(
-                text: " • ",
-                size: 12,
-                color: Colors.grey,
-                fontWeight: FontWeight.w500,
-              )),
-              WidgetSpan(
-                  child: TextWidget(
-                text: currentState.videoData?.video?.date ?? '',
-                color: Colors.grey,
-                size: 12,
-                fontWeight: FontWeight.w500,
-              )),
-              const WidgetSpan(child: SizedBox(width: 5)),
-              TextSpan(
-                  text: "More",
-                  recognizer: TapGestureRecognizer()..onTap = () => [],
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ))
-            ])),
+              text: TextSpan(
+                children: [
+                  WidgetSpan(
+                      child: TextWidget(
+                    text: "${currentState.videoData?.video?.viewCount ?? ''}",
+                    color: Colors.grey,
+                    size: 12,
+                    fontWeight: FontWeight.w500,
+                  )),
+                  const WidgetSpan(
+                      child: TextWidget(
+                    text: " • ",
+                    size: 12,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                  )),
+                  WidgetSpan(
+                      child: TextWidget(
+                    text: currentState.videoData?.video?.date ?? '',
+                    color: Colors.grey,
+                    size: 12,
+                    fontWeight: FontWeight.w500,
+                  )),
+                  const WidgetSpan(child: SizedBox(width: 5)),
+
+                  // for future development
+                  // TextSpan(
+                  //   text: "More",
+                  //   recognizer: TapGestureRecognizer()..onTap = () => [],
+                  //   style: const TextStyle(
+                  //     color: Colors.black,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // )
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: 10),
           IntrinsicHeight(

@@ -34,3 +34,9 @@ class SelectTempPlaylist extends PlaylistsEvent {
 }
 
 class ClearTempPlaylist extends PlaylistsEvent {}
+
+class CheckIsVideoInPlaylistEvent extends PlaylistsEvent {
+  BaseVideoModelDb? baseVideoModelDb;
+
+  CheckIsVideoInPlaylistEvent({required this.baseVideoModelDb});
+}

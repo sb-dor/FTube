@@ -41,10 +41,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
           Expanded(
             child: RefreshIndicator(
               color: Colors.red,
-              onRefresh: () async => context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
-                    category: trendsVideosState.trendingStateModel.category,
-                    refresh: true,
-                  )),
+              onRefresh: () async => context.read<TrendingScreenBloc>().add(
+                    RefreshTrendingScreen(
+                      category: trendsVideosState.trendingStateModel.category,
+                      refresh: true,
+                    ),
+                  ),
               child: NotificationListener<UserScrollNotification>(
                 onNotification: (notification) {
                   if (notification.direction == ScrollDirection.reverse) {

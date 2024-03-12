@@ -243,6 +243,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> checkVideoInBookmarks({required String videoId}) async {
+    print("okay budd workuing here bro");
     await CheckVideoInBookmarks.checkVideoInBookmarks(
       stateModel: _currentState,
       videoId: videoId,

@@ -4,6 +4,7 @@ import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_create_playlist_data_source/library_create_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/library_get_history_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_video_playlist_data_source/library_get_video_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/library_save_in_history_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/library_set_video_in_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
@@ -16,6 +17,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   final LibraryGetHistoryDataSource _getHistoryDataSource;
   final LibrarySaveInHistoryDataSource _saveInHistoryDataSource;
   final LibrarySetVideoInPlaylistDataSource _setVideoInPlaylistDataSource;
+  final LibraryGetVideoPlaylistDataSource _getVideoPlaylistDataSource;
 
   LibraryScreenRepositoryImpl(
     this._createPlaylistDataSource,
@@ -23,6 +25,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
     this._getHistoryDataSource,
     this._saveInHistoryDataSource,
     this._setVideoInPlaylistDataSource,
+    this._getVideoPlaylistDataSource,
   );
 
   @override
@@ -51,4 +54,8 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
         video,
         playlistModelDb,
       );
+
+  @override
+  Future<PlaylistModelDb?> videoPlaylist(BaseVideoModelDb? baseVideoModelDb) =>
+      _getVideoPlaylistDataSource.videoPlaylist(baseVideoModelDb);
 }
