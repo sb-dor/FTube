@@ -9,6 +9,8 @@ class LibrarySaveInHistoryLocally implements LibrarySaveInHistoryDataSource {
   Future<void> saveInHistory(Video? video) async {
     final DateTime dateTime = DateTime.now();
 
+    await locator<DbFloor>().videoDbDao.deleteVideoByVideoId(video?.videoId ?? '0');
+
     final videoModelDb = VideoModelDb.fromVideo(video)
       ..dateTime = dateTime.toString().substring(0, 16);
 

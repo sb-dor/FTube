@@ -132,7 +132,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                           context: context,
                           videoModelDb: model,
                           onFunc: () async {
-                            await Future.delayed(const Duration(seconds: 1));
+                            await Future.delayed(const Duration(milliseconds: 500));
                             if (context.mounted) {
                               context
                                   .read<YoutubeVideoCubit>()

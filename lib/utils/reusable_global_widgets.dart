@@ -24,6 +24,7 @@ class ReusableGlobalWidgets {
     VoidCallback? onFunc,
   }) async {
     await showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (context) {
         return SelectPlaylistPopup(
