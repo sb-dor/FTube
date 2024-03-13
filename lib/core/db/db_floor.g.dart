@@ -180,6 +180,13 @@ class _$VideoModelDbDao extends VideoModelDbDao {
   }
 
   @override
+  Future<void> deleteVideoByVideoId(String id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from video_history where videoId = ?1',
+        arguments: [id]);
+  }
+
+  @override
   Future<void> insertVideo(VideoModelDb videoModelDb) async {
     await _videoModelDbInsertionAdapter.insert(
         videoModelDb, OnConflictStrategy.abort);

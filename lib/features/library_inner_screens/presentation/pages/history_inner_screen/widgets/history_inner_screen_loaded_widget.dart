@@ -3,8 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/youtube_data_api/models/video.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;
@@ -42,11 +46,20 @@ class _Widget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => OpenVideoScreen.openVideoScreen(
-        context: context,
-        videoId: baseVideoModelDb?.videoId ?? '',
-        videoThumb: baseVideoModelDb?.videoThumbnailUrl,
-      ),
+      onTap: () async {
+        Video video = Video.fromBaseVideoModelDb(baseVideoModelDb);
+        context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
+        await OpenVideoScreen.openVideoScreen(
+          context: context,
+          videoId: baseVideoModelDb?.videoId ?? '',
+          videoThumb: baseVideoModelDb?.videoThumbnailUrl,
+        ).then(
+          (value) {
+            context.read<HistoryBloc>().add(GetHistoryEvent());
+            context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+          },
+        );
+      },
       child: IntrinsicHeight(
         child: Row(
           children: [

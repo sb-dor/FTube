@@ -12,6 +12,9 @@ abstract class VideoModelDbDao {
   @Query("delete from video_history where id = :id")
   Future<void> deleteVideo(int id);
 
+  @Query("delete from video_history where videoId = :id")
+  Future<void> deleteVideoByVideoId(String id);
+
   @insert
   Future<void> insertVideo(VideoModelDb videoModelDb);
 }
