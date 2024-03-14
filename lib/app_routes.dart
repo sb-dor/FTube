@@ -11,22 +11,29 @@ final goRouter = GoRouter(routes: [
         return const HomePage();
       },
       routes: [
+        // example for:
+        /// [https://www.youtube.com/watch?v=NQDinnsjabs]
         GoRoute(
             path: 'watch',
             name: '/watch',
             builder: (context, state) {
-              debugPrint("other parameters: ${state.pathParameters}");
-              debugPrint("fullPath ${state.fullPath}");
-              debugPrint('extra: ${state.extra}');
-              debugPrint("uri : ${state.uri}");
-              debugPrint("uri query: ${state.uri.query}");
-              debugPrint("uri query parameters: ${state.uri.queryParameters}");
-              // var param = state.uri.queryParameters;
-              // reg ex -> .be\/(.{1,})\?
-              // for finding id from url
-              // get first group from regex there will be id inside of it
-              // https://youtu.be/NQDinnsjabs
-              return const VideoPlayerScreen(videoId: '1');
+              return VideoPlayerScreen(videoId: state.uri.queryParameters['v'] ?? 'NQDinnsjabs');
+            }),
+
+        // example for:
+        /// [https://www.youtube.com/shorts/CMUtk1pG46M]
+        /// [https://youtube.com/shorts/CMUtk1pG46M?si=ifR0sxH97_PvcPMB]
+        GoRoute(
+            path: 'shorts/:id',
+            builder: (context, state) {
+              return VideoPlayerScreen(videoId: state.pathParameters['id'] ?? "NQDinnsjabs");
+            }),
+        // example for:
+        /// [https://youtu.be/NQDinnsjabs?si=VtdU7uiZoWY2qsdb]
+        GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              return VideoPlayerScreen(videoId: state.pathParameters['id'] ?? "NQDinnsjabs");
             })
       ]),
 ]);

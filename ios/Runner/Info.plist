@@ -26,7 +26,7 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 
 	<key>CFBundleDisplayName</key>
-	<string>Youtube</string>
+	<string>FTube</string>
 
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
@@ -38,7 +38,7 @@
 	<string>6.0</string>
 
 	<key>CFBundleName</key>
-	<string>youtube</string>
+	<string>FTube</string>
 
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
