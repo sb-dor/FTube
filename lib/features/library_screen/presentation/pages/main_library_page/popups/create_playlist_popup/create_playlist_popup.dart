@@ -32,6 +32,7 @@ class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
             if ((value ?? '').isEmpty) return "Field can't be empty";
             return null;
           },
+          maxLength: 25,
           decoration: const InputDecoration(
             hintText: "Name of the playlist",
           ),

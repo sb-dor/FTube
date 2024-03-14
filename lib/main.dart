@@ -104,12 +104,13 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
-        child: MaterialApp.router(
-          scaffoldMessengerKey: locator<GlobalContextHelper>().globalNavigatorContext,
-          theme: ThemeData(useMaterial3: true),
-          debugShowCheckedModeBanner: false,
-          routerConfig: goRouter,
-        ));
+      data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+      child: MaterialApp.router(
+        scaffoldMessengerKey: locator<GlobalContextHelper>().globalNavigatorContext,
+        theme: ThemeData(useMaterial3: true),
+        debugShowCheckedModeBanner: false,
+        routerConfig: goRouter,
+      ),
+    );
   }
 }

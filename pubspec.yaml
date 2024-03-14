@@ -34,7 +34,6 @@ dependencies:
   firebase_auth: ^4.12.0
   firebase_crashlytics: ^3.4.2
   firebase_analytics: ^10.6.2
-  go_router: ^12.1.1
   google_sign_in: ^6.1.6
   flutter_bloc: ^8.1.3
   bloc_concurrency: ^0.2.2
@@ -52,7 +51,7 @@ dependencies:
   cached_network_image: ^3.3.0
   shimmer: ^3.0.0
   flutter_blurhash: ^0.8.2
-#  pod_player: ^0.2.1 # temp if you can not make with video player
+  #  pod_player: ^0.2.1 # temp if you can not make with video player
   video_player: ^2.8.1
   youtube_player_flutter: ^8.1.2
   youtube_explode_dart: ^2.0.4
@@ -64,13 +63,15 @@ dependencies:
   hive: ^2.2.3
   speech_to_text: ^6.5.1
   xml2json: ^6.2.2
-#  youtube_data_api:
+  #  youtube_data_api:
   dartz: ^0.10.1
   equatable: ^2.0.5
   get_it: ^7.6.7
   lecle_downloads_path_provider: ^0.0.2+8
   floor: ^1.4.2
   share_plus: ^7.2.2
+  auto_size_text: ^3.0.0
+  go_router: ^13.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -82,6 +83,7 @@ dev_dependencies:
   mocktail: ^1.0.3
   floor_generator: ^1.4.2
   build_runner: ^2.4.8
+  flutter_launcher_icons: ^0.13.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -89,6 +91,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon/app_main_icon_play_store_512.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

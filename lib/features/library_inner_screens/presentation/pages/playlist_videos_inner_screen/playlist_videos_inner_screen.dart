@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
@@ -55,7 +56,10 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
 
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.playlistModelDb?.name ?? '-'),
+          title: AutoSizeText(
+            widget.playlistModelDb?.name ?? '-',
+            style: const TextStyle(fontSize: 22),
+          ),
           scrolledUnderElevation: 0,
         ),
         body: RefreshIndicator(
@@ -78,6 +82,7 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
                 HistoryInnerScreenLoadedWidget(
                   historyVideos: playlistVideosInnerScreenStateModel.playlistVideos,
                 ),
+              const SizedBox(height: 10),
             ],
           ),
         ),
