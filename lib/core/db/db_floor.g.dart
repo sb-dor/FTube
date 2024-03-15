@@ -64,13 +64,15 @@ class _$DbFloor extends DbFloor {
 
   PlaylistModelDao? _playListDaoInstance;
 
+  LikeDataAccessObject? _likeDaoInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 2,
+      version: 4,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -91,6 +93,8 @@ class _$DbFloor extends DbFloor {
             'CREATE TABLE IF NOT EXISTS `playlists` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `playlist_videos` (`play_list_id` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT, `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT, FOREIGN KEY (`play_list_id`) REFERENCES `playlists` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `likes_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT, `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -107,6 +111,12 @@ class _$DbFloor extends DbFloor {
   PlaylistModelDao get playListDao {
     return _playListDaoInstance ??=
         _$PlaylistModelDao(database, changeListener);
+  }
+
+  @override
+  LikeDataAccessObject get likeDao {
+    return _likeDaoInstance ??=
+        _$LikeDataAccessObject(database, changeListener);
   }
 }
 
@@ -339,5 +349,81 @@ class _$PlaylistModelDao extends PlaylistModelDao {
       PlaylistVideosModelDb playlistVideosModelDb) async {
     await _playlistVideosModelDbInsertionAdapter.insert(
         playlistVideosModelDb, OnConflictStrategy.ignore);
+  }
+}
+
+class _$LikeDataAccessObject extends LikeDataAccessObject {
+  _$LikeDataAccessObject(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _likeModelDbInsertionAdapter = InsertionAdapter(
+            database,
+            'likes_table',
+            (LikeModelDb item) => <String, Object?>{
+                  'id': item.id,
+                  'videoId': item.videoId,
+                  'videoThumbnailUrl': item.videoThumbnailUrl,
+                  'views': item.views,
+                  'duration': item.duration,
+                  'title': item.title,
+                  'channelName': item.channelName,
+                  'channelThumb': item.channelThumb,
+                  'videoDate': item.videoDate,
+                  'date_time': item.dateTime
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<LikeModelDb> _likeModelDbInsertionAdapter;
+
+  @override
+  Future<List<LikeModelDb>> getAllLikes() async {
+    return _queryAdapter.queryList('select * from likes_table',
+        mapper: (Map<String, Object?> row) => LikeModelDb(
+            id: row['id'] as int?,
+            videoId: row['videoId'] as String?,
+            videoThumbnailUrl: row['videoThumbnailUrl'] as String?,
+            views: row['views'] as String?,
+            duration: row['duration'] as String?,
+            title: row['title'] as String?,
+            channelName: row['channelName'] as String?,
+            channelThumb: row['channelThumb'] as String?,
+            videoDate: row['videoDate'] as String?,
+            dateTime: row['date_time'] as String?));
+  }
+
+  @override
+  Future<void> deleteLikedVideo(String videoID) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from likes_table where videoId = ?1',
+        arguments: [videoID]);
+  }
+
+  @override
+  Future<LikeModelDb?> getLikedVideo(String videoID) async {
+    return _queryAdapter.query('select * from likes_table where videoId = ?1',
+        mapper: (Map<String, Object?> row) => LikeModelDb(
+            id: row['id'] as int?,
+            videoId: row['videoId'] as String?,
+            videoThumbnailUrl: row['videoThumbnailUrl'] as String?,
+            views: row['views'] as String?,
+            duration: row['duration'] as String?,
+            title: row['title'] as String?,
+            channelName: row['channelName'] as String?,
+            channelThumb: row['channelThumb'] as String?,
+            videoDate: row['videoDate'] as String?,
+            dateTime: row['date_time'] as String?),
+        arguments: [videoID]);
+  }
+
+  @override
+  Future<void> insertLikedVideo(LikeModelDb likeModelDb) async {
+    await _likeModelDbInsertionAdapter.insert(
+        likeModelDb, OnConflictStrategy.abort);
   }
 }

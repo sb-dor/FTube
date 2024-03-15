@@ -23,7 +23,8 @@ class YoutubeVideoStateModel {
   bool loadingVideo = false,
       clickedUpOnVideo = false,
       stopVideo = false,
-      isVideoAddedToBookMarks = false;
+      isVideoAddedToBookMarks = false,
+      isVideoAddedToFavorites = false;
 
   Timer? timerForClickedUpOnVideo;
 

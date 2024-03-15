@@ -31,17 +31,21 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
-                      onTap: () => [],
+                      onTap: () => context.read<YoutubeVideoCubit>().likeVideo(),
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
-                          padding: const EdgeInsets.all(10),
-                          child: const Center(
-                              child: Icon(
-                            FontAwesomeIcons.thumbsUp,
+                        padding: const EdgeInsets.all(10),
+                        child: Center(
+                          child: Icon(
+                            currentState.isVideoAddedToFavorites
+                                ? FontAwesomeIcons.solidThumbsUp
+                                : FontAwesomeIcons.thumbsUp,
                             weight: 0.5,
-                            color: Colors.grey,
+                            color: currentState.isVideoAddedToFavorites ? Colors.red : Colors.grey,
                             size: 20,
-                          ))),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   TextWidget(
