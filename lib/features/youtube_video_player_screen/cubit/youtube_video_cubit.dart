@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/usecases/check_video_in_bookmarks/check_video_in_bookmarks.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/domain/usecases/check_video_in_favorites/check_video_in_favorites.dart';
+import 'package:youtube/features/youtube_video_player_screen/cubit/domain/usecases/like_video/like_video.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/enums.dart';
@@ -57,6 +59,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
     //get information about video
     if (context.mounted) await getVideo(videoId: url, context: context);
+    await checkVideoInFavorites();
     if (context.mounted) await getVideoInformation(videoId: url, context: context);
     await checkVideoInBookmarks(videoId: url);
     if (context.mounted) await getSimilarVideos(context: context, paginating: paginating);
@@ -247,6 +250,20 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     await CheckVideoInBookmarks.checkVideoInBookmarks(
       stateModel: _currentState,
       videoId: videoId,
+      emit: emit,
+    );
+  }
+
+  Future<void> checkVideoInFavorites() async {
+    await CheckVideoInFavorites.checkVideoInFavorites(
+      stateModel: _currentState,
+      emit: emit,
+    );
+  }
+
+  Future<void> likeVideo() async {
+    await LikeVideo.likeVideo(
+      stateModel: _currentState,
       emit: emit,
     );
   }
