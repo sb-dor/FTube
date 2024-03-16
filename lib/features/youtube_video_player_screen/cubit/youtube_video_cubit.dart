@@ -45,6 +45,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.youtubeExplode = YoutubeExplode();
     _currentState.loadingVideo = true;
     _currentState.isVideoAddedToBookMarks = false;
+    _currentState.isVideoAddedToFavorites = false;
     //init _stop_play button
     _currentState.playPauseController =
         AnimationController(vsync: mixin, duration: const Duration(seconds: 1));
@@ -191,6 +192,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
         .then((value) => value.kill());
     downloadingCubit.state.tempDownloadingVideoInfo = null;
     downloadingCubit.state.tempDownloadingAudioInfo = null;
+    await initToken();
     downloadingCubit.videoDownloadingLoadedState();
     emit(InitialYoutubeVideoState(_currentState));
   }
@@ -208,10 +210,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> initToken() async {
-    if ((_currentState.cancelVideoToken?.isCancelled ?? false)) {
+    if (_currentState.cancelVideoToken == null ||
+        (_currentState.cancelVideoToken?.isCancelled ?? false)) {
       _currentState.cancelVideoToken = CancelToken();
     }
-    if ((_currentState.cancelAudioToken?.isCancelled ?? false)) {
+    if (_currentState.cancelAudioToken == null ||
+        (_currentState.cancelAudioToken?.isCancelled ?? false)) {
       _currentState.cancelAudioToken = CancelToken();
     }
   }

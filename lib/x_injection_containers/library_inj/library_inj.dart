@@ -2,6 +2,8 @@ import 'package:youtube/features/library_screen/data/data_sources/library_create
 import 'package:youtube/features/library_screen/data/data_sources/library_create_playlist_data_source/library_create_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/impl/library_get_history_locally/library_get_history_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/library_get_history_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_liked_video_data_source/impl/library_get_liked_video_data_source_locally/library_get_liked_video_data_source_locally.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_liked_video_data_source/library_get_liked_video_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/impl/library_get_playlist_locally/library_get_playlist_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_video_playlist_data_source/impl/library_get_video_playlist_locally/library_get_video_playlist_locally.dart';
@@ -51,6 +53,10 @@ abstract class LibraryInj {
       () => LibraryGetVideoPlaylistLocally(),
     );
 
+    locator.registerLazySingleton<LibraryGetLikedVideoDataSource>(
+      () => LibraryGetLikedVideoDataSourceLocally(),
+    );
+
     locator.registerLazySingleton<LibraryScreenRepository>(
       () => LibraryScreenRepositoryImpl(
         locator<LibraryCreatePlaylistDataSource>(),
@@ -59,6 +65,7 @@ abstract class LibraryInj {
         locator<LibrarySaveInHistoryDataSource>(),
         locator<LibrarySetVideoInPlaylistDataSource>(),
         locator<LibraryGetVideoPlaylistDataSource>(),
+        locator<LibraryGetLikedVideoDataSource>(),
       ),
     );
   }

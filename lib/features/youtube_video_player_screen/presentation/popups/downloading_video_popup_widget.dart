@@ -224,6 +224,15 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
+                              if (audio.url.toString().trim() ==
+                                  youtubeStateModel.tempMinAudioForVideo?.url.toString().trim())
+                                const TextWidget(
+                                  text: "Recommended",
+                                  color: Colors.red,
+                                  size: 13,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.9,
+                                ),
                             ],
                           ),
                         ),

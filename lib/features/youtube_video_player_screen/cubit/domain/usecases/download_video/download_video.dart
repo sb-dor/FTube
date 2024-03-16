@@ -88,18 +88,24 @@ abstract class DownloadVideo with SolvePercentageMixin {
         });
       }
 
-      var downloadingVideo = await APISettings.dio.get<List<int>>(video.url.toString(),
-          cancelToken: stateModel.cancelVideoToken, onReceiveProgress: (int receive, int total) {
-        var solvePercentage = receive / total * 100;
-        videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
-            solvePercentage / 100;
-        videoDownloadingCubit.videoDownloadingLoadingState();
-      },
-          options: Options(
-            headers: await APISettings.headers(),
-            responseType: ResponseType.bytes,
-            receiveDataWhenStatusError: true,
-          ));
+      var downloadingVideo = await APISettings.dio.get<List<int>>(
+        video.url.toString(),
+        cancelToken: stateModel.cancelVideoToken,
+        onReceiveProgress: (int receive, int total) {
+          var solvePercentage = receive / total * 100;
+          videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
+              solvePercentage / 100;
+          videoDownloadingCubit.videoDownloadingLoadingState();
+          debugPrint("still downloading");
+        },
+        options: Options(
+          headers: await APISettings.headers(),
+          responseType: ResponseType.bytes,
+          receiveDataWhenStatusError: true,
+          receiveTimeout: const Duration(minutes: 5),
+          persistentConnection: true,
+        ),
+      );
 
       // var downloadingVideo =
       //     await HttpDownloaderHelper.download(video.url.toString(), (total, downloading, progress) {
@@ -174,12 +180,17 @@ abstract class DownloadVideo with SolvePercentageMixin {
         downloadingAudio = await Dio().get<List<int>>(each,
             onReceiveProgress: (int receive, int total) {},
             options: Options(
-              headers: await APISettings.headers(),
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json',
+                "Connection": "Keep-Alive",
+                "Keep-Alive": "timeout=500, max=1000"
+              },
               responseType: ResponseType.bytes,
               receiveDataWhenStatusError: true,
               receiveTimeout: const Duration(minutes: 5),
+              persistentConnection: true,
             ));
-
         // var downloadingAudio =
         //     await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
 
@@ -196,38 +207,50 @@ abstract class DownloadVideo with SolvePercentageMixin {
       required List<int> downloadingVideo,
       required List<int> downloadingAudio,
       required DownloadingStoragePath path}) async {
-    log("getting downloading audio list: $downloadingAudio");
-
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
     var tempPath = await getTemporaryDirectory();
 
-    var dateTime = DateTime.now();
+    String videoName = stateModel.videoData?.video?.title ?? '-';
 
     var newVideoPath =
-        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_video.mp4";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${videoName}_${downloadingVideo.length}")}_video.mp4";
     var newAudioPath =
-        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo(dateTime.toString())}_sound.mp3";
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${videoName}_${downloadingAudio.length}")}_sound.mp3";
 
     File newVideoFile = File(newVideoPath);
     File newAudioFile = File(newAudioPath);
 
-    newVideoFile.writeAsBytesSync(downloadingVideo);
-    newAudioFile.writeAsBytesSync(downloadingAudio);
+    if (!newVideoFile.existsSync()) newVideoFile.writeAsBytesSync(downloadingVideo);
+    if (!newAudioFile.existsSync()) newAudioFile.writeAsBytesSync(downloadingAudio);
 
     // create output path where file will be saved
 
-    dateTime = DateTime.now();
+    var dateTime = DateTime.now();
 
     String outputPath =
-        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
+        "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("$videoName"
+            "_${downloadingVideo.length + downloadingAudio.length}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
 
-    debugPrint("output path is: $outputPath");
+    // final command =
+    //     '-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a aac -strict experimental $outputPath';
+    //
+    // final command2 = '-i ${newAudioFile.path} -i ${newVideoFile.path} -c copy $outputPath';
+    //
+    // final command3 =
+    //     "-y -i ${newVideoFile.path} -i ${newAudioFile.path} -map 0:v -map 1:a -c:v copy "
+    //     "-shortest $outputPath";
+    //
+    // final command4 =
+    //     "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a copy $outputPath";
+    //
+    // final command5 =
+    //     "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -map 0:v -map 1:a -y $outputPath";
 
-    //-y -i $videoPath -i $audioPath -map 0:v -map 1:a -c:v copy "
-    //               "-shortest $savedFileLocation
-    await FFmpegKit.execute('-i ${newVideoFile.path} -i ${newAudioFile.path} -c copy $outputPath')
-        .then((value) async {
+    final command6 = "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a aac -map 0:v:0"
+        " -map 1:a:0 -shortest $outputPath";
+
+    await FFmpegKit.execute(command6).then((value) async {
       final returnCode = await value.getReturnCode();
       log("result of audio and video logs: ${await value.getAllLogsAsString()}");
       log("result of fail: ${await value.getFailStackTrace()}");

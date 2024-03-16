@@ -93,7 +93,16 @@ abstract class GetVideo {
             el.size.totalMegaBytes == stateModel.tempMinAudioForVideo?.size.totalMegaBytes,
       );
       stateModel.audios.add(stateModel.tempMinAudioForVideo!);
+    } else if (stateModel.audios.isNotEmpty) {
+      stateModel.tempMinAudioForVideo = stateModel.audios.last;
     }
+
+    if (stateModel.tempMinAudioForVideo != null) {
+      stateModel.audios.removeWhere((el) =>
+          el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim());
+      stateModel.audios.insert(0, stateModel.tempMinAudioForVideo!);
+    }
+
     // }
 
     debugPrint("temp min audio for video : ${stateModel.tempMinAudioForVideo?.codec.subtype}"

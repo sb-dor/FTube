@@ -20,6 +20,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:label="FTube"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
         <activity
@@ -63,6 +64,10 @@
                 <data
                     android:host="youtu.be"
                     android:scheme="http" />
+
+                <data
+                    android:host="youtu.be"
+                    android:scheme="https" />
             </intent-filter>
 
 

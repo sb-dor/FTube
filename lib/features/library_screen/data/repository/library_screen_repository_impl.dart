@@ -1,8 +1,10 @@
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/db/likes_db/like_model_db/like_model_db.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_create_playlist_data_source/library_create_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/library_get_history_data_source.dart';
+import 'package:youtube/features/library_screen/data/data_sources/library_get_liked_video_data_source/library_get_liked_video_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_video_playlist_data_source/library_get_video_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_save_in_history_data_source/library_save_in_history_data_source.dart';
@@ -18,6 +20,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   final LibrarySaveInHistoryDataSource _saveInHistoryDataSource;
   final LibrarySetVideoInPlaylistDataSource _setVideoInPlaylistDataSource;
   final LibraryGetVideoPlaylistDataSource _getVideoPlaylistDataSource;
+  final LibraryGetLikedVideoDataSource _libraryGetLikedVideoDataSource;
 
   LibraryScreenRepositoryImpl(
     this._createPlaylistDataSource,
@@ -26,6 +29,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
     this._saveInHistoryDataSource,
     this._setVideoInPlaylistDataSource,
     this._getVideoPlaylistDataSource,
+    this._libraryGetLikedVideoDataSource,
   );
 
   @override
@@ -58,4 +62,7 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   @override
   Future<PlaylistModelDb?> videoPlaylist(BaseVideoModelDb? baseVideoModelDb) =>
       _getVideoPlaylistDataSource.videoPlaylist(baseVideoModelDb);
+
+  @override
+  Future<List<BaseVideoModelDb>> getLikedVideo() => _libraryGetLikedVideoDataSource.getLikedVideos();
 }
