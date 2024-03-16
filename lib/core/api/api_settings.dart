@@ -18,6 +18,7 @@ abstract class APISettings {
       ..options = BaseOptions(
         baseUrl: MAIN_URL,
         connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
         headers: await headers(),
       );
   }

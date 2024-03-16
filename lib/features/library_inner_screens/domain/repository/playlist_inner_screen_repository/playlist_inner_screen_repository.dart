@@ -9,4 +9,8 @@ abstract class PlaylistInnerScreenRepository {
     int currentListLength = 0,
     PlaylistModelDb? playlistModelDb,
   });
+
+  Future<List<BaseVideoModelDb>> getAllLikesLength();
+
+  Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0});
 }

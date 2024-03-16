@@ -73,6 +73,7 @@ class DownloadAudio {
             },
             responseType: ResponseType.bytes,
             receiveTimeout: const Duration(minutes: 5),
+            receiveDataWhenStatusError: true,
           ));
 
       audioDownloadingCubit.audioSavingOnStorageState();

@@ -1,6 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
+import 'package:youtube/core/db/playlists_db/playlist_videos_model_db/playlist_videos_model_db.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/domain/usecases/create_playlist.dart';
+import 'package:youtube/features/library_screen/domain/usecases/get_liked_videos.dart';
 import 'package:youtube/features/library_screen/domain/usecases/get_playlists.dart';
 import 'package:youtube/features/library_screen/domain/usecases/get_video_playlist.dart';
 import 'package:youtube/features/library_screen/domain/usecases/save_in_playlist.dart';
@@ -14,6 +17,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
   late CreatePlaylist _createPlaylist;
   late SaveInPlaylist _saveInPlaylist;
   late GetVideoPlaylist _getVideoPlaylist;
+  late GetLikedVideos _getLikedVideos;
   final LibraryScreenRepository _libraryScreenRepository;
 
   PlaylistsBloc(this._libraryScreenRepository)
@@ -24,6 +28,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     _createPlaylist = CreatePlaylist(_libraryScreenRepository);
     _saveInPlaylist = SaveInPlaylist(_libraryScreenRepository);
     _getVideoPlaylist = GetVideoPlaylist(_libraryScreenRepository);
+    _getLikedVideos = GetLikedVideos(_libraryScreenRepository);
 
     //
     on<GetPlaylistsEvent>(_getPlaylistsEvent);
@@ -45,6 +50,9 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
 
     //
     on<CheckIsVideoInPlaylistEvent>(_checkIsVideoInPlaylistEvent);
+
+    //
+    on<GetLikedVideosEvent>(_getLikedVideosEvent);
   }
 
   void _getPlaylistsEvent(
@@ -54,6 +62,19 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     emit(LoadingPlaylistsState(_currentState));
 
     final data = await _getPlaylist.getPlaylist();
+
+    final likedVideos = await _getLikedVideos.getLikedVideos();
+
+    if (likedVideos.isNotEmpty) {
+      data.insert(
+        0,
+        PlaylistModelDb(
+          id: 0,
+          name: "Liked videos",
+          videos: likedVideos.map((e) => PlaylistVideosModelDb.fromEntity(e)!).toList(),
+        ),
+      );
+    }
 
     _currentState.addPaginate(list: data);
 
@@ -110,6 +131,11 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
         await _getVideoPlaylist.videoPlaylist(event.baseVideoModelDb);
     _emitter(emit);
   }
+
+  void _getLikedVideosEvent(
+    GetLikedVideosEvent event,
+    Emitter<PlaylistsStates> emit,
+  ) async {}
 
   void _emitter(Emitter<PlaylistsStates> emit) {
     if (state is LoadingPlaylistsState) {

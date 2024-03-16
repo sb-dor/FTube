@@ -48,7 +48,21 @@ class HomePageAppBar extends StatelessWidget {
         child: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
-          title: const Text("FTube", style: TextStyle(color: Colors.black)),
+          title: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(7),
+                child: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: Image.asset('assets/app_icon/app_main_icon_1024.png'),
+                ),
+              ),
+              const SizedBox(width: 10),
+              const Text("FTube", style: TextStyle(color: Colors.black)),
+            ],
+          ),
           // centerTitle: true,
           // leading: IconButton(
           //   onPressed: () => [],

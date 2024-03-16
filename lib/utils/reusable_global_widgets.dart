@@ -23,6 +23,7 @@ class ReusableGlobalWidgets {
     required BaseVideoModelDb? videoModelDb,
     VoidCallback? onFunc,
   }) async {
+    context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
     await showModalBottomSheet(
       isScrollControlled: true,
       context: context,

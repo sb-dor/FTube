@@ -40,3 +40,5 @@ class CheckIsVideoInPlaylistEvent extends PlaylistsEvent {
 
   CheckIsVideoInPlaylistEvent({required this.baseVideoModelDb});
 }
+
+class GetLikedVideosEvent extends PlaylistsEvent {}

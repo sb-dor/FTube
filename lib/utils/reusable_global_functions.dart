@@ -42,12 +42,7 @@ class ReusableGlobalFunctions {
     var reg2 = RegExp("mime=audio%2F3gpp");
     var reg3 = RegExp("mime=audio%2Fwebm");
     var reg4 = RegExp('gir=yes');
-    return (
-        (
-            reg.hasMatch(value)
-            ||
-            reg2.hasMatch(value)
-        || reg3.hasMatch(value)) &&
+    return ((reg.hasMatch(value) || reg2.hasMatch(value) || reg3.hasMatch(value)) &&
         reg4.hasMatch(value));
   }
 
@@ -86,7 +81,22 @@ class ReusableGlobalFunctions {
     String res = '';
     for (int i = 0; i < value.length; i++) {
       if (value[i] == ' ' || value[i] == '.') continue;
-      if (value[i] == '-' || value[i] == ":") {
+      if (value[i] == '-' ||
+          value[i] == ":" ||
+          value[i] == "\"" ||
+          value[i] == "'" ||
+          value[i] == ',' ||
+          value[i] == '/' ||
+          value[i] == "\\" ||
+          value[i] == '@' ||
+          value[i] == '!' ||
+          value[i] == '\$' ||
+          value[i] == '%' ||
+          value[i] == '^' ||
+          value[i] == '&' ||
+          value[i] == '*' ||
+          value[i] == '(' ||
+          value[i] == ')') {
         res += '_';
         continue;
       }

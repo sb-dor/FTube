@@ -28,4 +28,14 @@ class PlaylistVideosInnerScreenDataSourceImpl implements PlaylistVideosInnerScre
 
     return result;
   }
+
+  @override
+  Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0}) async {
+    final data = await locator<DbFloor>().likeDao.getAllLikes();
+    final result = locator<ListPaginator>().paginateList(
+      wholeList: data,
+      currentListLength: currentListLength,
+    );
+    return result;
+  }
 }
