@@ -1,16 +1,36 @@
-# youtube
+# FTube
 
-A new Flutter project.
+FTube is a versatile Flutter application that allows users to watch, download videos, and extract audios from videos effortlessly. With its intuitive interface and powerful features, FTube revolutionizes your video streaming and downloading experience.
+
+## Features
+
+- **Video Streaming**: Seamlessly stream your favorite videos directly within the app, providing an immersive viewing experience.
+- **Video Downloading**: Download videos from various platforms, including YouTube, Vimeo, and more, with just a few taps.
+- **Audio Extraction**: Extract audio tracks from videos and save them in popular audio formats such as MP3, AAC, and more.
+- **Multiple Resolutions**: Choose from a range of video resolutions to ensure optimal viewing quality or save storage space.
+- **Customizable Downloads**: Personalize your download settings to suit your preferences, including download location, video quality, and more.
+- **Background Downloads**: Keep downloading videos and audios even when the app is running in the background, maximizing productivity.
+- **User-Friendly Interface**: Enjoy a clean and intuitive user interface designed to enhance your navigation and usability experience.
+- **Secure and Reliable**: Rest assured that your downloads are safe and secure, with FTube prioritizing user privacy and data protection.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get started with FTube, simply follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone this repository to your local machine.
+2. Ensure you have Flutter installed on your system.
+3. Run `flutter pub get` to install dependencies.
+4. Connect your device or start an emulator.
+5. Run `flutter run` to launch the application.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot 1](screenshots/screenshot1.png)
+*Caption for Screenshot 1*
+
+![Screenshot 2](screenshots/screenshot2.png)
+*Caption for Screenshot 2*
+
+## Contributing
+
+Contributions to FTube are welcome! Whether you're reporting a bug, adding a feature, or suggesting improvements, please feel free to open an issue or submit a pull request.
