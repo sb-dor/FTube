@@ -23,10 +23,10 @@ To get started with FTube, simply follow these steps:
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
+![Screenshot 1](https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114456.png)
 *Caption for Screenshot 1*
 
-![Screenshot 2](screenshots/screenshot2.png)
+![Screenshot 2](https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114848.png)
 *Caption for Screenshot 2*
 
 ## Contributing
