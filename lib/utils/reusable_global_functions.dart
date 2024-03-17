@@ -96,7 +96,9 @@ class ReusableGlobalFunctions {
           value[i] == '&' ||
           value[i] == '*' ||
           value[i] == '(' ||
-          value[i] == ')') {
+          value[i] == ')' ||
+          value[i] == '|' ||
+          value[i] == '?') {
         res += '_';
         continue;
       }

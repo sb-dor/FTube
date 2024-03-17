@@ -15,7 +15,7 @@ class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
     var dateTimeForVideoName = DateTime.now();
 
     var pathOfVideo = '${directory?.path}/'
-        '${audioName}_${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(dateTimeForVideoName.toString())}.mp3';
+        '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${audioName}_${dateTimeForVideoName.toString()}")}.mp3';
 
     File fileForSaving = File(pathOfVideo);
 

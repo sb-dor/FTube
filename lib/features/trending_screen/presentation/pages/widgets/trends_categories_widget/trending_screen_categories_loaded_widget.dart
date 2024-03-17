@@ -15,6 +15,7 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
       return SizedBox(
           height: 40,
           child: ListView.separated(
+              padding: const EdgeInsets.only(left: 10, right: 10),
               separatorBuilder: (context, index) => const SizedBox(width: 15),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,

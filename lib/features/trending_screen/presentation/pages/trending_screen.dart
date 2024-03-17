@@ -26,10 +26,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
-          category: VideoCategory.trendsCategories.first,
-          refresh: false,
-        ));
+    context.read<TrendingScreenBloc>().add(
+          RefreshTrendingScreen(
+            category: VideoCategory.trendsCategories.first,
+            refresh: false,
+          ),
+        );
   }
 
   @override
@@ -39,10 +41,18 @@ class _TrendingScreenState extends State<TrendingScreen> {
       final trendsVideosState = context.watch<TrendingScreenBloc>().state;
       return Column(
         children: [
+          // if (videoCategoryState is LoadingVideoCategoryState)
+          //   const TrendingScreenCategoriesLoadingWidget()
+          // else if (videoCategoryState is ErrorVideoCategoryState)
+          //   const TrendingScreenCategoriesErrorWidget()
+          // else
+          const TrendingScreenCategoriesLoadedWidget(),
+          const SizedBox(height: 10),
           Expanded(
             child: RefreshIndicator(
               color: Colors.red,
-              onRefresh: () async => context.read<TrendingScreenBloc>().add(
+              onRefresh: () async =>
+                  context.read<TrendingScreenBloc>().add(
                     RefreshTrendingScreen(
                       category: trendsVideosState.trendingStateModel.category,
                       refresh: true,
@@ -60,16 +70,10 @@ class _TrendingScreenState extends State<TrendingScreen> {
                 child: ListView(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   children: [
-                    if (videoCategoryState is LoadingVideoCategoryState)
-                      const TrendingScreenCategoriesLoadingWidget()
-                    else if (videoCategoryState is ErrorVideoCategoryState)
-                      const TrendingScreenCategoriesErrorWidget()
-                    else
-                      const TrendingScreenCategoriesLoadedWidget(),
-                    const SizedBox(height: 10),
                     if (trendsVideosState is LoadingTrendingScreenState)
                       const VideosLoadingWidget()
-                    else if (trendsVideosState is ErrorTrendingScreenState)
+                    else if (trendsVideosState is ErrorTrendingScreenState ||
+                        videoCategoryState is ErrorVideoCategoryState)
                       ErrorButtonWidget(
                         onTap: () => context.read<TrendingScreenBloc>().add(
                               RefreshTrendingScreen(

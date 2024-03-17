@@ -73,9 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: RefreshIndicator(
                 color: Colors.red,
-                onRefresh: () async => context
-                    .read<MainHomeScreenBloc>()
-                    .add(RefreshHomeScreenEvent(context: context, refresh: true)),
+                onRefresh: () async {
+                  if (videoCategoryState is ErrorVideoCategoryState) {
+                    context.read<MainVideoCategoryCubit>().loadVideoCategory();
+                  }
+
+                  context
+                      .read<MainHomeScreenBloc>()
+                      .add(RefreshHomeScreenEvent(context: context, refresh: true));
+                },
                 child: ListView(
                     controller: _scrollController,
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -86,10 +92,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         const VideosLoadingWidget()
                       else if (homeScreenVideosState is ErrorHomeScreenVideosState ||
                           videoCategoryState is ErrorVideoCategoryState)
-                        VideosErrorWidget(
-                            onTap: () => context
-                                .read<MainHomeScreenBloc>()
-                                .add(RefreshHomeScreenEvent(context: context, refresh: true)))
+                        VideosErrorWidget(onTap: () {
+                          if (videoCategoryState is ErrorVideoCategoryState) {
+                            context.read<MainVideoCategoryCubit>().loadVideoCategory();
+                          }
+
+                          context
+                              .read<MainHomeScreenBloc>()
+                              .add(RefreshHomeScreenEvent(context: context, refresh: true));
+                        })
                       else
                         VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
                       const SizedBox(height: 5),
