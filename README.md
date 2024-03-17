@@ -32,7 +32,17 @@ To get started with FTube, simply follow these steps:
 
 <img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114456.png" alt="Screenshot 1" width="380" height="700">
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114848.png" alt="Screenshot 1" width="380" height="700">
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114547.png" alt="Screenshot 2" width="380" height="700">
+
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114951.png" alt="Screenshot 3" width="380" height="700">
+
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114652.png" alt="Screenshot 4" width="380" height="700">
+
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114712.png" alt="Screenshot 5" width="380" height="700">
+
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114808.png" alt="Screenshot 6" width="380" height="700">
+
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114848.png" alt="Screenshot 7" width="380" height="700">
 
 ## Contributing
 
