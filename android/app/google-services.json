@@ -7,28 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:583795295936:android:957ef652d416ac1be50f25",
+        "mobilesdk_app_id": "1:583795295936:android:0a9f0941ffef8c70e50f25",
         "android_client_info": {
-          "package_name": "com.example.youtube"
+          "package_name": "com.bdaynabday.ftube"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.youtube",
-            "certificate_hash": "3a86fef678ac092a423656650d994a459d0153d8"
-          }
-        },
-        {
-          "client_id": "583795295936-vs455366no298feffjln12pmifca36er.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.youtube",
-            "certificate_hash": "90425a612f9c56795470ebede994e9a45a75163d"
-          }
-        },
         {
           "client_id": "583795295936-436ei1r6il9hhp367c1tdkrm58u7gngt.apps.googleusercontent.com",
           "client_type": 3

@@ -56,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           if (videoCategoryState is LoadingVideoCategoryState)
             const HomeScreenCategoriesLoadingWidget()
-          else if (videoCategoryState is ErrorVideoCategoryState)
-            const HomeScreenCategoriesErrorWidget()
-          else
+          // else if (videoCategoryState is ErrorVideoCategoryState)
+          //   const HomeScreenCategoriesErrorWidget()
+          else if (videoCategoryState is! ErrorVideoCategoryState)
             HomeScreenSelectTypeContentLoadedWidget(scrollController: _scrollController),
           const SizedBox(height: 10),
           Expanded(
@@ -84,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       //
                       if (homeScreenVideosState is LoadingHomeScreenVideosState)
                         const VideosLoadingWidget()
-                      else if (homeScreenVideosState is ErrorHomeScreenVideosState)
+                      else if (homeScreenVideosState is ErrorHomeScreenVideosState ||
+                          videoCategoryState is ErrorVideoCategoryState)
                         VideosErrorWidget(
                             onTap: () => context
                                 .read<MainHomeScreenBloc>()

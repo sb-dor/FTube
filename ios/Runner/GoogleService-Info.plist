@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>583795295936-6i592rgi5padfcfe7gu42f1tts7jo7of.apps.googleusercontent.com</string>
+	<string>583795295936-r8kmfb1r2oagknbp2no8l3pklft7k2oi.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.583795295936-6i592rgi5padfcfe7gu42f1tts7jo7of</string>
+	<string>com.googleusercontent.apps.583795295936-r8kmfb1r2oagknbp2no8l3pklft7k2oi</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com</string>
+	<string>583795295936-ba2nr3qprmat9d6nt2e2ib5073126gfm.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD3Mcc8XWFpNyEd80COWwF-MW9RhVQAJJk</string>
+	<string>AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI</string>
 	<key>GCM_SENDER_ID</key>
 	<string>583795295936</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.youtube</string>
+	<string>com.bdaynabday.ftube</string>
 	<key>PROJECT_ID</key>
 	<string>ftube-bd64a</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:583795295936:ios:c1826c9d75a27a2ee50f25</string>
+	<string>1:583795295936:ios:1469c750136c1a16e50f25</string>
 </dict>
 </plist>
