@@ -4,12 +4,10 @@ FTube is a versatile Flutter application that allows users to watch, download vi
 
 ## Features
 
-- **Video Streaming**: Seamlessly stream your favorite videos directly within the app, providing an immersive viewing experience.
 - **Video Downloading**: Download videos from various platforms, including YouTube, Vimeo, and more, with just a few taps.
-- **Audio Extraction**: Extract audio tracks from videos and save them in popular audio formats such as MP3, AAC, and more.
+- **Audio Extraction**: Extract audio tracks from videos and save them as MP3.
 - **Multiple Resolutions**: Choose from a range of video resolutions to ensure optimal viewing quality or save storage space.
 - **Customizable Downloads**: Personalize your download settings to suit your preferences, including download location, video quality, and more.
-- **Background Downloads**: Keep downloading videos and audios even when the app is running in the background, maximizing productivity.
 - **User-Friendly Interface**: Enjoy a clean and intuitive user interface designed to enhance your navigation and usability experience.
 - **Secure and Reliable**: Rest assured that your downloads are safe and secure, with FTube prioritizing user privacy and data protection.
 
