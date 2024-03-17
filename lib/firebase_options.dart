@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
-    appId: '1:583795295936:android:957ef652d416ac1be50f25',
+    appId: '1:583795295936:android:0a9f0941ffef8c70e50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
     storageBucket: 'ftube-bd64a.appspot.com',
@@ -63,11 +63,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBPbKt7DytYkw2LW1-VHHOFmYp13iFDKeI',
-    appId: '1:583795295936:ios:c1826c9d75a27a2ee50f25',
+    appId: '1:583795295936:ios:1469c750136c1a16e50f25',
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
     storageBucket: 'ftube-bd64a.appspot.com',
-    iosBundleId: 'com.example.youtube',
+    androidClientId: '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
+    iosClientId: '583795295936-3dfsq9r2ki146n1l4ibuv2jqut1s3i4j.apps.googleusercontent.com',
+    iosBundleId: 'com.android.ftube',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
     storageBucket: 'ftube-bd64a.appspot.com',
+    androidClientId: '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
+    iosClientId: '583795295936-024o5pg971kijq676qet5vlafg3vflqu.apps.googleusercontent.com',
     iosBundleId: 'com.example.youtube.RunnerTests',
   );
 }

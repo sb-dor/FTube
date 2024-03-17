@@ -98,7 +98,7 @@ class _MainAppState extends State<MainApp> {
     // TODO: implement initState
     super.initState();
 
-    context.read<MainAuthBloc>().add(CheckAuthEvent(authorizationService: GoogleService()));
+    // context.read<MainAuthBloc>().add(CheckAuthEvent(authorizationService: GoogleService()));
   }
 
   @override
