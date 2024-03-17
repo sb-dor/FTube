@@ -20,7 +20,7 @@ abstract class GetSimilarVideos {
 
     if (!similarVideosCubit.state.similarVideoStateModel.hasMore) return;
 
-    if (!paginating) similarVideosCubit.loadingSimilarVideosState();
+    if (!paginating) similarVideosCubit.clearAndSetLoadingState();
 
     var data = await RestApiGetVideoData.getSearchVideo(q: videoTitle.trim());
 

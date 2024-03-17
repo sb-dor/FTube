@@ -84,7 +84,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                 else if (searchBodyCubit.state is LoadingSearchBodyState)
                   const VideosLoadingWidget()
                 else if (searchBodyCubit.state is ErrorSearchBodyState)
-                  const VideosErrorWidget()
+                  VideosErrorWidget(
+                      onTap: () => context
+                          .read<MainSearchScreenBloc>()
+                          .add(ClickSearchButtonEvent(context: context)))
                 else
                   VideosLoadedWidget(videoList: mainSearchScreenStateModel.videos),
                 if (mainSearchScreenStateModel.hasMore &&

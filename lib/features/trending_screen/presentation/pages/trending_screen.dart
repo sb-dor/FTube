@@ -8,6 +8,7 @@ import 'package:youtube/features/trending_screen/presentation/bloc/trending_scre
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
+import 'package:youtube/widgets/error_button_widget/error_button_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_error_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
@@ -69,7 +70,14 @@ class _TrendingScreenState extends State<TrendingScreen> {
                     if (trendsVideosState is LoadingTrendingScreenState)
                       const VideosLoadingWidget()
                     else if (trendsVideosState is ErrorTrendingScreenState)
-                      TextWidget(text: trendsVideosState.message)
+                      ErrorButtonWidget(
+                        onTap: () => context.read<TrendingScreenBloc>().add(
+                              RefreshTrendingScreen(
+                                category: trendsVideosState.trendingStateModel.category,
+                                refresh: true,
+                              ),
+                            ),
+                      )
                     else
                       VideosLoadedWidget(
                         videoList: trendsVideosState.trendingStateModel.videos,
