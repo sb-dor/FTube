@@ -159,39 +159,44 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                             children: [
                               Stack(
                                 children: [
-                                  CustomerClipperWithShadow(
-                                    clipper: _Clipper(),
-                                    blurRadius: 1,
-                                    child: Container(
-                                      // change bottom to 80 if you want to show bottom subscription buttons
-                                      padding: const EdgeInsets.only(bottom: 50),
-                                      color: Colors.white,
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 10, right: 10),
-                                        child: Column(
-                                          children: [
-                                            const SizedBox(height: 10),
-                                            //
-                                            if (videoInformationStates is LoadingVideoInformationState)
-                                              const VideoInformationLoadingWidget()
-                                            else if (videoInformationStates is ErrorVideoInformationState)
-                                              const SizedBox()
-                                            else
-                                              const VideoInformationLoadedWidget(),
+                                  if (videoInformationStates is! ErrorVideoInformationState)
+                                    CustomerClipperWithShadow(
+                                      clipper: _Clipper(),
+                                      blurRadius: 1,
+                                      child: Container(
+                                        // change bottom to 80 if you want to show bottom subscription buttons
+                                        padding: const EdgeInsets.only(bottom: 50),
+                                        color: Colors.white,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(left: 10, right: 10),
+                                          child: Column(
+                                            children: [
+                                              const SizedBox(height: 10),
+                                              //
+                                              if (videoInformationStates
+                                                  is LoadingVideoInformationState)
+                                                const VideoInformationLoadingWidget()
+                                              else if (videoInformationStates
+                                                  is ErrorVideoInformationState)
+                                                const SizedBox()
+                                              else
+                                                const VideoInformationLoadedWidget(),
 
-                                            //
-                                            const SizedBox(height: 10),
-                                            if (videoInformationStates is LoadingVideoInformationState)
-                                              const VideoInfoLikeButtonLoadingWidgets()
-                                            else if (videoInformationStates is ErrorVideoInformationState)
-                                              const SizedBox()
-                                            else
-                                              const VideoInfoLikeButtonLoadedWidget()
-                                          ],
+                                              //
+                                              const SizedBox(height: 10),
+                                              if (videoInformationStates
+                                                  is LoadingVideoInformationState)
+                                                const VideoInfoLikeButtonLoadingWidgets()
+                                              else if (videoInformationStates
+                                                  is ErrorVideoInformationState)
+                                                const SizedBox()
+                                              else
+                                                const VideoInfoLikeButtonLoadedWidget()
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
                                   // if (videoInformationStates is LoadingVideoInformationState)
                                   //   const VideoInfoSubsButtonsLoadingWidget()
                                   // else if (videoInformationStates is ErrorVideoInformationState)
@@ -207,21 +212,29 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                                   child: VideosLoadingWidget(),
                                 )
                               else if (similarVideoCubit.state is ErrorSimilarVideosState)
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: VideosErrorWidget(),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10, right: 10),
+                                  child: VideosErrorWidget(
+                                      onTap: () => context
+                                          .read<YoutubeVideoCubit>()
+                                          .getSimilarVideos(context: context, paginating: false)),
                                 )
-                              else
+                              else if (similarVideoCubit.state is LoadedSimilarVideosState &&
+                                  similarVideoCubit
+                                      .state.similarVideoStateModel.similarVideos.isNotEmpty)
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10, right: 10),
                                   child: VideosLoadedWidget(
                                     closeScreenBeforeOpeningAnotherOne: true,
-                                    videoList:
-                                        similarVideoCubit.state.similarVideoStateModel.similarVideos,
+                                    videoList: similarVideoCubit
+                                        .state.similarVideoStateModel.similarVideos,
                                   ),
-                                ),
+                                )
+                              else
+                                const SizedBox(),
                               const SizedBox(height: 10),
-                              if (similarVideoCubit.state.similarVideoStateModel.hasMore)
+                              if (similarVideoCubit.state.similarVideoStateModel.hasMore &&
+                                  similarVideoCubit.state is! ErrorSimilarVideosState)
                                 const Column(
                                   children: [
                                     SizedBox(

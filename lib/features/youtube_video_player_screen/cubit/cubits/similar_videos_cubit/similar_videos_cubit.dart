@@ -41,4 +41,14 @@ class SimilarVideosCubit extends Cubit<SimilarVideosStates> {
     }
     loadedSimilarVideosState();
   }
+
+  void _emitter() {
+    if (state is LoadingSimilarVideosState) {
+      emit(LoadingSimilarVideosState(_currentState));
+    } else if (state is ErrorSimilarVideosState) {
+      emit(ErrorSimilarVideosState(_currentState));
+    } else if (state is LoadedSimilarVideosState) {
+      emit(LoadedSimilarVideosState(_currentState));
+    }
+  }
 }
