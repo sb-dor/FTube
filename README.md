@@ -6,7 +6,7 @@ revolutionizes your video streaming and downloading experience.
 
 ## Features
 
-- **Video Downloading**: Download videos from various platforms, including YouTube, Vimeo, and more,
+- **Video Downloading**: FTube provides to download any video or video's audio from YouTube,
   with just a few taps.
 - **Audio Extraction**: Extract audio tracks from videos and save them as MP3.
 - **Multiple Resolutions**: Choose from a range of video resolutions to ensure optimal viewing
