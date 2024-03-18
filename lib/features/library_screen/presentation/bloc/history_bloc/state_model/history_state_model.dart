@@ -5,6 +5,8 @@ import 'package:youtube/x_injection_containers/injection_container.dart';
 class HistoryStateModel {
   final _globalFunctions = locator<ReusableGlobalFunctions>();
 
+  int lengthOfDownloadedFiles = 0;
+
   List<BaseVideoModelDb> videos = [];
 
   int page = 1;

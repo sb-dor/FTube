@@ -11,3 +11,5 @@ class AddOnHistoryEvent extends HistoryEvents {
 
   AddOnHistoryEvent({required this.video});
 }
+
+class InitLengthOfDownloadedFiles extends HistoryEvents {}

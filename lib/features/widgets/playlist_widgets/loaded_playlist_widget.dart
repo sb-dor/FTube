@@ -60,7 +60,7 @@ class LoadedPlaylistWidget extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 250,
+            height: 170,
             child: ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(width: 10),
               itemCount: playlist.length,

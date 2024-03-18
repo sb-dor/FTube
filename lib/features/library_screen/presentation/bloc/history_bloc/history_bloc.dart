@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/domain/usecases/get_history.dart';
 import 'package:youtube/features/library_screen/domain/usecases/save_in_history.dart';
@@ -33,10 +34,11 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
     on<PaginateHistoryEvent>(_paginateHistoryEvent);
 
     on<AddOnHistoryEvent>(_addOnHistoryEvent);
+
+    on<InitLengthOfDownloadedFiles>(_initLengthOfDownloadedFiles);
   }
 
   void _getHistoryEvent(GetHistoryEvent event, Emitter<HistoryStates> emit) async {
-
     emit(LoadingHistoryState(_currentState));
 
     final data = await _getHistory.getHistory();
@@ -56,6 +58,15 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
 
   void _addOnHistoryEvent(AddOnHistoryEvent event, Emitter<HistoryStates> emit) async =>
       await _saveInHistory.saveInHistory(event.video);
+
+  void _initLengthOfDownloadedFiles(
+    InitLengthOfDownloadedFiles event,
+    Emitter<HistoryStates> emit,
+  ) async {
+    final path = await getExternalStorageDirectory();
+    _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
+    _emitter(emit);
+  }
 
   _emitter(Emitter<HistoryStates> emit) {
     if (state is LoadingHistoryState) {

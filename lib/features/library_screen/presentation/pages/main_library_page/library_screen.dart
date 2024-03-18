@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
@@ -10,6 +11,9 @@ import 'package:youtube/features/widgets/history_widgets/loading_history_widget.
 import 'package:youtube/features/widgets/playlist_widgets/error_playlist_widget.dart';
 import 'package:youtube/features/widgets/playlist_widgets/loaded_playlist_widget.dart';
 import 'package:youtube/features/widgets/playlist_widgets/loading_playlist_widget.dart';
+import 'package:youtube/widgets/text_widget.dart';
+
+import 'widgets/library_download_files_widget/library_downloaded_files_widget.dart';
 
 class LibraryScreen extends StatefulWidget {
   const LibraryScreen({Key? key}) : super(key: key);
@@ -24,6 +28,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     super.initState();
 
     context.read<HistoryBloc>().add(GetHistoryEvent());
+    context.read<HistoryBloc>().add(InitLengthOfDownloadedFiles());
     context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
   }
 
@@ -69,7 +74,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   LoadedPlaylistWidget(
                     playlist: playlistStateModel.playlist,
                   ),
-                const SizedBox(height: 30)
+                const SizedBox(height: 30),
+                if (historyStateModel.lengthOfDownloadedFiles != 0)
+                  const LibraryDownloadedFilesWidget(),
+                const SizedBox(height: 120)
               ],
             ),
           ),
