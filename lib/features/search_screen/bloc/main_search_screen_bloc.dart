@@ -22,6 +22,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     _currentState = state.searchScreenStateModel;
     //
     //
+    on<StartCheckingPaginatingTimer>(_startCheckingPaginatingTimer);
+    //
 
     on<InitSearchScreenEvent>(_initSearchScreenEvent);
 
@@ -46,6 +48,28 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
     on<SelectOrderByTypeEvent>(_selectOrderByTypeEvent);
   }
+
+  //
+
+  void _startCheckingPaginatingTimer(
+    StartCheckingPaginatingTimer event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
+    _currentState.timerForCheckingPaginating?.cancel();
+
+    if (event.close) return;
+
+    _currentState.timerForCheckingPaginating = Timer.periodic(const Duration(seconds: 20), (timer) {
+      var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(
+          _currentState.globalContext.globalNavigatorContext.currentContext!);
+      if (_currentState.paginating && searchBodyCubit.state is LoadedSearchBodyState) {
+        _currentState.paginating = false;
+      }
+      debugPrint("working here buddy for timer: ${_currentState.paginating}");
+    });
+  }
+
+  //
 
   void _initSearchScreenEvent(InitSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
@@ -129,10 +153,9 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       _currentState.clearData();
 
       var data = await RestApiGetVideoData.getSearchVideo(
-        q: _currentState.searchController.text,
-        refresh: true,
-        orderBy: _currentState.orderBy?.id
-      );
+          q: _currentState.searchController.text,
+          refresh: true,
+          orderBy: _currentState.orderBy?.id);
 
       if (data.containsKey("server_error")) {
         searchBodyCubit.errorSearchBodyState();

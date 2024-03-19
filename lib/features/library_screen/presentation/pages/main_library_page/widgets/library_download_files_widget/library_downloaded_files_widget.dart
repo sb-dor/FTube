@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/features/library_downloads/presentation/pages/library_downloaded_page.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
@@ -16,7 +17,12 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
         final historyStateModel = historyBloc.state.historyStateModel;
         return IntrinsicHeight(
           child: GestureDetector(
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LibraryDownloadedPage(),
+              ),
+            ),
             child: Container(
               padding: const EdgeInsets.only(top: 5, bottom: 5),
               color: Colors.transparent,
@@ -29,7 +35,7 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextWidget(
-                          text: "Downloads inside the app storage",
+                          text: "In-app downloads",
                           size: 15,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.9,

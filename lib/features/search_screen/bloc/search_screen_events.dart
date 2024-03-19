@@ -82,3 +82,9 @@ class SelectOrderByTypeEvent extends SearchScreenEvents {
 
   SelectOrderByTypeEvent({required this.orderByType});
 }
+
+class StartCheckingPaginatingTimer extends SearchScreenEvents {
+  final bool close;
+
+  StartCheckingPaginatingTimer({this.close = false});
+}

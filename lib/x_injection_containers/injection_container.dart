@@ -6,6 +6,7 @@ import 'package:youtube/x_injection_containers/trends_inj/trends_inj.dart';
 import 'package:youtube/x_injection_containers/utils_inj/utils_inj.dart';
 import 'package:youtube/youtube_data_api/youtube_data_api.dart';
 
+import 'library_downloads_inj/library_downloads_inj.dart';
 import 'library_inner_screens_inj/playlist_inner_screen_inj/playlist_inner_screen_inj.dart';
 
 final locator = GetIt.instance;
@@ -21,6 +22,9 @@ Future<void> initGetIt() async {
 
   // library inj
   await LibraryInj.libraryInj();
+
+  // library downloads inj
+  await LibraryDownloadsInj.libraryDownloadsInj();
 
   // library inner history screens inj
   await HistoryInnerScreenInj.historyInnerScreenInj();

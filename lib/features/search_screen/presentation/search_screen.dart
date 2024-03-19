@@ -7,6 +7,8 @@ import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/utils/global_context_helper.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 import 'animated_search_bar/animated_search_bar.dart';
 import 'layouts/searching_body_sreen.dart';
@@ -19,6 +21,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
+  final GlobalContextHelper _globalContextHelper = locator<GlobalContextHelper>();
   late AnimationController _searchBarAnimationController;
   late Animation<double> _searchBarAnimation;
   final ScrollController _scrollController = ScrollController();
@@ -27,6 +30,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     context.read<MainSearchScreenBloc>().add(InitSearchScreenEvent(context: context));
+    context.read<MainSearchScreenBloc>().add(StartCheckingPaginatingTimer());
     _searchBarAnimationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _searchBarAnimation = Tween<double>(begin: 0.200, end: 1.0).animate(
@@ -42,6 +46,15 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
         context.read<MainSearchScreenBloc>().add(PaginateSearchScreenEvent(context: context));
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _searchBarAnimationController.dispose();
+    _globalContextHelper.globalNavigatorContext.currentContext!
+        .read<MainSearchScreenBloc>()
+        .add(StartCheckingPaginatingTimer(close: true));
+    super.dispose();
   }
 
   @override

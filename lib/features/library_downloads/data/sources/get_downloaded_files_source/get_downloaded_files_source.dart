@@ -1,5 +1,5 @@
 import 'dart:io';
 
-abstract class LibraryDownloadsRepository {
+abstract class GetDownloadedFilesSource {
   Future<List<FileSystemEntity>> loadDownloadFiles();
 }

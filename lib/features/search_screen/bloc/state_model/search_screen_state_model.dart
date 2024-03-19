@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
@@ -11,11 +12,14 @@ import 'package:youtube/youtube_data_api/models/order_by/order_by_details/order_
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 
 class SearchScreenStateModel {
+
+  final GlobalContextHelper globalContext = locator<GlobalContextHelper>();
+
   final FocusNode focusNode = FocusNode();
 
   SpeechToText speechToText = SpeechToText();
 
-  Timer? timerForAutoClosingSpeech, timerForMakingSuggestionRequest;
+  Timer? timerForAutoClosingSpeech, timerForMakingSuggestionRequest, timerForCheckingPaginating;
 
   final HiveDatabaseHelper hiveDatabaseHelper = locator<HiveDatabaseHelper>();
 

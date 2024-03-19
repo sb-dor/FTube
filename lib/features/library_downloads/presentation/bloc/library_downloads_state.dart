@@ -1,4 +1,22 @@
+import 'state_model/library_downloads_state_model.dart';
 
-abstract class LibraryDownloadsState {}
+abstract class LibraryDownloadsState {
+  LibraryDownloadsStateModel libraryDownloadsStateModel;
 
-class LibraryDownloadsInitial extends LibraryDownloadsState {}
+  LibraryDownloadsState({required this.libraryDownloadsStateModel});
+}
+
+class LibraryDownloadsLoadingState extends LibraryDownloadsState {
+  LibraryDownloadsLoadingState(LibraryDownloadsStateModel libraryDownloadsStateModel)
+      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+}
+
+class LibraryDownloadsErrorState extends LibraryDownloadsState {
+  LibraryDownloadsErrorState(LibraryDownloadsStateModel libraryDownloadsStateModel)
+      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+}
+
+class LibraryDownloadsLoadedState extends LibraryDownloadsState {
+  LibraryDownloadsLoadedState(LibraryDownloadsStateModel libraryDownloadsStateModel)
+      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+}
