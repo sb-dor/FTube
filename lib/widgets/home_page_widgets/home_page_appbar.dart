@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_bloc_states.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/google_service/google_service.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
+import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/features/search_screen/presentation/search_screen.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
-import 'package:youtube/widgets/image_loader_widget.dart';
 
 // CustomShadowPainterWithClipper
 // https://gist.github.com/coman3/e631fd55cd9cdf9bd4efe8ecfdbb85a7
@@ -39,29 +35,32 @@ class HomePageAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final authBlocStates = context.watch<MainAuthBloc>().state;
+      // final authBlocStates = context.watch<MainAuthBloc>().state;
 
-      var authBlocStateModel = authBlocStates.authStateModel;
+      // var authBlocStateModel = authBlocStates.authStateModel;
 
       return CustomerClipperWithShadow(
         clipper: QuadraticBezierToClipper(),
         child: AppBar(
           scrolledUnderElevation: 0,
           backgroundColor: Colors.white,
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(7),
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Image.asset('assets/app_icon/app_main_icon_1024.png'),
+          title: GestureDetector(
+            onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: SizedBox(
+                    width: 30,
+                    height: 30,
+                    child: Image.asset('assets/app_icon/app_main_icon_1024.png'),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              const Text("FTube", style: TextStyle(color: Colors.black)),
-            ],
+                const SizedBox(width: 10),
+                const Text("FTube", style: TextStyle(color: Colors.black)),
+              ],
+            ),
           ),
           // centerTitle: true,
           // leading: IconButton(
