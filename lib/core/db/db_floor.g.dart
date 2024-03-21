@@ -66,13 +66,15 @@ class _$DbFloor extends DbFloor {
 
   LikeDataAccessObject? _likeDaoInstance;
 
+  FileDownloadedDao? _downloadedFilesInstance;
+
   Future<sqflite.Database> open(
     String path,
     List<Migration> migrations, [
     Callback? callback,
   ]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
-      version: 4,
+      version: 5,
       onConfigure: (database) async {
         await database.execute('PRAGMA foreign_keys = ON');
         await callback?.onConfigure?.call(database);
@@ -95,6 +97,8 @@ class _$DbFloor extends DbFloor {
             'CREATE TABLE IF NOT EXISTS `playlist_videos` (`play_list_id` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT, `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT, FOREIGN KEY (`play_list_id`) REFERENCES `playlists` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `likes_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `videoId` TEXT, `videoThumbnailUrl` TEXT, `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT, `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `file_downloads` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `downloaded_path` TEXT, `image_path` TEXT, `views` TEXT, `created_at` TEXT, `channel_name` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -117,6 +121,12 @@ class _$DbFloor extends DbFloor {
   LikeDataAccessObject get likeDao {
     return _likeDaoInstance ??=
         _$LikeDataAccessObject(database, changeListener);
+  }
+
+  @override
+  FileDownloadedDao get downloadedFiles {
+    return _downloadedFilesInstance ??=
+        _$FileDownloadedDao(database, changeListener);
   }
 }
 
@@ -425,5 +435,64 @@ class _$LikeDataAccessObject extends LikeDataAccessObject {
   Future<void> insertLikedVideo(LikeModelDb likeModelDb) async {
     await _likeModelDbInsertionAdapter.insert(
         likeModelDb, OnConflictStrategy.abort);
+  }
+}
+
+class _$FileDownloadedDao extends FileDownloadedDao {
+  _$FileDownloadedDao(
+    this.database,
+    this.changeListener,
+  )   : _queryAdapter = QueryAdapter(database),
+        _fileDownloadModelInsertionAdapter = InsertionAdapter(
+            database,
+            'file_downloads',
+            (FileDownloadModel item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'downloaded_path': item.downloadedPath,
+                  'image_path': item.imagePath,
+                  'views': item.views,
+                  'created_at': item.createdAt,
+                  'channel_name': item.channelName
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<FileDownloadModel> _fileDownloadModelInsertionAdapter;
+
+  @override
+  Future<List<FileDownloadModel>> getDownloadedFiles() async {
+    return _queryAdapter.queryList('select * from file_downloads',
+        mapper: (Map<String, Object?> row) => FileDownloadModel(
+            id: row['id'] as int?,
+            name: row['name'] as String?,
+            downloadedPath: row['downloaded_path'] as String?,
+            imagePath: row['image_path'] as String?,
+            views: row['views'] as String?,
+            createdAt: row['created_at'] as String?,
+            channelName: row['channel_name'] as String?));
+  }
+
+  @override
+  Future<int?> getCountOfDownloadedFiles() async {
+    return _queryAdapter.query('select count(*) from file_downloads',
+        mapper: (Map<String, Object?> row) => row.values.first as int);
+  }
+
+  @override
+  Future<void> deleteDownloadedFile(String path) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from file_downloads where downloaded_path = ?1',
+        arguments: [path]);
+  }
+
+  @override
+  Future<void> insertDownloadedFile(FileDownloadModel fileDownloadModel) async {
+    await _fileDownloadModelInsertionAdapter.insert(
+        fileDownloadModel, OnConflictStrategy.abort);
   }
 }
