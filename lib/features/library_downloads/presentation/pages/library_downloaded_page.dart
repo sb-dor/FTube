@@ -33,7 +33,7 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("In-app downloads"),
+            title: const Text("In-App downloads"),
           ),
           body: ListView(
             padding: const EdgeInsets.only(left: 10, right: 10),

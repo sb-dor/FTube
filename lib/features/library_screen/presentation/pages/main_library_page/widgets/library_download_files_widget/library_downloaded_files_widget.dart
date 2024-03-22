@@ -35,7 +35,7 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextWidget(
-                          text: "In-app downloads",
+                          text: "In-App downloads",
                           size: 15,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.9,
