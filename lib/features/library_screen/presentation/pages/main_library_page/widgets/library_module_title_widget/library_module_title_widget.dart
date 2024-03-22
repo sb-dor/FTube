@@ -7,6 +7,7 @@ class LibraryModuleTitleWidget extends StatelessWidget {
   final VoidCallback onButtonTap;
   final bool showAdd;
   final VoidCallback? onAddTap;
+  final bool showSeeAll;
 
   const LibraryModuleTitleWidget({
     super.key,
@@ -14,6 +15,7 @@ class LibraryModuleTitleWidget extends StatelessWidget {
     required this.onButtonTap,
     required this.showAdd,
     this.onAddTap,
+    this.showSeeAll = true,
   });
 
   @override
@@ -40,18 +42,19 @@ class LibraryModuleTitleWidget extends StatelessWidget {
             ],
           ),
         ),
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.red),
-          ),
-          onPressed: onButtonTap,
-          child: const Text(
-            "See all",
-            style: TextStyle(
-              color: Colors.red,
+        if (showSeeAll)
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: Colors.red),
+            ),
+            onPressed: onButtonTap,
+            child: const Text(
+              "See all",
+              style: TextStyle(
+                color: Colors.red,
+              ),
             ),
           ),
-        ),
       ],
     );
   }

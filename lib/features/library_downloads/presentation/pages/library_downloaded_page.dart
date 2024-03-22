@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_state.dart';
+import 'package:youtube/features/widgets/history_inner_screen_widgets/downloaded_file_loaded_widget.dart';
 
 class LibraryDownloadedPage extends StatefulWidget {
   const LibraryDownloadedPage({super.key});
@@ -32,20 +33,15 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
 
         return Scaffold(
           appBar: AppBar(
-            title: Text("In-app downloads"),
+            title: const Text("In-app downloads"),
           ),
           body: ListView(
+            padding: const EdgeInsets.only(left: 10, right: 10),
             children: [
               if (libraryDownloadsBloc.state is LibraryDownloadsLoadedState)
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: libraryDownloadsStateModel.files.length,
-                  itemBuilder: (context, index) {
-                    final file = libraryDownloadsStateModel.files[index];
-                    return Text(path.basename(file.path));
-                  },
-                ),
+                DownloadedFileLoadedWidget(
+                  downloadedFiles: libraryDownloadsStateModel.files,
+                )
             ],
           ),
         );

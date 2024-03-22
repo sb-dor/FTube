@@ -25,25 +25,6 @@ class LoadedPlaylistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (!gridView) const SizedBox(height: 30),
-        if (!gridView)
-          LibraryModuleTitleWidget(
-            title: 'Playlists',
-            onButtonTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const PlaylistInnerScreen(),
-                ),
-              );
-            },
-            showAdd: true,
-            onAddTap: () => showDialog(
-              context: context,
-              builder: (context) => const CreatePlayListPopup(),
-            ),
-          ),
-        const SizedBox(height: 15),
         if (gridView)
           GridView.builder(
             shrinkWrap: true,
