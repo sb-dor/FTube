@@ -41,7 +41,7 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
               if (libraryDownloadsBloc.state is LibraryDownloadsLoadedState)
                 DownloadedFileLoadedWidget(
                   downloadedFiles: libraryDownloadsStateModel.files,
-                )
+                ),
             ],
           ),
         );

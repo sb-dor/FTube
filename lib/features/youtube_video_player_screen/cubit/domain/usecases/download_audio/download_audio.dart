@@ -80,7 +80,7 @@ class DownloadAudio {
 
       await DownloadingAudioRepository(path).download(
         data.data,
-        stateModel.videoData?.video?.title ?? '-',
+        stateModel,
       );
 
       audioDownloadingCubit.state.downloadingAudioInfo = null;

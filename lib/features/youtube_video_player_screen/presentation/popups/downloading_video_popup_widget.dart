@@ -278,13 +278,38 @@ class _VideosDownloadingInformation extends StatelessWidget {
                           else
                             const SizedBox()
                         else
-                          IconButton(
-                              onPressed: () async =>
-                                  await context.read<YoutubeVideoCubit>().downloadAudio(
-                                        audioStreamInfo: audio,
-                                        path: DownloadingStoragePath.downloads,
-                                      ),
-                              icon: const Icon(Icons.download))
+                          Row(
+                            children: [
+                              Tooltip(
+                                message: "Download audio in Downloads folder",
+                                showDuration: const Duration(seconds: 10),
+                                child: IconButton(
+                                  onPressed: () async =>
+                                      await context.read<YoutubeVideoCubit>().downloadAudio(
+                                            audioStreamInfo: audio,
+                                            path: DownloadingStoragePath.downloads,
+                                          ),
+                                  icon: const Icon(Icons.download),
+                                ),
+                              ),
+                              Tooltip(
+                                message: "Download audio in App Storage folder",
+                                showDuration: const Duration(seconds: 10),
+                                child: IconButton(
+                                  onPressed: () async =>
+                                      await context.read<YoutubeVideoCubit>().downloadAudio(
+                                            audioStreamInfo: audio,
+                                            path: DownloadingStoragePath.appStorage,
+                                          ),
+                                  icon: SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: Image.asset('assets/download_icons/in_app_download.png'),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                       ],
                     );
                   })
@@ -431,15 +456,16 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               message: "Download video in App Storage",
                               showDuration: const Duration(seconds: 10),
                               child: IconButton(
-                                  onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
-                                        video,
-                                        DownloadingStoragePath.appStorage,
-                                      ),
-                                  icon: SizedBox(
-                                      width: 35,
-                                      height: 35,
-                                      child: Image.asset(
-                                          'assets/download_icons/in_app_download.png'))),
+                                onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
+                                      video,
+                                      DownloadingStoragePath.appStorage,
+                                    ),
+                                icon: SizedBox(
+                                  width: 35,
+                                  height: 35,
+                                  child: Image.asset('assets/download_icons/in_app_download.png'),
+                                ),
+                              ),
                             )
                           ],
                         )
