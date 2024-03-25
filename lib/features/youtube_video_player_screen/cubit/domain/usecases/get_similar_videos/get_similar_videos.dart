@@ -31,7 +31,7 @@ abstract class GetSimilarVideos {
     } else if (data.containsKey('success')) {
       List<Video> videos = data['videos'];
       similarVideosCubit.addVideosAndSetLoadedState(videos);
-      _isolate(similarVideosCubit, videos);
+      // _isolate(similarVideosCubit, videos);
     } else {
       similarVideosCubit.clearAndSerErrorState();
     }

@@ -70,27 +70,29 @@ class VideosLoadedWidget extends StatelessWidget {
                                   color: Colors.red,
                                   borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: (video.loadingVideoData)
-                                    ? const TextWidget(
-                                        text: ". . .",
-                                        size: 12,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      )
-                                    : Row(children: [
-                                        const Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          size: 20,
-                                          color: Colors.white,
-                                        ),
-                                        const SizedBox(width: 5),
-                                        TextWidget(
-                                          text: (video.loadingVideoData) ? "" : video.views ?? '',
-                                          size: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        )
-                                      ]),
+                                child:
+                                    // (video.loadingVideoData)
+                                    //     ? const TextWidget(
+                                    //         text: ". . .",
+                                    //         size: 12,
+                                    //         fontWeight: FontWeight.bold,
+                                    //         color: Colors.white,
+                                    //       )
+                                    //     :
+                                    Row(children: [
+                                  const Icon(
+                                    Icons.remove_red_eye_outlined,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  TextWidget(
+                                    text: video.views ?? '',
+                                    size: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  )
+                                ]),
                               ),
                               IconButton(
                                   style: ButtonStyle(
@@ -128,33 +130,34 @@ class VideosLoadedWidget extends StatelessWidget {
                 const SizedBox(height: 5),
                 IntrinsicHeight(
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    if (video.loadingVideoData)
-                      ShimmerContainer(
-                          width: 50, height: 50, borderRadius: BorderRadius.circular(50))
-                    else if (video.errorOfLoadingVideoData)
-                      Container(
-                          color: Colors.red,
-                          width: 50,
-                          height: 50,
-                          child: const TextWidget(text: "E", color: Colors.red))
-                    else
-                      Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.shade400,
-                              width: 0.5,
-                            ),
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: ImageLoaderWidget(
-                              url: video.videoData?.video?.channelThumb ?? '',
-                              errorImageUrl: 'assets/custom_images/custom_user_image.png',
-                            ),
-                          )),
+                    // if (video.loadingVideoData)
+                    //   ShimmerContainer(
+                    //       width: 50, height: 50, borderRadius: BorderRadius.circular(50))
+                    // else if (video.errorOfLoadingVideoData)
+                    //   Container(
+                    //       color: Colors.red,
+                    //       width: 50,
+                    //       height: 50,
+                    //       child: const TextWidget(text: "E", color: Colors.red))
+                    // else
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade400,
+                          width: 0.5,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: ImageLoaderWidget(
+                          url: video.channelThumbnailUrl ?? '',
+                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                        ),
+                      ),
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Column(
@@ -171,8 +174,7 @@ class VideosLoadedWidget extends StatelessWidget {
                               text: TextSpan(children: [
                             WidgetSpan(
                                 child: TextWidget(
-                              text: video.videoData?.video?.channelName ?? '-',
-                              size: 12,
+                              text: video.channelName ?? "-",
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
                             )),
@@ -185,7 +187,7 @@ class VideosLoadedWidget extends StatelessWidget {
                             )),
                             WidgetSpan(
                                 child: TextWidget(
-                              text: video.videoData?.video?.date ?? '',
+                              text: video.publishedDateTime ?? '-',
                               size: 12,
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,

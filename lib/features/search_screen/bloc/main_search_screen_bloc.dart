@@ -166,7 +166,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
         searchBodyCubit.loadedSearchBodyState();
 
-        _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
+        // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
         searchBodyCubit.errorSearchBodyState();
       }
@@ -205,7 +205,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         List<ytv.Video> videos = data['videos'];
         _currentState.addAndPag(value: videos, paginate: true);
         searchBodyCubit.loadedSearchBodyState();
-        _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
+        // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
         searchBodyCubit.errorSearchBodyState();
       }

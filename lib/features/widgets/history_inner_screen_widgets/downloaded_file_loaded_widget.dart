@@ -1,19 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
-import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/state_model/library_downloads_state_model.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
 
 class DownloadedFileLoadedWidget extends StatelessWidget {
   final List<BaseDownloadedFileModel> downloadedFiles;

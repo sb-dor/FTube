@@ -73,10 +73,10 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       emitState(emit);
       homeScreenVideosCubit.loadedHomeScreenVideosState();
 
-      await _getVideosDataIsolate(
-        videos: videos,
-        emit: emit,
-      );
+      // await _getVideosDataIsolate(
+      //   videos: videos,
+      //   emit: emit,
+      // );
 
       debugPrint("is coming here");
 
@@ -112,7 +112,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       _currentState.getAndPaginate(list: videos, paginate: true);
       emitState(emit);
 
-      await _getVideosDataIsolate(videos: videos, emit: emit);
+      // await _getVideosDataIsolate(videos: videos, emit: emit);
 
       emitState(emit);
     }

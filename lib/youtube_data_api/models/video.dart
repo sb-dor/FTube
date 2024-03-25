@@ -34,6 +34,11 @@ class Video {
   // error if loading video data trows an error
   bool errorOfLoadingVideoData = false;
 
+  // new one
+  String? channelThumbnailUrl;
+
+  String? publishedDateTime;
+
   Video({
     this.videoId,
     this.duration,
@@ -42,6 +47,8 @@ class Video {
     this.views,
     this.thumbnails,
     this.videoData,
+    this.channelThumbnailUrl,
+    this.publishedDateTime,
   });
 
   Video clone() => Video(
@@ -52,10 +59,13 @@ class Video {
         views: views,
         thumbnails: thumbnails,
         videoData: videoData?.clone(),
+        channelThumbnailUrl: channelThumbnailUrl,
       );
 
   factory Video.fromMap(Map<String, dynamic>? map) {
     List<Thumbnail>? thumbnails;
+    String? tempChannelThumbnail;
+    String? tempPublishedDateTime;
     if (map?.containsKey("videoRenderer") ?? false) {
       //Trending and search videos
       var lengthText = map?['videoRenderer']?['lengthText'];
@@ -65,13 +75,28 @@ class Video {
         thumbnails!.add(Thumbnail(
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
+
+      var channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
+      if (channelThumbnailRenderer != null) {
+        tempChannelThumbnail = channelThumbnailRenderer['channelThumbnailWithLinkRenderer']
+            ['thumbnail']['thumbnails'][0]['url'];
+      }
+
+      var publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
+      if (publishedTimeText != null) {
+        tempPublishedDateTime = publishedTimeText;
+      }
+
       return Video(
-          videoId: map?['videoRenderer']?['videoId'],
-          duration: (lengthText == null) ? "Live" : lengthText?['simpleText'],
-          title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
-          channelName: map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
-          thumbnails: thumbnails,
-          views: simpleText);
+        videoId: map?['videoRenderer']?['videoId'],
+        duration: (lengthText == null) ? "Live" : lengthText?['simpleText'],
+        title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
+        channelName: map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
+        thumbnails: thumbnails,
+        views: simpleText,
+        channelThumbnailUrl: tempChannelThumbnail,
+        publishedDateTime: tempPublishedDateTime,
+      );
     } else if (map?.containsKey("compactVideoRenderer") ?? false) {
       //Related videos
       thumbnails = [];
