@@ -66,6 +66,19 @@ class Video {
     List<Thumbnail>? thumbnails;
     String? tempChannelThumbnail;
     String? tempPublishedDateTime;
+
+    var channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
+    if (channelThumbnailRenderer != null) {
+      tempChannelThumbnail = channelThumbnailRenderer['channelThumbnailWithLinkRenderer']
+          ['thumbnail']['thumbnails'][0]['url'];
+    }
+
+    var publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
+
+    if (publishedTimeText != null) {
+      tempPublishedDateTime = publishedTimeText;
+    }
+
     if (map?.containsKey("videoRenderer") ?? false) {
       //Trending and search videos
       var lengthText = map?['videoRenderer']?['lengthText'];
@@ -76,26 +89,15 @@ class Video {
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
 
-      var channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
-      if (channelThumbnailRenderer != null) {
-        tempChannelThumbnail = channelThumbnailRenderer['channelThumbnailWithLinkRenderer']
-            ['thumbnail']['thumbnails'][0]['url'];
-      }
-
-      var publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
-      if (publishedTimeText != null) {
-        tempPublishedDateTime = publishedTimeText;
-      }
-
       return Video(
         videoId: map?['videoRenderer']?['videoId'],
-        duration: (lengthText == null) ? "Live" : lengthText?['simpleText'],
+        duration: (lengthText == null) ? "LIVE" : lengthText?['simpleText'],
         title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
         channelName: map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
         thumbnails: thumbnails,
-        views: simpleText,
+        views: simpleText ?? "LIVE",
         channelThumbnailUrl: tempChannelThumbnail,
-        publishedDateTime: tempPublishedDateTime,
+        publishedDateTime: tempPublishedDateTime ?? "LIVE",
       );
     } else if (map?.containsKey("compactVideoRenderer") ?? false) {
       //Related videos
@@ -105,12 +107,15 @@ class Video {
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
       return Video(
-          videoId: map?['compactVideoRenderer']?['videoId'],
-          title: map?['compactVideoRenderer']?['title']?['simpleText'],
-          duration: map?['compactVideoRenderer']?['lengthText']?['simpleText'],
-          thumbnails: thumbnails,
-          channelName: map?['compactVideoRenderer']?['shortBylineText']?['runs']?[0]?['text'],
-          views: map?['compactVideoRenderer']?['viewCountText']?['simpleText']);
+        videoId: map?['compactVideoRenderer']?['videoId'],
+        title: map?['compactVideoRenderer']?['title']?['simpleText'],
+        duration: map?['compactVideoRenderer']?['lengthText']?['simpleText'],
+        thumbnails: thumbnails,
+        channelName: map?['compactVideoRenderer']?['shortBylineText']?['runs']?[0]?['text'],
+        views: map?['compactVideoRenderer']?['viewCountText']?['simpleText'],
+        channelThumbnailUrl: tempChannelThumbnail,
+        publishedDateTime: tempPublishedDateTime,
+      );
     } else if (map?.containsKey("gridVideoRenderer") ?? false) {
       String? simpleText = map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
@@ -119,12 +124,15 @@ class Video {
             url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
       });
       return Video(
-          videoId: map?['gridVideoRenderer']?['videoId'],
-          title: map?['gridVideoRenderer']?['title']?['runs']?[0]?['text'],
-          duration: map?['gridVideoRenderer']?['thumbnailOverlays']?[0]
-              ['thumbnailOverlayTimeStatusRenderer']?['text']?['simpleText'],
-          thumbnails: thumbnails,
-          views: (simpleText != null) ? simpleText : "???");
+        videoId: map?['gridVideoRenderer']?['videoId'],
+        title: map?['gridVideoRenderer']?['title']?['runs']?[0]?['text'],
+        duration: map?['gridVideoRenderer']?['thumbnailOverlays']?[0]
+            ['thumbnailOverlayTimeStatusRenderer']?['text']?['simpleText'],
+        thumbnails: thumbnails,
+        views: (simpleText != null) ? simpleText : "???",
+        channelThumbnailUrl: tempChannelThumbnail,
+        publishedDateTime: tempPublishedDateTime,
+      );
     }
     return Video();
   }

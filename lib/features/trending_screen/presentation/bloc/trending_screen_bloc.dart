@@ -60,7 +60,7 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
         emit(LoadedTrendingScreenState(_currentState));
 
-        await _getInfoFromIsolate(_currentState.videos, emit);
+        // await _getInfoFromIsolate(_currentState.videos, emit);
       } catch (e) {
         emit(ErrorTrendingScreenState("$e", state.trendingStateModel));
       }

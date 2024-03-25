@@ -37,8 +37,8 @@ class VideoModelDb extends BaseVideoModelDb {
       duration: video?.duration,
       title: video?.title,
       channelName: video?.channelName,
-      channelThumb: video?.videoData?.video?.channelThumb,
-      videoDate: video?.videoData?.video?.date,
+      channelThumb: video?.channelThumbnailUrl,
+      videoDate: video?.publishedDateTime,
     );
   }
 

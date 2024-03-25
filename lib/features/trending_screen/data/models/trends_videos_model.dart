@@ -3,22 +3,26 @@ import 'package:youtube/youtube_data_api/models/video.dart';
 import 'package:youtube/youtube_data_api/models/video_data.dart';
 
 class TrendsVideosModel extends Video {
-   TrendsVideosModel(
-      {String? videoId,
-      String? duration,
-      String? title,
-      String? channelName,
-      String? views,
-      List<Thumbnail>? thumbnails,
-      VideoData? videoData})
-      : super(
+  TrendsVideosModel({
+    String? videoId,
+    String? duration,
+    String? title,
+    String? channelName,
+    String? views,
+    List<Thumbnail>? thumbnails,
+    // VideoData? videoData,
+    String? channelThumbnailUrl,
+    String? publishedDateTime,
+  }) : super(
           videoId: videoId,
           duration: duration,
           title: title,
           channelName: channelName,
           views: views,
           thumbnails: thumbnails,
-          videoData: videoData,
+          // videoData: videoData,
+          channelThumbnailUrl: channelThumbnailUrl,
+          publishedDateTime: publishedDateTime,
         );
 
   factory TrendsVideosModel.fromEntity(Video video) {
@@ -29,7 +33,8 @@ class TrendsVideosModel extends Video {
       channelName: video.channelName,
       views: video.views,
       thumbnails: video.thumbnails,
-      videoData: video.videoData,
+      channelThumbnailUrl: video.channelThumbnailUrl,
+      publishedDateTime: video.publishedDateTime,
     );
   }
 }
