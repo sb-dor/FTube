@@ -17,7 +17,7 @@ class VideoDurationInformation extends StatelessWidget {
       return Positioned(
           right: 10,
           left: 18,
-          bottom: 0,
+          bottom: 5, // remove here when you uncomment the fullscreen button
           child: FadeAnimation(
             duration: const Duration(milliseconds: 250),
             child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -47,15 +47,15 @@ class VideoDurationInformation extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
-                IconButton(
-                    style: ButtonStyle(
-                        overlayColor: MaterialStatePropertyAll(Colors.white.withOpacity(0.3))),
-                    onPressed: () => [],
-                    icon: const Icon(
-                      Icons.fullscreen,
-                      size: 28,
-                      color: Colors.white,
-                    ))
+                // IconButton(
+                //     style: ButtonStyle(
+                //         overlayColor: MaterialStatePropertyAll(Colors.white.withOpacity(0.3))),
+                //     onPressed: () => [],
+                //     icon: const Icon(
+                //       Icons.fullscreen,
+                //       size: 28,
+                //       color: Colors.white,
+                //     ))
               ])
             ]),
           ));

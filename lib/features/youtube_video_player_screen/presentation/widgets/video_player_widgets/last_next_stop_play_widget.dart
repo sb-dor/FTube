@@ -18,12 +18,12 @@ class LastNextStopPlayWidget extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    IconButton(
-                        onPressed: () => [],
-                        icon: const Icon(
-                          CupertinoIcons.backward_end_fill,
-                          color: Colors.white,
-                        )),
+                    // IconButton(
+                    //     onPressed: () => [],
+                    //     icon: const Icon(
+                    //       CupertinoIcons.backward_end_fill,
+                    //       color: Colors.white,
+                    //     )),
                     GestureDetector(
                       onTap: () {
                         context.read<YoutubeVideoCubit>().stopVideo();
@@ -43,12 +43,12 @@ class LastNextStopPlayWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    IconButton(
-                        onPressed: () => [],
-                        icon: const Icon(
-                          CupertinoIcons.forward_end_fill,
-                          color: Colors.white,
-                        )),
+                    // IconButton(
+                    //     onPressed: () => [],
+                    //     icon: const Icon(
+                    //       CupertinoIcons.forward_end_fill,
+                    //       color: Colors.white,
+                    //     )),
                   ],
                 );
               }));
