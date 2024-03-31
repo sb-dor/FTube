@@ -72,18 +72,6 @@ abstract class GetVideo {
 
     stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 
-    stateModel.allVideos.insertAll(0, stateModel.videosWithSound);
-
-    // if (stateModel.videosWithSound.isNotEmpty) {
-    //   stateModel.allVideos.removeWhere(
-    //       (el) => el.size.totalMegaBytes < stateModel.videosWithSound.first.size.totalMegaBytes);
-    // }
-
-    // stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
-
-    // if (stateModel.audios.isNotEmpty) {
-    //   stateModel.tempMinAudioForVideo = stateModel.audios.last;
-    // } else {
     stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
 
     if (stateModel.tempMinAudioForVideo != null) {
@@ -101,7 +89,22 @@ abstract class GetVideo {
       stateModel.audios.removeWhere((el) =>
           el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim());
       stateModel.audios.insert(0, stateModel.tempMinAudioForVideo!);
+      stateModel.allVideos.removeWhere((el) =>
+          el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0));
     }
+
+    stateModel.allVideos.insertAll(0, stateModel.videosWithSound);
+
+    // if (stateModel.videosWithSound.isNotEmpty) {
+    //   stateModel.allVideos.removeWhere(
+    //       (el) => el.size.totalMegaBytes < stateModel.videosWithSound.first.size.totalMegaBytes);
+    // }
+
+    // stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+
+    // if (stateModel.audios.isNotEmpty) {
+    //   stateModel.tempMinAudioForVideo = stateModel.audios.last;
+    // } else {
 
     // }
 
