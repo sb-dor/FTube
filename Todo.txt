@@ -1,0 +1,4 @@
+1. Show button -> add this downloaded video in gallery to (library_downloads feature)
+2. Full-screen button in main video player (youtube_video_player_screen feature)
+3. Next and prev video in main video player (youtube_video_player_screen feature)
+4. While audio and video are still merging set state as wait_a_little_more

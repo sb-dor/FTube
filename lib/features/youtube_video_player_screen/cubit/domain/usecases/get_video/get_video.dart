@@ -129,8 +129,11 @@ abstract class GetVideo {
 
     if (!context.mounted) return;
 
-    stateModel.playerController =
-        VideoPlayerController.networkUrl(Uri.parse(minStreamVideo.url.toString()));
+    stateModel.playerController = VideoPlayerController.networkUrl(
+      Uri.parse(
+        minStreamVideo.url.toString(),
+      ),
+    );
 
     if (!context.mounted) return;
 

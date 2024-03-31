@@ -1,5 +1,5 @@
-abstract class DurationHelper {
-  static String getFromDuration(Duration? duration) {
+class DurationHelper {
+  String getFromDuration(Duration? duration) {
     String res = '';
     int days = duration?.inDays ?? 0;
     if (days != 0) {

@@ -24,10 +24,8 @@ class LibraryDownloadsBloc extends Bloc<LibraryDownloadsEvent, LibraryDownloadsS
     on<InitLibraryDownloadsEvent>(_initLibraryDownloadsEvent);
 
     //
-    on<InitTypeOfPlayer>(_initialAudioPlayer);
 
     //
-    on<DisposeAudioPlayer>(_disposeAudioPlayer);
   }
 
   void _initLibraryDownloadsEvent(
@@ -37,40 +35,6 @@ class LibraryDownloadsBloc extends Bloc<LibraryDownloadsEvent, LibraryDownloadsS
     emit(LibraryDownloadsLoadingState(_currentState));
     _currentState.files = await _getDownloadsUseCase.loadDownloadFiles();
     emit(LibraryDownloadsLoadedState(_currentState));
-  }
-
-  void _initialAudioPlayer(
-    InitTypeOfPlayer event,
-    Emitter<LibraryDownloadsState> emit,
-  ) {
-    if (_currentState.fileExtensionName(event.baseDownloadedFileModel) == 'mp3') {
-      _playAudio(
-        event,
-        emit,
-        event.baseDownloadedFileModel,
-      );
-    } else if (_currentState.fileExtensionName(event.baseDownloadedFileModel) == 'mp4') {}
-  }
-
-  void _playAudio(
-    InitTypeOfPlayer event,
-    Emitter<LibraryDownloadsState> emit,
-    BaseDownloadedFileModel? loadedFile,
-  ) {
-    if (loadedFile == null) return;
-    _currentState.audioPlayer = AudioPlayer();
-    _currentState.audioPlayer?.setFilePath(loadedFile.downloadedPath ?? '');
-    _currentState.audioPlayer?.setLoopMode(LoopMode.one);
-    _currentState.audioPlayer?.play();
-  }
-
-  void _disposeAudioPlayer(
-    DisposeAudioPlayer event,
-    Emitter<LibraryDownloadsState> emit,
-  ) {
-    _currentState.audioPlayer?.dispose();
-    _currentState.audioPlayer = null;
-    _emitter(emit);
   }
 
   void _emitter(Emitter<LibraryDownloadsState> emit) {

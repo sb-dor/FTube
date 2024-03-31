@@ -6,6 +6,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class VideoDurationInformation extends StatelessWidget {
   const VideoDurationInformation({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class VideoDurationInformation extends StatelessWidget {
               Row(children: [
                 TextWidget(
                   text:
-                      DurationHelper.getFromDuration(currentState.playerController!.value.duration),
+                      locator<DurationHelper>().getFromDuration(currentState.playerController!.value.duration),
                   size: 13,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

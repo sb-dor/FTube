@@ -5,17 +5,9 @@ import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class LibraryDownloadsStateModel {
-  AudioPlayer? audioPlayer;
-
-
   final _globalFunctions = locator<ReusableGlobalFunctions>();
 
   List<BaseDownloadedFileModel> files = [];
 
-  String? fileExtensionName(BaseDownloadedFileModel? file) {
-    final path = file?.downloadedPath;
-    if (path == null) return '';
-    final extension = p.extension(path);
-    return _globalFunctions.removeSpaceFromStringForDownloadingVideo(extension);
-  }
+
 }

@@ -18,6 +18,8 @@ class GetDownloadedFilesSourceImpl implements GetDownloadedFilesSource {
       }
     }
 
+    dataFromDb = dataFromDb.reversed.toList();
+
     return dataFromDb;
   }
 }

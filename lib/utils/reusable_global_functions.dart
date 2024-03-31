@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/utils/constants.dart';
+import 'package:path/path.dart' as p;
 
 class ReusableGlobalFunctions {
   // static ReusableGlobalFunctions? _instance;
@@ -122,5 +124,12 @@ class ReusableGlobalFunctions {
     });
 
     return newMap;
+  }
+
+  String? fileExtensionName(BaseDownloadedFileModel? file) {
+    final path = file?.downloadedPath;
+    if (path == null) return '';
+    final extension = p.extension(path);
+    return removeSpaceFromStringForDownloadingVideo(extension);
   }
 }

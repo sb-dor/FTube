@@ -4,8 +4,10 @@ import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_
 import 'package:youtube/features/library_downloads/domain/usecases/open_library_downloads_audio_listener_popup/open_library_downloads_audio_listener_popup.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/state_model/library_downloads_state_model.dart';
+import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class DownloadedFileLoadedWidget extends StatelessWidget {
   final List<BaseDownloadedFileModel> downloadedFiles;
@@ -57,7 +59,7 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        OpenLibraryDownloadsAudioListenerPopup.openLibraryDownloadsAudioListenerPopup(
+        await OpenLibraryDownloadsAudioListenerPopup.openLibraryDownloadsAudioListenerPopup(
           context,
           downloadedFile,
         );
@@ -93,7 +95,7 @@ class _Widget extends StatelessWidget {
                       ),
                       child: Center(
                         child: TextWidget(
-                          text: "${libraryDownloadsStateModel.fileExtensionName(downloadedFile)}",
+                          text: "${locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile)}",
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.9,

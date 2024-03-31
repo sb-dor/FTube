@@ -3,11 +3,11 @@ import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_
 import 'package:youtube/features/library_downloads/presentation/pages/popups/library_downloads_audio_listener_popup/library_downloads_audio_listener_popup.dart';
 
 abstract class OpenLibraryDownloadsAudioListenerPopup {
-  static void openLibraryDownloadsAudioListenerPopup(
+  static Future<void> openLibraryDownloadsAudioListenerPopup(
     BuildContext context,
     BaseDownloadedFileModel? downloadedFileModel,
-  ) {
-    showDialog(
+  ) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return LibraryDownloadsAudioListenerPopup(

@@ -1,3 +1,4 @@
+import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/global_context_helper.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database.dart';
 import 'package:youtube/utils/hive_database_helper/hive_database_helper.dart';
@@ -40,6 +41,10 @@ abstract class UtilsInj {
 
     locator.registerLazySingleton<ShareHelper>(
       () => ShareHelper(),
+    );
+
+    locator.registerLazySingleton<DurationHelper>(
+      () => DurationHelper(),
     );
   }
 }
