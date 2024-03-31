@@ -33,7 +33,10 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("In-App downloads"),
+            scrolledUnderElevation: 0,
+            title: const Text(
+              "In-App downloads",
+            ),
           ),
           body: ListView(
             padding: const EdgeInsets.only(left: 10, right: 10),
@@ -42,6 +45,7 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
                 DownloadedFileLoadedWidget(
                   downloadedFiles: libraryDownloadsStateModel.files,
                 ),
+              const SizedBox(height: 10),
             ],
           ),
         );
