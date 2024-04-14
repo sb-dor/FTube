@@ -178,17 +178,37 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                         Column(
                           children: [
                             const SizedBox(height: 10),
-                            Container(
-                              margin: const EdgeInsets.only(left: 10, right: 10),
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.315,
+
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: VideoPlayer(
-                                  _videoController!,
+                                child: FittedBox(
+                                  fit: _videoController!.value.size.width >=
+                                          _videoController!.value.size.height
+                                      ? BoxFit.cover
+                                      : BoxFit.scaleDown,
+                                  child: SizedBox(
+                                    width: _videoController!.value.size.width,
+                                    height: _videoController!.value.size.height,
+                                    child: VideoPlayer(
+                                      _videoController!,
+                                    ),
+                                  ),
                                 ),
                               ),
                             )
+                            // Container(
+                            //   margin: const EdgeInsets.only(left: 10, right: 10),
+                            //   width: MediaQuery.of(context).size.width,
+                            //   height: MediaQuery.of(context).size.height * 0.315,
+                            //   child: ClipRRect(
+                            //     borderRadius: BorderRadius.circular(10),
+                            //     child: VideoPlayer(
+                            //       _videoController!,
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                       if (!_isShowingVideo)

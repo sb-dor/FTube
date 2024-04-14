@@ -59,68 +59,68 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                   )
                 ],
               ),
-              // const SizedBox(width: 10),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Material(
-              //       color: Colors.transparent,
-              //       borderRadius: BorderRadius.circular(50),
-              //       child: InkWell(
-              //         onTap: () => [],
-              //         borderRadius: BorderRadius.circular(50),
-              //         child: Container(
-              //             color: Colors.transparent,
-              //             padding: const EdgeInsets.all(10),
-              //             child: const Center(
-              //                 child: Icon(
-              //               FontAwesomeIcons.thumbsDown,
-              //               weight: 0.5,
-              //               color: Colors.grey,
-              //               size: 20,
-              //             ))),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(width: 10),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.center,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Material(
-              //       color: Colors.transparent,
-              //       borderRadius: BorderRadius.circular(50),
-              //       child: InkWell(
-              //         onTap: () async => await locator<ShareHelper>().shareVideoPath(
-              //           currentState.tempVideoId,
-              //         ),
-              //         borderRadius: BorderRadius.circular(50),
-              //         child: Container(
-              //           color: Colors.transparent,
-              //           padding: const EdgeInsets.all(10),
-              //           child: const Center(
-              //             child: Icon(
-              //               FontAwesomeIcons.share,
-              //               weight: 0.5,
-              //               color: Colors.grey,
-              //               size: 20,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //     const TextWidget(
-              //       text: "Share",
-              //       color: Colors.grey,
-              //       fontWeight: FontWeight.w500,
-              //       size: 12,
-              //       letterSpacing: 0.9,
-              //       textAlign: TextAlign.center,
-              //     )
-              //   ],
-              // ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(50),
+                    child: InkWell(
+                      onTap: () => [],
+                      borderRadius: BorderRadius.circular(50),
+                      child: Container(
+                          color: Colors.transparent,
+                          padding: const EdgeInsets.all(10),
+                          child: const Center(
+                              child: Icon(
+                            FontAwesomeIcons.thumbsDown,
+                            weight: 0.5,
+                            color: Colors.grey,
+                            size: 20,
+                          ))),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(50),
+                    child: InkWell(
+                      onTap: () async => await locator<ShareHelper>().shareVideoPath(
+                        currentState.tempVideoId,
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Icon(
+                            FontAwesomeIcons.share,
+                            weight: 0.5,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const TextWidget(
+                    text: "Share",
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    size: 12,
+                    letterSpacing: 0.9,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

@@ -143,7 +143,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     } else if (state is ErrorPlaylistsState) {
       emit(ErrorPlaylistsState(_currentState));
     } else if (state is LoadedPlaylistsState) {
-      emit(ErrorPlaylistsState(_currentState));
+      emit(LoadedPlaylistsState(_currentState));
     }
   }
 }

@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/features/library_downloads/domain/usecases/open_library_downloads_audio_listener_popup/open_library_downloads_audio_listener_popup.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
+import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/state_model/library_downloads_state_model.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
@@ -95,7 +97,8 @@ class _Widget extends StatelessWidget {
                       ),
                       child: Center(
                         child: TextWidget(
-                          text: "${locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile)}",
+                          text:
+                              "${locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile)}",
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.9,
@@ -135,6 +138,34 @@ class _Widget extends StatelessWidget {
                     size: 13,
                     color: Colors.grey,
                   ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Tooltip(
+                      message: libraryDownloadsStateModel.toolTipMessage(downloadedFile),
+                      child: IconButton(
+                        onPressed: () => context.read<LibraryDownloadsBloc>().add(
+                              SaveAppStorageFileInGalleryEvent(
+                                baseDownloadedFileModel: downloadedFile,
+                              ),
+                            ),
+                        icon:
+                            locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile) ==
+                                    "mp4"
+                                ? SizedBox(
+                                    width: 25,
+                                    height: 25,
+                                    child: Image.asset(
+                                      "assets/download_icons/gallery_save.png",
+                                    ),
+                                  )
+                                : const Icon(
+                                    Icons.download,
+                                    size: 20,
+                                  ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),

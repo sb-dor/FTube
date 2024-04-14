@@ -12,6 +12,7 @@ class FileDownloadModel extends BaseDownloadedFileModel {
     String? views,
     String? createdAt,
     String? channelName,
+    bool savingToSpecificPath = false,
   }) : super(
           id: id,
           name: name,
@@ -20,6 +21,7 @@ class FileDownloadModel extends BaseDownloadedFileModel {
           views: views,
           createdAt: createdAt,
           channelName: channelName,
+          savingToSpecificPath: savingToSpecificPath,
         );
 
   factory FileDownloadModel.fromVideoData(VideoData? videoData) {

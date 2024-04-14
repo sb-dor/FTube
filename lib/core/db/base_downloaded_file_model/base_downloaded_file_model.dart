@@ -20,6 +20,9 @@ class BaseDownloadedFileModel {
   @ColumnInfo(name: "channel_name")
   String? channelName;
 
+  @ignore
+  bool savingToSpecificPath;
+
   BaseDownloadedFileModel({
     required this.id,
     required this.name,
@@ -28,5 +31,6 @@ class BaseDownloadedFileModel {
     required this.views,
     required this.createdAt,
     required this.channelName,
+    required this.savingToSpecificPath,
   });
 }
