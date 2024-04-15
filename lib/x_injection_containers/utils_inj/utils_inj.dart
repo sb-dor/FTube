@@ -8,6 +8,7 @@ import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/utils/share_helper/share_helper.dart';
 import 'package:youtube/utils/shared_preferences_helper.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class UtilsInj {
   static Future<void> utilsInj() async {
@@ -45,6 +46,10 @@ abstract class UtilsInj {
 
     locator.registerLazySingleton<DurationHelper>(
       () => DurationHelper(),
+    );
+
+    locator.registerLazySingleton<YoutubeExplode>(
+      () => YoutubeExplode(),
     );
   }
 }
