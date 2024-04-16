@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
@@ -7,7 +9,6 @@ import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/h
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/widgets/shimmer_container.dart';
 import 'package:youtube/widgets/text_widget.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
@@ -60,13 +61,15 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   VideoPlayerController? _videoPlayerController;
 
   // for getting info about videos
-  final YoutubeExplode _youtubeExplode = YoutubeExplode();
+  final YoutubeExplode _youtubeExplode = locator<YoutubeExplode>();
 
   // reusable functions that use in app
   final ReusableGlobalFunctions _globalFunctions = locator<ReusableGlobalFunctions>();
 
   // temp values for changing ui and "if" statements
-  bool initializingVideoBeforeShowing = false, videoIsInitializing = false;
+  bool _initializingVideoBeforeShowing = false, _videoIsInitializing = false;
+
+  Timer? _timer;
 
   @override
   void initState() {
@@ -80,8 +83,8 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     // we have to init our controller only that time when it's null
     if (_videoPlayerController == null) {
       // check whether controller is initializing
-      if (videoIsInitializing) return;
-      videoIsInitializing = true;
+      if (_videoIsInitializing) return;
+      _videoIsInitializing = true;
 
       // get information about video
       var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
@@ -112,7 +115,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
       );
 
       // setting false means that we are done with initializing
-      videoIsInitializing = false;
+      _videoIsInitializing = false;
     }
   }
 
@@ -123,32 +126,36 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   }
 
   void _onPointerDownEvent(PointerDownEvent event) async {
-    // just for showing loading before loading video (progress indicator)
-    initializingVideoBeforeShowing = true;
-    setState(() {});
-    // while user touches the screen on video, check whether video was initialized
-    await _initEveryController();
-    // if the controller is still not initialized break the code
-    if (_videoPlayerController == null) return;
-    setState(() {});
-    // if the controller is not initialize, initialize it
-    if (!(_videoPlayerController?.value.isInitialized ?? false)) {
-      await _videoPlayerController?.initialize();
-    }
-    // if the video is not playing
-    if (!(_videoPlayerController?.value.isPlaying ?? false)) {
-      await _videoPlayerController?.play();
-      await _videoPlayerController?.setVolume(0);
-    }
+    if ((_timer?.isActive ?? false)) _timer?.cancel();
+    // timer checks whether user want to watch temp video or wants to enter to video
+    _timer = Timer(const Duration(seconds: 1), () async {
+      // just for showing loading before loading video (progress indicator)
+      _initializingVideoBeforeShowing = true;
+      setState(() {});
+      // while user touches the screen on video, check whether video was initialized
+      await _initEveryController();
+      // if the controller is still not initialized break the code
+      if (_videoPlayerController == null) return;
+      setState(() {});
+      // if the controller is not initialize, initialize it
+      if (!(_videoPlayerController?.value.isInitialized ?? false)) {
+        await _videoPlayerController?.initialize();
+      }
+      // if the video is not playing, start to play the video
+      if (!(_videoPlayerController?.value.isPlaying ?? false)) {
+        await _videoPlayerController?.play();
+        await _videoPlayerController?.setVolume(0);
+      }
 
-    // set this variable to false saying that initializing was end (in order to remove circular progress indicator)
-    initializingVideoBeforeShowing = false;
-    setState(() {});
+      // set this variable to false saying that initializing was end (in order to remove circular progress indicator)
+      _initializingVideoBeforeShowing = false;
+      setState(() {});
 
-    // after initializing the video, function starts to listen the video changes,
-    // whenever video pauses (not starts to buffer), that means that user changed video on screen.
-    // We have to set null to this widget's controller
-    _onPointerDownEventListener();
+      // after initializing the video, function starts to listen the video changes,
+      // whenever video pauses (not starts to buffer), that means that user changed video on screen.
+      // We have to set null to this widget's controller
+      _onPointerDownEventListener();
+    });
   }
 
   void _onPointerDownEventListener() {
@@ -264,7 +271,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          if (initializingVideoBeforeShowing)
+                          if (_initializingVideoBeforeShowing)
                             const SizedBox(
                               width: 15,
                               height: 15,
@@ -293,8 +300,8 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                   child: Center(
                                     child: Icon(
                                       _videoPlayerController?.value.volume == 1
-                                          ? Icons.volume_up_sharp
-                                          : Icons.volume_down_sharp,
+                                          ? Icons.volume_down_sharp
+                                          : Icons.volume_up_sharp,
                                       color: Colors.white,
                                       size: 15,
                                     ),
@@ -323,6 +330,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                     right: MediaQuery.of(context).size.width / 4.3,
                     child: Listener(
                       onPointerDown: _onPointerDownEvent,
+                      onPointerUp: (v) => _timer?.cancel(),
                       child: Container(
                         color: Colors.transparent,
                       ),

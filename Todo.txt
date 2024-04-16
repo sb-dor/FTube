@@ -4,3 +4,4 @@
 4. While audio and video are still merging set state as wait_a_little_more
 5. Video's aspect ration in downloaded files feature -> done
 6. Make pagination in app downloaded files feature
+7. Add Video Duration in VideLoadedWidget

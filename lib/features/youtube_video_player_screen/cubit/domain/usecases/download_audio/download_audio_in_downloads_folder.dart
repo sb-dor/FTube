@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:permission_handler/permission_handler.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
@@ -13,6 +14,14 @@ class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
 
   @override
   Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
+    final checkPermissionForStorage = await Permission.storage.status;
+
+    if (checkPermissionForStorage != PermissionStatus.granted) {
+      final permissionForStorage = await Permission.storage.request();
+
+      if (permissionForStorage != PermissionStatus.granted) return;
+    }
+
     var directory = await DownloadsPath.downloadsDirectory();
 
     var dateTimeForAudioName = DateTime.now();
