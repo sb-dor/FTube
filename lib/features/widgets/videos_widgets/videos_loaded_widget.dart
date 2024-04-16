@@ -56,48 +56,110 @@ class _MainVideoWidget extends StatefulWidget {
 }
 
 class _MainVideoWidgetState extends State<_MainVideoWidget> {
+  // for showing video
   VideoPlayerController? _videoPlayerController;
+
+  // for getting info about videos
   final YoutubeExplode _youtubeExplode = YoutubeExplode();
+
+  // reusable functions that use in app
   final ReusableGlobalFunctions _globalFunctions = locator<ReusableGlobalFunctions>();
-  bool videoStartToShow = false, initializingVideoBeforeShowing = false;
+
+  // temp values for changing ui and "if" statements
+  bool initializingVideoBeforeShowing = false, videoIsInitializing = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // whether use clicks video for init or not we have to init controller anyway
     _initEveryController();
   }
 
   Future<void> _initEveryController() async {
-    var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
-      widget.video.videoId,
-    );
+    // we have to init our controller only that time when it's null
+    if (_videoPlayerController == null) {
+      // check whether controller is initializing
+      if (videoIsInitializing) return;
+      videoIsInitializing = true;
 
-    final videosWithSound = informationVideo.video
-        .where((e) =>
-            e.size.totalMegaBytes >= 1 &&
-            _globalFunctions.checkMp4FromURI(
-              value: e.url.toString(),
-            ))
-        .toList();
+      // get information about video
+      var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
+        widget.video.videoId,
+      );
 
-    VideoStreamInfo streamInfo = videosWithSound.first;
+      // get only those videos which are recommended and will not throw any error in the future
+      final videosWithSound = informationVideo.video
+          .where((e) =>
+              e.size.totalMegaBytes >= 1 &&
+              _globalFunctions.checkMp4FromURI(
+                value: e.url.toString(),
+              ))
+          .toList();
 
-    for (var each in videosWithSound) {
-      if (each.size.totalMegaBytes < streamInfo.size.totalMegaBytes) {
-        streamInfo = each;
+      // get the lowest video one (360p quality)
+      VideoStreamInfo streamInfo = videosWithSound.first;
+
+      for (var each in videosWithSound) {
+        if (each.size.totalMegaBytes < streamInfo.size.totalMegaBytes) {
+          streamInfo = each;
+        }
       }
-    }
 
-    _videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(streamInfo.url.toString()),
-    );
+      // init the controller
+      _videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(streamInfo.url.toString()),
+      );
+
+      // setting false means that we are done with initializing
+      videoIsInitializing = false;
+    }
   }
 
   @override
   void dispose() {
     _videoPlayerController?.dispose();
     super.dispose();
+  }
+
+  void _onPointerDownEvent(PointerDownEvent event) async {
+    // just for showing loading before loading video (progress indicator)
+    initializingVideoBeforeShowing = true;
+    setState(() {});
+    // while user touches the screen on video, check whether video was initialized
+    await _initEveryController();
+    // if the controller is still not initialized break the code
+    if (_videoPlayerController == null) return;
+    setState(() {});
+    // if the controller is not initialize, initialize it
+    if (!(_videoPlayerController?.value.isInitialized ?? false)) {
+      await _videoPlayerController?.initialize();
+    }
+    // if the video is not playing
+    if (!(_videoPlayerController?.value.isPlaying ?? false)) {
+      await _videoPlayerController?.play();
+      await _videoPlayerController?.setVolume(0);
+    }
+
+    // set this variable to false saying that initializing was end (in order to remove circular progress indicator)
+    initializingVideoBeforeShowing = false;
+    setState(() {});
+
+    // after initializing the video, function starts to listen the video changes,
+    // whenever video pauses (not starts to buffer), that means that user changed video on screen.
+    // We have to set null to this widget's controller
+    _onPointerDownEventListener();
+  }
+
+  void _onPointerDownEventListener() {
+    _videoPlayerController?.addListener(() async {
+      if (!(_videoPlayerController?.value.isPlaying ?? false)) {
+        // stop video before setting null
+        await _videoPlayerController?.pause();
+        _videoPlayerController = null;
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -113,251 +175,241 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
               (widget.video.thumbnails ?? []).isEmpty ? null : widget.video.thumbnails?.first.url,
         );
       },
-      child: Listener(
-        onPointerDown: (value) async {
-          if (_videoPlayerController == null) return;
-          initializingVideoBeforeShowing = true;
-          setState(() {});
-          if (!(_videoPlayerController?.value.isInitialized ?? false)) {
-            await _videoPlayerController?.initialize();
-          }
-          if (!(_videoPlayerController?.value.isPlaying ?? false)) {
-            await _videoPlayerController?.play();
-            await _videoPlayerController?.setVolume(0);
-          }
-          videoStartToShow = true;
-          initializingVideoBeforeShowing = false;
-          setState(() {});
-        },
-        onPointerUp: (value) {
-          debugPrint("up");
-        },
-        child: Container(
-          color: Colors.transparent,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 180,
-                child: Stack(
-                  children: [
-                    if ((_videoPlayerController?.value.isInitialized ?? false) &&
-                        (_videoPlayerController?.value.isPlaying ?? false))
-                      Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: VideoPlayer(_videoPlayerController!),
-                        ),
-                      )
-                    else
-                      Positioned.fill(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: ImageLoaderWidget(
-                            url: widget.video.thumbnails?.last.url ?? '',
-                            errorImageUrl: 'assets/custom_images/custom_user_image.png',
-                            boxFit: BoxFit.cover,
-                          ),
+      child: Container(
+        color: Colors.transparent,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180,
+              child: Stack(
+                children: [
+                  if ((_videoPlayerController?.value.isInitialized ?? false) &&
+                      (_videoPlayerController?.value.isPlaying ?? false))
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: VideoPlayer(_videoPlayerController!),
+                      ),
+                    )
+                  else
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ImageLoaderWidget(
+                          url: widget.video.thumbnails?.last.url ?? '',
+                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                          boxFit: BoxFit.cover,
                         ),
                       ),
-                    Positioned(
-                        top: 5,
-                        left: 10,
-                        right: 10,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child:
-                                  // (video.loadingVideoData)
-                                  //     ? const TextWidget(
-                                  //         text: ". . .",
-                                  //         size: 12,
-                                  //         fontWeight: FontWeight.bold,
-                                  //         color: Colors.white,
-                                  //       )
-                                  //     :
-                                  Row(children: [
-                                const Icon(
-                                  Icons.remove_red_eye_outlined,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(width: 5),
-                                TextWidget(
-                                  text: widget.video.views ?? '',
-                                  size: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                )
-                              ]),
+                    ),
+                  Positioned(
+                      top: 5,
+                      left: 10,
+                      right: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            IconButton(
-                                style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStatePropertyAll(Colors.black.withOpacity(0.2))),
-                                onPressed: () {
-                                  VideoModelDb model = VideoModelDb.fromVideo(widget.video);
-                                  locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
-                                    context: context,
-                                    videoModelDb: model,
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.more_horiz,
-                                  color: Colors.white,
-                                ))
-                          ],
-                        )),
-                    Positioned(
-                        bottom: 10,
-                        right: 10,
-                        left: 10,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            if (initializingVideoBeforeShowing)
-                              const SizedBox(
-                                width: 15,
-                                height: 15,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.red,
-                                ),
+                            child:
+                                // (video.loadingVideoData)
+                                //     ? const TextWidget(
+                                //         text: ". . .",
+                                //         size: 12,
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.white,
+                                //       )
+                                //     :
+                                Row(children: [
+                              const Icon(
+                                Icons.remove_red_eye_outlined,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 5),
+                              TextWidget(
+                                text: widget.video.views ?? '',
+                                size: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               )
-                            else if ((_videoPlayerController?.value.isInitialized ?? false) &&
-                                (_videoPlayerController?.value.isPlaying ?? false))
-                              Material(
-                                color: Colors.black.withOpacity(0.5),
+                            ]),
+                          ),
+                          IconButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStatePropertyAll(Colors.black.withOpacity(0.2))),
+                              onPressed: () {
+                                VideoModelDb model = VideoModelDb.fromVideo(widget.video);
+                                locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                  context: context,
+                                  videoModelDb: model,
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.more_horiz,
+                                color: Colors.white,
+                              ))
+                        ],
+                      )),
+                  Positioned(
+                      bottom: 10,
+                      right: 10,
+                      left: 10,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          if (initializingVideoBeforeShowing)
+                            const SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.red,
+                              ),
+                            )
+                          else if ((_videoPlayerController?.value.isInitialized ?? false) &&
+                              (_videoPlayerController?.value.isPlaying ?? false))
+                            Material(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(50),
+                              child: InkWell(
+                                onTap: () {
+                                  if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
+                                    _videoPlayerController?.setVolume(0.0);
+                                  } else {
+                                    _videoPlayerController?.setVolume(1.0);
+                                  }
+                                  setState(() {});
+                                },
                                 borderRadius: BorderRadius.circular(50),
-                                child: InkWell(
-                                  onTap: () {
-                                    if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
-                                      _videoPlayerController?.setVolume(0.0);
-                                    } else {
-                                      _videoPlayerController?.setVolume(1.0);
-                                    }
-                                    setState(() {});
-                                  },
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Center(
-                                      child: Icon(
-                                        _videoPlayerController?.value.volume == 1
-                                            ? Icons.volume_up_sharp
-                                            : Icons.volume_down_sharp,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Center(
+                                    child: Icon(
+                                      _videoPlayerController?.value.volume == 1
+                                          ? Icons.volume_up_sharp
+                                          : Icons.volume_down_sharp,
+                                      color: Colors.white,
+                                      size: 15,
                                     ),
                                   ),
                                 ),
-                              )
-                            else
-                              const SizedBox(),
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
-                              decoration: BoxDecoration(
-                                  color: Colors.black, borderRadius: BorderRadius.circular(3)),
-                              child: TextWidget(
-                                text: widget.video.duration ?? "",
-                                color: Colors.white,
-                                size: 10,
                               ),
-                            ),
-                          ],
-                        ))
-                  ],
-                ),
-              ),
-              const SizedBox(height: 5),
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // if (video.loadingVideoData)
-                    //   ShimmerContainer(
-                    //       width: 50, height: 50, borderRadius: BorderRadius.circular(50))
-                    // else if (video.errorOfLoadingVideoData)
-                    //   Container(
-                    //       color: Colors.red,
-                    //       width: 50,
-                    //       height: 50,
-                    //       child: const TextWidget(text: "E", color: Colors.red))
-                    // else
-                    Container(
-                      width: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade400,
-                          width: 0.5,
-                        ),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: ImageLoaderWidget(
-                          url: widget.video.channelThumbnailUrl ?? '',
-                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextWidget(
-                            text: widget.video.title ?? '-',
-                            size: 14,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.1,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              children: [
-                                WidgetSpan(
-                                    child: TextWidget(
-                                  text: widget.video.channelName ?? "-",
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                                const WidgetSpan(
-                                    child: TextWidget(
-                                  text: "  •  ",
-                                  size: 12,
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w500,
-                                )),
-                                WidgetSpan(
-                                  child: TextWidget(
-                                    text: widget.video.publishedDateTime ?? '-',
-                                    size: 12,
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                            )
+                          else
+                            const SizedBox(),
+                          Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                            decoration: BoxDecoration(
+                                color: Colors.black, borderRadius: BorderRadius.circular(3)),
+                            child: TextWidget(
+                              text: widget.video.duration ?? "",
+                              color: Colors.white,
+                              size: 10,
                             ),
                           ),
                         ],
+                      )),
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: MediaQuery.of(context).size.width / 4.3,
+                    right: MediaQuery.of(context).size.width / 4.3,
+                    child: Listener(
+                      onPointerDown: _onPointerDownEvent,
+                      child: Container(
+                        color: Colors.transparent,
                       ),
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 5),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // if (video.loadingVideoData)
+                  //   ShimmerContainer(
+                  //       width: 50, height: 50, borderRadius: BorderRadius.circular(50))
+                  // else if (video.errorOfLoadingVideoData)
+                  //   Container(
+                  //       color: Colors.red,
+                  //       width: 50,
+                  //       height: 50,
+                  //       child: const TextWidget(text: "E", color: Colors.red))
+                  // else
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey.shade400,
+                        width: 0.5,
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: ImageLoaderWidget(
+                        url: widget.video.channelThumbnailUrl ?? '',
+                        errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextWidget(
+                          text: widget.video.title ?? '-',
+                          size: 14,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.1,
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              WidgetSpan(
+                                  child: TextWidget(
+                                text: widget.video.channelName ?? "-",
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              )),
+                              const WidgetSpan(
+                                  child: TextWidget(
+                                text: "  •  ",
+                                size: 12,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w500,
+                              )),
+                              WidgetSpan(
+                                child: TextWidget(
+                                  text: widget.video.publishedDateTime ?? '-',
+                                  size: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
