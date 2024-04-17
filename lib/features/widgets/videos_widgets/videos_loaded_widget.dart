@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +7,7 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
@@ -71,6 +73,9 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
 
   Timer? _timer;
 
+  // if video is playing this variable will change every time in order to show videos current duration
+  String? currentVideoGoingDuration;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -80,42 +85,47 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   }
 
   Future<void> _initEveryController() async {
-    // we have to init our controller only that time when it's null
-    if (_videoPlayerController == null) {
-      // check whether controller is initializing
-      if (_videoIsInitializing) return;
-      _videoIsInitializing = true;
+    try {
+      // we have to init our controller only that time when it's null
+      if (_videoPlayerController == null) {
+        // check whether controller is initializing
+        if (_videoIsInitializing) return;
+        _videoIsInitializing = true;
 
-      // get information about video
-      var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
-        widget.video.videoId,
-      );
+        // get information about video
+        var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
+          widget.video.videoId,
+        );
 
-      // get only those videos which are recommended and will not throw any error in the future
-      final videosWithSound = informationVideo.video
-          .where((e) =>
-              e.size.totalMegaBytes >= 1 &&
-              _globalFunctions.checkMp4FromURI(
-                value: e.url.toString(),
-              ))
-          .toList();
+        // get only those videos which are recommended and will not throw any error in the future
+        final videosWithSound = informationVideo.video
+            .where((e) =>
+                e.size.totalMegaBytes >= 1 &&
+                _globalFunctions.checkMp4FromURI(
+                  value: e.url.toString(),
+                ))
+            .toList();
 
-      // get the lowest video one (360p quality)
-      VideoStreamInfo streamInfo = videosWithSound.first;
+        // get the lowest video one (360p quality)
+        VideoStreamInfo streamInfo = videosWithSound.first;
 
-      for (var each in videosWithSound) {
-        if (each.size.totalMegaBytes < streamInfo.size.totalMegaBytes) {
-          streamInfo = each;
+        for (var each in videosWithSound) {
+          if (each.size.totalMegaBytes < streamInfo.size.totalMegaBytes) {
+            streamInfo = each;
+          }
         }
+
+        // init the controller
+        _videoPlayerController = VideoPlayerController.networkUrl(
+          Uri.parse(streamInfo.url.toString()),
+        );
+
+        // setting false means that we are done with initializing
+        _videoIsInitializing = false;
       }
-
-      // init the controller
-      _videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse(streamInfo.url.toString()),
-      );
-
-      // setting false means that we are done with initializing
-      _videoIsInitializing = false;
+    } catch (e) {
+      debugPrint("_initEveryController error is: $e");
+      FirebaseCrashlytics.instance.log(e.toString());
     }
   }
 
@@ -162,17 +172,28 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     _videoPlayerController?.addListener(() async {
       if (!(_videoPlayerController?.value.isPlaying ?? false)) {
         // stop video before setting null
-        await _videoPlayerController?.pause();
-        _videoPlayerController = null;
+        await _clearController();
+      } else {
+        currentVideoGoingDuration =
+            locator<DurationHelper>().getFromDuration(await _videoPlayerController?.position);
         setState(() {});
       }
     });
   }
 
+  Future<void> _clearController() async {
+    // stop video before setting null
+    await _videoPlayerController?.pause();
+    _videoPlayerController = null;
+    currentVideoGoingDuration = null;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await _clearController();
         if (widget.closeScreenBeforeOpeningAnotherOne) Navigator.pop(context);
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
         OpenVideoScreen.openVideoScreen(
@@ -195,7 +216,22 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                     Positioned.fill(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: VideoPlayer(_videoPlayerController!),
+
+                        // fitted box and setting video's width and height in sizedbox
+                        // is the best way to fit the video
+                        child: FittedBox(
+                          fit: _videoPlayerController!.value.size.width >=
+                                  _videoPlayerController!.value.size.height
+                              ? BoxFit.cover
+                              : BoxFit.scaleDown,
+                          child: SizedBox(
+                            width: _videoPlayerController!.value.size.width,
+                            height: _videoPlayerController!.value.size.height,
+                            child: VideoPlayer(
+                              _videoPlayerController!,
+                            ),
+                          ),
+                        ),
                       ),
                     )
                   else
@@ -277,7 +313,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                               height: 15,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.red,
+                                color: Colors.white,
                               ),
                             )
                           else if ((_videoPlayerController?.value.isInitialized ?? false) &&
@@ -311,16 +347,30 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                             )
                           else
                             const SizedBox(),
-                          Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
-                            decoration: BoxDecoration(
-                                color: Colors.black, borderRadius: BorderRadius.circular(3)),
-                            child: TextWidget(
-                              text: widget.video.duration ?? "",
-                              color: Colors.white,
-                              size: 10,
+                          if (currentVideoGoingDuration != null)
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                              decoration: BoxDecoration(
+                                  color: Colors.black, borderRadius: BorderRadius.circular(3)),
+                              child: TextWidget(
+                                text: currentVideoGoingDuration ?? "-",
+                                color: Colors.white,
+                                size: 10,
+                              ),
+                            )
+                          else
+                            Container(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                              decoration: BoxDecoration(
+                                  color: Colors.black, borderRadius: BorderRadius.circular(3)),
+                              child: TextWidget(
+                                text: widget.video.duration ?? "",
+                                color: Colors.white,
+                                size: 10,
+                              ),
                             ),
-                          ),
                         ],
                       )),
                   Positioned(
