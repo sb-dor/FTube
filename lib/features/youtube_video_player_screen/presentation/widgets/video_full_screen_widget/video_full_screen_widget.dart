@@ -42,7 +42,8 @@ class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget> {
                       fullScreen: false,
                     ),
                   if (youtubeVideoStateModel.clickedUpOnVideo) const LastNextStopPlayWidget(),
-                  if (youtubeVideoStateModel.clickedUpOnVideo) const VideoSettingsButton(),
+                  if (youtubeVideoStateModel.clickedUpOnVideo)
+                    const VideoSettingsButton(fromFullScreen: true),
                 ],
               ),
             ),

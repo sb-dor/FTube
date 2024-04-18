@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/open_popups/open_change_quality_video_popup.dart';
 
 class VideoSettingsButton extends StatelessWidget {
-  const VideoSettingsButton({Key? key}) : super(key: key);
+  final bool fromFullScreen;
+
+  const VideoSettingsButton({Key? key, this.fromFullScreen = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,10 @@ class VideoSettingsButton extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => OpenChangeQualityVideoPopup.openChangeQualityPopUp(context),
+            onPressed: () => OpenChangeQualityVideoPopup.openChangeQualityPopUp(
+              context,
+              fromFullScreen: fromFullScreen,
+            ),
             icon: const Icon(
               Icons.more_vert,
               color: Colors.white,

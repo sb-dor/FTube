@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class WrappedPopupWidget extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
+  final bool fromFullScreen;
 
-  const WrappedPopupWidget({Key? key, required this.child, this.backgroundColor}) : super(key: key);
+  const WrappedPopupWidget({
+    Key? key,
+    required this.child,
+    this.backgroundColor,
+    this.fromFullScreen = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,9 @@ class WrappedPopupWidget extends StatelessWidget {
       return Wrap(children: [
         Container(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            width: MediaQuery.of(context).size.width,
+            width: fromFullScreen
+                ? MediaQuery.of(context).size.height
+                : MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 color: backgroundColor ?? Colors.white,
                 borderRadius: const BorderRadius.only(

@@ -117,7 +117,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.runningTime =
         locator<DurationHelper>().getFromDuration(await _currentState.playerController?.position);
 
-    if ((_currentState.playerController?.value.isCompleted ?? false)) {
+    if ((_currentState.playerController?.value.isCompleted ?? false) ||
+        !(_currentState.playerController?.value.isPlaying ?? false)) {
       _currentState.playPauseController?.forward();
       _currentState.cancelTime();
       _currentState.stopVideo = true;
