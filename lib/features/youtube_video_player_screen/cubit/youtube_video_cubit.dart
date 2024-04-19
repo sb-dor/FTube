@@ -46,11 +46,6 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.loadingVideo = true;
     _currentState.isVideoAddedToBookMarks = false;
     _currentState.isVideoAddedToFavorites = false;
-    //init _stop_play button
-    _currentState.playPauseController =
-        AnimationController(vsync: mixin, duration: const Duration(seconds: 1));
-    _currentState.playPauseAnimation =
-        Tween<double>(begin: 0, end: 1).animate(_currentState.playPauseController!);
 
     // change the state
     emit(InitialYoutubeVideoState(_currentState));
@@ -105,8 +100,6 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   void dispose() async {
     await _currentState.playerController?.dispose();
     _currentState.playerController = null;
-    _currentState.playPauseController?.dispose();
-    _currentState.playPauseController = null;
     _currentState.youtubeExplode = null;
     _currentState.videoData = null;
     _currentState.tempMinAudioForVideo = null;
@@ -119,7 +112,6 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
     if ((_currentState.playerController?.value.isCompleted ?? false) ||
         !(_currentState.playerController?.value.isPlaying ?? false)) {
-      _currentState.playPauseController?.forward();
       _currentState.cancelTime();
       _currentState.stopVideo = true;
       _currentState.clickedUpOnVideo = true;

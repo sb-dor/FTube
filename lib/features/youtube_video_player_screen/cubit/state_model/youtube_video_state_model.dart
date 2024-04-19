@@ -14,10 +14,6 @@ class YoutubeVideoStateModel {
 
   YoutubeExplode? youtubeExplode;
 
-  late AnimationController? playPauseController;
-
-  late Animation<double> playPauseAnimation;
-
   VideoPlayerController? playerController;
 
   bool loadingVideo = false,

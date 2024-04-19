@@ -10,11 +10,15 @@ import 'package:youtube/widgets/text_widget.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class VideoDurationInformation extends StatelessWidget {
+  final AnimationController animationController;
+  final Animation<double> animation;
   final bool fullScreen;
 
   const VideoDurationInformation({
     Key? key,
     this.fullScreen = true,
+    required this.animationController,
+    required this.animation,
   }) : super(key: key);
 
   @override
@@ -57,16 +61,23 @@ class VideoDurationInformation extends StatelessWidget {
                 IconButton(
                   style: ButtonStyle(
                       overlayColor: MaterialStatePropertyAll(Colors.white.withOpacity(0.3))),
-                  onPressed: () {
+                  onPressed: () async {
                     if (fullScreen) {
-                      Navigator.push(
+                      await Navigator.push(
                         context,
                         PageRouteBuilder(
-                          pageBuilder: (context, animation1, animation2) => VideoFullScreenWidget(),
+                          pageBuilder: (context, animation1, animation2) =>
+                              const VideoFullScreenWidget(),
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero,
                         ),
                       );
+
+                      if ((currentState.playerController?.value.isPlaying ?? false)) {
+                        animationController.reset();
+                      } else {
+                        animationController.forward();
+                      }
                     } else {
                       Navigator.pop(context);
                     }

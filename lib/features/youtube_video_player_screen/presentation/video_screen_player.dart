@@ -44,6 +44,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
   late final YoutubeVideoCubit _youtubeVideoCubit;
   late final VideoInformationCubit _videoInformationCubit;
   late final DraggableScrollableController _scrollableController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -61,6 +63,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
       videoPicture: widget.videoThumb,
     );
 
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+
     _scrollController.addListener(() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         _youtubeVideoCubit.getSimilarVideos(
@@ -77,6 +82,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
     _youtubeVideoCubit.dispose();
     _videoInformationCubit.loadingVideoInformationState();
     _scrollController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -134,8 +140,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
                             const VideoPlayerWidget(),
                             const BlackWithOpacityBackground(),
                             if (youtubeStateModel.clickedUpOnVideo)
-                              const VideoDurationInformation(),
-                            if (youtubeStateModel.clickedUpOnVideo) const LastNextStopPlayWidget(),
+                              VideoDurationInformation(
+                                animationController: _animationController,
+                                animation: _animation,
+                              ),
+                            if (youtubeStateModel.clickedUpOnVideo)
+                              LastNextStopPlayWidget(
+                                animationController: _animationController,
+                                animation: _animation,
+                              ),
                             if (youtubeStateModel.clickedUpOnVideo) const VideoSettingsButton(),
                           ],
                         )),

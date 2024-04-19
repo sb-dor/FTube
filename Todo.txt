@@ -6,4 +6,4 @@
 6. Make pagination in app downloaded files feature
 7. Add Video Duration in VideLoadedWidget -> done
 8. Set null to controller when you want to open video -> done
-9. On Video Open section where user watches video when you want to watch temporary video -> main videos stopes, you have to change the "stop-continue" button state
+9. On Video Open section where user watches video when you want to watch temporary video -> main videos stopes, you have to change the "stop-continue" button state -> done

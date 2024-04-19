@@ -15,7 +15,33 @@ class VideoFullScreenWidget extends StatefulWidget {
   State<VideoFullScreenWidget> createState() => _VideoFullScreenWidgetState();
 }
 
-class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget> {
+class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
+
+
+    final youTubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context).state;
+    if ((youTubeVideoCubit.youtubeVideoStateModel.playerController?.value.isPlaying ?? false)) {
+      _animationController.reset();
+    } else {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -38,10 +64,16 @@ class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget> {
                   const VideoPlayerWidget(),
                   const BlackWithOpacityBackground(),
                   if (youtubeVideoStateModel.clickedUpOnVideo)
-                    const VideoDurationInformation(
+                    VideoDurationInformation(
                       fullScreen: false,
+                      animationController: _animationController,
+                      animation: _animation,
                     ),
-                  if (youtubeVideoStateModel.clickedUpOnVideo) const LastNextStopPlayWidget(),
+                  if (youtubeVideoStateModel.clickedUpOnVideo)
+                    LastNextStopPlayWidget(
+                      animation: _animation,
+                      animationController: _animationController,
+                    ),
                   if (youtubeVideoStateModel.clickedUpOnVideo)
                     const VideoSettingsButton(fromFullScreen: true),
                 ],

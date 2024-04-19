@@ -5,7 +5,14 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
 
 class LastNextStopPlayWidget extends StatelessWidget {
-  const LastNextStopPlayWidget({Key? key}) : super(key: key);
+  final AnimationController animationController;
+  final Animation<double> animation;
+
+  const LastNextStopPlayWidget({
+    Key? key,
+    required this.animationController,
+    required this.animation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,7 @@ class LastNextStopPlayWidget extends StatelessWidget {
       var currentState = state.youtubeVideoStateModel;
       return Positioned.fill(
           child: AnimatedBuilder(
-              animation: currentState.playPauseController ?? ChangeNotifier(),
+              animation: animationController,
               builder: (context, child) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,16 +35,16 @@ class LastNextStopPlayWidget extends StatelessWidget {
                       onTap: () {
                         context.read<YoutubeVideoCubit>().stopVideo();
                         if (currentState.stopVideo) {
-                          currentState.playPauseController?.forward();
+                          animationController.forward();
                         } else {
-                          currentState.playPauseController?.reverse();
+                          animationController.reverse();
                         }
                       },
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         child: AnimatedIcon(
                           icon: AnimatedIcons.pause_play,
-                          progress: currentState.playPauseAnimation,
+                          progress: animation,
                           color: Colors.white,
                           size: 30,
                         ),
