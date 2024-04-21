@@ -43,6 +43,8 @@ class MainScreenOverlayInfoFeatureCubit extends Cubit<MainScreenOverlayInfoFeatu
 
     Overlay.of(context).insert(_currentState.overlay!);
 
+    _currentState.showPopButton = false;
+
     InitialMainScreenOverlayInfoFeatureState(_currentState);
 
     _currentState.timerForShowingPopButton = Timer(const Duration(seconds: 2), () {
