@@ -17,166 +17,171 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBottomNavbarCubit, HomePageBottomNavbarStates>(
-        builder: (context, bottomNavbarStates) {
-      var bottomNavBarState = bottomNavbarStates.homePageBottomNavbarCubit;
-      return AnimatedContainer(
-        curve: Curves.easeInOut,
-        duration: const Duration(seconds: 1),
-        height: kBottomNavigationBarHeight + 10,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.shade300,
-                blurRadius: widget.animate ? 3 : 0.3,
-                spreadRadius: widget.animate ? 0.5 : 0)
-          ],
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(children: [
-          Expanded(
-              child: GestureDetector(
-            onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 0),
-            child: Container(
-                color: Colors.transparent,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(FontAwesomeIcons.laptop,
-                          size: 25,
-                          color: bottomNavBarState.page == 0
-                              ? Colors.red
-                              : Colors.black.withOpacity(0.3)),
-                      const SizedBox(height: 5),
-                      AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 375),
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 0
-                                ? Colors.red
-                                : Colors.black.withOpacity(0.3)),
-                        child: const Text(
-                          "Home",
-                          maxLines: 1,
-                        ),
-                      )
-                    ])),
-          )),
-          Expanded(
-              child: GestureDetector(
-                  onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 1),
-                  child: Container(
-                      color: Colors.transparent,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FaIcon(FontAwesomeIcons.boltLightning,
-                                size: 25,
-                                color: bottomNavBarState.page == 1
+      builder: (context, bottomNavbarStates) {
+        var bottomNavBarState = bottomNavbarStates.homePageBottomNavbarCubit;
+        return AnimatedContainer(
+          curve: Curves.easeInOut,
+          duration: const Duration(seconds: 1),
+          height: kBottomNavigationBarHeight + 10,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.shade300,
+                  blurRadius: widget.animate ? 3 : 0.3,
+                  spreadRadius: widget.animate ? 0.5 : 0)
+            ],
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                  child: GestureDetector(
+                onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 0),
+                child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FaIcon(FontAwesomeIcons.laptop,
+                              size: 25,
+                              color: bottomNavBarState.page == 0
+                                  ? Colors.red
+                                  : Colors.black.withOpacity(0.3)),
+                          const SizedBox(height: 5),
+                          AnimatedDefaultTextStyle(
+                            duration: const Duration(milliseconds: 375),
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                overflow: TextOverflow.ellipsis,
+                                color: bottomNavBarState.page == 0
                                     ? Colors.red
                                     : Colors.black.withOpacity(0.3)),
-                            const SizedBox(height: 5),
-                            AnimatedDefaultTextStyle(
-                              duration: const Duration(milliseconds: 375),
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  overflow: TextOverflow.ellipsis,
-                                  color: bottomNavBarState.page == 1
-                                      ? Colors.red
-                                      : Colors.black.withOpacity(0.3)),
-                              child: const Text(
-                                "Trending",
-                                maxLines: 1,
-                              ),
-                            )
-                          ])))),
-          // Expanded(
-          //     child: GestureDetector(
-          //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
-          //   child: Container(
-          //       color: Colors.transparent,
-          //       child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.center,
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             FaIcon(
-          //               FontAwesomeIcons.peopleGroup,
-          //               size: 25,
-          //               color: bottomNavBarState.page == 2
-          //                   ? Colors.red
-          //                   : Colors.black.withOpacity(0.3),
-          //             ),
-          //             const SizedBox(height: 5),
-          //             AnimatedDefaultTextStyle(
-          //               style: TextStyle(
-          //                   fontSize: 10,
-          //                   fontWeight: FontWeight.bold,
-          //                   overflow: TextOverflow.ellipsis,
-          //                   color: bottomNavBarState.page == 2
-          //                       ? Colors.red
-          //                       : Colors.black.withOpacity(0.3)),
-          //               duration: const Duration(milliseconds: 375),
-          //               child: const Text(
-          //                 "Subscription",
-          //                 maxLines: 1,
-          //               ),
-          //             )
-          //           ])),
-          // )),
-          // Expanded(
-          //     child: GestureDetector(
-          //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 3),
-          //   child: Container(
-          //       color: Colors.transparent,
-          //       child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.center,
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             FaIcon(
-          //               FontAwesomeIcons.inbox,
-          //               size: 25,
-          //               color: bottomNavBarState.page == 3
-          //                   ? Colors.red
-          //                   : Colors.black.withOpacity(0.3),
-          //             ),
-          //             const SizedBox(height: 5),
-          //             AnimatedDefaultTextStyle(
-          //               duration: const Duration(milliseconds: 375),
-          //               style: TextStyle(
-          //                   fontSize: 10,
-          //                   fontWeight: FontWeight.bold,
-          //                   overflow: TextOverflow.ellipsis,
-          //                   color: bottomNavBarState.page == 3
-          //                       ? Colors.red
-          //                       : Colors.black.withOpacity(0.3)),
-          //               child: const Text(
-          //                 "Inbox",
-          //                 maxLines: 1,
-          //               ),
-          //             )
-          //           ])),
-          // )),
-          Expanded(
-              child: GestureDetector(
-            onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
-            child: Container(
-                color: Colors.transparent,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FaIcon(FontAwesomeIcons.folder,
-                          size: 25,
-                          color: bottomNavBarState.page == 2
-                              ? Colors.red
-                              : Colors.black.withOpacity(0.3)),
-                      const SizedBox(height: 5),
-                      AnimatedDefaultTextStyle(
+                            child: const Text(
+                              "Home",
+                              maxLines: 1,
+                            ),
+                          )
+                        ])),
+              )),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 1),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(FontAwesomeIcons.boltLightning,
+                            size: 25,
+                            color: bottomNavBarState.page == 1
+                                ? Colors.red
+                                : Colors.black.withOpacity(0.3)),
+                        const SizedBox(height: 5),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 375),
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
+                              color: bottomNavBarState.page == 1
+                                  ? Colors.red
+                                  : Colors.black.withOpacity(0.3)),
+                          child: const Text(
+                            "Trending",
+                            maxLines: 1,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Expanded(
+              //     child: GestureDetector(
+              //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
+              //   child: Container(
+              //       color: Colors.transparent,
+              //       child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             FaIcon(
+              //               FontAwesomeIcons.peopleGroup,
+              //               size: 25,
+              //               color: bottomNavBarState.page == 2
+              //                   ? Colors.red
+              //                   : Colors.black.withOpacity(0.3),
+              //             ),
+              //             const SizedBox(height: 5),
+              //             AnimatedDefaultTextStyle(
+              //               style: TextStyle(
+              //                   fontSize: 10,
+              //                   fontWeight: FontWeight.bold,
+              //                   overflow: TextOverflow.ellipsis,
+              //                   color: bottomNavBarState.page == 2
+              //                       ? Colors.red
+              //                       : Colors.black.withOpacity(0.3)),
+              //               duration: const Duration(milliseconds: 375),
+              //               child: const Text(
+              //                 "Subscription",
+              //                 maxLines: 1,
+              //               ),
+              //             )
+              //           ])),
+              // )),
+              // Expanded(
+              //     child: GestureDetector(
+              //   onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 3),
+              //   child: Container(
+              //       color: Colors.transparent,
+              //       child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.center,
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             FaIcon(
+              //               FontAwesomeIcons.inbox,
+              //               size: 25,
+              //               color: bottomNavBarState.page == 3
+              //                   ? Colors.red
+              //                   : Colors.black.withOpacity(0.3),
+              //             ),
+              //             const SizedBox(height: 5),
+              //             AnimatedDefaultTextStyle(
+              //               duration: const Duration(milliseconds: 375),
+              //               style: TextStyle(
+              //                   fontSize: 10,
+              //                   fontWeight: FontWeight.bold,
+              //                   overflow: TextOverflow.ellipsis,
+              //                   color: bottomNavBarState.page == 3
+              //                       ? Colors.red
+              //                       : Colors.black.withOpacity(0.3)),
+              //               child: const Text(
+              //                 "Inbox",
+              //                 maxLines: 1,
+              //               ),
+              //             )
+              //           ])),
+              // )),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(FontAwesomeIcons.folder,
+                            size: 25,
+                            color: bottomNavBarState.page == 2
+                                ? Colors.red
+                                : Colors.black.withOpacity(0.3)),
+                        const SizedBox(height: 5),
+                        AnimatedDefaultTextStyle(
                           style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
@@ -188,11 +193,17 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                           child: const Text(
                             "Library",
                             maxLines: 1,
-                          ))
-                    ])),
-          )),
-        ]),
-      );
-    });
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

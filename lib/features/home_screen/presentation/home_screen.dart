@@ -8,6 +8,7 @@ import 'package:youtube/features/home_screen/bloc/cubits/home_screen_videos_cubi
 import 'package:youtube/features/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
@@ -39,6 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
         debugPrint("last");
         context.read<MainHomeScreenBloc>().add(PaginateHomeScreenEvent());
       }
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<MainScreenOverlayInfoFeatureCubit>().showOverlay(context);
     });
   }
 

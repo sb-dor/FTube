@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
@@ -194,7 +193,8 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     return GestureDetector(
       onTap: () async {
         await _clearController();
-        if (widget.closeScreenBeforeOpeningAnotherOne) Navigator.pop(context);
+        if (widget.closeScreenBeforeOpeningAnotherOne && context.mounted) Navigator.pop(context);
+        if (!context.mounted) return;
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
         OpenVideoScreen.openVideoScreen(
           context: context,

@@ -23,4 +23,16 @@ class HiveDatabaseHelper {
     };
     await _database.insert(boxName: 'search_data', value: dataForSave);
   }
+
+  Future<bool> isOverlayShowedForMainScreen() async {
+    final data = await _database.getFromBox(boxName: "main_screen_overlay");
+    if (data.isEmpty) return false;
+    final firstEl = data.first;
+    return firstEl['main_screen_overlay_value'];
+  }
+
+  Future<void> overlayShowedForMainScreen() async {
+    Map<String, dynamic> dataForSave = {"main_screen_overlay_value": true};
+    await _database.insert(boxName: "main_screen_overlay", value: dataForSave);
+  }
 }

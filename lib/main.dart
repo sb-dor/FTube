@@ -18,6 +18,7 @@ import 'package:youtube/features/library_inner_screens/presentation/blocs/playli
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -59,6 +60,7 @@ Future<void> main() async {
     BlocProvider(create: (_) => MainAuthBloc()),
     BlocProvider(create: (_) => MainVideoCategoryCubit()),
     BlocProvider(create: (_) => HomeScreenVideosCubit()),
+    BlocProvider(create: (_) => MainScreenOverlayInfoFeatureCubit()),
 
     // showing video popup cubits:
     BlocProvider(create: (_) => YoutubeVideoCubit()),
