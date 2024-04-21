@@ -6,5 +6,5 @@ class MainScreenOverlayStateModel {
 
   Timer? timerForShowingPopButton;
 
-  bool showPopButton = false, canUserScroll = true;
+  bool showPopButton = false, canUserScroll = false;
 }
