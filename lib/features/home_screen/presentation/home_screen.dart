@@ -59,10 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
       final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
       final videoCategoryState = context.watch<MainVideoCategoryCubit>().state;
       final homeScreenVideosState = context.watch<HomeScreenVideosCubit>().state;
+      final mainScreenOverlayCubit = context.watch<MainScreenOverlayInfoFeatureCubit>().state;
 
       //data
-      var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
-
+      final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
+      final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
+      debugPrint("is here working on scroll");
       return Column(
         children: [
           if (videoCategoryState is LoadingVideoCategoryState)
@@ -95,7 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: ListView(
                     controller: _scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    physics: mainScreenOverlayStateModel.canUserScroll
+                        ? const AlwaysScrollableScrollPhysics()
+                        : const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     children: [
                       //

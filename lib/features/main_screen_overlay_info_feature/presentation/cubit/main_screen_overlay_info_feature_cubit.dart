@@ -18,6 +18,10 @@ class MainScreenOverlayInfoFeatureCubit extends Cubit<MainScreenOverlayInfoFeatu
     _currentState = state.mainScreenOverlayStateModel;
   }
 
+  void checkCanUserScroll() async {
+    _currentState.canUserScroll = await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
+  }
+
   void showOverlay(BuildContext context) async {
     final valueForCheckingOverlay = await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
 
@@ -33,7 +37,7 @@ class MainScreenOverlayInfoFeatureCubit extends Cubit<MainScreenOverlayInfoFeatu
 
     _currentState.overlay = OverlayEntry(
       builder: (context) {
-        return MainScreenExplanationOverlay();
+        return const MainScreenExplanationOverlay();
       },
     );
 
@@ -41,16 +45,18 @@ class MainScreenOverlayInfoFeatureCubit extends Cubit<MainScreenOverlayInfoFeatu
 
     InitialMainScreenOverlayInfoFeatureState(_currentState);
 
-    _currentState.timerForShowingPopButton = Timer(const Duration(seconds: 3), () {
+    _currentState.timerForShowingPopButton = Timer(const Duration(seconds: 2), () {
       _currentState.showPopButton = true;
       emit(InitialMainScreenOverlayInfoFeatureState(_currentState));
     });
   }
 
-  void removeOverlay() {
+  void removeOverlay() async {
     _currentState.overlay?.remove();
     _currentState.overlay?.dispose();
     _currentState.overlay = null;
+    await _hiveDatabaseHelper.overlayShowedForMainScreen();
+    _currentState.canUserScroll = true;
     InitialMainScreenOverlayInfoFeatureState(_currentState);
   }
 }

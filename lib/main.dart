@@ -105,6 +105,7 @@ class _MainAppState extends State<MainApp> {
     super.initState();
 
     // context.read<MainAuthBloc>().add(CheckAuthEvent(authorizationService: GoogleService()));
+    context.read<MainScreenOverlayInfoFeatureCubit>().checkCanUserScroll();
   }
 
   @override

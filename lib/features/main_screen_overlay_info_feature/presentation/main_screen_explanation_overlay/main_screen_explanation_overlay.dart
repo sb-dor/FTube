@@ -55,7 +55,7 @@ class MainScreenExplanationOverlay extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 2.5,
                   child: const TextWidget(
-                    text: "Hold inside this to start preview",
+                    text: "Hold inside this square to start preview",
                     textAlign: TextAlign.center,
                     size: 20,
                     color: Colors.white,
