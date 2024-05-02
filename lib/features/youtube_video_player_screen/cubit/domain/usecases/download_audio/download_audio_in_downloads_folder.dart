@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
@@ -14,13 +15,23 @@ class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
 
   @override
   Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
-    final checkPermissionForStorage = await Permission.storage.status;
+    final checkPermissionForManagingExternalStorage = await Permission.manageExternalStorage.status;
 
-    if (checkPermissionForStorage != PermissionStatus.granted) {
-      final permissionForStorage = await Permission.storage.request();
+    if (checkPermissionForManagingExternalStorage != PermissionStatus.granted) {
+      final permissionForManagingStorage = await Permission.manageExternalStorage.request();
 
-      if (permissionForStorage != PermissionStatus.granted) return;
+      if (permissionForManagingStorage != PermissionStatus.granted) return;
     }
+
+    // final checkPermissionForStorage = await Permission.storage.status;
+    //
+    // if (checkPermissionForStorage != PermissionStatus.granted) {
+    //   final permissionForStorage = await Permission.storage.request();
+    //
+    //   if (permissionForStorage != PermissionStatus.granted) return;
+    // }
+
+    debugPrint("permission coming here");
 
     var directory = await DownloadsPath.downloadsDirectory();
 
