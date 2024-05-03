@@ -1,9 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:youtube/core/db/db_floor.dart';
-import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
@@ -13,15 +9,15 @@ import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
   final ReusableGlobalFunctions _reusableGlobalFunctions = locator<ReusableGlobalFunctions>();
+  final Permissions _permissions = locator<Permissions>();
 
   @override
   Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
     // Check for permission to access storage
 
-    final externalStoragePermission =
-        await locator<Permissions>().manageExternalStoragePermission();
+    final externalStoragePermission = await _permissions.manageExternalStoragePermission();
 
-    final storagePermission = await locator<Permissions>().storagePermission();
+    final storagePermission = await _permissions.storagePermission();
 
     if (!externalStoragePermission && !storagePermission) return;
 
