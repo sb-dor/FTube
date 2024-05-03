@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class Permissions {
+  Future<void> settingsAppOpener() async {
+    await openAppSettings();
+  }
+
   Future<bool> manageExternalStoragePermission() async {
     final checkPermissionForManagingExternalStorage = await Permission.manageExternalStorage.status;
 
