@@ -7,6 +7,7 @@ import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_do
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_audio_repository/downloading_audio_repository.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
+import 'package:youtube/utils/permissions/permissions.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 
@@ -15,21 +16,14 @@ class DownloadAudioInDownloadsFolder implements DownloadingAudioRepository {
 
   @override
   Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
-    final checkPermissionForManagingExternalStorage = await Permission.manageExternalStorage.status;
+    // Check for permission to access storage
 
-    if (checkPermissionForManagingExternalStorage != PermissionStatus.granted) {
-      final permissionForManagingStorage = await Permission.manageExternalStorage.request();
+    final externalStoragePermission =
+        await locator<Permissions>().manageExternalStoragePermission();
 
-      if (permissionForManagingStorage != PermissionStatus.granted) return;
-    }
+    final storagePermission = await locator<Permissions>().storagePermission();
 
-    // final checkPermissionForStorage = await Permission.storage.status;
-    //
-    // if (checkPermissionForStorage != PermissionStatus.granted) {
-    //   final permissionForStorage = await Permission.storage.request();
-    //
-    //   if (permissionForStorage != PermissionStatus.granted) return;
-    // }
+    if (!externalStoragePermission && !storagePermission) return;
 
     debugPrint("permission coming here");
 
