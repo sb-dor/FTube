@@ -285,7 +285,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                           IconButton(
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStatePropertyAll(Colors.black.withOpacity(0.2))),
+                                      WidgetStatePropertyAll(Colors.black.withOpacity(0.2))),
                               onPressed: () {
                                 VideoModelDb model = VideoModelDb.fromVideo(widget.video);
                                 locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
@@ -318,32 +318,56 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                             )
                           else if ((_videoPlayerController?.value.isInitialized ?? false) &&
                               (_videoPlayerController?.value.isPlaying ?? false))
-                            Material(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(50),
-                              child: InkWell(
-                                onTap: () {
-                                  if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
-                                    _videoPlayerController?.setVolume(0.0);
-                                  } else {
-                                    _videoPlayerController?.setVolume(1.0);
-                                  }
-                                  setState(() {});
-                                },
-                                borderRadius: BorderRadius.circular(50),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Center(
-                                    child: Icon(
-                                      _videoPlayerController?.value.volume == 1
-                                          ? Icons.volume_down_sharp
-                                          : Icons.volume_up_sharp,
-                                      color: Colors.white,
-                                      size: 15,
+                            Column(
+                              children: [
+                                Material(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: InkWell(
+                                    onTap: () async {
+                                     await _clearController();
+                                    },
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: const Center(
+                                        child: Icon(Icons.play_disabled,
+                                          color: Colors.white,
+                                          size: 15,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                                const SizedBox(height: 2),
+                                Material(
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: InkWell(
+                                    onTap: () {
+                                      if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
+                                        _videoPlayerController?.setVolume(0.0);
+                                      } else {
+                                        _videoPlayerController?.setVolume(1.0);
+                                      }
+                                      setState(() {});
+                                    },
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Center(
+                                        child: Icon(
+                                          _videoPlayerController?.value.volume == 1
+                                              ? Icons.volume_down_sharp
+                                              : Icons.volume_up_sharp,
+                                          color: Colors.white,
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
                           else
                             const SizedBox(),
