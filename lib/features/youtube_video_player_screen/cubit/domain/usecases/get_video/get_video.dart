@@ -135,6 +135,8 @@ abstract class GetVideo {
       ),
     );
 
+    stateModel.videoUrlForOverlayRun = minStreamVideo.url.toString();
+
     if (!context.mounted) return;
 
     await stateModel.playerController?.initialize();

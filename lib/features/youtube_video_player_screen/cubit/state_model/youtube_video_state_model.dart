@@ -40,7 +40,7 @@ class YoutubeVideoStateModel {
 
   Future<Isolate>? isolateForDownloadingAudio;
 
-  String? tempVideoId, videoPicture;
+  String? tempVideoId, videoPicture, videoUrlForOverlayRun;
 
   Future<void> deleteDuplicatedVideos() async {
     for (int i = 0; i < videosWithSound.length; i++) {

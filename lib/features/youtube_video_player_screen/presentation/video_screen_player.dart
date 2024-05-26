@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'dart:isolate';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
@@ -39,17 +44,21 @@ class VideoPlayerScreen extends StatefulWidget {
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTickerProviderStateMixin {
+class _VideoPlayerScreenState extends State<VideoPlayerScreen>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+  //
   late final ScrollController _scrollController;
   late final YoutubeVideoCubit _youtubeVideoCubit;
   late final VideoInformationCubit _videoInformationCubit;
   late final DraggableScrollableController _scrollableController;
   late AnimationController _animationController;
   late Animation<double> _animation;
+  SendPort? sendPort;
 
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     _scrollController = ScrollController();
     _scrollableController = DraggableScrollableController();
@@ -84,6 +93,31 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> with SingleTicker
     _scrollController.dispose();
     _animationController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached) {
+      debugPrint("AppLife is: detached");
+    } else if (state == AppLifecycleState.hidden) {
+      debugPrint("AppLife is: hidden");
+    } else if (state == AppLifecycleState.inactive) {
+      debugPrint("AppLife is: inactive");
+    } else if (state == AppLifecycleState.paused) {
+      final bodyForSend = {
+        "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,
+      };
+      await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
+      await FlutterOverlayWindow.showOverlay(
+        height: 350,
+        width: (MediaQuery.of(context).size.width * 2).toInt(),
+        enableDrag: true,
+        visibility: NotificationVisibility.visibilitySecret,
+        overlayTitle: "Running on background",
+      );
+    } else if (state == AppLifecycleState.resumed) {
+      await FlutterOverlayWindow.closeOverlay();
+    }
   }
 
   @override

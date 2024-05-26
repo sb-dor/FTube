@@ -44,6 +44,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.videoPicture = videoPicture;
     _currentState.youtubeExplode = YoutubeExplode();
     _currentState.loadingVideo = true;
+    _currentState.videoUrlForOverlayRun = null;
     _currentState.isVideoAddedToBookMarks = false;
     _currentState.isVideoAddedToFavorites = false;
 
@@ -103,6 +104,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.youtubeExplode = null;
     _currentState.videoData = null;
     _currentState.tempMinAudioForVideo = null;
+    _currentState.videoUrlForOverlayRun = null;
     emit(InitialYoutubeVideoState(_currentState));
   }
 

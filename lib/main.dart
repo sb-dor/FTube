@@ -19,6 +19,8 @@ import 'package:youtube/features/library_inner_screens/presentation/blocs/playli
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
+import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
+import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feature.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
@@ -34,6 +36,24 @@ import 'features/search_screen/bloc/main_search_screen_bloc.dart';
 import 'features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'features/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+
+// overlay entry point
+@pragma("vm:entry-point")
+void overlayMain() {
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<TopOverlayFeatureBloc>(
+          create: (_) => TopOverlayFeatureBloc(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: TopOverlayFeature(),
+      ),
+    ),
+  );
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,41 +74,50 @@ Future<void> main() async {
     return true;
   };
 
-  runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (_) => HomePageBottomNavbarCubit()),
-    BlocProvider(create: (_) => MainHomeScreenBloc()),
-    BlocProvider(create: (_) => MainAuthBloc()),
-    BlocProvider(create: (_) => MainVideoCategoryCubit()),
-    BlocProvider(create: (_) => HomeScreenVideosCubit()),
-    BlocProvider(create: (_) => MainScreenOverlayInfoFeatureCubit()),
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => HomePageBottomNavbarCubit()),
+        BlocProvider(create: (_) => MainHomeScreenBloc()),
+        BlocProvider(create: (_) => MainAuthBloc()),
+        BlocProvider(create: (_) => MainVideoCategoryCubit()),
+        BlocProvider(create: (_) => HomeScreenVideosCubit()),
+        BlocProvider(create: (_) => MainScreenOverlayInfoFeatureCubit()),
 
-    // showing video popup cubits:
-    BlocProvider(create: (_) => YoutubeVideoCubit()),
-    BlocProvider(create: (_) => VideoInformationCubit()),
-    BlocProvider(create: (_) => VideoDownloadingCubit()),
-    BlocProvider(create: (_) => AudioDownloadingCubit()),
-    BlocProvider(create: (_) => SimilarVideosCubit()),
+        // showing video popup cubits:
+        BlocProvider(create: (_) => locator<YoutubeVideoCubit>()),
+        BlocProvider(create: (_) => VideoInformationCubit()),
+        BlocProvider(create: (_) => VideoDownloadingCubit()),
+        BlocProvider(create: (_) => AudioDownloadingCubit()),
+        BlocProvider(create: (_) => SimilarVideosCubit()),
 
-    //search screen cubits:
-    BlocProvider(create: (_) => MainSearchScreenBloc()),
-    BlocProvider(create: (_) => SearchBodyCubit()),
-    //
+        //search screen cubits:
+        BlocProvider(create: (_) => MainSearchScreenBloc()),
+        BlocProvider(create: (_) => SearchBodyCubit()),
+        //
 
-    // library screen bloc
-    BlocProvider(create: (_) => locator<HistoryBloc>()),
-    BlocProvider(create: (_) => locator<PlaylistsBloc>()),
-    BlocProvider(create: (_) => locator<LibraryDownloadsBloc>()),
+        // library screen bloc
+        BlocProvider(create: (_) => locator<HistoryBloc>()),
+        BlocProvider(create: (_) => locator<PlaylistsBloc>()),
+        BlocProvider(create: (_) => locator<LibraryDownloadsBloc>()),
 
-    // library inner screens bloc
-    BlocProvider(create: (_) => locator<HistoryInnerScreenBloc>()),
-    BlocProvider(create: (_) => locator<PlaylistInnerScreenBloc>()),
-    BlocProvider(create: (_) => locator<PlaylistVideosInnerScreenBloc>()),
+        // library inner screens bloc
+        BlocProvider(create: (_) => locator<HistoryInnerScreenBloc>()),
+        BlocProvider(create: (_) => locator<PlaylistInnerScreenBloc>()),
+        BlocProvider(create: (_) => locator<PlaylistVideosInnerScreenBloc>()),
 
-    BlocProvider<TrendingScreenBloc>(
-      create: (_) => locator<TrendingScreenBloc>(),
+        BlocProvider<TrendingScreenBloc>(
+          create: (_) => locator<TrendingScreenBloc>(),
+        ),
+        //
+        BlocProvider<TopOverlayFeatureBloc>(
+          create: (_) => TopOverlayFeatureBloc(),
+        ),
+        //
+      ],
+      child: const MainApp(),
     ),
-    //
-  ], child: const MainApp()));
+  );
 }
 
 class MainApp extends StatefulWidget {

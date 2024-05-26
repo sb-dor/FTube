@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
-import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/widgets/home_page_widgets/home_page_appbar.dart';
-
 import '../widgets/home_page_widgets/bottom_navigation_widget.dart';
 import 'home_screen/presentation/home_screen.dart';
-import 'inbox_screen/inbox_screen.dart';
 import 'library_screen/presentation/pages/main_library_page/library_screen.dart';
-import 'subscriptions_screen/subscriptions_screen.dart';
 import 'trending_screen/presentation/pages/trending_screen.dart';
 
 //main page begins here
@@ -29,11 +26,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    // _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-    //   setState(() {
-    //     _animate = !_animate;
-    //   });
-    // }); // recomment for animation
     _screens = const [
       HomeScreen(),
       TrendingScreen(),
@@ -41,12 +33,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       // InboxScreen(),
       LibraryScreen(),
     ];
+    getRequestForAppOverlayEntry();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  void getRequestForAppOverlayEntry() async {
+    bool? status = await FlutterOverlayWindow.isPermissionGranted();
+
+    if (status) return;
+
+    status = await FlutterOverlayWindow.requestPermission();
+
+    if (!(status ?? false)) {
+      // show message that user did not allow the permission and overlay will not be shown
+    }
   }
 
   @override

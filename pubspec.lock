@@ -574,6 +574,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_overlay_window:
+    dependency: "direct main"
+    description:
+      name: flutter_overlay_window
+      sha256: af871da9270bf5d67e5a657d2e286dfafa43f3417e98fa9e3c06da3f9d0f340e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.4"
   flutter_staggered_animations:
     dependency: "direct main"
     description:
