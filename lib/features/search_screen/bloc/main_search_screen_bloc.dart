@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/features/search_screen/data/source/rest_api_get_suggestion_text.dart';
+import 'package:youtube/utils/enums.dart';
+import 'package:youtube/utils/regex_helper/regex_helper.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
@@ -15,7 +17,7 @@ import 'search_screen_events.dart';
 import 'search_screen_states.dart';
 import 'state_model/search_screen_state_model.dart';
 
-class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> {
+class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> with RegexHelper {
   late SearchScreenStateModel _currentState;
 
   MainSearchScreenBloc() : super(InitialSearchScreenState(SearchScreenStateModel())) {
@@ -128,7 +130,9 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   }
 
   void _clickSearchButtonEvent(
-      ClickSearchButtonEvent event, Emitter<SearchScreenStates> emit) async {
+    ClickSearchButtonEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     try {
       if (_currentState.searchController.text.trim().isEmpty) return;
@@ -140,22 +144,34 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       );
       searchBodyCubit.loadingSearchBodyState();
 
-      _currentState.searchData.removeWhere((el) =>
-          el.trim().toLowerCase() == _currentState.searchController.text.trim().toLowerCase());
+      _currentState.searchData.removeWhere(
+        (el) => el.trim().toLowerCase() == _currentState.searchController.text.trim().toLowerCase(),
+      );
 
       _currentState.searchData.insert(0, _currentState.searchController.text.trim());
 
       if (_currentState.searchData.length >= 30) _currentState.searchData.removeLast();
+
       await _currentState.hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
 
       searchBodyCubit.loadingSearchBodyState();
 
       _currentState.clearData();
 
+      if (_currentState.searchController.text.trim().contains("https")) {
+        final extractIdFromUrl =
+        final searchById = RestApiGetVideoData.getVideoInfo(
+          videoContent: TypeContent.snippet,
+          videoId: videoId,
+        );
+        //
+      }
+
       var data = await RestApiGetVideoData.getSearchVideo(
-          q: _currentState.searchController.text,
-          refresh: true,
-          orderBy: _currentState.orderBy?.id);
+        q: _currentState.searchController.text,
+        refresh: true,
+        orderBy: _currentState.orderBy?.id,
+      );
 
       if (data.containsKey("server_error")) {
         searchBodyCubit.errorSearchBodyState();

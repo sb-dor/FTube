@@ -21,7 +21,9 @@ abstract class GetVideoInformation {
 
     try {
       var data = await RestApiGetVideoData.getVideoInfo(
-          videoContent: TypeContent.snippet, videoId: videoId);
+        videoContent: TypeContent.snippet,
+        videoId: videoId,
+      );
 
       if (data.containsKey('server_error') && data['server_error'] == true) {
         videoInfoCubit.errorVideoInformationState();

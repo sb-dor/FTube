@@ -45,8 +45,11 @@ abstract class RestApiGetVideoData {
     return result;
   }
 
-  static Future<Map<String, dynamic>> getSearchVideo(
-      {required String q, bool refresh = false, String? orderBy}) async {
+  static Future<Map<String, dynamic>> getSearchVideo({
+    required String q,
+    bool refresh = false,
+    String? orderBy,
+  }) async {
     Map<String, dynamic> results = {};
     try {
       List<dynamic>? list = await locator<YoutubeDataApi>().fetchSearchVideo(

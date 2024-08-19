@@ -1,4 +1,4 @@
-class RegexHelper {
+mixin class RegexHelper {
   String videoId(String text) {
     RegExp? regExp;
     // .be\/(.{1,})\?

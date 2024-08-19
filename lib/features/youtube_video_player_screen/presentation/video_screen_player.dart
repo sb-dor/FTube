@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+import 'package:youtube/app_routes.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
@@ -110,7 +111,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
       await FlutterOverlayWindow.showOverlay(
         height: 350,
-        width: (MediaQuery.of(context).size.width * 2).toInt(),
+        width: (MediaQuery.of(goRouter.configuration.navigatorKey.currentContext!).size.width * 2)
+            .toInt(),
         enableDrag: true,
         visibility: NotificationVisibility.visibilitySecret,
         overlayTitle: "Running on background",
