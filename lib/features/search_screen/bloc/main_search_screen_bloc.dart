@@ -159,32 +159,45 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       _currentState.clearData();
 
       if (_currentState.searchController.text.trim().contains("https")) {
-        final extractIdFromUrl =
-        final searchById = RestApiGetVideoData.getVideoInfo(
-          videoContent: TypeContent.snippet,
-          videoId: videoId,
-        );
+        final extractIdFromUrl = videoId(_currentState.searchController.text.trim());
+        if (extractIdFromUrl.isNotEmpty) {
+          final searchById = await RestApiGetVideoData.getVideoInfo(
+            videoContent: TypeContent.snippet,
+            videoId: extractIdFromUrl,
+          );
+          if (searchById.containsKey("server_error")) {
+            searchBodyCubit.errorSearchBodyState();
+          } else if (searchById.containsKey("success") && searchById["success"] == true) {
+            ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
+
+            _currentState.addAndPag(value: videoData.videosList);
+
+            searchBodyCubit.loadedSearchBodyState();
+          } else {
+            searchBodyCubit.errorSearchBodyState();
+          }
+        }
         //
-      }
-
-      var data = await RestApiGetVideoData.getSearchVideo(
-        q: _currentState.searchController.text,
-        refresh: true,
-        orderBy: _currentState.orderBy?.id,
-      );
-
-      if (data.containsKey("server_error")) {
-        searchBodyCubit.errorSearchBodyState();
-      } else if (data.containsKey("success")) {
-        List<ytv.Video> videos = data['videos'];
-
-        _currentState.addAndPag(value: videos);
-
-        searchBodyCubit.loadedSearchBodyState();
-
-        // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
-        searchBodyCubit.errorSearchBodyState();
+        var data = await RestApiGetVideoData.getSearchVideo(
+          q: _currentState.searchController.text,
+          refresh: true,
+          orderBy: _currentState.orderBy?.id,
+        );
+
+        if (data.containsKey("server_error")) {
+          searchBodyCubit.errorSearchBodyState();
+        } else if (data.containsKey("success")) {
+          List<ytv.Video> videos = data['videos'];
+
+          _currentState.addAndPag(value: videos);
+
+          searchBodyCubit.loadedSearchBodyState();
+
+          // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
+        } else {
+          searchBodyCubit.errorSearchBodyState();
+        }
       }
 
       emit(InitialSearchScreenState(_currentState));
