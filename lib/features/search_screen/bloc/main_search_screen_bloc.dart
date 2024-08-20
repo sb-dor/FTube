@@ -9,6 +9,7 @@ import 'package:youtube/features/search_screen/data/source/rest_api_get_suggesti
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/regex_helper/regex_helper.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
+import 'package:youtube/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'cubits/search_body_cubit/search_body_cubit.dart';
@@ -177,8 +178,14 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
               views: videoData.video?.viewCount,
               channelName: videoData.video?.channelName,
               channelThumbnailUrl: videoData.video?.channelThumb,
-
+              // duration: videoData.video.,
+              thumbnails: [
+                Thumbnail(url: videoData.video?.videoThumb),
+              ],
+              publishedDateTime: videoData.video?.date,
             );
+
+            debugPrint("image of video is: ${videoFromVideoData.thumbnails?.last.url}");
 
             videoData.videosList.insert(0, videoFromVideoData);
 

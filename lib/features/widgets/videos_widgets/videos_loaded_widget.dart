@@ -325,13 +325,14 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                   borderRadius: BorderRadius.circular(50),
                                   child: InkWell(
                                     onTap: () async {
-                                     await _clearController();
+                                      await _clearController();
                                     },
                                     borderRadius: BorderRadius.circular(50),
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       child: const Center(
-                                        child: Icon(Icons.play_disabled,
+                                        child: Icon(
+                                          Icons.play_disabled,
                                           color: Colors.white,
                                           size: 15,
                                         ),
@@ -428,24 +429,25 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                   //       height: 50,
                   //       child: const TextWidget(text: "E", color: Colors.red))
                   // else
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey.shade400,
-                        width: 0.5,
+                  if ((widget.video.channelThumbnailUrl ?? '').isNotEmpty)
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.shade400,
+                          width: 0.5,
+                        ),
+                        borderRadius: BorderRadius.circular(50),
                       ),
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: ImageLoaderWidget(
-                        url: widget.video.channelThumbnailUrl ?? '',
-                        errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: ImageLoaderWidget(
+                          url: widget.video.channelThumbnailUrl ?? '',
+                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                        ),
                       ),
                     ),
-                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(

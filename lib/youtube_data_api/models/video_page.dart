@@ -34,7 +34,11 @@ class VideoPage {
   ///Get channel subscribes count as string from video page
   String? subscribeCount;
 
-  VideoPage({this.videoId,
+  //
+  String? videoThumb;
+
+  VideoPage({
+    this.videoId,
     this.title,
     this.channelName,
     this.viewCount,
@@ -44,11 +48,11 @@ class VideoPage {
     this.date,
     this.description,
     this.channelThumb,
-    this.channelId});
+    this.channelId,
+    this.videoThumb,
+  });
 
-
-  VideoPage clone() =>
-      VideoPage(
+  VideoPage clone() => VideoPage(
         videoId: videoId,
         title: title,
         channelName: channelName,
@@ -62,24 +66,36 @@ class VideoPage {
         channelId: channelId,
       );
 
-
   factory VideoPage.fromMap(Map<String, dynamic>? map, String videoId) {
     return VideoPage(
       videoId: videoId,
-      title: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['title']?['runs']?[0]?['text'],
-      channelName: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['title']?['runs']?[0]?['text'],
-      viewCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['viewCount']?['videoViewCountRenderer']?['shortViewCount']?['simpleText'],
-      subscribeCount: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['subscriberCountText']?['simpleText'],
-      likeCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['videoActions']?['menuRenderer']?['topLevelButtons']?[0]?['segmentedLikeDislikeButtonViewModel']?['likeButtonViewModel']?['likeButtonViewModel']?['toggleButtonViewModel']?['toggleButtonViewModel']?['defaultButtonViewModel']?['buttonViewModel']?['title'],
+      title: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['title']
+          ?['runs']?[0]?['text'],
+      channelName: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
+          ?['owner']?['videoOwnerRenderer']?['title']?['runs']?[0]?['text'],
+      viewCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
+          ?['viewCount']?['videoViewCountRenderer']?['shortViewCount']?['simpleText'],
+      subscribeCount: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
+          ?['owner']?['videoOwnerRenderer']?['subscriberCountText']?['simpleText'],
+      likeCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
+                      ?['videoActions']?['menuRenderer']?['topLevelButtons']?[0]
+                  ?['segmentedLikeDislikeButtonViewModel']?['likeButtonViewModel']
+              ?['likeButtonViewModel']?['toggleButtonViewModel']?['toggleButtonViewModel']
+          ?['defaultButtonViewModel']?['buttonViewModel']?['title'],
       unlikeCount: '',
-      description: collectDescriptionString(map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['description']?['runs']),
-      date: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['dateText']?['simpleText'],
-      channelThumb: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['thumbnail']?['thumbnails']?[1]?['url'],
-      channelId: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
+      description: collectDescriptionString(map?['results']?['results']?['contents']?[1]
+          ?['videoSecondaryInfoRenderer']?['description']?['runs']),
+      date: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['dateText']
+          ?['simpleText'],
+      channelThumb: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
+          ?['owner']?['videoOwnerRenderer']?['thumbnail']?['thumbnails']?[1]?['url'],
+      channelId: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
+          ?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
+      videoThumb: "https://i.ytimg.com/vi/$videoId/hqdefault.jpg"
     );
   }
 
-  factory VideoPage.fromJson(Map<String, dynamic> json){
+  factory VideoPage.fromJson(Map<String, dynamic> json) {
     return VideoPage(
       videoId: json['videoId'],
       title: json['title'],
@@ -110,5 +126,4 @@ class VideoPage {
       "subscribeCount": subscribeCount,
     };
   }
-
 }
