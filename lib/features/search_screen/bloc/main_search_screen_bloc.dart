@@ -169,6 +169,18 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
             searchBodyCubit.errorSearchBodyState();
           } else if (searchById.containsKey("success") && searchById["success"] == true) {
             ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
+            // videoData.video.;
+            ytv.Video videoFromVideoData = ytv.Video(
+              videoId: videoData.video?.videoId,
+              title: videoData.video?.title,
+              videoData: videoData,
+              views: videoData.video?.viewCount,
+              channelName: videoData.video?.channelName,
+              channelThumbnailUrl: videoData.video?.channelThumb,
+
+            );
+
+            videoData.videosList.insert(0, videoFromVideoData);
 
             _currentState.addAndPag(value: videoData.videosList);
 

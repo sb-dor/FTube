@@ -9,7 +9,7 @@ mixin class RegexHelper {
       regExp = RegExp(r"shorts\/(\w{0,})");
     } else if (text.contains("youtu.be/")) {
       debugPrint("working 2");
-      regExp = RegExp(r".be\/(.{1,})\?");
+      regExp = RegExp(r"youtu\.be/([a-zA-Z0-9_-]+)");
     } else {
       regExp = RegExp(r"v=([a-zA-Z0-9_-]+)");
     }

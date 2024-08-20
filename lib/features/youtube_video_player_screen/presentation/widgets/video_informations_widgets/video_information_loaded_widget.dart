@@ -52,7 +52,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                 children: [
                   WidgetSpan(
                       child: TextWidget(
-                    text: "${currentState.videoData?.video?.viewCount ?? ''}",
+                    text: currentState.videoData?.video?.viewCount ?? '',
                     color: Colors.grey,
                     size: 12,
                     fontWeight: FontWeight.w500,
