@@ -37,6 +37,9 @@ class VideoPage {
   //
   String? videoThumb;
 
+  //
+  String? videoDuration;
+
   VideoPage({
     this.videoId,
     this.title,
@@ -50,20 +53,40 @@ class VideoPage {
     this.channelThumb,
     this.channelId,
     this.videoThumb,
+    this.videoDuration,
   });
 
-  VideoPage clone() => VideoPage(
-        videoId: videoId,
-        title: title,
-        channelName: channelName,
-        viewCount: viewCount,
-        subscribeCount: subscribeCount,
-        likeCount: likeCount,
-        unlikeCount: unlikeCount,
-        date: date,
-        description: description,
-        channelThumb: channelThumb,
-        channelId: channelId,
+  VideoPage clone({
+    String? videoId,
+    String? title,
+    String? date,
+    String? description,
+    String? channelName,
+    String? viewCount,
+    String? likeCount,
+    String? unlikeCount,
+    String? channelThumb,
+    String? channelId,
+    String? subscribeCount,
+
+    //
+    String? videoThumb,
+    String? videoDuration,
+  }) =>
+      VideoPage(
+        videoId: videoId ?? this.videoId,
+        title: title ?? this.title,
+        channelName: channelName ?? this.channelName,
+        viewCount: viewCount ?? this.viewCount,
+        subscribeCount: subscribeCount ?? this.subscribeCount,
+        likeCount: likeCount ?? this.likeCount,
+        unlikeCount: unlikeCount ?? this.unlikeCount,
+        date: date ?? this.date,
+        description: description ?? this.description,
+        channelThumb: channelThumb ?? this.channelThumb,
+        channelId: channelId ?? this.channelId,
+        videoThumb: videoThumb ?? this.videoThumb,
+        videoDuration: videoDuration ?? this.videoDuration,
       );
 
   factory VideoPage.fromMap(Map<String, dynamic>? map, String videoId) {
@@ -91,7 +114,9 @@ class VideoPage {
           ?['owner']?['videoOwnerRenderer']?['thumbnail']?['thumbnails']?[1]?['url'],
       channelId: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
           ?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
-      videoThumb: "https://i.ytimg.com/vi/$videoId/hqdefault.jpg"
+      videoThumb: "https://i.ytimg.com/vi/$videoId/hqdefault.jpg",
+      videoDuration: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
+          ?['lengthText']?['simpleText'],
     );
   }
 

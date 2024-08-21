@@ -183,9 +183,10 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
                 Thumbnail(url: videoData.video?.videoThumb),
               ],
               publishedDateTime: videoData.video?.date,
+              duration: videoData.video?.videoDuration,
             );
 
-            debugPrint("image of video is: ${videoFromVideoData.thumbnails?.last.url}");
+            debugPrint("image of video is: ${videoFromVideoData.duration}");
 
             videoData.videosList.insert(0, videoFromVideoData);
 
