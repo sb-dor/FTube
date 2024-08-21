@@ -3,6 +3,7 @@ import 'dart:isolate';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -105,20 +106,24 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     } else if (state == AppLifecycleState.inactive) {
       debugPrint("AppLife is: inactive");
     } else if (state == AppLifecycleState.paused) {
-      final bodyForSend = {
-        "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,
-      };
-      await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
-      await FlutterOverlayWindow.showOverlay(
-        height: 350,
-        width: (MediaQuery.of(goRouter.configuration.navigatorKey.currentContext!).size.width * 2)
-            .toInt(),
-        enableDrag: true,
-        visibility: NotificationVisibility.visibilitySecret,
-        overlayTitle: "Running on background",
-      );
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        final bodyForSend = {
+          "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,
+        };
+        await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
+        await FlutterOverlayWindow.showOverlay(
+          height: 350,
+          width: (MediaQuery.of(goRouter.configuration.navigatorKey.currentContext!).size.width * 2)
+              .toInt(),
+          enableDrag: true,
+          visibility: NotificationVisibility.visibilitySecret,
+          overlayTitle: "Running on background",
+        );
+      }
     } else if (state == AppLifecycleState.resumed) {
-      await FlutterOverlayWindow.closeOverlay();
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await FlutterOverlayWindow.closeOverlay();
+      }
     }
   }
 

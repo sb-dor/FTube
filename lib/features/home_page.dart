@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
@@ -43,14 +44,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   }
 
   void getRequestForAppOverlayEntry() async {
-    bool? status = await FlutterOverlayWindow.isPermissionGranted();
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      bool? status = await FlutterOverlayWindow.isPermissionGranted();
 
-    if (status) return;
+      if (status) return;
 
-    status = await FlutterOverlayWindow.requestPermission();
+      status = await FlutterOverlayWindow.requestPermission();
 
-    if (!(status ?? false)) {
-      // show message that user did not allow the permission and overlay will not be shown
+      if (!(status ?? false)) {
+        // show message that user did not allow the permission and overlay will not be shown
+      }
     }
   }
 
