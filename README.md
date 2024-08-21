@@ -30,17 +30,17 @@ To get started with FTube, simply follow these steps:
 
 ## Screenshots
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114456.png" alt="Screenshot 1" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114456.png" alt="Screenshot 1" width="200" >
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114547.png" alt="Screenshot 2" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114547.png" alt="Screenshot 2" width="200" >
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114951.png" alt="Screenshot 3" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114951.png" alt="Screenshot 3" width="200" >
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114652.png" alt="Screenshot 4" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114652.png" alt="Screenshot 4" width="200" >
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114712.png" alt="Screenshot 5" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114712.png" alt="Screenshot 5" width="200" >
 
-<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114808.png" alt="Screenshot 6" width="300" >
+<img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114808.png" alt="Screenshot 6" width="200" >
 
 <img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114848.png" alt="Screenshot 7" width="300" >
 
