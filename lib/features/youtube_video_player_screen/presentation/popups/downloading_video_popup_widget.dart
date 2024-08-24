@@ -217,17 +217,34 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.9,
                               ),
-                              TextWidget(
-                                text: "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ",
-                                color: Colors.black,
-                                size: 16,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.9,
+                              RichText(
+                                text: TextSpan(
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    letterSpacing: 0.9,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                        text:
+                                            "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
+                                    if (!locator<ReusableGlobalFunctions>()
+                                        .checkMp4FromURI(value: audio.url.toString()))
+                                      TextSpan(
+                                        text: " - ${audio.bitrate}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
                               if (audio.url.toString().trim() ==
                                   youtubeStateModel.tempMinAudioForVideo?.url.toString().trim())
-                                const TextWidget(
-                                  text: "Recommended",
+                                TextWidget(
+                                  text: "Recommended (Fast Download - ${audio.bitrate})",
                                   color: Colors.red,
                                   size: 13,
                                   fontWeight: FontWeight.w500,
@@ -337,17 +354,34 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.9,
                             ),
-                            TextWidget(
-                              text: "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
-                              color: Colors.black,
-                              size: 16,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.9,
+                            RichText(
+                              text: TextSpan(
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.9,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
+                                  if (!locator<ReusableGlobalFunctions>()
+                                      .checkMp4FromURI(value: video.url.toString()))
+                                    TextSpan(
+                                      text: " - ${video.bitrate}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                ],
+                              ),
                             ),
                             if (locator<ReusableGlobalFunctions>()
                                 .checkMp4FromURI(value: video.url.toString()))
-                              const TextWidget(
-                                text: "Recommended (Fast download)",
+                              TextWidget(
+                                text: "Recommended (Fast download - ${video.bitrate})",
                                 color: Colors.red,
                                 size: 13,
                                 fontWeight: FontWeight.w500,

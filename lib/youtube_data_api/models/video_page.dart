@@ -115,7 +115,7 @@ class VideoPage {
       channelId: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
           ?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
       videoThumb: "https://i.ytimg.com/vi/$videoId/hqdefault.jpg",
-      videoDuration: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
+        videoDuration: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
           ?['lengthText']?['simpleText'],
     );
   }
