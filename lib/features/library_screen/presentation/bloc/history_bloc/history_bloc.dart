@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
@@ -63,7 +65,12 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
     InitLengthOfDownloadedFiles event,
     Emitter<HistoryStates> emit,
   ) async {
-    final path = await getExternalStorageDirectory();
+    Directory? path;
+    if (Platform.isIOS) {
+      await getApplicationDocumentsDirectory();
+    } else {
+      await getExternalStorageDirectory();
+    }
     _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
     _emitter(emit);
   }

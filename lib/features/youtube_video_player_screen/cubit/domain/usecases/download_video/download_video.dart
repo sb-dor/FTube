@@ -99,7 +99,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
           videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
               solvePercentage / 100;
           videoDownloadingCubit.videoDownloadingLoadingState();
-          debugPrint("still downloading");
+          // debugPrint("still downloading");
         },
         options: Options(
           headers: await APISettings.headers(),
