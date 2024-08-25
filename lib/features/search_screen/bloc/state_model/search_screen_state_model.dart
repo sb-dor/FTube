@@ -29,7 +29,7 @@ class SearchScreenStateModel {
 
   TextEditingController searchController = TextEditingController(text: '');
 
-  String? pageToken;
+  String? pageToken, lastSavedQuery;
 
   bool hasMore = true, paginating = false;
 

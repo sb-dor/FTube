@@ -93,7 +93,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                   if (mainSearchScreenStateModel.suggestData.isNotEmpty)
                     SearchingBodyScreen(suggests: mainSearchScreenStateModel.suggestData)
                   else
-                    SearchingBodyScreen(suggests: mainSearchScreenStateModel.searchData)
+                    SearchingBodyScreen(
+                      suggests: mainSearchScreenStateModel.searchData,
+                      showDeleteButton: true,
+                    )
                 else if (searchBodyCubit.state is LoadingSearchBodyState)
                   const VideosLoadingWidget()
                 else if (searchBodyCubit.state is ErrorSearchBodyState)

@@ -50,6 +50,9 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     on<SelectOrderByTimeEvent>(_selectOrderByTimeEvent);
 
     on<SelectOrderByTypeEvent>(_selectOrderByTypeEvent);
+
+    //
+    on<DeleteSearchedItemEvent>(_deleteSearchedItemEvent);
   }
 
   //
@@ -135,8 +138,16 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     Emitter<SearchScreenStates> emit,
   ) async {
     var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    debugPrint("calling here again");
     try {
       if (_currentState.searchController.text.trim().isEmpty) return;
+
+      if (_currentState.lastSavedQuery?.trim() == _currentState.searchController.text.trim()) {
+        searchBodyCubit.loadedSearchBodyState();
+        return;
+      }
+
+      _currentState.lastSavedQuery = _currentState.searchController.text.trim();
 
       event.scrollController?.animateTo(
         0,
@@ -302,70 +313,80 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     emit(InitialSearchScreenState(_currentState));
   }
 
+  //
+  void _deleteSearchedItemEvent(
+    DeleteSearchedItemEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
+    _currentState.searchData.removeWhere((e) => e.trim() == event.item.trim());
+    await _currentState.hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
+    emit(InitialSearchScreenState(_currentState));
+  }
+
   ///
   ///
   ///
   /// [run isolate here]
-  static void _getVideoDataInAnotherIsolate(
-    List<ytv.Video> list,
-    SearchBodyCubit searchBodyCubit,
-  ) async {
-    //
-    Map<String, dynamic> sendingList = {
-      "list": list.map((e) => e.toJson()).toList(),
-    };
-
-    var toStringing = jsonEncode(sendingList);
-
-    final rp = ReceivePort();
-
-    Isolate.spawn(_isolate, rp.sendPort);
-
-    final broadcastRp = rp.asBroadcastStream();
-
-    final SendPort communicatorSendPort = await broadcastRp.first;
-
-    communicatorSendPort.send(toStringing);
-
-    broadcastRp.listen((message) {
-      ytvdata.VideoData? videoData;
-      if (message != null) videoData = ytvdata.VideoData.fromJson(message);
-      for (var each in list) {
-        if (each.videoId == videoData?.video?.videoId) {
-          each.loadingVideoData = false;
-          each.videoData = videoData?.clone();
-        }
-      }
-      searchBodyCubit.emitState();
-      // rp.close();
-    });
-  }
-
-  static void _isolate(SendPort sendPort) async {
-    final rp = ReceivePort();
-    sendPort.send(rp.sendPort);
-
-    final messages = rp.takeWhile((element) => element is String).cast<String>();
-
-    initYoutubeDataApi();
-
-    await for (var each in messages) {
-      Map<String, dynamic> json = jsonDecode(each);
-
-      List<dynamic> comingList = [];
-      if (json['list'] != null) {
-        comingList = json['list'];
-      }
-
-      List<ytv.Video> videos = comingList.map((e) => ytv.Video.fromIsolate(e)).toList();
-
-      await Future.wait(videos
-          .map((e) => e.getVideoData().then((_) {
-                sendPort.send(e.videoData?.toJson());
-              }))
-          .toList());
-    }
-
-    // rp.close();
-  }
+// static void _getVideoDataInAnotherIsolate(
+//   List<ytv.Video> list,
+//   SearchBodyCubit searchBodyCubit,
+// ) async {
+//   //
+//   Map<String, dynamic> sendingList = {
+//     "list": list.map((e) => e.toJson()).toList(),
+//   };
+//
+//   var toStringing = jsonEncode(sendingList);
+//
+//   final rp = ReceivePort();
+//
+//   Isolate.spawn(_isolate, rp.sendPort);
+//
+//   final broadcastRp = rp.asBroadcastStream();
+//
+//   final SendPort communicatorSendPort = await broadcastRp.first;
+//
+//   communicatorSendPort.send(toStringing);
+//
+//   broadcastRp.listen((message) {
+//     ytvdata.VideoData? videoData;
+//     if (message != null) videoData = ytvdata.VideoData.fromJson(message);
+//     for (var each in list) {
+//       if (each.videoId == videoData?.video?.videoId) {
+//         each.loadingVideoData = false;
+//         each.videoData = videoData?.clone();
+//       }
+//     }
+//     searchBodyCubit.emitState();
+//     // rp.close();
+//   });
+// }
+//
+// static void _isolate(SendPort sendPort) async {
+//   final rp = ReceivePort();
+//   sendPort.send(rp.sendPort);
+//
+//   final messages = rp.takeWhile((element) => element is String).cast<String>();
+//
+//   initYoutubeDataApi();
+//
+//   await for (var each in messages) {
+//     Map<String, dynamic> json = jsonDecode(each);
+//
+//     List<dynamic> comingList = [];
+//     if (json['list'] != null) {
+//       comingList = json['list'];
+//     }
+//
+//     List<ytv.Video> videos = comingList.map((e) => ytv.Video.fromIsolate(e)).toList();
+//
+//     await Future.wait(videos
+//         .map((e) => e.getVideoData().then((_) {
+//               sendPort.send(e.videoData?.toJson());
+//             }))
+//         .toList());
+//   }
+//
+//   // rp.close();
+// }
 }

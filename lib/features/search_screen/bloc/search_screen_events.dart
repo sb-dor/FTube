@@ -88,3 +88,9 @@ class StartCheckingPaginatingTimer extends SearchScreenEvents {
 
   StartCheckingPaginatingTimer({this.close = false});
 }
+
+class DeleteSearchedItemEvent extends SearchScreenEvents {
+  final String item;
+
+  DeleteSearchedItemEvent(this.item);
+}

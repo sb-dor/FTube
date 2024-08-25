@@ -67,9 +67,9 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
   ) async {
     Directory? path;
     if (Platform.isIOS) {
-      await getApplicationDocumentsDirectory();
+      path = await getApplicationDocumentsDirectory();
     } else {
-      await getExternalStorageDirectory();
+      path = await getExternalStorageDirectory();
     }
     _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
     _emitter(emit);
