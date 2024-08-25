@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -7,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/app_routes.dart';
 import 'package:youtube/core/api/api_settings.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/auth_bloc_events.dart';
-import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/google_service/google_service.dart';
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
@@ -47,7 +44,7 @@ void overlayMain() {
           create: (_) => TopOverlayFeatureBloc(),
         )
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: TopOverlayFeature(),
       ),

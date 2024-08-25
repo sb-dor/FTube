@@ -42,10 +42,10 @@ class ChannelData {
         ?.getList('items');
     var contentList = contents!.toList();
     List<Video> videoList = [];
-    contentList.forEach((element) {
+    for (var element in contentList) {
       Video video = Video.fromMap(element);
       videoList.add(video);
-    });
+    }
 
     return ChannelData(videosList: videoList, channel: ChannelPage(subscribers: (subscribers != null) ? subscribers : " ", avatar: avatar, banner: banner));
   }

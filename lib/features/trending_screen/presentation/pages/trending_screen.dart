@@ -9,10 +9,7 @@ import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dar
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
 import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/widgets/error_button_widget/error_button_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
-import 'widgets/trends_categories_widget/trending_screen_categories_error_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
-import 'widgets/trends_categories_widget/trentding_screen_categories_loading_widget.dart';
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({Key? key}) : super(key: key);

@@ -6,6 +6,6 @@ class HomeScreenCategoriesErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextWidget(text: "Error state plz try again");
+    return const TextWidget(text: "Error state plz try again");
   }
 }

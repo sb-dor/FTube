@@ -48,7 +48,6 @@ class _MainVideoWidget extends StatefulWidget {
   final bool closeScreenBeforeOpeningAnotherOne;
 
   const _MainVideoWidget({
-    super.key,
     required this.video,
     required this.closeScreenBeforeOpeningAnotherOne,
   });

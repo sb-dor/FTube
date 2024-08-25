@@ -60,7 +60,7 @@ class VideoDurationInformation extends StatelessWidget {
                 ),
                 IconButton(
                   style: ButtonStyle(
-                      overlayColor: MaterialStatePropertyAll(Colors.white.withOpacity(0.3))),
+                      overlayColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.3))),
                   onPressed: () async {
                     if (fullScreen) {
                       await Navigator.push(

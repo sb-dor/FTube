@@ -40,7 +40,7 @@ class MainScreenExplanationOverlay extends StatelessWidget {
 }
 
 class _SquareWidget extends StatelessWidget {
-  const _SquareWidget({super.key});
+  const _SquareWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,6 @@ class _SquareInfoWidget extends StatelessWidget {
   final MainScreenOverlayStateModel currentState;
 
   const _SquareInfoWidget({
-    super.key,
     required this.currentState,
   });
 

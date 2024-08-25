@@ -1,5 +1,4 @@
 import 'package:floor/floor.dart';
-import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
 
 @dao

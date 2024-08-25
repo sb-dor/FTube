@@ -6,7 +6,7 @@ abstract class OpenDownloadingVideoPopup {
     showDialog(
       context: context,
       // isScrollControlled: true,
-      builder: (context) => DownloadingVideoPopupWidget(),
+      builder: (context) => const DownloadingVideoPopupWidget(),
     );
   }
 }

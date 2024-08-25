@@ -12,16 +12,16 @@ class ErrorButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-        backgroundColor: const MaterialStatePropertyAll(Colors.red),
-        elevation: const MaterialStatePropertyAll(3),
-        side: MaterialStatePropertyAll(
+        backgroundColor: const WidgetStatePropertyAll(Colors.red),
+        elevation: const WidgetStatePropertyAll(3),
+        side: WidgetStatePropertyAll(
           BorderSide(
             color: Colors.grey.shade300,
             width: 0.5,
             style: BorderStyle.none,
           ),
         ),
-        shape: MaterialStatePropertyAll(
+        shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

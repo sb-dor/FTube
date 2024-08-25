@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
@@ -58,7 +57,6 @@ class _Widget extends StatelessWidget {
   final BaseVideoModelDb? videoModelDb;
 
   const _Widget({
-    super.key,
     required this.videoModelDb,
   });
 
@@ -145,7 +143,7 @@ class _Widget extends StatelessWidget {
                             height: 20,
                             child: IconButton(
                               style: const ButtonStyle(
-                                padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
+                                padding: WidgetStatePropertyAll(EdgeInsets.all(0)),
                               ),
                               onPressed: () {
                                 locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(

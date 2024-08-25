@@ -5,7 +5,6 @@ import 'package:youtube/features/library_inner_screens/presentation/blocs/playli
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_state.dart';
 import 'package:youtube/features/widgets/playlist_widgets/loaded_playlist_widget.dart';
 import 'package:youtube/features/widgets/playlist_widgets/loading_playlist_widget.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
   const PlaylistInnerScreen({super.key});

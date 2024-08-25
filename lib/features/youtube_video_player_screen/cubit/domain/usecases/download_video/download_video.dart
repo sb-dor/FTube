@@ -7,11 +7,8 @@ import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/core/api/api_settings.dart';
-import 'package:youtube/core/db/db_floor.dart';
-import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
@@ -24,7 +21,6 @@ import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:youtube/youtube_data_api/models/video_data.dart' as vidData;
 
 abstract class DownloadVideo with SolvePercentageMixin {
   static final ReusableGlobalFunctions _globalFunc = locator<ReusableGlobalFunctions>();

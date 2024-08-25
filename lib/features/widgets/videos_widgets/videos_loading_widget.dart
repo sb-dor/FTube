@@ -32,7 +32,7 @@ class VideosLoadingWidget extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           height: 15,
                           borderRadius: BorderRadius.circular(10)),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ShimmerContainer(
                           width: MediaQuery.of(context).size.width / 2,
                           height: 15,

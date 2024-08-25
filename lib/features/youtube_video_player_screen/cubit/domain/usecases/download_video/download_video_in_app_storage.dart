@@ -6,7 +6,6 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/domain/reposi
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
-import 'package:youtube/youtube_data_api/models/video_data.dart';
 
 class DownloadVideoInAppStorage implements DownloadingVideoRepository {
   ReusableGlobalFunctions reusableGlobalFunctions = locator<ReusableGlobalFunctions>();

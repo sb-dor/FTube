@@ -8,7 +8,7 @@ class Thumbnail {
   factory Thumbnail.fromJson(Map<String, dynamic> json) {
     return Thumbnail(
         url: json['url'],
-        width: json['width'] == null ? null : json['width'].toDouble(),
-        height: json['height'] == null ? null : json['height'].toDouble());
+        width: json['width']?.toDouble(),
+        height: json['height']?.toDouble());
   }
 }

@@ -12,7 +12,6 @@ import 'package:youtube/features/main_screen_overlay_info_feature/presentation/c
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
-import 'widgets/home_screen_categories_widgets/home_screen_categories_error_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
 

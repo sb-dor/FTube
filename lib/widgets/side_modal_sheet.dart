@@ -19,7 +19,7 @@ class SideSheet {
         bool barrierDismissible = true,
 
         /// Use barrierColor to set the outside color of the side sheet when opened
-        Color barrierColor = const Color(0xFF66000000),
+        Color barrierColor = const Color(0xff66000000),
 
         /// Use sheetBorderRadius to set the outside border radius of the side sheet when opened
         double sheetBorderRadius = 0,
@@ -65,7 +65,7 @@ class SideSheet {
         bool barrierDismissible = true,
 
         /// Use barrierColor to set the outside color of the side sheet when opened
-        Color barrierColor = const Color(0xFF66000000),
+        Color barrierColor = const Color(0xff66000000),
 
         /// Use sheetBorderRadius to set the outside border radius of the side sheet when opened
         double sheetBorderRadius = 0,
@@ -138,7 +138,7 @@ class SideSheet {
       transitionBuilder: (context, animation1, animation2, child) {
         return SlideTransition(
           position:
-          Tween(begin: Offset((rightSide ? 1 : -1), 0), end: Offset(0, 0))
+          Tween(begin: Offset((rightSide ? 1 : -1), 0), end: const Offset(0, 0))
               .animate(animation1),
           child: child,
         );

@@ -9,8 +9,8 @@ class HomeScreenCategoriesLoadingWidget extends StatelessWidget {
     return SizedBox(
         height: 35,
         child: ListView.separated(
-            padding: EdgeInsets.only(left: 10, right: 10),
-            separatorBuilder: (context, index) => SizedBox(width: 15),
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            separatorBuilder: (context, index) => const SizedBox(width: 15),
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: 10,

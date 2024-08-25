@@ -173,7 +173,6 @@ class _EndButton extends StatelessWidget {
   final IconData icon;
 
   const _EndButton({
-    super.key,
     required this.voidCallback,
     required this.icon,
   });

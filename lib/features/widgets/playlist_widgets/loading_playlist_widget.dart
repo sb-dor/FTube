@@ -63,9 +63,7 @@ class LoadingPlaylistWidget extends StatelessWidget {
 }
 
 class _Widget extends StatelessWidget {
-  const _Widget({
-    super.key,
-  });
+  const _Widget();
 
   @override
   Widget build(BuildContext context) {
