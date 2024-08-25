@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'package:audio_service/audio_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -20,7 +21,8 @@ class YoutubeVideoStateModel {
       clickedUpOnVideo = false,
       stopVideo = false,
       isVideoAddedToBookMarks = false,
-      isVideoAddedToFavorites = false;
+      isVideoAddedToFavorites = false,
+      loadedMusicForBackground = false;
 
   Timer? timerForClickedUpOnVideo;
 
@@ -33,6 +35,10 @@ class YoutubeVideoStateModel {
   AudioStreamInfo? tempMinAudioForVideo;
 
   ytvdata.VideoData? videoData;
+
+  MediaItem? mediaItemForRunningInBackground;
+
+  Duration? lastVideoDurationForMediaBackground;
 
   DownloadingType? downloadingType;
 

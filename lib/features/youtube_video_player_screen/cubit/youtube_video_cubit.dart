@@ -44,6 +44,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     _currentState.videoPicture = videoPicture;
     _currentState.youtubeExplode = YoutubeExplode();
     _currentState.loadingVideo = true;
+    _currentState.loadedMusicForBackground = false;
+    _currentState.mediaItemForRunningInBackground = null;
     _currentState.videoUrlForOverlayRun = null;
     _currentState.isVideoAddedToBookMarks = false;
     _currentState.isVideoAddedToFavorites = false;
@@ -109,8 +111,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void _controllerListener() async {
-    _currentState.runningTime =
-        locator<DurationHelper>().getFromDuration(await _currentState.playerController?.position);
+    _currentState.runningTime = locator<DurationHelper>().getFromDuration(
+      await _currentState.playerController?.position,
+    );
+
+    _currentState.lastVideoDurationForMediaBackground =
+        await _currentState.playerController?.position;
 
     if ((_currentState.playerController?.value.isCompleted ?? false) ||
         !(_currentState.playerController?.value.isPlaying ?? false)) {
@@ -265,5 +271,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       stateModel: _currentState,
       emit: emit,
     );
+  }
+
+  void loadedMusicForBackground({bool value = false}) {
+    _currentState.loadedMusicForBackground = value;
+    emit(InitialYoutubeVideoState(_currentState));
   }
 }

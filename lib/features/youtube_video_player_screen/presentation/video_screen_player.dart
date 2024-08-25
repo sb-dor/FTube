@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:isolate';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
+import 'package:youtube/x_injection_containers/injection_container.dart';
 import '../cubit/cubits/similar_videos_cubit/similar_videos_states.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';
@@ -101,24 +104,53 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     } else if (state == AppLifecycleState.inactive) {
       debugPrint("AppLife is: inactive");
     } else if (state == AppLifecycleState.paused) {
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        final bodyForSend = {
-          "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,
-        };
-        await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
-        await FlutterOverlayWindow.showOverlay(
-          height: 350,
-          width: (MediaQuery.of(goRouter.configuration.navigatorKey.currentContext!).size.width * 2)
-              .toInt(),
-          enableDrag: true,
-          visibility: NotificationVisibility.visibilitySecret,
-          overlayTitle: "Running on background",
+      debugPrint("AppLife is: paused");
+      // if (defaultTargetPlatform == TargetPlatform.android) {
+      //   final bodyForSend = {
+      //     "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,
+      //   };
+      //   await FlutterOverlayWindow.shareData(jsonEncode(bodyForSend));
+      //   await FlutterOverlayWindow.showOverlay(
+      //     height: 350,
+      //     width: (MediaQuery.of(goRouter.configuration.navigatorKey.currentContext!).size.width * 2)
+      //         .toInt(),
+      //     enableDrag: true,
+      //     visibility: NotificationVisibility.visibilitySecret,
+      //     overlayTitle: "Running on background",
+      //   );
+      // }
+
+      log("coming till here 1 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground}"
+          " | ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
+
+      if (_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground != null &&
+          !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground) {
+        _youtubeVideoCubit.loadedMusicForBackground(value: true);
+
+        final audioHandler = await locator.getAsync<AudioHandler>();
+
+        await audioHandler.prepare();
+
+        await audioHandler.playMediaItem(
+          _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
         );
+
+        await audioHandler.play();
+
+        await audioHandler.seek(
+          _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
+        );
+
+        log("coming till here 2 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground} | ${_youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!}");
       }
     } else if (state == AppLifecycleState.resumed) {
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        await FlutterOverlayWindow.closeOverlay();
-      }
+      final audiHandler = await locator.getAsync<AudioHandler>();
+      await audiHandler.pause();
+      _youtubeVideoCubit.loadedMusicForBackground(value: false);
+      debugPrint("AppLife is: resumed");
+      // if (defaultTargetPlatform == TargetPlatform.android) {
+      //   await FlutterOverlayWindow.closeOverlay();
+      // }
     }
   }
 

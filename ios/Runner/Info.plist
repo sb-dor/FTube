@@ -4,6 +4,12 @@
 <dict>
 
 
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>audio</string>
+    </array>
+
+
     <key>NSSpeechRecognitionUsageDescription</key>
     <string>speech</string>
 
