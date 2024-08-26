@@ -43,9 +43,11 @@ Future<void> initGetIt() async {
     () => YoutubeVideoCubit(),
   );
 
-  locator.registerLazySingletonAsync<AudioHandler>(
-    () async => await initAudioService(),
+  locator.registerLazySingleton<JustAudioBackgroundHelper>(
+    () => JustAudioBackgroundHelper(),
   );
+
+  await locator<JustAudioBackgroundHelper>().initJustAudioBackground();
 }
 
 void initYoutubeDataApi() {

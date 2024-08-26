@@ -1,45 +1,62 @@
-import 'package:audio_service/audio_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
+import 'package:audio_session/audio_session.dart';
 
-Future<AudioHandler> initAudioService() async {
-  return await AudioService.init(
-    builder: () => MyAudioHandler(),
-    config: const AudioServiceConfig(
-      androidNotificationChannelId: 'com.ftube.myapp.audio',
-      androidNotificationChannelName: 'Audio Service',
+class JustAudioBackgroundHelper {
+  Future<void> initJustAudioBackground() async {
+    await JustAudioBackground.init(
+      androidNotificationChannelId: "com.ryanheise.bg_demo.channel.audio",
+      androidNotificationChannelName: "Audio playback",
       androidNotificationOngoing: true,
-      androidStopForegroundOnPause: true,
-    ),
-  );
+    );
+  }
+
+  AudioPlayer? _player;
+
+  void setNewAudioSources(
+    List<MediaItem> items,
+    Duration duration,
+  ) async {
+    _player ??= AudioPlayer();
+    final playlist = ConcatenatingAudioSource(
+      children: [
+        ...items
+            .map(
+              (e) => AudioSource.uri(
+                // I will put url of audio in id
+                Uri.parse(e.id),
+                tag: e,
+              ),
+            )
+            .toList(),
+      ],
+    );
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.speech());
+    _player?.playbackEventStream.listen(
+      (event) {},
+      onError: (Object e, StackTrace stackTrace) {
+        print('A stream error occurred: $e');
+      },
+    );
+
+    debugPrint("audio playlist length: ${playlist.length}");
+
+    await _player?.setAudioSource(playlist);
+
+    await _player?.seek(duration);
+
+    await _player?.play();
+  }
+
+  void dispose() async {
+    await _player?.stop();
+  }
 }
-
-class MyAudioHandler extends BaseAudioHandler
-    with
-        QueueHandler, // mix in default queue callback implementations
-        SeekHandler {
-  // mix in default seek callback implementations
-
-  final _player = AudioPlayer(); // e.g. just_audio
-
-  // The most common callbacks:
-  @override
-  Future<void> play() => _player.play();
-
-  @override
-  Future<void> pause() => _player.pause();
-
-  @override
-  Future<void> stop() => _player.stop();
-
-  @override
-  Future<void> seek(Duration position) => _player.seek(position);
-
-  @override
-  Future<void> skipToQueueItem(int i) => _player.seek(Duration.zero, index: i);
-}
-
 
 // all about running audio in background you can find here:
 // https://pub.dev/packages/audio_service
 // https://pub.dev/packages/just_audio
 // https://suragch.medium.com/background-audio-in-flutter-with-audio-service-and-just-audio-3cce17b4a7d
+// https://pub.dev/packages/just_audio_background/example

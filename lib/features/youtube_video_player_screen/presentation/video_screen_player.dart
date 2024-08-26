@@ -16,6 +16,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/simila
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/x_injection_containers/injection_container.dart';
@@ -120,38 +121,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       //   );
       // }
 
-      log("coming till here 1 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground}"
-          " | ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
+      // log("coming till here 1 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground}"
+      //     " | ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
 
       if (_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground != null &&
           !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground) {
         debugPrint("coming here even though brother 1");
         _youtubeVideoCubit.loadedMusicForBackground(value: true);
-        debugPrint("coming here even though brother 2");
-        final audioHandler = await locator.getAsync<AudioHandler>();
-        debugPrint("coming here even though brother 3 | $audioHandler");
-        // await audioHandler.prepare();
-        debugPrint("coming here even though brother 4");
-        // await audioHandler.playMediaItem(
-        //   _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
-        // );
-        await audioHandler.addQueueItem(
-          _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
-        );
-        await audioHandler.play();
-        debugPrint("coming here even though brother 5");
-        // await audioHandler.play();
-        debugPrint("coming here even though brother 6");
-        await audioHandler.seek(
+
+        final audioService = locator<JustAudioBackgroundHelper>();
+
+        audioService.setNewAudioSources(
+          [
+            _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
+          ],
           _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
         );
+
         debugPrint("coming here even though brother 7");
 
         log("coming till here 2 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground} | ${_youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!}");
       }
     } else if (state == AppLifecycleState.resumed) {
-      final audiHandler = await locator.getAsync<AudioHandler>();
-      await audiHandler.pause();
+      final audiHandler = locator<JustAudioBackgroundHelper>();
+      audiHandler.dispose();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);
       debugPrint("AppLife is: resumed");
       log("coming till here 3 ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");

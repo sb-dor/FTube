@@ -57,7 +57,7 @@ class SearchScreenStateModel {
   }) =>
       orderBy = OrderBy.getOnCheck(
         type: type ?? orderBy?.orderByType,
-        time: time ?? orderBy?.orderByTime,
+        time: time ?? orderBy?.orderByTime, 
         arrange: arrange ?? orderBy?.orderByArrange,
       );
 }
