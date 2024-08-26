@@ -125,21 +125,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
       if (_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground != null &&
           !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground) {
+        debugPrint("coming here even though brother 1");
         _youtubeVideoCubit.loadedMusicForBackground(value: true);
-
+        debugPrint("coming here even though brother 2");
         final audioHandler = await locator.getAsync<AudioHandler>();
-
-        await audioHandler.prepare();
-
-        await audioHandler.playMediaItem(
+        debugPrint("coming here even though brother 3 | $audioHandler");
+        // await audioHandler.prepare();
+        debugPrint("coming here even though brother 4");
+        // await audioHandler.playMediaItem(
+        //   _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
+        // );
+        await audioHandler.addQueueItem(
           _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
         );
-
         await audioHandler.play();
-
+        debugPrint("coming here even though brother 5");
+        // await audioHandler.play();
+        debugPrint("coming here even though brother 6");
         await audioHandler.seek(
           _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
         );
+        debugPrint("coming here even though brother 7");
 
         log("coming till here 2 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground} | ${_youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!}");
       }
@@ -148,6 +154,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       await audiHandler.pause();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);
       debugPrint("AppLife is: resumed");
+      log("coming till here 3 ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
       // if (defaultTargetPlatform == TargetPlatform.android) {
       //   await FlutterOverlayWindow.closeOverlay();
       // }

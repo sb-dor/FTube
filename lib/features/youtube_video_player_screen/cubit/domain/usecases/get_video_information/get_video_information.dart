@@ -37,9 +37,9 @@ abstract class GetVideoInformation {
           title: stateModel.videoData?.video?.title ?? '',
           artist: stateModel.videoData?.video?.channelName ?? '',
           album: stateModel.videoData?.video?.description ?? '',
-          artUri: Uri.parse(
-            stateModel.audios.first.url.toString(),
-          ),
+          // artUri: Uri.parse(
+          //   stateModel.audios.first.url.toString(),
+          // ),
           duration: stateModel.playerController!.value.duration,
         );
 
