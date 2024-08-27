@@ -251,7 +251,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> checkVideoInBookmarks({required String videoId}) async {
-    print("okay budd workuing here bro");
+    // print("okay budd workuing here bro");
     await CheckVideoInBookmarks.checkVideoInBookmarks(
       stateModel: _currentState,
       videoId: videoId,
@@ -271,6 +271,11 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       stateModel: _currentState,
       emit: emit,
     );
+  }
+
+  Future<void> seekToTheDurationPosition(Duration? duration) async {
+    if (duration == null) return;
+    _currentState.playerController?.seekTo(duration);
   }
 
   void loadedMusicForBackground({bool value = false}) {

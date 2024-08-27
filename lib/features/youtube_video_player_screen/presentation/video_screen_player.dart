@@ -121,12 +121,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       //   );
       // }
 
-      // log("coming till here 1 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground}"
-      //     " | ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
-
+      // this code should work when:
+      //
+      // 1) "mediaItem" for background audio is not null,
+      // 2) media was loaded once for background
+      // 3) and video is playing
+      //
+      // otherwise we will not load audio for background
       if (_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground != null &&
-          !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground) {
-        debugPrint("coming here even though brother 1");
+          !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground &&
+          (_youtubeVideoCubit.state.youtubeVideoStateModel.playerController?.value.isPlaying ??
+              false)) {
         _youtubeVideoCubit.loadedMusicForBackground(value: true);
 
         final audioService = locator<JustAudioBackgroundHelper>();
@@ -137,17 +142,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
           ],
           _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
         );
-
-        debugPrint("coming here even though brother 7");
-
-        log("coming till here 2 | ${_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground} | ${_youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!}");
       }
     } else if (state == AppLifecycleState.resumed) {
-      final audiHandler = locator<JustAudioBackgroundHelper>();
-      audiHandler.dispose();
+      final audioHandler = locator<JustAudioBackgroundHelper>();
+      await _youtubeVideoCubit.seekToTheDurationPosition(audioHandler.lastSavedDuration);
+      debugPrint("position of date audio: ${audioHandler.lastSavedDuration}");
+      audioHandler.dispose();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);
-      debugPrint("AppLife is: resumed");
-      log("coming till here 3 ${_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground}");
       // if (defaultTargetPlatform == TargetPlatform.android) {
       //   await FlutterOverlayWindow.closeOverlay();
       // }

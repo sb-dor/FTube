@@ -14,6 +14,8 @@ class JustAudioBackgroundHelper {
 
   AudioPlayer? _player;
 
+  Duration? lastSavedDuration;
+
   void setNewAudioSources(
     List<MediaItem> items,
     Duration duration,
@@ -35,13 +37,19 @@ class JustAudioBackgroundHelper {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.speech());
     _player?.playbackEventStream.listen(
-      (event) {},
+      (event) {
+        //
+      },
       onError: (Object e, StackTrace stackTrace) {
-        print('A stream error occurred: $e');
+        debugPrint('A stream error occurred: $e');
       },
     );
 
-    debugPrint("audio playlist length: ${playlist.length}");
+    _player?.positionStream.listen(
+      (event) {
+        lastSavedDuration = event;
+      },
+    );
 
     await _player?.setAudioSource(playlist);
 
@@ -51,6 +59,7 @@ class JustAudioBackgroundHelper {
   }
 
   void dispose() async {
+    lastSavedDuration = null;
     await _player?.stop();
   }
 }
