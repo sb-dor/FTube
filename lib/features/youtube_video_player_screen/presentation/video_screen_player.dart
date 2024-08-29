@@ -88,6 +88,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _youtubeVideoCubit.dispose();
     _videoInformationCubit.loadingVideoInformationState();
@@ -100,6 +101,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
       debugPrint("AppLife is: detached");
+      // final audioHandler = locator<JustAudioBackgroundHelper>();
+      // await audioHandler.stopPlayer();
     } else if (state == AppLifecycleState.hidden) {
       debugPrint("AppLife is: hidden");
     } else if (state == AppLifecycleState.inactive) {
@@ -146,8 +149,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     } else if (state == AppLifecycleState.resumed) {
       final audioHandler = locator<JustAudioBackgroundHelper>();
       await _youtubeVideoCubit.seekToTheDurationPosition(audioHandler.lastSavedDuration);
-      debugPrint("position of date audio: ${audioHandler.lastSavedDuration}");
-      audioHandler.dispose();
+      await audioHandler.stopPlayer();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);
       // if (defaultTargetPlatform == TargetPlatform.android) {
       //   await FlutterOverlayWindow.closeOverlay();

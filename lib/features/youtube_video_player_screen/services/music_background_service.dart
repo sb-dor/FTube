@@ -35,7 +35,7 @@ class JustAudioBackgroundHelper {
       ],
     );
     final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.speech());
+    await session.configure(const AudioSessionConfiguration.music());
     _player?.playbackEventStream.listen(
       (event) {
         //
@@ -55,12 +55,19 @@ class JustAudioBackgroundHelper {
 
     await _player?.seek(duration);
 
+    await _player?.setLoopMode(LoopMode.one);
+
     await _player?.play();
   }
 
-  void dispose() async {
+  Future<void> stopPlayer() async {
     lastSavedDuration = null;
     await _player?.stop();
+  }
+
+  Future<void> stopAndDispose() async {
+    await stopPlayer();
+    await _player?.dispose();
   }
 }
 
