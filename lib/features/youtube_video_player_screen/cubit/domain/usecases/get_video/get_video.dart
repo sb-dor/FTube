@@ -41,9 +41,9 @@ abstract class GetVideo {
     stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 
     for (var each in stateModel.audios) {
-      debugPrint("media type: ${each.codec.subtype}");
-      debugPrint("media size: ${each.size.totalMegaBytes}");
-      debugPrint("media url: ${each.url}");
+      debugPrint("audio data media type: ${each.codec.subtype}");
+      debugPrint("audio data size: ${each.size.totalMegaBytes}");
+      debugPrint("audio data url: ${each.url}");
     }
 
     // all videos both with and without sound

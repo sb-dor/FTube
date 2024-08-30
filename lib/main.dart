@@ -54,10 +54,10 @@ void overlayMain() {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initGetIt();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await initGetIt();
   await locator<SharedPreferencesHelper>().initPreferences();
   await APISettings.initDio();
   await locator<HiveDatabase>().initHive();

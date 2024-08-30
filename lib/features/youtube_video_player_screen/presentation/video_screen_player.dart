@@ -101,8 +101,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
       debugPrint("AppLife is: detached");
-      // final audioHandler = locator<JustAudioBackgroundHelper>();
-      // await audioHandler.stopPlayer();
+      final audioHandler = locator<JustAudioBackgroundHelper>();
+      await audioHandler.stopPlayer();
     } else if (state == AppLifecycleState.hidden) {
       debugPrint("AppLife is: hidden");
     } else if (state == AppLifecycleState.inactive) {

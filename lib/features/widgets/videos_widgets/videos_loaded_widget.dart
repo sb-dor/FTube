@@ -184,7 +184,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     await _videoPlayerController?.pause();
     _videoPlayerController = null;
     currentVideoGoingDuration = null;
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
