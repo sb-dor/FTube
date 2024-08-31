@@ -8,11 +8,12 @@ mixin class StorageHelper {
     late final Directory? getExternalStoragePath;
 
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      getExternalStoragePath = await getApplicationSupportDirectory();
+      getExternalStoragePath = await getApplicationDocumentsDirectory();
     } else {
       getExternalStoragePath = await getExternalStorageDirectory();
     }
 
+    debugPrint("external path: ${getExternalStoragePath?.path}");
     return getExternalStoragePath;
   }
 }
