@@ -40,11 +40,19 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
 
   bool _paused = false, _isVideo = false, _isShowingVideo = false, _backgroundAudioLoaded = false;
 
+  late MediaItem mediaItem;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _isVideo = _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) == 'mp4';
+    mediaItem = MediaItem(
+      id: widget.baseDownloadedFileModel?.downloadedPath ?? '',
+      title: widget.baseDownloadedFileModel?.name ?? '',
+      artist: widget.baseDownloadedFileModel?.channelName ?? '',
+      artUri: Uri.parse("${widget.baseDownloadedFileModel?.imagePath}"),
+    );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (_isVideo) {
         await _initVideo();
@@ -75,7 +83,10 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   Future<void> _initAudio() async {
     _audioPlayer = AudioPlayer();
 
-    await _audioPlayer?.setFilePath(widget.baseDownloadedFileModel?.downloadedPath ?? "");
+    await _audioPlayer?.setFilePath(
+      widget.baseDownloadedFileModel?.downloadedPath ?? "",
+      tag: mediaItem,
+    );
 
     await _audioPlayer?.setLoopMode(LoopMode.one);
 
@@ -112,7 +123,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
     } else {
       await _audioPlayer?.seek(Duration(seconds: number.toInt()));
     }
-    setState(() {});
+    // setState(() {});
   }
 
   void _stop() async {
@@ -164,7 +175,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
     } else if (state == AppLifecycleState.hidden) {
     } else if (state == AppLifecycleState.inactive) {
     } else if (state == AppLifecycleState.paused) {
-      if (!_backgroundAudioLoaded) {
+      if (!_backgroundAudioLoaded && _isVideo) {
         //
         _backgroundAudioLoaded = true;
 
@@ -172,29 +183,20 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
 
         audioService.setNewAudioSources(
           localFilesPaths: [
-            MediaItem(
-              id: widget.baseDownloadedFileModel?.downloadedPath ?? '',
-              title: widget.baseDownloadedFileModel?.name ?? '',
-              artist: widget.baseDownloadedFileModel?.channelName ?? '',
-              artUri: Uri.parse("${widget.baseDownloadedFileModel?.imagePath}"),
-            ),
+            mediaItem,
           ],
           duration: _positionDuration,
         );
       }
     } else if (state == AppLifecycleState.resumed) {
       //
-      final audioHandler = locator<JustAudioBackgroundHelper>();
 
       if (_isVideo) {
+        final audioHandler = locator<JustAudioBackgroundHelper>();
         await _videoController?.seekTo(audioHandler.lastSavedDuration ?? Duration.zero);
-      } else {
-        await _audioPlayer?.seek(audioHandler.lastSavedDuration);
+        await audioHandler.stopPlayer();
+        _backgroundAudioLoaded = false;
       }
-
-      await audioHandler.stopPlayer();
-
-      _backgroundAudioLoaded = false;
     }
   }
 

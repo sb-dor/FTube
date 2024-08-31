@@ -14,7 +14,7 @@ class JustAudioBackgroundHelper {
     );
   }
 
-  AudioPlayer? _player;
+  AudioPlayer? player;
 
   Duration? lastSavedDuration;
 
@@ -23,7 +23,7 @@ class JustAudioBackgroundHelper {
     Duration? duration,
     List<MediaItem>? localFilesPaths,
   }) async {
-    _player ??= AudioPlayer();
+    player ??= AudioPlayer();
     final playlist = ConcatenatingAudioSource(
       children: [
         if (items != null)
@@ -47,7 +47,7 @@ class JustAudioBackgroundHelper {
     );
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
-    _player?.playbackEventStream.listen(
+    player?.playbackEventStream.listen(
       (event) {
         //
       },
@@ -56,29 +56,29 @@ class JustAudioBackgroundHelper {
       },
     );
 
-    _player?.positionStream.listen(
+    player?.positionStream.listen(
       (event) {
         lastSavedDuration = event;
       },
     );
 
-    await _player?.setAudioSource(playlist);
+    await player?.setAudioSource(playlist);
 
-    await _player?.seek(duration);
+    await player?.seek(duration);
 
-    await _player?.setLoopMode(LoopMode.one);
+    await player?.setLoopMode(LoopMode.one);
 
-    await _player?.play();
+    await player?.play();
   }
 
   Future<void> stopPlayer() async {
     lastSavedDuration = null;
-    await _player?.stop();
+    await player?.stop();
   }
 
   Future<void> stopAndDispose() async {
     await stopPlayer();
-    await _player?.dispose();
+    await player?.dispose();
   }
 }
 
