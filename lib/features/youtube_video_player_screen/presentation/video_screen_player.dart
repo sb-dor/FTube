@@ -184,14 +184,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                         children: [
                           if (youtubeStateModel.videoPicture != null)
                             Positioned.fill(
-                                child: SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: ImageLoaderWidget(
-                                url: youtubeStateModel.videoPicture ?? '',
-                                errorImageUrl: "assets/custom_images/error_image.png",
-                                boxFit: BoxFit.fill,
+                              child: SizedBox.expand(
+                                child: ImageLoaderWidget(
+                                  url: youtubeStateModel.videoPicture ?? '',
+                                  errorImageUrl: "assets/custom_images/error_image.png",
+                                  boxFit: BoxFit.cover,
+                                ),
                               ),
-                            )),
+                            ),
                           const Positioned.fill(
                             child: Center(
                               child: CircularProgressIndicator(

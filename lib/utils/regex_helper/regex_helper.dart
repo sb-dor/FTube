@@ -6,7 +6,7 @@ mixin class RegexHelper {
     // .be\/(.{1,})\?
     if (text.contains('shorts/')) {
       debugPrint("working 1");
-      regExp = RegExp(r"shorts\/(\w{0,})");
+      regExp = RegExp(r'shorts\/([^?]+)');
     } else if (text.contains("youtu.be/")) {
       debugPrint("working 2");
       regExp = RegExp(r"youtu\.be/([a-zA-Z0-9_-]+)");

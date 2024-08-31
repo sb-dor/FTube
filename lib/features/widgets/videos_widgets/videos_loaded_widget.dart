@@ -383,7 +383,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                 size: 10,
                               ),
                             )
-                          else
+                          else if ((widget.video.duration ?? '').isNotEmpty)
                             Container(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
