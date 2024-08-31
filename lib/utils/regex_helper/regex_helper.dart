@@ -20,4 +20,10 @@ mixin class RegexHelper {
 
     return foundGroup?.group(1) ?? '';
   }
+
+  String videoIdFromStorageSavedData(String text) {
+    final regex = RegExp(r'_videoId_(.{1,}).mp4');
+    final data = regex.firstMatch(text);
+    return data?.group(1) ?? '';
+  }
 }

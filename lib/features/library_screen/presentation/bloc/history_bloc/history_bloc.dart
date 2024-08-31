@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 import 'package:youtube/features/library_screen/domain/usecases/get_history.dart';
 import 'package:youtube/features/library_screen/domain/usecases/save_in_history.dart';

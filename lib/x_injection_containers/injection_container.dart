@@ -1,4 +1,3 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';

@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
@@ -19,7 +17,9 @@ class DownloadVideoInAppStorage with StorageHelper implements DownloadingVideoRe
     var dateTimeForVideoName = DateTime.now();
 
     var pathOfVideo = '${getExternalStoragePath?.path}/'
-        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? "-"}_${dateTimeForVideoName.toString()}")}.mp4';
+        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? "-"}"
+            "_${dateTimeForVideoName.toString()}")}'
+        '_videoId_${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(stateModel.tempVideoId ?? '')}.mp4';
 
     File fileForSaving = File(pathOfVideo);
 

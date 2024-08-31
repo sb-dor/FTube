@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -8,7 +6,6 @@ import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/features/search_screen/data/source/rest_api_get_suggestion_text.dart';
 import 'package:youtube/utils/enums.dart';
 import 'package:youtube/utils/regex_helper/regex_helper.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/youtube_data_api/models/video_data.dart' as ytvdata;
