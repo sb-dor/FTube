@@ -6,6 +6,7 @@ import 'package:youtube/features/library_screen/domain/repository/library_screen
 import 'package:youtube/features/library_screen/domain/usecases/get_history.dart';
 import 'package:youtube/features/library_screen/domain/usecases/save_in_history.dart';
 import 'package:youtube/utils/constants.dart';
+import 'package:youtube/utils/mixins/storage_helper.dart';
 import 'package:youtube/youtube_data_api/models/video.dart';
 import 'state_model/history_state_model.dart';
 
@@ -13,7 +14,7 @@ part 'history_events.dart';
 
 part 'history_states.dart';
 
-class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
+class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper {
   late HistoryStateModel _currentState;
 
   final LibraryScreenRepository _libraryScreenRepository;
@@ -65,12 +66,7 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> {
     InitLengthOfDownloadedFiles event,
     Emitter<HistoryStates> emit,
   ) async {
-    Directory? path;
-    if (Platform.isIOS) {
-      path = await getApplicationDocumentsDirectory();
-    } else {
-      path = await getExternalStorageDirectory();
-    }
+    Directory? path = await getStorage();
     _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
     _emitter(emit);
   }

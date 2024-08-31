@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:text_marquee/text_marquee.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';
 import 'package:youtube/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/text_widget.dart';
@@ -24,7 +26,7 @@ class LibraryDownloadsAudioListenerPopup extends StatefulWidget {
 }
 
 class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAudioListenerPopup>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final _durationHelper = locator<DurationHelper>();
   final _globalFunctions = locator<ReusableGlobalFunctions>();
 
@@ -36,11 +38,12 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
 
   Duration _positionDuration = const Duration(seconds: 0);
 
-  bool _paused = false, _isVideo = false, _isShowingVideo = false;
+  bool _paused = false, _isVideo = false, _isShowingVideo = false, _backgroundAudioLoaded = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _isVideo = _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) == 'mp4';
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (_isVideo) {
@@ -138,9 +141,11 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     _audioPlayer?.dispose();
     _videoController?.dispose();
+    final audioHandler = locator<JustAudioBackgroundHelper>();
+    await audioHandler.stopPlayer();
     super.dispose();
   }
 
@@ -148,6 +153,48 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.detached) {
+      final audioHandler = locator<JustAudioBackgroundHelper>();
+      await audioHandler.stopPlayer();
+    } else if (state == AppLifecycleState.hidden) {
+    } else if (state == AppLifecycleState.inactive) {
+    } else if (state == AppLifecycleState.paused) {
+      if (!_backgroundAudioLoaded) {
+        //
+        _backgroundAudioLoaded = true;
+
+        final audioService = locator<JustAudioBackgroundHelper>();
+
+        audioService.setNewAudioSources(
+          localFilesPaths: [
+            MediaItem(
+              id: widget.baseDownloadedFileModel?.downloadedPath ?? '',
+              title: widget.baseDownloadedFileModel?.name ?? '',
+              artist: widget.baseDownloadedFileModel?.channelName ?? '',
+              artUri: Uri.parse("${widget.baseDownloadedFileModel?.imagePath}"),
+            ),
+          ],
+          duration: _positionDuration,
+        );
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      //
+      final audioHandler = locator<JustAudioBackgroundHelper>();
+
+      if (_isVideo) {
+        await _videoController?.seekTo(audioHandler.lastSavedDuration ?? Duration.zero);
+      } else {
+        await _audioPlayer?.seek(audioHandler.lastSavedDuration);
+      }
+
+      await audioHandler.stopPlayer();
+
+      _backgroundAudioLoaded = false;
     }
   }
 

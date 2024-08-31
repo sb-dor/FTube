@@ -140,10 +140,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         final audioService = locator<JustAudioBackgroundHelper>();
 
         audioService.setNewAudioSources(
-          [
+          items: [
             _youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!,
           ],
-          _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
+          duration:
+              _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
         );
       }
     } else if (state == AppLifecycleState.resumed) {

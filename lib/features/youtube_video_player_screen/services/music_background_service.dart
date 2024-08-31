@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
@@ -16,22 +18,31 @@ class JustAudioBackgroundHelper {
 
   Duration? lastSavedDuration;
 
-  void setNewAudioSources(
-    List<MediaItem> items,
-    Duration duration,
-  ) async {
+  void setNewAudioSources({
+    List<MediaItem>? items,
+    Duration? duration,
+    List<MediaItem>? localFilesPaths,
+  }) async {
     _player ??= AudioPlayer();
     final playlist = ConcatenatingAudioSource(
       children: [
-        ...items
-            .map(
-              (e) => AudioSource.uri(
-                // I will put url of audio in id
-                Uri.parse(e.id),
-                tag: e,
-              ),
-            )
-            .toList(),
+        if (items != null)
+          ...items
+              .map(
+                (e) => AudioSource.uri(
+                  // I will put url of audio in id
+                  Uri.parse(e.id),
+                  tag: e,
+                ),
+              )
+              .toList(),
+        if (localFilesPaths != null)
+          ...localFilesPaths.map(
+            (e) => AudioSource.uri(
+              Uri.file(e.id),
+              tag: e,
+            ),
+          ),
       ],
     );
     final session = await AudioSession.instance;
