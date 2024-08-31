@@ -74,7 +74,7 @@ dependencies:
   auto_size_text: ^3.0.0
   go_router: ^13.2.0
   syncfusion_flutter_sliders: ^25.1.37
-  marquee: ^2.2.3
+  text_marquee: ^0.0.2
   permission_handler: ^11.3.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -83,6 +83,7 @@ dependencies:
   just_audio_background: ^0.0.1-beta.13
   just_audio: ^0.9.39
   uuid: ^4.4.2
+  fading_edge_scrollview: ^4.1.1
 
 dev_dependencies:
   flutter_test:

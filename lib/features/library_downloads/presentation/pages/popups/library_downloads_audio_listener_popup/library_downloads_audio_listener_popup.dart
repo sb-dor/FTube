@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:text_marquee/text_marquee.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:just_audio/just_audio.dart';
@@ -218,10 +218,10 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               height: 20,
-                              child: Marquee(
-                                text: widget.baseDownloadedFileModel?.name ?? '-',
-                                accelerationDuration: const Duration(seconds: 5),
-                                accelerationCurve: Curves.linear,
+                              child: TextMarquee(
+                                widget.baseDownloadedFileModel?.name ?? '-',
+                                duration: const Duration(seconds: 5),
+                                curve: Curves.linear,
                               ),
                             ),
                           ],
