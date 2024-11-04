@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
+import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
+import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/core/utils/reusable_global_widgets.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/utils/duration_helper/duration_helper.dart';
-import 'package:youtube/utils/reusable_global_functions.dart';
-import 'package:youtube/utils/reusable_global_widgets.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
-import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
+import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class VideosLoadedWidget extends StatelessWidget {

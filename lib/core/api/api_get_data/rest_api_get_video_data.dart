@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_env.dart';
 import 'package:youtube/core/api/api_urls.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
-import 'package:youtube/utils/enums.dart';
-import 'package:youtube/youtube_data_api/youtube_data_api.dart';
-import 'package:youtube/youtube_data_api/models/video.dart' as ytv;
-import 'package:youtube/youtube_data_api/models/channel.dart' as ytc;
+import 'package:youtube/core/utils/enums.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
+import 'package:youtube/core/youtube_data_api/models/channel.dart' as ytc;
+import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
 abstract class RestApiGetVideoData {
   static Future<Map<String, dynamic>> getVideoInfo({

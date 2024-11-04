@@ -1,5 +1,5 @@
-import 'package:youtube/youtube_data_api/models/thumbnail.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
+import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
 
 class TrendsVideosModel extends Video {
   TrendsVideosModel({

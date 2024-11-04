@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/youtube_data_api/models/order_by/order_by_details/order_by_time.dart';
-import 'package:youtube/youtube_data_api/models/order_by/order_by_details/order_by_type.dart';
+import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/order_by_time.dart';
+import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/order_by_type.dart';
 
 abstract class SearchScreenEvents {}
 

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
+import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_states.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
-import 'package:youtube/youtube_data_api/models/video_data.dart';
 
 class SimilarVideosCubit extends Cubit<SimilarVideosStates> {
   late SimilarVideoStateModel _currentState;

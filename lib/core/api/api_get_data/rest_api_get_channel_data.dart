@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_settings.dart';
 import 'package:youtube/core/api/api_urls.dart';
-import 'package:youtube/utils/constants.dart';
-import 'package:youtube/utils/enums.dart';
+import 'package:youtube/core/utils/constants.dart';
+import 'package:youtube/core/utils/enums.dart';
 
 abstract class RestApiGetChannelData {
-  static Future<Map<String, dynamic>> channel(
-      {required TypeContent typeContent, required String? channelId}) async {
+  static Future<Map<String, dynamic>> channel({
+    required TypeContent typeContent,
+    required String? channelId,
+  }) async {
     Map<String, dynamic> res = {};
     try {
       String part = _partBuilder(typeContent);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/utils/global_context_helper.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
@@ -7,9 +9,6 @@ import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
-import 'package:youtube/utils/global_context_helper.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
-
 import 'animated_search_bar/animated_search_bar.dart';
 import 'layouts/searching_body_sreen.dart';
 

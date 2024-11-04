@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
 import 'package:youtube/widgets/text_widget.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;
@@ -54,8 +54,10 @@ class _Widget extends StatelessWidget {
           videoThumb: baseVideoModelDb?.videoThumbnailUrl,
         ).then(
           (value) {
-            context.read<HistoryBloc>().add(GetHistoryEvent());
-            context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+            if (context.mounted) {
+              context.read<HistoryBloc>().add(GetHistoryEvent());
+              context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+            }
           },
         );
       },

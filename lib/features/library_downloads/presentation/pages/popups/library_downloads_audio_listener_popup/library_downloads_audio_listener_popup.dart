@@ -6,11 +6,11 @@ import 'package:text_marquee/text_marquee.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
+import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';
-import 'package:youtube/utils/duration_helper/duration_helper.dart';
-import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/text_widget.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class LibraryDownloadsAudioListenerPopup extends StatefulWidget {
   final BaseDownloadedFileModel? baseDownloadedFileModel;

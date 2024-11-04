@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
-import 'package:youtube/youtube_data_api/models/video_data.dart';
+import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 
 @Entity(tableName: "file_downloads")
 class FileDownloadModel extends BaseDownloadedFileModel {

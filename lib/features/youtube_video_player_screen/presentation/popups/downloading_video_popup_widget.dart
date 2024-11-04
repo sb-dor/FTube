@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/utils/enums.dart';
+import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
@@ -7,10 +10,7 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
-import 'package:youtube/utils/enums.dart';
-import 'package:youtube/utils/reusable_global_functions.dart';
 import 'package:youtube/widgets/text_widget.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {
   const DownloadingVideoPopupWidget({Key? key}) : super(key: key);

@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
+import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
-import 'package:youtube/models/video_category_models/video_category.dart';
 import 'package:youtube/widgets/error_button_widget/error_button_widget.dart';
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
 

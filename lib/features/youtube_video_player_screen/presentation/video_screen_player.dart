@@ -1,8 +1,8 @@
 import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
@@ -13,7 +13,6 @@ import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video
 import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';
 import 'package:youtube/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 import '../cubit/cubits/similar_videos_cubit/similar_videos_states.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loaded_widgets.dart';
 import 'widgets/video_info_like_buttons_widgets/video_info_like_button_loading_widgets.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube/animations/fade_animation.dart';
+import 'package:youtube/core/animations/fade_animation.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {

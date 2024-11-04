@@ -1,5 +1,5 @@
+import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
 
 class SaveInHistory {
   final LibraryScreenRepository _libraryScreenRepository;

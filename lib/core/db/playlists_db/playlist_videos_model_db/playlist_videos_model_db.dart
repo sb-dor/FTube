@@ -1,7 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
 
 @Entity(tableName: 'playlist_videos', foreignKeys: [
   ForeignKey(

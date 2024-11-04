@@ -1,11 +1,11 @@
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/likes_db/like_model_db/like_model_db.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/usecases/check_video_in_favorites/check_video_in_favorites.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
-import 'package:youtube/youtube_data_api/models/thumbnail.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
 
 abstract class LikeVideo {
   static Future<void> likeVideo({

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
+import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
-import 'package:youtube/utils/enums.dart';
 import 'package:collection/collection.dart';
 
 abstract class GetVideoInformation {

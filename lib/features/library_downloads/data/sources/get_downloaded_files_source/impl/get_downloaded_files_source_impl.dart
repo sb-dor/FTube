@@ -2,20 +2,18 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/core/db/db_floor.dart';
+import 'package:youtube/core/utils/mixins/storage_helper.dart';
+import 'package:youtube/core/utils/regex_helper/regex_helper.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source/get_downloaded_files_source.dart';
-import 'package:youtube/utils/mixins/storage_helper.dart';
-import 'package:youtube/utils/regex_helper/regex_helper.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:collection/collection.dart';
 
 class GetDownloadedFilesSourceImpl
     with StorageHelper, RegexHelper
     implements GetDownloadedFilesSource {
-
   // Override the loadDownloadFiles method from the GetDownloadedFilesSource interface
   @override
   Future<List<BaseDownloadedFileModel>> loadDownloadFiles() async {
-
     // Get the directory for external storage (could be null if not available)
     final Directory? externalStorage = await getStorage();
 
@@ -27,13 +25,11 @@ class GetDownloadedFilesSourceImpl
 
     // Loop through each downloaded file in the database
     for (int i = 0; i < dataFromDb.length; i++) {
-
       // Check if the current platform is iOS
       if (defaultTargetPlatform == TargetPlatform.iOS) {
-
         // Find the corresponding file in external storage by matching the videoId in the path
         final findPath = (dataFromStorage ?? <FileSystemEntity>[]).firstWhereOrNull(
-              (e) => e.path.contains(
+          (e) => e.path.contains(
               "videoId_${videoIdFromStorageSavedData(dataFromDb[i].downloadedPath ?? '')}"),
         );
 
@@ -42,10 +38,8 @@ class GetDownloadedFilesSourceImpl
           dataFromDb[i].downloadedPath = findPath.path;
         }
       } else {
-
         // If not on iOS, check if the file exists in the external storage
         if (!(dataFromStorage ?? []).any((el) => el.path == dataFromDb[i].downloadedPath)) {
-
           // If the file doesn't exist, remove it from the database list
           dataFromDb.removeAt(i);
 

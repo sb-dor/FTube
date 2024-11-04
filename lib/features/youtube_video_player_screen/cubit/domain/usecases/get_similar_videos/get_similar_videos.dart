@@ -3,11 +3,11 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/youtube_data_api/models/video.dart';
+import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
-import 'package:youtube/youtube_data_api/models/video.dart';
-import 'package:youtube/youtube_data_api/models/video_data.dart';
 
 abstract class GetSimilarVideos {
   // Define a static method `getSimilarVideos` to fetch similar videos based on a video title

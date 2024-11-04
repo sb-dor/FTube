@@ -1,6 +1,6 @@
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
-import 'package:youtube/utils/reusable_global_functions.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 
 class PlaylistInnerScreenStateModel {
 

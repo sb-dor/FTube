@@ -9,17 +9,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/core/api/api_settings.dart';
+import 'package:youtube/core/utils/constants.dart';
+import 'package:youtube/core/utils/enums.dart';
+import 'package:youtube/core/utils/global_context_helper.dart';
+import 'package:youtube/core/utils/mixins/solve_percentage_mixin.dart';
+import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/downloading_video_info.dart';
-import 'package:youtube/utils/constants.dart';
-import 'package:youtube/utils/enums.dart';
-import 'package:youtube/utils/global_context_helper.dart';
-import 'package:youtube/utils/mixins/solve_percentage_mixin.dart';
-import 'package:youtube/utils/reusable_global_functions.dart';
-import 'package:youtube/x_injection_containers/injection_container.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {

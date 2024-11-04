@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/utils/constants.dart';
+import 'package:youtube/core/utils/constants.dart';
 import 'package:youtube/widgets/shimmer_container.dart';
 
 class LoadingPlaylistWidget extends StatelessWidget {
