@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';

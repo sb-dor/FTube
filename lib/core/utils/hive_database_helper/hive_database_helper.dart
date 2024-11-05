@@ -1,4 +1,4 @@
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'hive_database.dart';
 
 class HiveDatabaseHelper {

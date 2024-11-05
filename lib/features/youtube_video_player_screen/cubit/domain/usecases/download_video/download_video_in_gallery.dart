@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/domain/repository/downloading_video_repository/downloading_video_repository.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/state_model/youtube_video_state_model.dart';
 

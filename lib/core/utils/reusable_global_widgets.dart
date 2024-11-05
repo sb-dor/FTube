@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/popups/create_playlist_popup/select_playlist_popup.dart';
@@ -36,7 +36,7 @@ class ReusableGlobalWidgets {
       if (onFunc != null) {
         onFunc();
       } else {
-        context.read<PlaylistsBloc>().add(ClearTempPlaylist());
+        if (context.mounted) context.read<PlaylistsBloc>().add(ClearTempPlaylist());
       }
     });
   }

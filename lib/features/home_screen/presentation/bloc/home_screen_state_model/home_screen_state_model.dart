@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
-import 'package:youtube/features/home_screen/data/repository/abs_home_screen_get_videos.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 
 class HomeScreenStateModel {
@@ -22,5 +21,4 @@ class HomeScreenStateModel {
     debugPrint("has more? :$hasMore");
   }
 
-  AbsHomeScreenGetVideos homeScreenApi(AbsHomeScreenGetVideos homeScreen) => homeScreen;
 }

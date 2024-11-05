@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:youtube/core/x_injection_containers/library_inj/library_inj.dart';
+import 'package:youtube/core/injections/library_inj/library_inj.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';

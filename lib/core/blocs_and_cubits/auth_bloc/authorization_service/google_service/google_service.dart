@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/authorization_service.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/extensions.dart';
 import 'package:youtube/core/utils/shared_preferences_helper.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/core/models/user.dart' as u;
 
 class GoogleService implements AuthorizationService {

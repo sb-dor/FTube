@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
-import 'package:youtube/features/home_screen/usecases/open_video_screen/open_video_screen.dart';
+import 'package:youtube/features/home_screen/domain/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_inner_screens/presentation/pages/history_inner_screen/history_inner_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';

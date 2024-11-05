@@ -1,6 +1,6 @@
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 
 class PlaylistVideosInnerScreenStateModel {
   final ReusableGlobalFunctions _globalFunctions = locator<ReusableGlobalFunctions>();

@@ -3,10 +3,8 @@ import 'package:youtube/core/api/api_settings.dart';
 import 'package:youtube/core/api/api_urls.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/utils/constants.dart';
-import 'package:youtube/features/home_screen/data/repository/abs_home_screen_get_categories.dart';
 
-class RestApiHomeScreenGetCategories implements AbsHomeScreenGetCategories {
-  @override
+class RestApiHomeScreenGetCategories {
   Future<Map<String, dynamic>> getCategories() async {
     Map<String, dynamic> res = {};
     try {

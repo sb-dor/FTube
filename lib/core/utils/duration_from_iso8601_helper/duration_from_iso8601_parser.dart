@@ -1,6 +1,5 @@
-
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
 
 abstract class DurationFromIso8601Helper {
   static String getDurationFromIso8601({required String? durationString}) {
@@ -18,8 +17,12 @@ abstract class DurationFromIso8601Helper {
     int? minutes = int.tryParse(_getNumFromString(value: match?.group(3)));
     int? seconds = int.tryParse(_getNumFromString(value: match?.group(4)));
 
-    Duration? duration =
-        Duration(days: days ?? 0, hours: hours ?? 0, minutes: minutes ?? 0, seconds: seconds ?? 0);
+    Duration? duration = Duration(
+      days: days ?? 0,
+      hours: hours ?? 0,
+      minutes: minutes ?? 0,
+      seconds: seconds ?? 0,
+    );
 
     return locator<DurationHelper>().getFromDuration(duration);
   }

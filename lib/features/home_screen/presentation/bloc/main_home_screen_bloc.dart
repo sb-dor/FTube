@@ -6,10 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
-import 'package:youtube/features/home_screen/data/sources/rest_api_home_screen.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
+import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
+import 'package:youtube/features/home_screen/domain/usecases/hs_get_categories.dart';
+import 'package:youtube/features/home_screen/domain/usecases/hs_get_videos.dart';
 import 'cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'home_screen_bloc_events.dart';
@@ -19,17 +21,30 @@ import 'home_screen_state_model/home_screen_state_model.dart';
 class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   late HomeScreenStateModel _currentState;
 
-  MainHomeScreenBloc() : super(InitialHomeScreenState(HomeScreenStateModel())) {
+  final HomeScreenRepo _homeScreenRepo;
+  late final HsGetVideos _hsGetVideos;
+  late final HsGetCategories _hsGetCategories;
+
+  MainHomeScreenBloc(this._homeScreenRepo) : super(InitialHomeScreenState(HomeScreenStateModel())) {
     _currentState = state.homeScreenStateModel;
 
-    on<RefreshHomeScreenEvent>((event, emit) async => await refreshHomeScreen(event, emit),
-        transformer: restartable());
+    _hsGetVideos = HsGetVideos(_homeScreenRepo);
+    _hsGetCategories = HsGetCategories(_homeScreenRepo);
 
-    on<PaginateHomeScreenEvent>((event, emit) async => await paginateHomeScreen(event, emit),
-        transformer: concurrent());
+    on<RefreshHomeScreenEvent>(
+      (event, emit) async => await refreshHomeScreen(event, emit),
+      transformer: restartable(),
+    );
 
-    on<SelectVideoCategoryEvent>((event, emit) async => await selectVideoCategoryEvent(event, emit),
-        transformer: droppable());
+    on<PaginateHomeScreenEvent>(
+      (event, emit) async => await paginateHomeScreen(event, emit),
+      transformer: concurrent(),
+    );
+
+    on<SelectVideoCategoryEvent>(
+      (event, emit) async => await selectVideoCategoryEvent(event, emit),
+      transformer: droppable(),
+    );
   }
 
   Future<void> refreshHomeScreen(
@@ -53,12 +68,12 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
     homeScreenVideosCubit.loadingHomeScreenVideosState();
 
-    var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
-          q: _currentState.videoCategory?.id == null
-              ? null
-              : _currentState.videoCategory?.videoCategorySnippet?.title,
-          clearSearch: true,
-        );
+    var data = await _hsGetVideos.homeScreenGetVideo(
+      q: _currentState.videoCategory?.id == null
+          ? null
+          : _currentState.videoCategory?.videoCategorySnippet?.title,
+      clearSearch: true,
+    );
 
     if (categoriesCubit.state is ErrorVideoCategoryState) {
       categoriesCubit.loadVideoCategory();
@@ -99,9 +114,9 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
     _currentState.paginating = true;
 
-    var data = await _currentState.homeScreenApi(RestApiHomeScreen()).homeScreenGetVideo(
-          q: _currentState.videoCategory?.videoCategorySnippet?.title,
-        );
+    var data = await _hsGetVideos.homeScreenGetVideo(
+      q: _currentState.videoCategory?.videoCategorySnippet?.title,
+    );
 
     _currentState.paginating = false;
 

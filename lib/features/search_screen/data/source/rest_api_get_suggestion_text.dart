@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:youtube/core/x_injection_containers/injection_container.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
 abstract class RestApiGetSuggestionText {

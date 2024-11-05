@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/models/video_category_models/video_category_snippet.dart';
-import 'package:youtube/features/home_screen/data/repository/abs_home_screen_get_categories.dart';
-import 'package:youtube/features/home_screen/data/sources/rest_api_home_screen_get_gategories.dart';
+import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
 import 'video_category_cubit_states.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
@@ -17,7 +17,7 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
     debugPrint("loading categories");
     videoCategories.clear();
     emit(LoadingVideoCategoryState());
-    var data = await AbsHomeScreenGetCategories(RestApiHomeScreenGetCategories()).getCategories();
+    var data = await locator<HomeScreenRepo>().getCategories();
     if (data.containsKey("server_error")) {
       emit(ErrorVideoCategoryState());
     } else if (data.containsKey("success")) {
