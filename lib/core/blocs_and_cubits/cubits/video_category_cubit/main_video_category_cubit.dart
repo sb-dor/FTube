@@ -7,23 +7,20 @@ import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
 import 'video_category_cubit_states.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
-  List<VideoCategory> videoCategories = [];
-
-  MainVideoCategoryCubit() : super(LoadingVideoCategoryState()) {
+  MainVideoCategoryCubit() : super(LoadingVideoCategoryState(List.empty())) {
     loadVideoCategory();
   }
 
   Future<void> loadVideoCategory() async {
     debugPrint("loading categories");
-    videoCategories.clear();
-    emit(LoadingVideoCategoryState());
+    emit(LoadingVideoCategoryState(List.empty()));
     var data = await locator<HomeScreenRepo>().getCategories();
     if (data.containsKey("server_error")) {
-      emit(ErrorVideoCategoryState());
+      emit(ErrorVideoCategoryState(List.empty()));
     } else if (data.containsKey("success")) {
-      videoCategories = data['categories'];
-      if (videoCategories.isNotEmpty) {
-        videoCategories.insert(
+      List<VideoCategory> list = data['categories'];
+      if (list.isNotEmpty) {
+        list.insert(
           0,
           VideoCategory(
             id: null,
@@ -31,9 +28,9 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
           ),
         );
       }
-      emit(LoadedVideoCategoryState());
+      emit(LoadedVideoCategoryState(list));
     } else {
-      emit(ErrorVideoCategoryState());
+      emit(ErrorVideoCategoryState(List.empty()));
     }
   }
 }

@@ -195,7 +195,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
     final message = rp.takeWhile((el) => el is String).cast<String>();
 
-    initYoutubeDataApi();
+    Injections.initYoutubeDataApi();
 
     await for (var each in message) {
       Map<String, dynamic> data = jsonDecode(each);

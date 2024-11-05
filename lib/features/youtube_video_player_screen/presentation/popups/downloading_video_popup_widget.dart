@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_states.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_states.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_states.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_states.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {

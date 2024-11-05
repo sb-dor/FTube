@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/open_popups/open_downloading_video_popup.dart';
 
 abstract class OpenDownloadingErrorPopup {
@@ -10,16 +10,18 @@ abstract class OpenDownloadingErrorPopup {
     required String content,
   }) async {
     await showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Something went wrong while video was downloading"),
-            content: const Text(
-                'Please, try to download the "Recommended" video from video downloading section'),
-            actions: _buttons(context),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Something went wrong while video was downloading"),
+          content: const Text(
+            'Please, try to download the "Recommended" video from video downloading section',
+          ),
+          actions: _buttons(context),
+        );
+      },
+    );
   }
 
   static List<Widget> _buttons(BuildContext context) {

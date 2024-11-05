@@ -6,8 +6,8 @@ import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/core/utils/share_helper/share_helper.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:youtube/widgets/text_widget.dart';
 
 class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {

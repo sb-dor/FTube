@@ -1,4 +1,4 @@
-import 'package:youtube/features/youtube_video_player_screen/domain/repositories/downloading_info.dart';
+import 'package:youtube/features/youtube_video_player_screen/domain/entities/downloading_info.dart';
 
 class DownloadingVideoInfo implements DownloadingInfo {
   @override

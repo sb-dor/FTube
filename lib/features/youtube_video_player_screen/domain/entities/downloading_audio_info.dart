@@ -1,4 +1,4 @@
-import '../repositories/downloading_info.dart';
+import 'downloading_info.dart';
 
 class DownloadingAudioInfo implements DownloadingInfo {
   @override

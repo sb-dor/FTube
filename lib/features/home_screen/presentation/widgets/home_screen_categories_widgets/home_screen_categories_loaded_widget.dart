@@ -21,10 +21,11 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       builder: (context) {
         final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
 
-        var videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>().videoCategories;
+        var videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>();
         var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
 
-        var listOfCategory = videoCategoriesStateModel.limit<VideoCategory>(limit: 5);
+        var listOfCategory =
+            videoCategoriesStateModel.state.videoCategories.limit<VideoCategory>(limit: 5);
         return SizedBox(
           height: 40,
           child: ListView.separated(

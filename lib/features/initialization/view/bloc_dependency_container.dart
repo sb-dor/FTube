@@ -17,11 +17,11 @@ import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/sea
 import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/similar_videos_cubit/similar_videos_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_downloading_cubit/video_downloading_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/cubits/video_information_cubit/video_information_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/similar_videos_cubit/similar_videos_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_information_cubit/video_information_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 
 class BlocDependencyContainer extends StatelessWidget {
   final Widget child;

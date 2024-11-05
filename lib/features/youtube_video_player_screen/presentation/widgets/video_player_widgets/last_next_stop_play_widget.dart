@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_cubit.dart';
-import 'package:youtube/features/youtube_video_player_screen/cubit/youtube_video_states.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 
 class LastNextStopPlayWidget extends StatelessWidget {
   final AnimationController animationController;

@@ -21,7 +21,7 @@ class AppRunner {
         await Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
         );
-        await initGetIt();
+        await Injections.initGetIt();
         await locator<SharedPreferencesHelper>().initPreferences();
         await APISettings.initDio();
         await locator<HiveDatabase>().initHive();

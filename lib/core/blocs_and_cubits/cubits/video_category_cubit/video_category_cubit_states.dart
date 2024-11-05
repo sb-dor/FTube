@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/core/models/video_category_models/video_category.dart';
 
 @immutable
-abstract class VideoCategoryCubitStates {}
+abstract final class VideoCategoryCubitStates {
+  final List<VideoCategory> videoCategories;
 
-class LoadingVideoCategoryState extends VideoCategoryCubitStates {}
+  const VideoCategoryCubitStates(this.videoCategories);
+}
 
-class ErrorVideoCategoryState extends VideoCategoryCubitStates {}
+final class LoadingVideoCategoryState extends VideoCategoryCubitStates {
+  const LoadingVideoCategoryState(super.videoCategories);
+}
 
-class LoadedVideoCategoryState extends VideoCategoryCubitStates {}
+final class ErrorVideoCategoryState extends VideoCategoryCubitStates {
+  const ErrorVideoCategoryState(super.videoCategories);
+}
+
+final class LoadedVideoCategoryState extends VideoCategoryCubitStates {
+  const LoadedVideoCategoryState(super.videoCategories);
+}

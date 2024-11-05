@@ -116,7 +116,7 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
     final message = isolateRp.takeWhile((element) => element is String).cast<String>();
 
-    initYoutubeDataApi();
+    Injections.initYoutubeDataApi();
 
     await for (final each in message) {
       Map<String, dynamic> json = jsonDecode(each);
