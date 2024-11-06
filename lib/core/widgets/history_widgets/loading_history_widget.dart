@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube/widgets/shimmer_container.dart';
+import 'package:youtube/core/widgets/shimmer_container.dart';
 
 class LoadingHistoryWidget extends StatelessWidget {
   const LoadingHistoryWidget({super.key});

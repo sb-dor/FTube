@@ -6,9 +6,9 @@ import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/sea
 import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
 import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
 import 'animated_search_bar/animated_search_bar.dart';
 import 'layouts/searching_body_sreen.dart';
 

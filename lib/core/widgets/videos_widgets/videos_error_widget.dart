@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/widgets/error_button_widget/error_button_widget.dart';
+import 'package:youtube/core/widgets/error_button_widget/error_button_widget.dart';
 
 class VideosErrorWidget extends StatelessWidget {
   final VoidCallback onTap;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/widgets/shimmer_container.dart';
+import 'package:youtube/core/widgets/shimmer_container.dart';
 
 class VideoInfoLikeButtonLoadingWidgets extends StatelessWidget {
   const VideoInfoLikeButtonLoadingWidgets({Key? key}) : super(key: key);

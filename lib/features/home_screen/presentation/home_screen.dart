@@ -6,9 +6,9 @@ import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_error_widget.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_loaded_widget.dart';
-import 'package:youtube/features/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
+import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
 import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
 import 'bloc/home_screen_bloc_events.dart';

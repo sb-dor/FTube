@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_event.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_state.dart';
-import 'package:youtube/features/widgets/playlist_widgets/loaded_playlist_widget.dart';
-import 'package:youtube/features/widgets/playlist_widgets/loading_playlist_widget.dart';
+import 'package:youtube/core/widgets/playlist_widgets/loaded_playlist_widget.dart';
+import 'package:youtube/core/widgets/playlist_widgets/loading_playlist_widget.dart';
 
 class PlaylistInnerScreen extends StatefulWidget {
   const PlaylistInnerScreen({super.key});

@@ -5,9 +5,9 @@ import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_event.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_state.dart';
-import 'package:youtube/features/widgets/history_inner_screen_widgets/history_inner_screen_error_widget.dart';
-import 'package:youtube/features/widgets/history_inner_screen_widgets/history_inner_screen_loaded_widget.dart';
-import 'package:youtube/features/widgets/history_inner_screen_widgets/history_inner_screen_loading_widget.dart';
+import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_error_widget.dart';
+import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_loaded_widget.dart';
+import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_loading_widget.dart';
 
 class PlaylistVideosInnerScreen extends StatefulWidget {
   final PlaylistModelDb? playlistModelDb;

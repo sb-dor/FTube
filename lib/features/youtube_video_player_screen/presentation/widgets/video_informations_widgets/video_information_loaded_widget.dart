@@ -10,7 +10,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/c
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_states.dart';
-import 'package:youtube/widgets/image_loader_widget.dart';
+import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
 import 'downloaded_button_widget/another_video_downloading.dart';
 import 'downloaded_button_widget/downloaded_button_widget.dart';
