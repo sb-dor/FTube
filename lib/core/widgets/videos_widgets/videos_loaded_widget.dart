@@ -121,8 +121,9 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         // setting false means that we are done with initializing
         _videoIsInitializing = false;
       }
-    } catch (e) {
-      debugPrint("_initEveryController error is: $e");
+    } catch (e, stackTrace) {
+      debugPrint("_initEveryController error is: $e |||||| $stackTrace");
+      await _clearController();
       FirebaseCrashlytics.instance.log(e.toString());
     }
   }
@@ -134,36 +135,42 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   }
 
   void _onPointerDownEvent(PointerDownEvent event) async {
-    if ((_timer?.isActive ?? false)) _timer?.cancel();
-    // timer checks whether user want to watch temp video or wants to enter to video
-    _timer = Timer(const Duration(seconds: 1), () async {
-      // just for showing loading before loading video (progress indicator)
-      _initializingVideoBeforeShowing = true;
-      setState(() {});
-      // while user touches the screen on video, check whether video was initialized
-      await _initEveryController();
-      // if the controller is still not initialized break the code
-      if (_videoPlayerController == null) return;
-      setState(() {});
-      // if the controller is not initialize, initialize it
-      if (!(_videoPlayerController?.value.isInitialized ?? false)) {
-        await _videoPlayerController?.initialize();
-      }
-      // if the video is not playing, start to play the video
-      if (!(_videoPlayerController?.value.isPlaying ?? false)) {
-        await _videoPlayerController?.play();
-        await _videoPlayerController?.setVolume(0);
-      }
+    try {
+      if ((_timer?.isActive ?? false)) _timer?.cancel();
+      // timer checks whether user want to watch temp video or wants to enter to video
+      _timer = Timer(const Duration(seconds: 1), () async {
+        // just for showing loading before loading video (progress indicator)
+        _initializingVideoBeforeShowing = true;
+        setState(() {});
+        // while user touches the screen on video, check whether video was initialized
+        await _initEveryController();
+        // if the controller is still not initialized break the code
+        if (_videoPlayerController == null) return;
+        setState(() {});
+        // if the controller is not initialize, initialize it
+        if (!(_videoPlayerController?.value.isInitialized ?? false)) {
+          await _videoPlayerController?.initialize();
+        }
+        // if the video is not playing, start to play the video
+        if (!(_videoPlayerController?.value.isPlaying ?? false)) {
+          await _videoPlayerController?.play();
+          await _videoPlayerController?.setVolume(0);
+        }
 
-      // set this variable to false saying that initializing was end (in order to remove circular progress indicator)
-      _initializingVideoBeforeShowing = false;
-      setState(() {});
+        // set this variable to false saying that initializing was end (in order to remove circular progress indicator)
+        _initializingVideoBeforeShowing = false;
+        setState(() {});
 
-      // after initializing the video, function starts to listen the video changes,
-      // whenever video pauses (not starts to buffer), that means that user changed video on screen.
-      // We have to set null to this widget's controller
-      _onPointerDownEventListener();
-    });
+        // after initializing the video, function starts to listen the video changes,
+        // whenever video pauses (not starts to buffer), that means that user changed video on screen.
+        // We have to set null to this widget's controller
+        _onPointerDownEventListener();
+      });
+    } catch (e) {
+      debugPrint("_onPointerDownEvent error is: $e");
+      await _clearController();
+      FirebaseCrashlytics.instance.log(e.toString());
+    }
   }
 
   void _onPointerDownEventListener() {
@@ -182,9 +189,12 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   Future<void> _clearController() async {
     // stop video before setting null
     await _videoPlayerController?.pause();
+    await _videoPlayerController?.dispose();
     _videoPlayerController = null;
     currentVideoGoingDuration = null;
-    if (mounted) setState(() {});
+    _videoIsInitializing = false;
+    _initializingVideoBeforeShowing = false;
+    if (context.mounted) setState(() {});
   }
 
   @override
