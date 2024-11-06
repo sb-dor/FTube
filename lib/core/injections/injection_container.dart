@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:youtube/core/injections/home_screen_inj/home_screen_inj.dart';
 import 'package:youtube/core/injections/library_inj/library_inj.dart';
+import 'package:youtube/core/injections/yt_video_player_screen_inj/yt_video_player_screen_inj.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/services/music_background_service.dart';
@@ -35,7 +36,11 @@ abstract final class Injections {
     // library inner playlist screen inj
     await PlaylistInnerScreenInj.playlistInnerScreenInj();
 
+    // home screen injection
     await HomeScreenInj.inject();
+
+    // youtube video player screen inj
+    await YtVideoPlayerScreenInj.inject();
 
     // db inj
     await DBInj.dbInj();

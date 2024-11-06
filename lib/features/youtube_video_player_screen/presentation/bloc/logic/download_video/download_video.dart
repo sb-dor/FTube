@@ -15,6 +15,7 @@ import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/utils/mixins/solve_percentage_mixin.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/features/youtube_video_player_screen/domain/usecases/downloading_video_usecase.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
@@ -113,9 +114,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
       // });
 
       if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        await DownloadingVideoRepository(path).download(
-          downloadingVideo.data,
-          stateModel,
+        await DownloadingVideoUseCase(path).download(
+          downloadingVideo: downloadingVideo.data,
+          stateModel: stateModel,
         );
         stateModel.isolateForDownloadingAudio = null;
       } else {
@@ -256,9 +257,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("SUCCESS");
-        await DownloadingVideoRepository(path).download(
-          File(outputPath).readAsBytesSync(),
-          stateModel,
+        await DownloadingVideoUseCase(path).download(
+          downloadingVideo: File(outputPath).readAsBytesSync(),
+          stateModel: stateModel,
         );
       } else if (ReturnCode.isCancel(returnCode)) {
         debugPrint("CANCEL");

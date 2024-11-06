@@ -10,7 +10,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/c
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_states.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {
   const DownloadingVideoPopupWidget({Key? key}) : super(key: key);
@@ -303,7 +303,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                   onPressed: () async =>
                                       await context.read<YoutubeVideoCubit>().downloadAudio(
                                             audioStreamInfo: audio,
-                                            path: DownloadingStoragePath.downloads,
+                                            path: DownloadingStoragePath.phoneStorage,
                                           ),
                                   icon: const Icon(Icons.download),
                                 ),
@@ -476,7 +476,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               child: IconButton(
                                   onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
                                         video,
-                                        DownloadingStoragePath.gallery,
+                                        DownloadingStoragePath.phoneStorage,
                                       ),
                                   icon: SizedBox(
                                       width: 40,

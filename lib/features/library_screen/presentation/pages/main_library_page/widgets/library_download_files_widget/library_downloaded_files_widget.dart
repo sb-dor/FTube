@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/pages/library_downloaded_page.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class LibraryDownloadedFilesWidget extends StatelessWidget {
   const LibraryDownloadedFilesWidget({super.key});

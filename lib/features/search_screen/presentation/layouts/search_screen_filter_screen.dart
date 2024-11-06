@@ -5,7 +5,7 @@ import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/o
 import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/widgets/circle_selected_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class SearchScreenFilterLayout extends StatelessWidget {
   const SearchScreenFilterLayout({super.key});

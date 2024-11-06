@@ -19,7 +19,8 @@ class DownloadVideoInGallery implements IDownloading {
     var dateTimeForVideoName = DateTime.now();
 
     var pathOfVideo = '${getTemporaryPath.path}/'
-        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}_${dateTimeForVideoName.toString()}")}.mp4';
+        '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
+            "_${dateTimeForVideoName.toString()}")}.mp4';
 
     File fileForSaving = File(pathOfVideo);
 

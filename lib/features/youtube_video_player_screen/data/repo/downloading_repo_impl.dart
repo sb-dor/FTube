@@ -2,7 +2,7 @@ import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i
 import 'package:youtube/features/youtube_video_player_screen/domain/repo/downloading_repository.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
-class DownloadingVideoRepoImpl implements DownloadingVideoRepository {
+class DownloadingVideoRepoImpl implements DownloadingRepository {
   final IDownloading _audioDownloading;
   final IDownloading _videoDownloading;
 

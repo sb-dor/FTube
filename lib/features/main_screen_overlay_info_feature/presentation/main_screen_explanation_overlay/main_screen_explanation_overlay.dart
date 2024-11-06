@@ -4,7 +4,7 @@ import 'package:youtube/core/animations/fade_animation.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screenoverlay_info_feature_state.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/state_model/main_screen_overlay_state_model.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class MainScreenExplanationOverlay extends StatelessWidget {
   const MainScreenExplanationOverlay({super.key});

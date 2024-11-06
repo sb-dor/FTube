@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class ChangeQualityVideoPopup extends StatelessWidget {
   const ChangeQualityVideoPopup({Key? key}) : super(key: key);

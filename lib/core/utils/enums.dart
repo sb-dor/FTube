@@ -2,4 +2,4 @@ enum LiveBroadcastContent { live, none }
 
 enum TypeContent { snippet, contentDetails, statistics }
 
-enum DownloadingStoragePath { appStorage, gallery, downloads }
+enum DownloadingStoragePath { appStorage, phoneStorage }

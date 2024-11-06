@@ -7,7 +7,7 @@ import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/h
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;

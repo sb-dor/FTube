@@ -11,7 +11,7 @@ import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/features/home_screen/domain/usecases/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 

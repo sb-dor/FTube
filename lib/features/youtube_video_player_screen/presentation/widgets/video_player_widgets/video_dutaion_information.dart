@@ -7,7 +7,7 @@ import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/widgets/video_full_screen_widget/video_full_screen_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class VideoDurationInformation extends StatelessWidget {
   final AnimationController animationController;

@@ -9,6 +9,7 @@ import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/downloading_audio_info.dart';
+import 'package:youtube/features/youtube_video_player_screen/domain/usecases/downloading_audio_usecase.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_downloading_cubit/video_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
@@ -53,33 +54,35 @@ class DownloadAudio {
         urlId: audioStreamInfo.url.toString(),
         downloadingProgress: 0.0,
         mainVideoId: stateModel.tempVideoId,
-
       );
       audioDownloadingCubit.audioGettingInformationState();
       debugPrint(
           "audio url: |${audioStreamInfo.size.totalKiloBytes}| ${audioStreamInfo.url.toString()}");
-      var data = await APISettings.dio.get<List<int>>(audioStreamInfo.url.toString(),
-          cancelToken: stateModel.cancelAudioToken, onReceiveProgress: (int receive, int total) {
-        audioDownloadingCubit.state.downloadingAudioInfo?.downloadingProgress = receive / total;
-        audioDownloadingCubit.audioDownloadingState();
-      },
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              "Connection": "Keep-Alive",
-              "Keep-Alive": "timeout=500, max=1000"
-            },
-            responseType: ResponseType.bytes,
-            receiveTimeout: const Duration(minutes: 5),
-            receiveDataWhenStatusError: true,
-          ));
+      var data = await APISettings.dio.get<List<int>>(
+        audioStreamInfo.url.toString(),
+        cancelToken: stateModel.cancelAudioToken,
+        onReceiveProgress: (int receive, int total) {
+          audioDownloadingCubit.state.downloadingAudioInfo?.downloadingProgress = receive / total;
+          audioDownloadingCubit.audioDownloadingState();
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            "Connection": "Keep-Alive",
+            "Keep-Alive": "timeout=500, max=1000"
+          },
+          responseType: ResponseType.bytes,
+          receiveTimeout: const Duration(minutes: 5),
+          receiveDataWhenStatusError: true,
+        ),
+      );
 
       audioDownloadingCubit.audioSavingOnStorageState();
 
-      await DownloadingAudioRepository(path).download(
-        data.data,
-        stateModel,
+      await DownloadingAudioUseCase(path).download(
+        downloadingVideo: data.data,
+        stateModel: stateModel,
       );
 
       audioDownloadingCubit.state.downloadingAudioInfo = null;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/core/animations/fade_animation.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class DownloadedButtonWidget extends StatelessWidget {
   final VoidCallback onTap;

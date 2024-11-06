@@ -8,7 +8,7 @@ import 'package:youtube/features/library_downloads/presentation/bloc/library_dow
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/state_model/library_downloads_state_model.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class DownloadedFileLoadedWidget extends StatelessWidget {
   final List<BaseDownloadedFileModel> downloadedFiles;

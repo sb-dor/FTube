@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class LibraryModuleTitleWidget extends StatelessWidget {
   final String title;

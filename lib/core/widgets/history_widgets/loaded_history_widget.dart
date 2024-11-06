@@ -11,7 +11,7 @@ import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/library_module_title_widget/library_module_title_widget.dart';
 import 'package:youtube/widgets/image_loader_widget.dart';
-import 'package:youtube/widgets/text_widget.dart';
+import 'package:youtube/core/widgets/text_widget.dart';
 
 class LoadedHistoryWidget extends StatelessWidget {
   final List<BaseVideoModelDb> videos;
