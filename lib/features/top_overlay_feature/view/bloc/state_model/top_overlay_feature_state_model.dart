@@ -8,4 +8,9 @@ class TopOverlayFeatureStateModel {
   void initController(VideoPlayerController? controller) {
     _playerController = controller;
   }
+
+  Future<void> disposeController() async {
+    await _playerController?.dispose();
+    _playerController = null;
+  }
 }

@@ -11,7 +11,7 @@ class TopOverlayLogic {
   OverlayEntry? _overlayEntry;
 
   // Method to show an overlay
-  void showOverlay(BuildContext context, String videoId) {
+  void showOverlay(BuildContext context, String videoId, Duration? position,) {
     if (_overlayEntry != null) {
       return; // Prevent multiple overlays
     }
@@ -20,6 +20,7 @@ class TopOverlayLogic {
       builder: (context) => TopOverlayFeature(
         overlayEntry: _overlayEntry!,
         videoId: videoId,
+        position: position,
       ),
     );
 

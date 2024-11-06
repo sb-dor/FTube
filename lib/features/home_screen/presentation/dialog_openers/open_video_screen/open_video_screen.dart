@@ -21,9 +21,11 @@ abstract class OpenVideoScreen {
         ),
       ).then((v) {
         if (context.mounted) {
+          final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
           TopOverlayLogic.instance.showOverlay(
             context,
-            context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel.tempVideoId ?? '',
+            model.videoUrlForOverlayRun ?? '',
+            model.lastVideoDurationForMediaBackground,
           );
         }
       });

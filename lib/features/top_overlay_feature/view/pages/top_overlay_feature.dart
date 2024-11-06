@@ -12,11 +12,13 @@ import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_ove
 class TopOverlayFeature extends StatefulWidget {
   final OverlayEntry overlayEntry;
   final String videoId;
+  final Duration? position;
 
   const TopOverlayFeature({
     super.key,
     required this.overlayEntry,
     required this.videoId,
+    required this.position,
   });
 
   @override
@@ -25,26 +27,34 @@ class TopOverlayFeature extends StatefulWidget {
 
 class _TopOverlayFeatureState extends State<TopOverlayFeature> {
   // late StreamSubscription _subscription;
+  late final TopOverlayFeatureBloc _topOverlayFeatureBloc;
 
   Offset offset = const Offset(20, 40);
 
   @override
   void dispose() {
     // _subscription.cancel();
+    _topOverlayFeatureBloc.add(DisposeOverlayVideoController());
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+    _topOverlayFeatureBloc = BlocProvider.of<TopOverlayFeatureBloc>(context);
     // _subscription = FlutterOverlayWindow.overlayListener.listen((event) {
-    //   context.read<TopOverlayFeatureBloc>().add(ConvertToLoadingState());
+    context.read<TopOverlayFeatureBloc>().add(ConvertToLoadingState());
     //   debugPrint("Current Event: $event | type: ${event.runtimeType}");
     //   if (event is! String) return;
     //   Map<String, dynamic> convertToJson = jsonDecode(event);
     //   if (!convertToJson.containsKey("url_for_run") || convertToJson['url_for_run'] == null) return;
     //   final String videoUrl = convertToJson['url_for_run'];
-    context.read<TopOverlayFeatureBloc>().add(InitOverlayVideoController(widget.videoId));
+    context.read<TopOverlayFeatureBloc>().add(
+          InitOverlayVideoController(
+            widget.videoId,
+            widget.position,
+          ),
+        );
     // });
   }
 
@@ -71,36 +81,87 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                 Positioned(
                   top: offset.dy,
                   left: offset.dx,
-                  child: Container(
-                    width: 250,
-                    height: 150,
-                    color: Colors.black,
-                    child: Center(
-                      child: state is LoadedOverlayFeatureState
-                          ? GestureDetector(
-                              onTap: () {},
-                              child: SizedBox.expand(
-                                child: FittedBox(
-                                  fit: currentState.playerController!.value.size.width >=
-                                          currentState.playerController!.value.size.height
-                                      ? BoxFit.cover
-                                      : BoxFit.scaleDown,
-                                  child: SizedBox(
-                                    width: currentState.playerController!.value.size.width,
-                                    height: currentState.playerController!.value.size.height,
-                                    child: VideoPlayer(
-                                      currentState.playerController!,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 250,
+                          height: 150,
+                          color: Colors.black,
+                          child: Center(
+                            child: state is LoadedOverlayFeatureState &&
+                                    currentState.playerController != null
+                                ? GestureDetector(
+                                    onTap: () {},
+                                    child: SizedBox.expand(
+                                      child: FittedBox(
+                                        fit: currentState.playerController!.value.size.width >=
+                                                currentState.playerController!.value.size.height
+                                            ? BoxFit.cover
+                                            : BoxFit.scaleDown,
+                                        child: SizedBox(
+                                          width: currentState.playerController!.value.size.width,
+                                          height: currentState.playerController!.value.size.height,
+                                          child: VideoPlayer(
+                                            currentState.playerController!,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : const Center(
+                                    child: SizedBox(
+                                      width: 15,
+                                      height: 15,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 3,
+                          right: 3,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // if (state is LoadedOverlayFeatureState &&
+                        //     currentState.playerController != null &&
+                        //     !(currentState.playerController?.value.isPlaying ?? false))
+                          Positioned(
+                            child: Material(
+                              color: Colors.black.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(50),
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(50),
+                                  onTap: () {},
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.play_arrow,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
                               ),
-                            )
-                          : const Text(
-                              "Video is not loaded",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
                             ),
+                          ),
+                      ],
                     ),
                   ),
                 ),

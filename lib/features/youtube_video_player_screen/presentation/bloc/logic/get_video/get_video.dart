@@ -137,6 +137,8 @@ abstract class GetVideo {
       ),
     );
 
+    debugPrint("video url: ${ minStreamVideo.url}");
+
     // Set the URL for overlay run in the state model
     stateModel.videoUrlForOverlayRun = minStreamVideo.url.toString();
 
