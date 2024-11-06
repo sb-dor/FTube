@@ -6,7 +6,9 @@ class SubscriptionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text("Subscriptions screen")),
+      body: Center(
+        child: Text("Subscriptions screen"),
+      ),
     );
   }
 }

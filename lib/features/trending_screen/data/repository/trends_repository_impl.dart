@@ -1,5 +1,5 @@
 import 'package:youtube/core/youtube_data_api/models/video.dart';
-import 'package:youtube/features/trending_screen/data/datasource/trends_remote_data_source.dart';
+import 'package:youtube/features/trending_screen/data/datasource/i_trends_remote_datasource.dart';
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
 
 class TrendsRepositoryImpl implements TrendsRepository {

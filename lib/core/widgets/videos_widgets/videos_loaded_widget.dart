@@ -8,7 +8,7 @@ import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
-import 'package:youtube/features/home_screen/domain/usecases/open_video_screen/open_video_screen.dart';
+import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';

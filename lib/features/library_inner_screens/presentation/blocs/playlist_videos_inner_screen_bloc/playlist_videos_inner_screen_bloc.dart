@@ -11,13 +11,13 @@ import 'playlist_videos_inner_screen_state.dart';
 class PlaylistVideosInnerScreenBloc
     extends Bloc<PlaylistVideosInnerScreenEvent, PlaylistVideosInnerScreenState> {
   final PlaylistInnerScreenRepository _playlistInnerScreenRepository;
-  late PlaylistVideosInnerScreenUsecase _playlistVideosInnerScreenUsecase;
+  late PlaylistVideosInnerScreenUseCase _playlistVideosInnerScreenUseCase;
   late PlaylistLikedVideosUseCase _playlistLikedVideosUseCase;
   late PlaylistVideosInnerScreenStateModel _currentState;
 
   PlaylistVideosInnerScreenBloc(this._playlistInnerScreenRepository)
       : super(LoadingPlaylistVideosInnerScreenState(PlaylistVideosInnerScreenStateModel())) {
-    _playlistVideosInnerScreenUsecase = PlaylistVideosInnerScreenUsecase(
+    _playlistVideosInnerScreenUseCase = PlaylistVideosInnerScreenUseCase(
       _playlistInnerScreenRepository,
     );
 
@@ -44,7 +44,7 @@ class PlaylistVideosInnerScreenBloc
     if (event.playlistModelDb?.id == 0) {
       data = await _playlistLikedVideosUseCase.getLikedVideos();
     } else {
-      data = await _playlistVideosInnerScreenUsecase.getPlaylistVideos(
+      data = await _playlistVideosInnerScreenUseCase.getPlaylistVideos(
         playlistModelDb: event.playlistModelDb,
       );
     }
@@ -66,7 +66,7 @@ class PlaylistVideosInnerScreenBloc
         currentListLength: _currentState.playlistVideos.length,
       );
     } else {
-      data = await _playlistVideosInnerScreenUsecase.getPlaylistVideos(
+      data = await _playlistVideosInnerScreenUseCase.getPlaylistVideos(
         currentListLength: _currentState.playlistVideos.length,
         playlistModelDb: event.playlistModelDb,
       );

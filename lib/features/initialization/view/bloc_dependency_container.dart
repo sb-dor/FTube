@@ -13,8 +13,8 @@ import 'package:youtube/features/library_inner_screens/presentation/blocs/playli
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
-import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
-import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_cubit.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
@@ -50,7 +50,7 @@ class BlocDependencyContainer extends StatelessWidget {
         BlocProvider(create: (_) => SimilarVideosCubit()),
 
         //search screen cubits:
-        BlocProvider(create: (_) => MainSearchScreenBloc()),
+        BlocProvider(create: (_) => locator<MainSearchScreenBloc>()),
         BlocProvider(create: (_) => SearchBodyCubit()),
         //
 

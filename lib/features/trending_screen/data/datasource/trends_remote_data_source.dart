@@ -1,15 +1,9 @@
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/trending_screen/data/models/trends_videos_model.dart';
 
-abstract class TrendsRemoteDataSource {
-  Future<List<TrendsVideosModel>> fetchTrendingVideo();
+import 'i_trends_remote_datasource.dart';
 
-  Future<List<TrendsVideosModel>> fetchTrendingMusic();
 
-  Future<List<TrendsVideosModel>> fetchTrendingGaming();
-
-  Future<List<TrendsVideosModel>> fetchTrendingMovies();
-}
 
 class TrendsRemoteDataSourceImpl implements TrendsRemoteDataSource {
   final YoutubeDataApi _youtubeDataApi;

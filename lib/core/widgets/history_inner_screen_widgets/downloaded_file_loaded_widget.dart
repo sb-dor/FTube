@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
-import 'package:youtube/features/library_downloads/domain/usecases/open_library_downloads_audio_listener_popup/open_library_downloads_audio_listener_popup.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/state_model/library_downloads_state_model.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
+import 'package:youtube/features/library_downloads/presentation/dialog_openers/open_library_downloads_audio_listener_popup/open_library_downloads_audio_listener_popup.dart';
 
 class DownloadedFileLoadedWidget extends StatelessWidget {
   final List<BaseDownloadedFileModel> downloadedFiles;

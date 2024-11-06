@@ -28,49 +28,19 @@ abstract class LibraryInj {
   }
 
   static Future<void> _libraryLocalInj() async {
-    // registrations
-    locator.registerLazySingleton<LibraryCreatePlaylistDataSource>(
-      () => LibraryCreatePlaylistLocally(),
-    );
-
-    locator.registerLazySingleton<LibraryGetPlaylistDataSource>(
-      () => LibraryGetPlaylistLocally(),
-    );
-
-    locator.registerLazySingleton<LibraryGetHistoryDataSource>(
-      () => LibraryGetHistoryLocally(),
-    );
-
-    locator.registerLazySingleton<LibrarySaveInHistoryDataSource>(
-      () => LibrarySaveInHistoryLocally(),
-    );
-
-    locator.registerLazySingleton<LibrarySetVideoInPlaylistDataSource>(
-      () => LibrarySetVideoInPlaylistLocally(),
-    );
-
-    locator.registerLazySingleton<LibraryGetVideoPlaylistDataSource>(
-      () => LibraryGetVideoPlaylistLocally(),
-    );
-
-    locator.registerLazySingleton<LibraryGetLikedVideoDataSource>(
-      () => LibraryGetLikedVideoDataSourceLocally(),
-    );
 
     locator.registerLazySingleton<LibraryScreenRepository>(
       () => LibraryScreenRepositoryImpl(
-        locator<LibraryCreatePlaylistDataSource>(),
-        locator<LibraryGetPlaylistDataSource>(),
-        locator<LibraryGetHistoryDataSource>(),
-        locator<LibrarySaveInHistoryDataSource>(),
-        locator<LibrarySetVideoInPlaylistDataSource>(),
-        locator<LibraryGetVideoPlaylistDataSource>(),
-        locator<LibraryGetLikedVideoDataSource>(),
+        LibraryCreatePlaylistLocally(),
+        LibraryGetPlaylistLocally(),
+        LibraryGetHistoryLocally(),
+        LibrarySaveInHistoryLocally(),
+        LibrarySetVideoInPlaylistLocally(),
+        LibraryGetVideoPlaylistLocally(),
+        LibraryGetLikedVideoDataSourceLocally(),
       ),
     );
   }
-
-  static _libraryFirebaseInj() {}
 
   static Future<void> _blocInit() async {
     locator.registerFactory<HistoryBloc>(

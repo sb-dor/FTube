@@ -5,11 +5,11 @@ import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_
 
 abstract final class HomeScreenInj {
   static Future<void> inject() async {
-    locator.registerLazySingleton<HomeScreenRepo>(() => HomeScreenRepoImpl());
+    final homeScreenRepoImpl = HomeScreenRepoImpl();
 
     locator.registerFactory<MainHomeScreenBloc>(
       () => MainHomeScreenBloc(
-        locator<HomeScreenRepo>(),
+        homeScreenRepoImpl,
       ),
     );
   }

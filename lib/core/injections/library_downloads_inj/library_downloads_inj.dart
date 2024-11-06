@@ -8,19 +8,12 @@ import 'package:youtube/features/library_downloads/presentation/bloc/library_dow
 abstract class LibraryDownloadsInj {
   static Future<void> libraryDownloadsInj() async {
     //
-    locator.registerLazySingleton<GetDownloadedFilesSource>(
-      () => GetDownloadedFilesSourceImpl(),
-    );
-
-    locator.registerLazySingleton<LibraryDownloadsRepository>(
-      () => LibraryDownloadsRepositoryImpl(
-        locator<GetDownloadedFilesSource>(),
-      ),
-    );
 
     locator.registerFactory<LibraryDownloadsBloc>(
       () => LibraryDownloadsBloc(
-        locator<LibraryDownloadsRepository>(),
+        LibraryDownloadsRepositoryImpl(
+          GetDownloadedFilesSourceImpl(),
+        ),
       ),
     );
   }

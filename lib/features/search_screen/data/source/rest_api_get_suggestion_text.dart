@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
-abstract class RestApiGetSuggestionText {
-  static Future<Map<String, dynamic>> getSuggestionSearch(String query) async {
+class RestApiGetSuggestionText {
+  Future<Map<String, dynamic>> getSuggestionSearch(String query) async {
     Map<String, dynamic> result = {};
     try {
       var response = await locator<YoutubeDataApi>().fetchSuggestions(

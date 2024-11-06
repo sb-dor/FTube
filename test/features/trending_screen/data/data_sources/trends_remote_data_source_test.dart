@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:youtube/features/trending_screen/data/datasource/trends_remote_data_source.dart';
+import 'package:youtube/features/trending_screen/data/datasource/i_trends_remote_datasource.dart';
 import 'package:youtube/features/trending_screen/data/models/trends_videos_model.dart';
 
 class MockTrendsRemoteDataSource extends Mock implements TrendsRemoteDataSource {}

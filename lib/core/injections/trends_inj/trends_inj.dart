@@ -7,16 +7,12 @@ import 'package:youtube/features/trending_screen/presentation/bloc/trending_scre
 
 abstract class TrendsInj {
   static Future<void> trendsInj() async {
-    locator.registerLazySingleton<TrendsRemoteDataSource>(
-      () => TrendsRemoteDataSourceImpl(locator<YoutubeDataApi>()),
-    );
+    final trendsRemoteDataSource = TrendsRemoteDataSourceImpl(locator<YoutubeDataApi>());
 
-    locator.registerLazySingleton<TrendsRepository>(
-      () => TrendsRepositoryImpl(locator<TrendsRemoteDataSource>()),
-    );
+    final trendsRepoImpl = TrendsRepositoryImpl(trendsRemoteDataSource);
 
     locator.registerFactory<TrendingScreenBloc>(
-      () => TrendingScreenBloc(locator<TrendsRepository>()),
+      () => TrendingScreenBloc(trendsRepoImpl),
     );
   }
 }

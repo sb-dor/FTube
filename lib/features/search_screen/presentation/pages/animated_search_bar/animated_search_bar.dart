@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
-import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_states.dart';
-import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
-import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
-import 'package:youtube/features/search_screen/presentation/popups/voice_recording_popup.dart';
-import 'package:youtube/features/search_screen/use_cases/open_search_screen_filter.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_cubit.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_states.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/main_search_screen_bloc.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/search_screen_events.dart';
+import 'package:youtube/features/search_screen/presentation/pages/dialog_openers/open_search_screen_filter.dart';
+import 'package:youtube/features/search_screen/presentation/pages/dialog_openers/voice_recording_popup.dart';
 
 class AnimatedSearchBar extends StatelessWidget {
   final AnimationController searchBarAnimationController;
@@ -100,8 +100,10 @@ class AnimatedSearchBar extends StatelessWidget {
                               right: 10,
                               bottom: 0,
                               child: _EndButton(
-                                voidCallback: () =>
-                                    OpenSearchScreenFilter.openSearchScreenFilter(context),
+                                voidCallback: () async =>
+                                    await OpenSearchScreenFilter.openSearchScreenFilter(
+                                  context,
+                                ),
                                 icon: Icons.filter_list,
                               ),
                             )
@@ -126,11 +128,11 @@ class AnimatedSearchBar extends StatelessWidget {
                               bottom: 0,
                               child: Material(
                                 child: _EndButton(
-                                  voidCallback: () {
+                                  voidCallback: () async {
                                     context
                                         .read<MainSearchScreenBloc>()
                                         .add(StartListeningSpeechEvent(context: context));
-                                    VoiceRecordingPopup.voiceRecordingPopup(context);
+                                    await VoiceRecordingPopup.voiceRecordingPopup(context);
                                   },
                                   icon: Icons.keyboard_voice,
                                 ),

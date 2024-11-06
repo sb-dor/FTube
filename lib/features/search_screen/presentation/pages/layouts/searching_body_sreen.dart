@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart';
-import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/main_search_screen_bloc.dart';
+import 'package:youtube/features/search_screen/presentation/bloc/search_screen_events.dart';
 
 class SearchingBodyScreen extends StatelessWidget {
   final List<String> suggests;
@@ -47,7 +47,9 @@ class SearchingBodyScreen extends StatelessWidget {
                     constraints: const BoxConstraints(),
                     padding: const EdgeInsets.all(2),
                     onPressed: () {
-                      context.read<MainSearchScreenBloc>().add(DeleteSearchedItemEvent(value));
+                      context.read<MainSearchScreenBloc>().add(
+                            DeleteSearchedItemEvent(value),
+                          );
                     },
                     style: const ButtonStyle(
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part

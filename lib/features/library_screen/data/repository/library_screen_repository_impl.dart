@@ -12,6 +12,7 @@ import 'package:youtube/features/library_screen/data/data_sources/library_save_i
 import 'package:youtube/features/library_screen/data/data_sources/library_set_video_in_playlist_data_source/library_set_video_in_playlist_data_source.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
 
+// I think that it's not the best idea to do
 class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   final LibraryCreatePlaylistDataSource _createPlaylistDataSource;
   final LibraryGetPlaylistDataSource _getPlaylistDataSource;
@@ -63,5 +64,6 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
       _getVideoPlaylistDataSource.videoPlaylist(baseVideoModelDb);
 
   @override
-  Future<List<BaseVideoModelDb>> getLikedVideo() => _libraryGetLikedVideoDataSource.getLikedVideos();
+  Future<List<BaseVideoModelDb>> getLikedVideo() =>
+      _libraryGetLikedVideoDataSource.getLikedVideos();
 }
