@@ -3,8 +3,6 @@ import 'dart:isolate';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
@@ -14,6 +12,8 @@ import 'package:youtube/features/home_screen/domain/usecases/hs_get_categories.d
 import 'package:youtube/features/home_screen/domain/usecases/hs_get_videos.dart';
 import 'cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
+import 'cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'home_screen_bloc_events.dart';
 import 'home_screen_bloc_states.dart';
 import 'home_screen_state_model/home_screen_state_model.dart';
@@ -78,6 +78,8 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     if (categoriesCubit.state is ErrorVideoCategoryState) {
       categoriesCubit.loadVideoCategory();
     }
+
+    debugPrint("coming data from server: $data");
 
     if (data.containsKey("server_error")) {
       // server error

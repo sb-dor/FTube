@@ -21,6 +21,7 @@ class RestApiHomeScreenGetCategories {
 
       res['categories'] = categories;
       res['success'] = true;
+      debugPrint("server categories: $res");
     } catch (e) {
       debugPrint("getCategories error is $e");
       res['server_error'] = true;

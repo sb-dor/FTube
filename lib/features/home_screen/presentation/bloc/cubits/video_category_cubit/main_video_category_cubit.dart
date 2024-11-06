@@ -4,6 +4,7 @@ import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/models/video_category_models/video_category_snippet.dart';
 import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
+import 'package:youtube/features/home_screen/domain/usecases/hs_get_categories.dart';
 import 'video_category_cubit_states.dart';
 
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
@@ -12,9 +13,10 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   }
 
   Future<void> loadVideoCategory() async {
-    debugPrint("loading categories");
+    debugPrint("loading categories 1");
     emit(LoadingVideoCategoryState(List.empty()));
-    var data = await locator<HomeScreenRepo>().getCategories();
+    var data = await HsGetCategories(locator<HomeScreenRepo>()).getCategories();
+    debugPrint("get categories data: ${data}");
     if (data.containsKey("server_error")) {
       emit(ErrorVideoCategoryState(List.empty()));
     } else if (data.containsKey("success")) {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'package:youtube/core/blocs_and_cubits/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
@@ -11,6 +9,8 @@ import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
 import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
+import 'bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'bloc/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'bloc/home_screen_bloc_events.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
@@ -29,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    // context.read<MainVideoCategoryCubit>().loadVideoCategory();
 
     context
         .read<MainHomeScreenBloc>()
@@ -63,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //data
       final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
       final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
-      debugPrint("is here working on scroll");
+      debugPrint("is here working on scroll | ${videoCategoryState}");
       return Column(
         children: [
           if (videoCategoryState is LoadingVideoCategoryState)
