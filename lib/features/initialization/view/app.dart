@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/features/initialization/models/app_routes.dart';

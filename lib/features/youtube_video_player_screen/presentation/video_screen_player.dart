@@ -2,11 +2,15 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/services/music_background_service.dart';
+import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
+import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feature.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/core/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
@@ -153,14 +157,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final youtubeStates = context.watch<YoutubeVideoCubit>().state;
-      final videoInformationStates = context.watch<VideoInformationCubit>().state;
-      final similarVideoCubit = context.watch<SimilarVideosCubit>();
+    return Builder(
+      builder: (context) {
+        final youtubeStates = context.watch<YoutubeVideoCubit>().state;
+        final videoInformationStates = context.watch<VideoInformationCubit>().state;
+        final similarVideoCubit = context.watch<SimilarVideosCubit>();
 
-      var youtubeStateModel = youtubeStates.youtubeVideoStateModel;
+        var youtubeStateModel = youtubeStates.youtubeVideoStateModel;
 
-      return DraggableScrollableSheet(
+        return DraggableScrollableSheet(
           controller: _scrollableController,
           initialChildSize: 1,
           expand: false,
@@ -336,8 +341,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                 ]),
               ),
             );
-          });
-    });
+          },
+        );
+      },
+    );
   }
 }
 

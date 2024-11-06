@@ -7,35 +7,45 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_events.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_states.dart';
+import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
 
 class TopOverlayFeature extends StatefulWidget {
-  const TopOverlayFeature({super.key});
+  final OverlayEntry overlayEntry;
+  final String videoId;
+
+  const TopOverlayFeature({
+    super.key,
+    required this.overlayEntry,
+    required this.videoId,
+  });
 
   @override
   State<TopOverlayFeature> createState() => _TopOverlayFeatureState();
 }
 
 class _TopOverlayFeatureState extends State<TopOverlayFeature> {
-  late StreamSubscription _subscription;
+  // late StreamSubscription _subscription;
+
+  Offset offset = const Offset(20, 40);
 
   @override
   void dispose() {
-    _subscription.cancel();
+    // _subscription.cancel();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _subscription = FlutterOverlayWindow.overlayListener.listen((event) {
-      context.read<TopOverlayFeatureBloc>().add(ConvertToLoadingState());
-      debugPrint("Current Event: $event | type: ${event.runtimeType}");
-      if (event is! String) return;
-      Map<String, dynamic> convertToJson = jsonDecode(event);
-      if (!convertToJson.containsKey("url_for_run") || convertToJson['url_for_run'] == null) return;
-      final String videoUrl = convertToJson['url_for_run'];
-      context.read<TopOverlayFeatureBloc>().add(InitOverlayVideoController(videoUrl));
-    });
+    // _subscription = FlutterOverlayWindow.overlayListener.listen((event) {
+    //   context.read<TopOverlayFeatureBloc>().add(ConvertToLoadingState());
+    //   debugPrint("Current Event: $event | type: ${event.runtimeType}");
+    //   if (event is! String) return;
+    //   Map<String, dynamic> convertToJson = jsonDecode(event);
+    //   if (!convertToJson.containsKey("url_for_run") || convertToJson['url_for_run'] == null) return;
+    //   final String videoUrl = convertToJson['url_for_run'];
+    context.read<TopOverlayFeatureBloc>().add(InitOverlayVideoController(widget.videoId));
+    // });
   }
 
   @override
@@ -43,17 +53,27 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
     return BlocBuilder<TopOverlayFeatureBloc, TopOverlayFeatureStates>(
       builder: (context, state) {
         final currentState = state.topOverlayFeatureStateModel;
-        return Material(
-          color: Colors.transparent,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(10),
-            ),
+        return DefaultTextStyle(
+          style: const TextStyle(
+            color: Colors.white,
+          ),
+          child: GestureDetector(
+            onTap: () {
+              TopOverlayLogic.instance.removeOverlay();
+            },
+            onPanUpdate: (details) {
+              offset += details.delta;
+              widget.overlayEntry.markNeedsBuild();
+            },
             child: Stack(
+              fit: StackFit.loose,
               children: [
-                Positioned.fill(
+                Positioned(
+                  top: offset.dy,
+                  left: offset.dx,
                   child: Container(
+                    width: 250,
+                    height: 150,
                     color: Colors.black,
                     child: Center(
                       child: state is LoadedOverlayFeatureState

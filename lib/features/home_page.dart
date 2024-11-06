@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
 import 'package:youtube/core/widgets/home_page_widgets/bottom_navigation_widget.dart';
@@ -62,34 +63,36 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return BlocBuilder<HomePageBottomNavbarCubit, HomePageBottomNavbarStates>(
       builder: (context, bottomNavbarStates) {
         var bottomNavbarState = bottomNavbarStates.homePageBottomNavbarCubit;
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: PreferredSize(
-            preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight + 40),
-            child: const HomePageAppBar(),
-          ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: _screens[bottomNavbarState.page],
-                ),
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeInOut,
-                  bottom: bottomNavbarState.showBottomNavbar ? 15 : -200,
-                  right: 15,
-                  left: 15,
-                  child: BottomNavigationWidget(animate: _animate),
-                )
-              ],
+        return PIPView(builder: (context, isFloating){
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: PreferredSize(
+              preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight + 40),
+              child: const HomePageAppBar(),
             ),
-          ),
-        );
+            body: SafeArea(
+              child: Stack(
+                children: [
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: _screens[bottomNavbarState.page],
+                  ),
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    bottom: bottomNavbarState.showBottomNavbar ? 15 : -200,
+                    right: 15,
+                    left: 15,
+                    child: BottomNavigationWidget(animate: _animate),
+                  )
+                ],
+              ),
+            ),
+          );
+        },);
       },
     );
   }

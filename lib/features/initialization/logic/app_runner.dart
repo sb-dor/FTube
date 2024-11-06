@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/api/api_settings.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/hive_database_helper/hive_database.dart';
@@ -36,7 +37,9 @@ class AppRunner {
         };
 
         runApp(
-          const BlocDependencyContainer(child: MainApp()),
+          const BlocDependencyContainer(
+            child: MainApp(),
+          ),
         );
       } catch (e, sTrace) {
         FirebaseCrashlytics.instance.recordError(e, sTrace, fatal: true);

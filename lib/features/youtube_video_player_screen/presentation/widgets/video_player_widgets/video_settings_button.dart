@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pip_view/pip_view.dart';
+import 'package:youtube/core/injections/injection_container.dart';
+import 'package:youtube/core/utils/global_context_helper.dart';
+import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feature.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/open_popups/open_change_quality_video_popup.dart';
 
 class VideoSettingsButton extends StatelessWidget {
@@ -23,10 +27,13 @@ class VideoSettingsButton extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () => OpenChangeQualityVideoPopup.openChangeQualityPopUp(
-              context,
-              fromFullScreen: fromFullScreen,
-            ),
+            onPressed: () {
+              OpenChangeQualityVideoPopup.openChangeQualityPopUp(
+                context,
+                fromFullScreen: fromFullScreen,
+              );
+              // PIPView.of(context)?.presentBelow(TopOverlayFeature());
+            },
             icon: const Icon(
               Icons.more_vert,
               color: Colors.white,

@@ -122,9 +122,9 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         _videoIsInitializing = false;
       }
     } catch (e, stackTrace) {
-      debugPrint("_initEveryController error is: $e |||||| $stackTrace");
+      debugPrint("_initEveryController error is: $e");
       await _clearController();
-      FirebaseCrashlytics.instance.log(e.toString());
+      FirebaseCrashlytics.instance.log("_initEveryController error is: $e |||||| $stackTrace");
     }
   }
 
@@ -166,10 +166,10 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         // We have to set null to this widget's controller
         _onPointerDownEventListener();
       });
-    } catch (e) {
+    } catch (e, stackTrace) {
       debugPrint("_onPointerDownEvent error is: $e");
       await _clearController();
-      FirebaseCrashlytics.instance.log(e.toString());
+      FirebaseCrashlytics.instance.log("_onPointerDownEvent error is: $e |||||| $stackTrace");
     }
   }
 

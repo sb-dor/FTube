@@ -505,14 +505,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  floating:
-    dependency: "direct main"
-    description:
-      name: floating
-      sha256: aaebbbf0cef0454f68476edb6d79ca9734ee0e0080a03cee75db42fcc462efb5
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0"
   floor:
     dependency: "direct main"
     description:
@@ -1128,6 +1120,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "11.0.1"
+  pip_view:
+    dependency: "direct main"
+    description:
+      name: pip_view
+      sha256: "1ba2abcc3229dc6df72e6f23e263c966f9b0fbf3cb6a4b87bbef01ad9a930c81"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.7"
   platform:
     dependency: transitive
     description:
