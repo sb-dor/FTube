@@ -142,25 +142,34 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                         // if (state is LoadedOverlayFeatureState &&
                         //     currentState.playerController != null &&
                         //     !(currentState.playerController?.value.isPlaying ?? false))
-                          Positioned(
-                            child: Material(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(50),
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: InkWell(
+                        Positioned.fill(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Center(
+                              child: Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(50),
-                                  onTap: () {},
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.play_arrow,
-                                      color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(50),
+                                    onTap: () {},
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.play_arrow,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
+                        ),
                       ],
                     ),
                   ),
