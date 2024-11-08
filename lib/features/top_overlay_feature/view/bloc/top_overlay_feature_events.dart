@@ -16,3 +16,5 @@ class InitOverlayVideoController extends TopOverlayFeatureEvents {
 class DisposeOverlayVideoController extends TopOverlayFeatureEvents {}
 
 class ConvertToLoadingState extends TopOverlayFeatureEvents {}
+
+class PlayAndPauseVideoEvent extends TopOverlayFeatureEvents {}

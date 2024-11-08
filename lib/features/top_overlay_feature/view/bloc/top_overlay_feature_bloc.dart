@@ -21,6 +21,8 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
       _currentState.initController(null);
       emit(LoadingOverlayFeatureState(_currentState));
     });
+
+    on<PlayAndPauseVideoEvent>(_playAndPauseVideoEvent);
   }
 
   void _initOverlayVideoController(
@@ -52,5 +54,18 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
   ) async {
     await _currentState.disposeController();
     emit(LoadedOverlayFeatureState(_currentState));
+  }
+
+  void _playAndPauseVideoEvent(
+    PlayAndPauseVideoEvent event,
+    Emitter<TopOverlayFeatureStates> emit,
+  ) async {
+    _currentState.setValueToPlaying(!_currentState.isPlaying);
+
+    if (_currentState.isPlaying) {
+      _currentState.playerController?.play();
+    } else {
+      _currentState.playerController?.pause();
+    }
   }
 }

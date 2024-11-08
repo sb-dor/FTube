@@ -85,16 +85,18 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                     borderRadius: BorderRadius.circular(10),
                     child: Stack(
                       children: [
-                        Container(
-                          width: 250,
-                          height: 150,
-                          color: Colors.black,
-                          child: Center(
-                            child: state is LoadedOverlayFeatureState &&
-                                    currentState.playerController != null
-                                ? GestureDetector(
-                                    onTap: () {},
-                                    child: SizedBox.expand(
+                        GestureDetector(
+                          onTap: () {
+                            // TODO: show stop overlay
+                          },
+                          child: Container(
+                            width: 250,
+                            height: 150,
+                            color: Colors.black,
+                            child: Center(
+                              child: state is LoadedOverlayFeatureState &&
+                                      currentState.playerController != null
+                                  ? SizedBox.expand(
                                       child: FittedBox(
                                         fit: currentState.playerController!.value.size.width >=
                                                 currentState.playerController!.value.size.height
@@ -108,18 +110,18 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  )
-                                : const Center(
-                                    child: SizedBox(
-                                      width: 15,
-                                      height: 15,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2,
+                                    )
+                                  : const Center(
+                                      child: SizedBox(
+                                        width: 15,
+                                        height: 15,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                            ),
                           ),
                         ),
                         Positioned(
@@ -144,7 +146,7 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                         //     !(currentState.playerController?.value.isPlaying ?? false))
                         Positioned.fill(
                           child: Material(
-                            color: Colors.transparent,
+                            color: Colors.black.withOpacity(0.5),
                             child: Center(
                               child: Container(
                                 width: 40,
@@ -157,10 +159,16 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                                   padding: const EdgeInsets.all(6.0),
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(50),
-                                    onTap: () {},
-                                    child: const Center(
+                                    onTap: () {
+                                      context.read<TopOverlayFeatureBloc>().add(
+                                            PlayAndPauseVideoEvent(),
+                                          );
+                                    },
+                                    child: Center(
                                       child: Icon(
-                                        Icons.play_arrow,
+                                        (currentState.playerController?.value.isPlaying ?? false)
+                                            ? Icons.stop
+                                            : Icons.play_arrow,
                                         color: Colors.white,
                                       ),
                                     ),
