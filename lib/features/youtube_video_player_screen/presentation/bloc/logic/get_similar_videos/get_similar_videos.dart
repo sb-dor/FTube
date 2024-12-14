@@ -3,15 +3,19 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/core/youtube_data_api/models/video_data.dart';
+import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
-abstract class GetSimilarVideos {
+ class GetSimilarVideos {
+   final YoutubeDataApi _youtubeDataApi;
+
+   GetSimilarVideos(this._youtubeDataApi);
+
   // Define a static method `getSimilarVideos` to fetch similar videos based on a video title
-  static Future<void> getSimilarVideos({
+   Future<void> getSimilarVideos({
     required String videoTitle, // The title of the video to find similar videos for
     required YoutubeVideoStateModel stateModel, // The state model that holds video data and state
     required BuildContext context, // The BuildContext used for accessing cubits
@@ -27,7 +31,7 @@ abstract class GetSimilarVideos {
     if (!paginating) similarVideosCubit.clearAndSetLoadingState();
 
     // Fetch similar videos using the RestApiGetVideoData
-    var data = await RestApiGetVideoData.getSearchVideo(q: videoTitle.trim());
+    var data = await RestApiGetVideoData(youtubeDataApi:_youtubeDataApi ).getSearchVideo(q: videoTitle.trim());
 
     // Check if the data contains a server error
     if (data.containsKey("server_error")) {
@@ -88,7 +92,7 @@ abstract class GetSimilarVideos {
     final message = isoLateRP.takeWhile((element) => element is String).cast<String>();
 
     // Initialize the YouTube Data API
-    Injections.initYoutubeDataApi();
+    // Injections.initYoutubeDataApi();
 
     // Process each message received from the main isolate
     await for (final eachM in message) {
@@ -106,7 +110,7 @@ abstract class GetSimilarVideos {
       // Fetch video data for each video and send it back to the main isolate
       await Future.wait(
         videos.map(
-          (e) => e.getVideoData().then(
+          (e) => e.getVideoData(YoutubeDataApi()).then(
             (value) {
               sp.send(e.videoData?.toJson());
             },

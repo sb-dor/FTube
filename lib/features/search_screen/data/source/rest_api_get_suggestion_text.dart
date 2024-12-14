@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
 class RestApiGetSuggestionText {
+  final YoutubeDataApi _youtubeDataApi;
+
+  RestApiGetSuggestionText(this._youtubeDataApi);
+
+
   Future<Map<String, dynamic>> getSuggestionSearch(String query) async {
     Map<String, dynamic> result = {};
     try {
-      var response = await locator<YoutubeDataApi>().fetchSuggestions(
+      var response = await _youtubeDataApi.fetchSuggestions(
         query.trim().isEmpty ? '""' : query.trim(),
       );
 

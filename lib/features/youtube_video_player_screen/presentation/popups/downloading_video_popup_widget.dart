@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
@@ -228,7 +227,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                     TextSpan(
                                         text:
                                             "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
-                                    if (!locator<ReusableGlobalFunctions>()
+                                    if (!ReusableGlobalFunctions.instance
                                         .checkMp4FromURI(value: audio.url.toString()))
                                       TextSpan(
                                         text: " - ${audio.bitrate}",
@@ -365,7 +364,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                   TextSpan(
                                       text:
                                           "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
-                                  if (!locator<ReusableGlobalFunctions>()
+                                  if (!ReusableGlobalFunctions.instance
                                       .checkMp4FromURI(value: video.url.toString()))
                                     TextSpan(
                                       text: " - ${video.bitrate}",
@@ -377,7 +376,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            if (locator<ReusableGlobalFunctions>()
+                            if (ReusableGlobalFunctions.instance
                                 .checkMp4FromURI(value: video.url.toString()))
                               TextWidget(
                                 text: "Recommended (Fast download - ${video.bitrate})",

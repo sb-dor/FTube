@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'package:audio_service/audio_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
 
 class YoutubeVideoStateModel {
-  var globalFunc = locator<ReusableGlobalFunctions>();
+  var globalFunc = ReusableGlobalFunctions.instance;
 
   YoutubeExplode? youtubeExplode;
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/api/api_settings.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/hive_database_helper/hive_database.dart';
 import 'package:youtube/core/utils/shared_preferences_helper.dart';
 import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
@@ -37,10 +36,6 @@ class AppRunner {
         };
 
         await APISettings.initDio();
-
-        await Injections.initGetIt();
-        await locator<SharedPreferencesHelper>().initPreferences();
-        await locator<HiveDatabase>().initHive();
 
         final appLogger = AppLoggerFactory(
           logFilter: kDebugMode ? DevelopmentFilter() : NoOpLogFilter(),

@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/permissions/permissions.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i_downloading.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
-import '../i_downloading.dart';
 
 class DownloadAudioInDownloadsFolder implements IDownloading {
-  final ReusableGlobalFunctions _reusableGlobalFunctions = locator<ReusableGlobalFunctions>();
-  final Permissions _permissions = locator<Permissions>();
+  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+  final Permissions _permissions;
+
+  DownloadAudioInDownloadsFolder(this._permissions);
 
   @override
   Future<void> download(

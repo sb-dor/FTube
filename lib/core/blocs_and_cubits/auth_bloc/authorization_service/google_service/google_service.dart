@@ -2,15 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/authorization_service/authorization_service.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/extensions.dart';
 import 'package:youtube/core/utils/shared_preferences_helper.dart';
 import 'package:youtube/core/models/user.dart' as u;
 
 class GoogleService implements AuthorizationService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final SharedPreferencesHelper _sharedPreferencesHelper = locator<SharedPreferencesHelper>();
+  const GoogleService({
+    required GoogleSignIn googleSignIn,
+    required FirebaseAuth firebaseAuth,
+    required SharedPreferencesHelper sharedPreferencesHelper,
+  })  : _googleSignIn = googleSignIn,
+        _firebaseAuth = firebaseAuth,
+        _sharedPreferencesHelper = sharedPreferencesHelper;
+
+  final GoogleSignIn _googleSignIn;
+  final FirebaseAuth _firebaseAuth;
+  final SharedPreferencesHelper _sharedPreferencesHelper;
 
   @override
   Future<Map<String, dynamic>> checkAuth() async {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
@@ -146,7 +145,7 @@ class _Widget extends StatelessWidget {
                                 padding: WidgetStatePropertyAll(EdgeInsets.all(0)),
                               ),
                               onPressed: () {
-                                locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
                                   context: context,
                                   videoModelDb: videoModelDb,
                                 );

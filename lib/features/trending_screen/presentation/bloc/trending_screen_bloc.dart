@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'dart:isolate';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/core/youtube_data_api/models/video_data.dart';
+import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_gaming.dart';
 import 'package:youtube/features/trending_screen/domain/usecases/get_trending_movies.dart';
@@ -116,8 +116,6 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
     final message = isolateRp.takeWhile((element) => element is String).cast<String>();
 
-    Injections.initYoutubeDataApi();
-
     await for (final each in message) {
       Map<String, dynamic> json = jsonDecode(each);
 
@@ -127,9 +125,11 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
       List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
 
+      YoutubeDataApi youtubeDataApi = YoutubeDataApi();
+
       await Future.wait(
         isolateVideos.map(
-          (e) => e.getVideoData().then((value) => sendPort.send(e.videoData?.toJson())),
+          (e) => e.getVideoData(youtubeDataApi).then((value) => sendPort.send(e.videoData?.toJson())),
         ),
       );
     }

@@ -2,17 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/list_paginator/list_paginator.dart';
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_inner_screen_data_source/playlist_inner_screen_data_source.dart';
 
 class PlaylistInnerScreenDataSourceImpl implements PlaylistInnerScreenDataSource {
+  final DbFloor _dbFloor;
+
+  PlaylistInnerScreenDataSourceImpl(this._dbFloor);
+
   @override
   Future<List<PlaylistModelDb>> getPlaylists({
     int page = 1,
     int currentListLength = 0,
   }) async {
-    final dbOfPlaylists = locator<DbFloor>().playListDao;
+    final dbOfPlaylists = _dbFloor.playListDao;
 
     var playlists = await dbOfPlaylists.getAllPlaylists();
 
@@ -25,7 +28,7 @@ class PlaylistInnerScreenDataSourceImpl implements PlaylistInnerScreenDataSource
 
     debugPrint("working here inner playlist screenj");
 
-    final result = locator<ListPaginator>().paginateList<PlaylistModelDb>(
+    final result = ListPaginator().paginateList<PlaylistModelDb>(
       wholeList: playlists,
       currentListLength: currentListLength,
     );
@@ -35,6 +38,6 @@ class PlaylistInnerScreenDataSourceImpl implements PlaylistInnerScreenDataSource
 
   @override
   Future<List<BaseVideoModelDb>> getAllLikes() async {
-    return await locator<DbFloor>().likeDao.getAllLikes();
+    return await _dbFloor.likeDao.getAllLikes();
   }
 }

@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:youtube/core/api/api_settings.dart';
-import 'package:youtube/core/injections/injection_container.dart';
+import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/utils/constants.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
+import 'package:youtube/core/utils/permissions/permissions.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/downloading_audio_info.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/downloading_audio_usecase.dart';
@@ -16,13 +17,15 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadAudio {
-  static final GlobalContextHelper _contextHelper = locator<GlobalContextHelper>();
-  static final ReusableGlobalFunctions _globalFunc = locator<ReusableGlobalFunctions>();
+  static final GlobalContextHelper _contextHelper = GlobalContextHelper.instance;
+  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
 
   static Future<void> download({
     required AudioStreamInfo audioStreamInfo,
     required DownloadingStoragePath path,
     required YoutubeVideoStateModel stateModel,
+    required DbFloor dbFloor,
+    required Permissions permissions,
   }) async {
     var audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
       _contextHelper.globalNavigatorContext.currentState!.context,
@@ -80,7 +83,11 @@ class DownloadAudio {
 
       audioDownloadingCubit.audioSavingOnStorageState();
 
-      await DownloadingAudioUseCase(path).download(
+      await DownloadingAudioUseCase(
+        path,
+        dbFloor,
+        permissions,
+      ).download(
         downloadingVideo: data.data,
         stateModel: stateModel,
       );

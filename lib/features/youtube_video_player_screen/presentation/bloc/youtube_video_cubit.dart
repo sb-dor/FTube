@@ -3,10 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/db_floor.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
+import 'package:youtube/core/utils/permissions/permissions.dart';
+import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/similar_videos_cubit/similar_videos_cubit.dart';
@@ -25,8 +26,19 @@ import 'youtube_video_states.dart';
 
 class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   late YoutubeVideoStateModel _currentState;
+  final DbFloor _dbFloor;
+  final YoutubeDataApi _youtubeDataApi;
+  final Permissions _permissions;
 
-  YoutubeVideoCubit() : super(InitialYoutubeVideoState(YoutubeVideoStateModel())) {
+  YoutubeVideoCubit(
+      {required DbFloor dbFloor,
+      required YoutubeDataApi youtubeDataApi,
+      required Permissions permission,
+      s})
+      : _dbFloor = dbFloor,
+        _youtubeDataApi = youtubeDataApi,
+        _permissions = permission,
+        super(InitialYoutubeVideoState(YoutubeVideoStateModel())) {
     _currentState = state.youtubeVideoStateModel;
   }
 
@@ -83,7 +95,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> getVideoInformation({required String videoId, required BuildContext context}) async {
-    await GetVideoInformation.getVideoInformation(
+    await GetVideoInformation(_youtubeDataApi).getVideoInformation(
       videoId: videoId,
       context: context,
       stateModel: _currentState,
@@ -92,7 +104,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> getSimilarVideos({required BuildContext context, bool paginating = false}) async {
-    await GetSimilarVideos.getSimilarVideos(
+    await GetSimilarVideos(_youtubeDataApi).getSimilarVideos(
       videoTitle: _currentState.videoData?.video?.title ?? '',
       stateModel: _currentState,
       context: context,
@@ -111,7 +123,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void _controllerListener() async {
-    _currentState.runningTime = locator<DurationHelper>().getFromDuration(
+    _currentState.runningTime = DurationHelper().getFromDuration(
       await _currentState.playerController?.position,
     );
 
@@ -184,7 +196,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> cancelTheVideo() async {
     var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
-        locator<GlobalContextHelper>().globalNavigatorContext.currentContext!);
+        GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
     await cancelTheAudio();
     _currentState.cancelVideoToken?.cancel();
     _currentState.cancelVideoToken = null;
@@ -200,7 +212,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> cancelTheAudio() async {
     var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
-      locator<GlobalContextHelper>().globalNavigatorContext.currentContext!,
+      GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
     );
     _currentState.cancelAudioToken?.cancel();
     _currentState.cancelAudioToken = null;
@@ -226,6 +238,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       video: video,
       path: path,
       stateModel: _currentState,
+      permissions: _permissions,
+      dbFloor: _dbFloor,
     );
   }
 
@@ -237,6 +251,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       audioStreamInfo: audioStreamInfo,
       path: path,
       stateModel: _currentState,
+      dbFloor: _dbFloor,
+      permissions: _permissions,
     );
   }
 
@@ -252,20 +268,20 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> checkVideoInBookmarks({required String videoId}) async {
     // print("okay budd workuing here bro");
-    final data = await locator<DbFloor>().playListDao.getVideoFromPlaylistVideos(videoId);
+    final data = await _dbFloor.playListDao.getVideoFromPlaylistVideos(videoId);
     if (data != null) _currentState.isVideoAddedToBookMarks = true;
     emit(InitialYoutubeVideoState(_currentState));
   }
 
   Future<void> checkVideoInFavorites() async {
-    await CheckVideoInFavorites.checkVideoInFavorites(
+    await CheckVideoInFavorites(_dbFloor).checkVideoInFavorites(
       stateModel: _currentState,
       emit: emit,
     );
   }
 
   Future<void> likeVideo() async {
-    await LikeVideo.likeVideo(
+    await LikeVideo(_dbFloor).likeVideo(
       stateModel: _currentState,
       emit: emit,
     );

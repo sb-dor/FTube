@@ -1,10 +1,15 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:audio_session/audio_session.dart';
 
 class JustAudioBackgroundHelper {
+  static JustAudioBackgroundHelper? _instance;
+
+  static JustAudioBackgroundHelper get instance => _instance ??= JustAudioBackgroundHelper._();
+
+  JustAudioBackgroundHelper._();
+
   Future<void> initJustAudioBackground() async {
     await JustAudioBackground.init(
       androidNotificationChannelId: "com.ryanheise.bg_demo.channel.audio",

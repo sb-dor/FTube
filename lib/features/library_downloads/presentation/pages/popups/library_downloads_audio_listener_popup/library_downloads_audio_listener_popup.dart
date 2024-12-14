@@ -6,7 +6,6 @@ import 'package:text_marquee/text_marquee.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/services/audio_background_service.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
@@ -27,8 +26,8 @@ class LibraryDownloadsAudioListenerPopup extends StatefulWidget {
 
 class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAudioListenerPopup>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  final _durationHelper = locator<DurationHelper>();
-  final _globalFunctions = locator<ReusableGlobalFunctions>();
+  final _durationHelper = DurationHelper();
+  final _globalFunctions = ReusableGlobalFunctions.instance;
 
   AudioPlayer? _audioPlayer;
 
@@ -155,7 +154,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   void dispose() async {
     _audioPlayer?.dispose();
     _videoController?.dispose();
-    final audioHandler = locator<JustAudioBackgroundHelper>();
+    final audioHandler = JustAudioBackgroundHelper.instance;
     await audioHandler.stopPlayer();
     super.dispose();
   }
@@ -170,7 +169,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
-      final audioHandler = locator<JustAudioBackgroundHelper>();
+      final audioHandler = JustAudioBackgroundHelper.instance;
       await audioHandler.stopPlayer();
     } else if (state == AppLifecycleState.hidden) {
     } else if (state == AppLifecycleState.inactive) {
@@ -179,7 +178,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
         //
         _backgroundAudioLoaded = true;
 
-        final audioService = locator<JustAudioBackgroundHelper>();
+        final audioService = JustAudioBackgroundHelper.instance;
 
         audioService.setNewAudioSources(
           localFilesPaths: [
@@ -192,7 +191,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
       //
 
       if (_isVideo) {
-        final audioHandler = locator<JustAudioBackgroundHelper>();
+        final audioHandler = JustAudioBackgroundHelper.instance;
         await _videoController?.seekTo(audioHandler.lastSavedDuration ?? Duration.zero);
         await audioHandler.stopPlayer();
         _backgroundAudioLoaded = false;

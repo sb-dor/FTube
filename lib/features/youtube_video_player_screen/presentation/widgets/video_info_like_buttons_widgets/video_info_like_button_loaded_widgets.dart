@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:youtube/core/animations/fade_animation.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/core/utils/share_helper/share_helper.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
@@ -92,7 +91,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
-                      onTap: () async => await locator<ShareHelper>().shareVideoPath(
+                      onTap: () async => await ShareHelper().shareVideoPath(
                         currentState.tempVideoId,
                       ),
                       borderRadius: BorderRadius.circular(50),
@@ -132,7 +131,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                       onTap: () async {
                         VideoModelDb? model = VideoModelDb.fromVideoData(currentState.videoData);
                         model?.videoThumbnailUrl = currentState.videoPicture;
-                        await locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                        await ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
                           context: context,
                           videoModelDb: model,
                           onFunc: () async {

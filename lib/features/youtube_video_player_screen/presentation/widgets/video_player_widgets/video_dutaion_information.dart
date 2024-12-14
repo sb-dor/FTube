@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/animations/fade_animation.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
@@ -56,7 +55,7 @@ class VideoDurationInformation extends StatelessWidget {
                 Row(
                   children: [
                     TextWidget(
-                      text: locator<DurationHelper>().getFromDuration(
+                      text: DurationHelper().getFromDuration(
                         currentState.playerController!.value.duration,
                       ),
                       size: 13,

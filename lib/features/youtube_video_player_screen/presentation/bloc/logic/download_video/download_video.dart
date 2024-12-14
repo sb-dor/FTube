@@ -9,11 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube/core/api/api_settings.dart';
-import 'package:youtube/core/injections/injection_container.dart';
+import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/utils/constants.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/utils/mixins/solve_percentage_mixin.dart';
+import 'package:youtube/core/utils/permissions/permissions.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/usecases/downloading_video_usecase.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
@@ -23,13 +24,15 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {
-  static final ReusableGlobalFunctions _globalFunc = locator<ReusableGlobalFunctions>();
-  static final GlobalContextHelper _globalContextHelper = locator<GlobalContextHelper>();
+  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
 
   static Future<void> downloadVideo({
     required VideoStreamInfo video,
     required YoutubeVideoStateModel stateModel,
     required DownloadingStoragePath path,
+    required DbFloor dbFloor,
+    required Permissions permissions,
   }) async {
     var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
       _globalContextHelper.globalNavigatorContext.currentState!.context,
@@ -114,7 +117,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
       // });
 
       if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        await DownloadingVideoUseCase(path).download(
+        await DownloadingVideoUseCase(path, dbFloor, permissions).download(
           downloadingVideo: downloadingVideo.data,
           stateModel: stateModel,
         );
@@ -130,6 +133,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
               downloadingVideo: downloadingVideo.data ?? <int>[],
               downloadingAudio: message,
               path: path,
+              dbFloor: dbFloor,
+              permissions: permissions,
             );
             // isolate?.kill();
           });
@@ -141,6 +146,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
             downloadingVideo: downloadingVideo.data ?? <int>[],
             downloadingAudio: audioList ?? <int>[],
             path: path,
+            dbFloor: dbFloor,
+            permissions: permissions,
           );
         }
       }
@@ -206,6 +213,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
     required List<int> downloadingVideo,
     required List<int> downloadingAudio,
     required DownloadingStoragePath path,
+    required DbFloor dbFloor,
+    required Permissions permissions,
   }) async {
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
@@ -257,7 +266,11 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
       if (ReturnCode.isSuccess(returnCode)) {
         debugPrint("SUCCESS");
-        await DownloadingVideoUseCase(path).download(
+        await DownloadingVideoUseCase(
+          path,
+          dbFloor,
+          permissions,
+        ).download(
           downloadingVideo: File(outputPath).readAsBytesSync(),
           stateModel: stateModel,
         );

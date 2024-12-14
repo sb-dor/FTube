@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_env.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/channel.dart' as ytch;
@@ -8,6 +7,11 @@ import 'package:youtube/core/youtube_data_api/models/playlist.dart' as ytp;
 
 // here rename
 class RestApiHomeScreen {
+
+  final YoutubeDataApi _youtubeDataApi;
+
+  RestApiHomeScreen(this._youtubeDataApi);
+
   Future<Map<String, dynamic>> homeScreenGetVideo({
     String? q,
     bool clearSearch = false,
@@ -26,11 +30,11 @@ class RestApiHomeScreen {
       //   List<dynamic> listItem = json['items'];
       //   List<Video> videos = listItem.map((e) => Video.fromJson(e)).toList();
 
-      String query = q ?? (await locator.get<YoutubeDataApi>().fetchRandomWord() ?? '');
+      String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
 
       debugPrint("making req: $query");
 
-      var data = await locator.get<YoutubeDataApi>().fetchSearchVideo(
+      var data = await _youtubeDataApi.fetchSearchVideo(
             query,
             YOUTUBE_API_KEY,
             clearLastSearch: clearSearch,

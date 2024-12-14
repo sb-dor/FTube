@@ -1,4 +1,3 @@
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
 import 'package:youtube/features/trending_screen/data/datasource/i_trends_remote_datasource.dart';

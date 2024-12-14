@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'package:gal/gal.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i_downloading.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
 class DownloadVideoInGallery implements IDownloading {
-  ReusableGlobalFunctions reusableGlobalFunctions = locator<ReusableGlobalFunctions>();
+  ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
   Future<void> download(

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
 import 'package:youtube/core/db/db_floor.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/mixins/storage_helper.dart';
 import 'package:youtube/core/utils/regex_helper/regex_helper.dart';
 import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source/get_downloaded_files_source.dart';
@@ -11,6 +10,10 @@ import 'package:collection/collection.dart';
 class GetDownloadedFilesSourceImpl
     with StorageHelper, RegexHelper
     implements GetDownloadedFilesSource {
+  GetDownloadedFilesSourceImpl({required DbFloor dbFloor}) : _dbFloor = dbFloor;
+
+  final DbFloor _dbFloor;
+
   // Override the loadDownloadFiles method from the GetDownloadedFilesSource interface
   @override
   Future<List<BaseDownloadedFileModel>> loadDownloadFiles() async {
@@ -21,7 +24,7 @@ class GetDownloadedFilesSourceImpl
     var dataFromStorage = await externalStorage?.list().toList();
 
     // Retrieve the list of downloaded files from the database using the locator pattern
-    var dataFromDb = await locator<DbFloor>().downloadedFiles.getDownloadedFiles();
+    var dataFromDb = await _dbFloor.downloadedFiles.getDownloadedFiles();
 
     // Loop through each downloaded file in the database
     for (int i = 0; i < dataFromDb.length; i++) {

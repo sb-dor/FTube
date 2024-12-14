@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
@@ -97,7 +96,7 @@ class _Widget extends StatelessWidget {
                       child: Center(
                         child: TextWidget(
                           text:
-                              "${locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile)}",
+                              "${ReusableGlobalFunctions.instance.fileExtensionName(downloadedFile)}",
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.9,
@@ -148,20 +147,19 @@ class _Widget extends StatelessWidget {
                                 baseDownloadedFileModel: downloadedFile,
                               ),
                             ),
-                        icon:
-                            locator<ReusableGlobalFunctions>().fileExtensionName(downloadedFile) ==
-                                    "mp4"
-                                ? SizedBox(
-                                    width: 25,
-                                    height: 25,
-                                    child: Image.asset(
-                                      "assets/download_icons/gallery_save.png",
-                                    ),
-                                  )
-                                : const Icon(
-                                    Icons.download,
-                                    size: 20,
-                                  ),
+                        icon: ReusableGlobalFunctions.instance.fileExtensionName(downloadedFile) ==
+                                "mp4"
+                            ? SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: Image.asset(
+                                  "assets/download_icons/gallery_save.png",
+                                ),
+                              )
+                            : const Icon(
+                                Icons.download,
+                                size: 20,
+                              ),
                       ),
                     ),
                   )

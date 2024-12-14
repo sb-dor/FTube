@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
@@ -20,7 +19,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
-  final GlobalContextHelper _globalContextHelper = locator<GlobalContextHelper>();
+  final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
   late AnimationController _searchBarAnimationController;
   late Animation<double> _searchBarAnimation;
   final ScrollController _scrollController = ScrollController();

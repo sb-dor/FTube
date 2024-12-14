@@ -1,13 +1,17 @@
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/constants.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_playlist_data_source/library_get_playlist_data_source.dart';
 
 class LibraryGetPlaylistLocally implements LibraryGetPlaylistDataSource {
+  final DbFloor _dbFloor;
+
+
+  LibraryGetPlaylistLocally(this._dbFloor);
+
   @override
   Future<List<PlaylistModelDb>> getPlaylists({int page = 1}) async {
-    final dbOfPlaylists = locator<DbFloor>().playListDao;
+    final dbOfPlaylists = _dbFloor.playListDao;
 
     var playlists = await dbOfPlaylists.getPlaylists(Constants.kListViewLength);
 

@@ -2,15 +2,10 @@ import 'dart:isolate';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pip_view/pip_view.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/services/audio_background_service.dart';
-import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
-import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
-import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feature.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/core/widgets/custom_clipper_helper/custom_clipper_helper.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
@@ -98,7 +93,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
       debugPrint("AppLife is: detached");
-      final audioHandler = locator<JustAudioBackgroundHelper>();
+      final audioHandler = JustAudioBackgroundHelper.instance;
       await audioHandler.stopPlayer();
     } else if (state == AppLifecycleState.hidden) {
       debugPrint("AppLife is: hidden");
@@ -134,7 +129,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
               false)) {
         _youtubeVideoCubit.loadedMusicForBackground(value: true);
 
-        final audioService = locator<JustAudioBackgroundHelper>();
+        final audioService = JustAudioBackgroundHelper.instance;
 
         audioService.setNewAudioSources(
           items: [
@@ -145,7 +140,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         );
       }
     } else if (state == AppLifecycleState.resumed) {
-      final audioHandler = locator<JustAudioBackgroundHelper>();
+      final audioHandler = JustAudioBackgroundHelper.instance;
       await _youtubeVideoCubit.seekToTheDurationPosition(audioHandler.lastSavedDuration);
       await audioHandler.stopPlayer();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);

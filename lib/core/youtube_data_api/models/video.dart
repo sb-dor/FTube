@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'video_data.dart';
@@ -177,10 +176,10 @@ class Video {
     };
   }
 
-  Future<void> getVideoData() async {
+  Future<void> getVideoData(YoutubeDataApi youtubeDataApi) async {
     try {
       if (videoId == null) return;
-      videoData = await locator.get<YoutubeDataApi>().fetchVideoData(videoId!);
+      videoData = await youtubeDataApi.fetchVideoData(videoId!);
       loadingVideoData = false;
     } catch (e) {
       debugPrint("get video data error is $e");

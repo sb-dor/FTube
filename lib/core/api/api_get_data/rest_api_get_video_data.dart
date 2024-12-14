@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_env.dart';
 import 'package:youtube/core/api/api_urls.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/channel.dart' as ytc;
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
-abstract class RestApiGetVideoData {
-  static Future<Map<String, dynamic>> getVideoInfo({
+class RestApiGetVideoData {
+  RestApiGetVideoData({required YoutubeDataApi youtubeDataApi}) : _youtubeDataApi = youtubeDataApi;
+
+  final YoutubeDataApi _youtubeDataApi;
+
+  Future<Map<String, dynamic>> getVideoInfo({
     required TypeContent videoContent,
     required String? videoId,
   }) async {
@@ -17,7 +20,7 @@ abstract class RestApiGetVideoData {
     // String part = _partBuilder(videoContent);
 
     try {
-      var response = await locator<YoutubeDataApi>().fetchVideoData(videoId ?? '');
+      var response = await _youtubeDataApi.fetchVideoData(videoId ?? '');
 
       result['success'] = true;
       result['item'] = response;
@@ -45,14 +48,14 @@ abstract class RestApiGetVideoData {
     return result;
   }
 
-  static Future<Map<String, dynamic>> getSearchVideo({
+  Future<Map<String, dynamic>> getSearchVideo({
     required String q,
     bool refresh = false,
     String? orderBy,
   }) async {
     Map<String, dynamic> results = {};
     try {
-      List<dynamic>? list = await locator<YoutubeDataApi>().fetchSearchVideo(
+      List<dynamic>? list = await _youtubeDataApi.fetchSearchVideo(
         q,
         YOUTUBE_API_KEY,
         clearLastSearch: refresh,
@@ -104,8 +107,6 @@ abstract class RestApiGetVideoData {
         return contentDetailsPart;
       case TypeContent.statistics:
         return statisticsPart;
-      default:
-        return contentDetailsPart;
     }
   }
 }

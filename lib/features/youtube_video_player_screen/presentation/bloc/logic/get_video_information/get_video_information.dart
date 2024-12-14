@@ -3,14 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/core/utils/enums.dart';
+import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/video_information_cubit/video_information_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:collection/collection.dart';
 
-abstract class GetVideoInformation {
+ class GetVideoInformation {
+  final YoutubeDataApi _youtubeDataApi;
+
+  GetVideoInformation(this._youtubeDataApi);
+
   // Define a static method `getVideoInformation` to fetch video information based on a video ID
-  static Future<void> getVideoInformation({
+  Future<void> getVideoInformation({
     required String videoId, // The ID of the video to fetch information for
     required BuildContext
         context, // The BuildContext used for checking if the widget is still mounted
@@ -28,7 +33,7 @@ abstract class GetVideoInformation {
 
     try {
       // Fetch video information using RestApiGetVideoData
-      var data = await RestApiGetVideoData.getVideoInfo(
+      var data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
         videoContent: TypeContent.snippet, // Specify the type of content to fetch
         videoId: videoId, // Provide the video ID
       );

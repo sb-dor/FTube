@@ -2,14 +2,17 @@ import 'dart:io';
 
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/downloaded_file_db/file_downloaded_model/file_downloaded_model.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/mixins/storage_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 import '../i_downloading.dart';
 
 class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
-  final ReusableGlobalFunctions _reusableGlobalFunctions = locator<ReusableGlobalFunctions>();
+  final DbFloor _dbFloor;
+
+  DownloadAudioInAppStorage(this._dbFloor);
+
+  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
   Future<void> download(
@@ -32,7 +35,7 @@ class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
       data.imagePath = stateModel.videoPicture;
       data.downloadedPath = pathOfAudio;
       fileForSaving.writeAsBytesSync(downloadData);
-      await locator<DbFloor>().downloadedFiles.insertDownloadedFile(data);
+      await _dbFloor.downloadedFiles.insertDownloadedFile(data);
     }
   }
 }

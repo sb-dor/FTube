@@ -1,4 +1,3 @@
-import 'package:youtube/core/injections/injection_container.dart';
 import 'hive_database.dart';
 
 class HiveDatabaseHelper {
@@ -8,7 +7,9 @@ class HiveDatabaseHelper {
 
   // static HiveDatabaseHelper get instance => _instance ??= HiveDatabaseHelper._();
 
-  final HiveDatabase _database = locator<HiveDatabase>();
+  const HiveDatabaseHelper({required HiveDatabase database}) : _database = database;
+
+  final HiveDatabase _database;
 
   Future<List<String>> getSearchData() async {
     var data = await _database.getFromBox(boxName: 'search_data');

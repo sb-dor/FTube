@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pip_view/pip_view.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/features/initialization/models/app_routes.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
@@ -26,7 +24,7 @@ class _MainAppState extends State<MainApp> {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
       child: MaterialApp.router(
-        scaffoldMessengerKey: locator<GlobalContextHelper>().globalNavigatorContext,
+        scaffoldMessengerKey: GlobalContextHelper.instance.globalNavigatorContext,
         theme: ThemeData(useMaterial3: true),
         debugShowCheckedModeBanner: false,
         routerConfig: goRouter,

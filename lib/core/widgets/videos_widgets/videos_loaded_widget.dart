@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
-import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
@@ -61,10 +60,10 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   VideoPlayerController? _videoPlayerController;
 
   // for getting info about videos
-  final YoutubeExplode _youtubeExplode = locator<YoutubeExplode>();
+  final YoutubeExplode _youtubeExplode = YoutubeExplode();
 
   // reusable functions that use in app
-  final ReusableGlobalFunctions _globalFunctions = locator<ReusableGlobalFunctions>();
+  final ReusableGlobalFunctions _globalFunctions = ReusableGlobalFunctions.instance;
 
   // temp values for changing ui and "if" statements
   bool _initializingVideoBeforeShowing = false, _videoIsInitializing = false;
@@ -131,6 +130,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   @override
   void dispose() {
     _videoPlayerController?.dispose();
+    _youtubeExplode.close();
     super.dispose();
   }
 
@@ -180,7 +180,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         await _clearController();
       } else {
         currentVideoGoingDuration =
-            locator<DurationHelper>().getFromDuration(await _videoPlayerController?.position);
+            DurationHelper().getFromDuration(await _videoPlayerController?.position);
         setState(() {});
       }
     });
@@ -297,7 +297,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                       WidgetStatePropertyAll(Colors.black.withOpacity(0.2))),
                               onPressed: () {
                                 VideoModelDb model = VideoModelDb.fromVideo(widget.video);
-                                locator<ReusableGlobalWidgets>().showPlaylistAddingPopup(
+                                ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
                                   context: context,
                                   videoModelDb: model,
                                 );

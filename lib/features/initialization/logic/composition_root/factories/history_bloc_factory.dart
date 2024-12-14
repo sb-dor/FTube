@@ -1,3 +1,4 @@
+import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_create_playlist_data_source/impl/library_create_playlist_locally/library_create_playlist_locally.dart';
 import 'package:youtube/features/library_screen/data/data_sources/library_get_history_data_source/impl/library_get_history_locally/library_get_history_locally.dart';
@@ -10,17 +11,21 @@ import 'package:youtube/features/library_screen/data/repository/library_screen_r
 import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
 
 final class HistoryBlocFactory implements Factory<HistoryBloc> {
+  final DbFloor _dbFloor;
+
+  HistoryBlocFactory(this._dbFloor);
+
   @override
   HistoryBloc create() {
     // will rewrite in the future
     final libraryScreenRepo = LibraryScreenRepositoryImpl(
-      LibraryCreatePlaylistLocally(),
-      LibraryGetPlaylistLocally(),
-      LibraryGetHistoryLocally(),
-      LibrarySaveInHistoryLocally(),
-      LibrarySetVideoInPlaylistLocally(),
-      LibraryGetVideoPlaylistLocally(),
-      LibraryGetLikedVideoDataSourceLocally(),
+      LibraryCreatePlaylistLocally(_dbFloor),
+      LibraryGetPlaylistLocally(_dbFloor),
+      LibraryGetHistoryLocally(_dbFloor),
+      LibrarySaveInHistoryLocally(_dbFloor),
+      LibrarySetVideoInPlaylistLocally(_dbFloor),
+      LibraryGetVideoPlaylistLocally(_dbFloor),
+      LibraryGetLikedVideoDataSourceLocally(_dbFloor),
     );
 
     return HistoryBloc(libraryScreenRepo);
