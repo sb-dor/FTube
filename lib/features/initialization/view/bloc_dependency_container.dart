@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube/core/blocs_and_cubits/auth_bloc/main_auth_bloc.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
+import 'package:youtube/features/initialization/models/dependency_container.dart';
 import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_bloc.dart';
@@ -24,10 +27,12 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/c
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 
 class BlocDependencyContainer extends StatelessWidget {
+  final CompositionResult compositionResult;
   final Widget child;
 
   const BlocDependencyContainer({
     super.key,
+    required this.compositionResult,
     required this.child,
   });
 
@@ -73,7 +78,10 @@ class BlocDependencyContainer extends StatelessWidget {
         ),
         //
       ],
-      child: child,
+      child: Provider<DependencyContainer>(
+        create: (_) => compositionResult.dependencyContainer,
+        child: child,
+      ),
     );
   }
 }

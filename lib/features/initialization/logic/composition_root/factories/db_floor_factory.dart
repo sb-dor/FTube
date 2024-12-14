@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/db/db_floor_migrations.dart';
-import 'package:youtube/core/injections/injection_container.dart';
+import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
 
-abstract class DBInj {
-  static Future<void> dbInj() async {
+final class DbFloorFactory extends AsyncFactory<DbFloor> {
+  @override
+  Future<DbFloor> create() async {
     final migrations = DbFloorMigrations.migrations();
 
-    debugPrint("migration length: ${migrations.length}");
+    // debugPrint("migration length: ${migrations.length}");
 
     final db = $FloorDbFloor.databaseBuilder('ftube.db');
 
@@ -15,6 +15,6 @@ abstract class DBInj {
 
     final database = await db.build();
 
-    locator.registerLazySingleton<DbFloor>(() => database);
+    return database;
   }
 }
