@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/injections/injection_container.dart';
-import 'package:youtube/core/services/music_background_service.dart';
+import 'package:youtube/core/services/audio_background_service.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';

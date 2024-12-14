@@ -3,7 +3,7 @@ import 'package:youtube/core/injections/home_screen_inj/home_screen_inj.dart';
 import 'package:youtube/core/injections/library_inj/library_inj.dart';
 import 'package:youtube/core/injections/search_screen_inj/search_screen_inj.dart';
 import 'package:youtube/core/injections/yt_video_player_screen_inj/yt_video_player_screen_inj.dart';
-import 'package:youtube/core/services/music_background_service.dart';
+import 'package:youtube/core/services/audio_background_service.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'db_inj/db_inj.dart';
