@@ -24,7 +24,9 @@ abstract class DurationFromIso8601Helper {
       seconds: seconds ?? 0,
     );
 
-    return locator<DurationHelper>().getFromDuration(duration);
+    final durationHelper = DurationHelper();
+
+    return durationHelper.getFromDuration(duration);
   }
 
   static String _getNumFromString({required String? value}) {
