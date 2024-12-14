@@ -12,13 +12,13 @@ abstract final class YtVideoPlayerScreenInj {
     final audioAppStorage = DownloadAudioInAppStorage();
     final videoAppStorage = DownloadVideoInAppStorage();
 
+    final audioPhoneStorage = DownloadAudioInDownloadsFolder();
+    final videoPhoneStorage = DownloadVideoInGallery();
+
     final DownloadingVideoRepoImpl downloadingAppStorageImpl = DownloadingVideoRepoImpl(
       audioAppStorage,
       videoAppStorage,
     );
-
-    final audioPhoneStorage = DownloadAudioInDownloadsFolder();
-    final videoPhoneStorage = DownloadVideoInGallery();
 
     final DownloadingVideoRepoImpl downloadInPhoneStorage = DownloadingVideoRepoImpl(
       audioPhoneStorage,

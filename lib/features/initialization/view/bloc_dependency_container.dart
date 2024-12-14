@@ -6,18 +6,18 @@ import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home
 import 'package:youtube/core/injections/injection_container.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
 import 'package:youtube/features/home_screen/presentation/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/history_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/history_inner_screen_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/home_screen_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/library_downloads_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/playlist_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/playlist_inner_screen_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/playlist_videos_inner_screen_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/search_screen_bloc_factory.dart';
 import 'package:youtube/features/initialization/models/dependency_container.dart';
-import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_cubit.dart';
-import 'package:youtube/features/search_screen/presentation/bloc/main_search_screen_bloc.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';
@@ -41,33 +41,33 @@ class BlocDependencyContainer extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomePageBottomNavbarCubit()),
-        BlocProvider(create: (_) => locator<MainHomeScreenBloc>()),
+        BlocProvider(create: (_) => HomeScreenBlocFactory().create()),
         BlocProvider(create: (_) => MainAuthBloc()),
         BlocProvider(create: (_) => MainVideoCategoryCubit()),
         BlocProvider(create: (_) => HomeScreenVideosCubit()),
         BlocProvider(create: (_) => MainScreenOverlayInfoFeatureCubit()),
 
         // showing video popup cubits:
-        BlocProvider(create: (_) => locator<YoutubeVideoCubit>()),
+        BlocProvider(create: (_) => YoutubeVideoCubit()),
         BlocProvider(create: (_) => VideoInformationCubit()),
         BlocProvider(create: (_) => VideoDownloadingCubit()),
         BlocProvider(create: (_) => AudioDownloadingCubit()),
         BlocProvider(create: (_) => SimilarVideosCubit()),
 
         //search screen cubits:
-        BlocProvider(create: (_) => locator<MainSearchScreenBloc>()),
+        BlocProvider(create: (_) => SearchScreenBlocFactory().create()),
         BlocProvider(create: (_) => SearchBodyCubit()),
         //
 
         // library screen bloc
-        BlocProvider(create: (_) => locator<HistoryBloc>()),
-        BlocProvider(create: (_) => locator<PlaylistsBloc>()),
-        BlocProvider(create: (_) => locator<LibraryDownloadsBloc>()),
+        BlocProvider(create: (_) => HistoryBlocFactory().create()),
+        BlocProvider(create: (_) => PlaylistBlocFactory().create()),
+        BlocProvider(create: (_) => LibraryDownloadsBlocFactory().create()),
 
         // library inner screens bloc
-        BlocProvider(create: (_) => locator<HistoryInnerScreenBloc>()),
-        BlocProvider(create: (_) => locator<PlaylistInnerScreenBloc>()),
-        BlocProvider(create: (_) => locator<PlaylistVideosInnerScreenBloc>()),
+        BlocProvider(create: (_) => HistoryInnerScreenBlocFactory().create()),
+        BlocProvider(create: (_) => PlaylistInnerScreenBlocFactory().create()),
+        BlocProvider(create: (_) => PlaylistVideosInnerScreenBlocFactory().create()),
 
         BlocProvider<TrendingScreenBloc>(
           create: (_) => locator<TrendingScreenBloc>(),

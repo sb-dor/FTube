@@ -1,4 +1,4 @@
-import 'package:youtube/core/injections/injection_container.dart';
+import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_inner_screen_data_source/impl/playlist_inner_screen_data_source_impl.dart';
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_inner_screen_data_source/playlist_inner_screen_data_source.dart';
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_videos_inner_screen_data_source/playlist_videos_inner_screen_data_source.dart';
@@ -6,35 +6,23 @@ import 'package:youtube/features/library_inner_screens/data/data_source/playlist
 import 'package:youtube/features/library_inner_screens/data/repository/playlist_inner_screen_repository_impl/playlist_inner_screen_repository_impl.dart';
 import 'package:youtube/features/library_inner_screens/domain/repository/playlist_inner_screen_repository/playlist_inner_screen_repository.dart';
 import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/playlist_inner_screen_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_videos_inner_screen_bloc/playlist_videos_inner_screen_bloc.dart';
 
-abstract class PlaylistInnerScreenInj {
-  static Future<void> playlistInnerScreenInj() async {
-    locator.registerLazySingleton<PlaylistInnerScreenDataSource>(
-      () => PlaylistInnerScreenDataSourceImpl(),
+final class PlaylistInnerScreenBlocFactory implements Factory<PlaylistInnerScreenBloc> {
+  @override
+  PlaylistInnerScreenBloc create() {
+    // will be rewrite in the future
+    final PlaylistInnerScreenDataSource innerScreenDataSource = PlaylistInnerScreenDataSourceImpl();
+
+    final PlaylistVideosInnerScreenDataSource videosInnerScreenDataSource =
+        PlaylistVideosInnerScreenDataSourceImpl();
+
+    final PlaylistInnerScreenRepository repository = PlaylistInnerScreenRepositoryImpl(
+      innerScreenDataSource,
+      videosInnerScreenDataSource,
     );
 
-    locator.registerLazySingleton<PlaylistVideosInnerScreenDataSource>(
-      () => PlaylistVideosInnerScreenDataSourceImpl(),
-    );
-
-    locator.registerLazySingleton<PlaylistInnerScreenRepository>(
-      () => PlaylistInnerScreenRepositoryImpl(
-        locator<PlaylistInnerScreenDataSource>(),
-        locator<PlaylistVideosInnerScreenDataSource>(),
-      ),
-    );
-
-    locator.registerFactory<PlaylistInnerScreenBloc>(
-      () => PlaylistInnerScreenBloc(
-        locator<PlaylistInnerScreenRepository>(),
-      ),
-    );
-
-    locator.registerFactory<PlaylistVideosInnerScreenBloc>(
-      () => PlaylistVideosInnerScreenBloc(
-        locator<PlaylistInnerScreenRepository>(),
-      ),
+    return PlaylistInnerScreenBloc(
+      repository,
     );
   }
 }

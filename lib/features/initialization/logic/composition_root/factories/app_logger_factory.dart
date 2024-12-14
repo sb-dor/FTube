@@ -1,7 +1,7 @@
 import 'package:logger/logger.dart';
 import 'package:youtube/features/initialization/logic/composition_root/composition_root.dart';
 
-final class AppLoggerFactory extends Factory<Logger> {
+final class AppLoggerFactory implements Factory<Logger> {
   final LogFilter _logFilter;
 
   AppLoggerFactory({required LogFilter logFilter}) : _logFilter = logFilter;

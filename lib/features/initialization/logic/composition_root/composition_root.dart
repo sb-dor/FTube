@@ -45,10 +45,10 @@ final class DependencyContainerFactory extends AsyncFactory<DependencyContainer>
   }
 }
 
-abstract base class Factory<T> {
+abstract interface class Factory<T> {
   T create();
 }
 
-abstract base class AsyncFactory<T> {
+abstract interface class AsyncFactory<T> {
   Future<T> create();
 }
