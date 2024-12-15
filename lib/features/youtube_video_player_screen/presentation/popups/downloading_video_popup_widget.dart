@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube/core/utils/analytics/analytics_event.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
+import 'package:youtube/features/initialization/models/dependency_container.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
@@ -113,12 +116,16 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
                     .map((e) => Expanded(
                           child: Center(
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 context.read<YoutubeVideoCubit>().clickTypeOfDownloadingVideo(e);
                                 pageController.animateToPage(
                                     ((pageController.page ?? 0) + 1).toInt(),
                                     duration: const Duration(milliseconds: 500),
                                     curve: Curves.fastOutSlowIn);
+
+                                await Provider.of<DependencyContainer>(context, listen: false)
+                                    .analyticsReporter
+                                    .report(TypeDownloaderButtonEvent(e.eventName));
                               },
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 175),

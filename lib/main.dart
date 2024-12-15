@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:youtube/features/initialization/logic/app_runner.dart';
 import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feature.dart';
 
@@ -24,7 +25,7 @@ void main() {
   runZonedGuarded(
     () async => await AppRunner().init(),
     (error, stackTrace) {
-      // logic for handling error here
+      FirebaseCrashlytics.instance.recordError(error, stackTrace);
     },
   );
 }
