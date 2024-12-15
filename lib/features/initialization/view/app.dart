@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/features/initialization/models/app_routes.dart';
-import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
+import 'package:youtube/features/main_screen_overlay_info_feature/cubit/main_screen_overlay_info_feature_cubit.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);

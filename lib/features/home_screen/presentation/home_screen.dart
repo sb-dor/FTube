@@ -10,10 +10,10 @@ import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/ma
 import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
 import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
-import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
+import 'package:youtube/features/main_screen_overlay_info_feature/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
 

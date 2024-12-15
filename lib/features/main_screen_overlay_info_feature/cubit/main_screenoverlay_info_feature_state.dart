@@ -1,4 +1,4 @@
-import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/state_model/main_screen_overlay_state_model.dart';
+import 'state_model/main_screen_overlay_state_model.dart';
 
 abstract class MainScreenOverlayInfoFeatureState {
   MainScreenOverlayStateModel mainScreenOverlayStateModel;

@@ -16,8 +16,8 @@ import 'package:youtube/features/initialization/logic/composition_root/factories
 import 'package:youtube/features/initialization/logic/composition_root/factories/trending_screen_bloc_factory.dart';
 import 'package:youtube/features/initialization/logic/composition_root/factories/video_category_cubit_factory.dart';
 import 'package:youtube/features/initialization/models/dependency_container.dart';
-import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
-import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_cubit.dart';
+import 'package:youtube/features/main_screen_overlay_info_feature/cubit/main_screen_overlay_info_feature_cubit.dart';
+import 'package:youtube/features/search_screen/bloc/cubits/search_body_cubit/search_body_cubit.dart';
 import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
 import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/audio_downloading_cubit/audio_downloading_cubit.dart';

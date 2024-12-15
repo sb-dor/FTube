@@ -11,7 +11,6 @@ import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/features/search_screen/domain/repo/search_screen_repo.dart';
-import 'package:youtube/features/search_screen/domain/usecase/get_suggestions.dart';
 import 'cubits/search_body_cubit/search_body_cubit.dart';
 import 'cubits/search_body_cubit/search_body_states.dart';
 import 'search_screen_events.dart';
@@ -23,7 +22,6 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   final HiveDatabaseHelper _hiveDatabaseHelper;
 
   late final SearchScreenStateModel _currentState;
-  late final GetSuggestions _getSuggestions;
 
   final SearchScreenRepo _screenRepo;
 
@@ -36,8 +34,6 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         _hiveDatabaseHelper = hiveDatabaseHelper,
         super(InitialSearchScreenState(SearchScreenStateModel())) {
     _currentState = state.searchScreenStateModel;
-
-    _getSuggestions = GetSuggestions(_screenRepo);
     //
     //
     on<StartCheckingPaginatingTimer>(_startCheckingPaginatingTimer);
@@ -304,7 +300,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       // }
 
       // _currentState.timerForMakingSuggestionRequest = Timer(const Duration(seconds: 1), () async {
-      var data = await _getSuggestions.getSuggestionSearch(_currentState.searchController.text);
+      var data = await _screenRepo.getSuggestionSearch(_currentState.searchController.text);
       if (data.containsKey('server_error')) {
         searchBodyCubit.errorSearchBodyState();
       } else if (data.containsKey('success')) {
