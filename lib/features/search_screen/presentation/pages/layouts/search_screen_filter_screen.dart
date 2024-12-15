@@ -8,7 +8,12 @@ import 'package:youtube/features/search_screen/bloc/main_search_screen_bloc.dart
 import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 
 class SearchScreenFilterLayout extends StatelessWidget {
-  const SearchScreenFilterLayout({super.key});
+  final SearchScreenEventFunctionsHolder functionsHolder;
+
+  const SearchScreenFilterLayout({
+    super.key,
+    required this.functionsHolder,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,11 @@ class SearchScreenFilterLayout extends StatelessWidget {
             backgroundColor: Colors.red,
             onPressed: () {
               Navigator.pop(context);
-              context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(context: context));
+              context.read<MainSearchScreenBloc>().add(
+                    ClickSearchButtonEvent(
+                      functionsHolder: functionsHolder,
+                    ),
+                  );
             },
             child: const Icon(
               Icons.search,

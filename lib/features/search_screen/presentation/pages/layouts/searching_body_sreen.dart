@@ -7,11 +7,13 @@ import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 class SearchingBodyScreen extends StatelessWidget {
   final List<String> suggests;
   final bool showDeleteButton;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
   const SearchingBodyScreen({
     Key? key,
     required this.suggests,
     this.showDeleteButton = false,
+    required this.functionsHolder,
   }) : super(key: key);
 
   @override
@@ -25,9 +27,12 @@ class SearchingBodyScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         String value = suggests[index];
         return GestureDetector(
-          onTap: () => context
-              .read<MainSearchScreenBloc>()
-              .add(ClickOnAlreadySearchedValueEvent(value: value, context: context)),
+          onTap: () => context.read<MainSearchScreenBloc>().add(
+                ClickOnAlreadySearchedValueEvent(
+                  value: value,
+                  functionsHolder: functionsHolder,
+                ),
+              ),
           child: Container(
             color: Colors.transparent,
             padding: const EdgeInsets.only(top: 10, bottom: 10),

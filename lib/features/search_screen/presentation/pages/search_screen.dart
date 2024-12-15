@@ -19,6 +19,24 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
+  SearchScreenEventFunctionsHolder searchFunc() => SearchScreenEventFunctionsHolder(
+        searchingBodyStateFunc: () {
+          context.read<SearchBodyCubit>().searchingBodyState();
+        },
+        errorSearchBodyStateFunc: () {
+          context.read<SearchBodyCubit>().errorSearchBodyState();
+        },
+        emitStateFunc: () {
+          context.read<SearchBodyCubit>().emitState();
+        },
+        loadedSearchBodyStateFunc: () {
+          context.read<SearchBodyCubit>().loadedSearchBodyState();
+        },
+        loadingSearchBodyStateFunc: () {
+          context.read<SearchBodyCubit>().loadingSearchBodyState();
+        },
+      );
+
   final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
   late AnimationController _searchBarAnimationController;
   late Animation<double> _searchBarAnimation;
@@ -27,7 +45,11 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    context.read<MainSearchScreenBloc>().add(InitSearchScreenEvent(context: context));
+    context.read<MainSearchScreenBloc>().add(
+          InitSearchScreenEvent(
+            searchingBodyStateFunc: () => searchFunc().searchingBodyStateFunc(),
+          ),
+        );
     context.read<MainSearchScreenBloc>().add(StartCheckingPaginatingTimer());
     _searchBarAnimationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
@@ -41,7 +63,13 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     });
     _scrollController.addListener(() {
       if (_scrollController.position.maxScrollExtent == _scrollController.offset) {
-        context.read<MainSearchScreenBloc>().add(PaginateSearchScreenEvent(context: context));
+        context.read<MainSearchScreenBloc>().add(
+              PaginateSearchScreenEvent(
+                functionsHolder: searchFunc(),
+                isLoadedSearchBodyState:
+                    BlocProvider.of<SearchBodyCubit>(context).state is LoadedSearchBodyState,
+              ),
+            );
       }
     });
   }
@@ -70,6 +98,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             searchBarAnimationController: _searchBarAnimationController,
             searchBarAnimation: _searchBarAnimation,
             scrollController: _scrollController,
+            functionsHolder: searchFunc(),
           ),
           leadingWidth: MediaQuery.of(context).size.width,
         ),
@@ -81,27 +110,35 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
           },
           child: RefreshIndicator(
             color: Colors.red,
-            onRefresh: () async =>
-                context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(context: context)),
+            onRefresh: () async => context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(
+                  functionsHolder: searchFunc(),
+                )),
             child: ListView(
               controller: _scrollController,
               padding: const EdgeInsets.only(left: 10, right: 10),
               children: [
                 if (searchBodyCubit.state is SearchingBodyState)
                   if (mainSearchScreenStateModel.suggestData.isNotEmpty)
-                    SearchingBodyScreen(suggests: mainSearchScreenStateModel.suggestData)
+                    SearchingBodyScreen(
+                      suggests: mainSearchScreenStateModel.suggestData,
+                      functionsHolder: searchFunc(),
+                    )
                   else
                     SearchingBodyScreen(
                       suggests: mainSearchScreenStateModel.searchData,
                       showDeleteButton: true,
+                      functionsHolder: searchFunc(),
                     )
                 else if (searchBodyCubit.state is LoadingSearchBodyState)
                   const VideosLoadingWidget()
                 else if (searchBodyCubit.state is ErrorSearchBodyState)
                   VideosErrorWidget(
-                      onTap: () => context
-                          .read<MainSearchScreenBloc>()
-                          .add(ClickSearchButtonEvent(context: context)))
+                    onTap: () => context.read<MainSearchScreenBloc>().add(
+                          ClickSearchButtonEvent(
+                            functionsHolder: searchFunc(),
+                          ),
+                        ),
+                  )
                 else
                   VideosLoadedWidget(videoList: mainSearchScreenStateModel.videos),
                 if (mainSearchScreenStateModel.hasMore &&

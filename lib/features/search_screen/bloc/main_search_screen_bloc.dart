@@ -88,10 +88,12 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
   //
 
-  void _initSearchScreenEvent(InitSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
-    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+  void _initSearchScreenEvent(
+    InitSearchScreenEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
     _currentState.suggestData.clear();
-    searchBodyCubit.searchingBodyState();
+    event.searchingBodyStateFunc();
     _currentState.searchData = await _hiveDatabaseHelper.getSearchData();
     await _currentState.speechToText.initialize();
     event.scrollController?.animateTo(
@@ -105,12 +107,14 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   void _requestToTextField(RequestToTextField event, Emitter<SearchScreenStates> emit) =>
       _currentState.focusNode.requestFocus();
 
-  void _clearTextField(ClearTextField event, Emitter<SearchScreenStates> emit) {
-    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+  void _clearTextField(
+    ClearTextField event,
+    Emitter<SearchScreenStates> emit,
+  ) {
     _currentState.suggestData.clear();
     _currentState.searchController.clear();
     _currentState.focusNode.requestFocus();
-    searchBodyCubit.searchingBodyState();
+    event.searchingBodyStateFunc();
     event.scrollController?.animateTo(
       0,
       duration: const Duration(milliseconds: 500),
@@ -120,14 +124,35 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   }
 
   void _startListeningSpeechEvent(
-      StartListeningSpeechEvent event, Emitter<SearchScreenStates> emit) async {
+    StartListeningSpeechEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
     await _currentState.speechToText.listen(onResult: (SpeechRecognitionResult result) async {
       if (_currentState.timerForAutoClosingSpeech?.isActive ?? false) {
         _currentState.timerForAutoClosingSpeech?.cancel();
       }
       _currentState.timerForAutoClosingSpeech = Timer(const Duration(seconds: 1), () {
-        add(GetSuggestionRequestEvent(context: event.context));
-        add(StopListeningSpeechEvent(popup: true, context: event.context));
+        add(
+          GetSuggestionRequestEvent(
+            functionsHolder: SearchScreenEventFunctionsHolder(
+              searchingBodyStateFunc: () {
+                event.functionsHolder.searchingBodyStateFunc();
+              },
+              errorSearchBodyStateFunc: () {
+                event.functionsHolder.errorSearchBodyStateFunc();
+              },
+              emitStateFunc: () {
+                event.functionsHolder.emitStateFunc();
+              },
+              loadedSearchBodyStateFunc: () {},
+              loadingSearchBodyStateFunc: () {},
+            ),
+          ),
+        );
+        add(StopListeningSpeechEvent(
+          popup: true,
+          popupFunc: event.popupFunc,
+        ));
       });
       _currentState.searchController.text = result.recognizedWords;
     });
@@ -135,9 +160,11 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   }
 
   void _stopListeningSpeechEvent(
-      StopListeningSpeechEvent event, Emitter<SearchScreenStates> emit) async {
+    StopListeningSpeechEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
     if (event.popup) {
-      Navigator.pop(event.context);
+      event.popupFunc();
     }
     await _currentState.speechToText.stop();
 
@@ -148,13 +175,13 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     ClickSearchButtonEvent event,
     Emitter<SearchScreenStates> emit,
   ) async {
-    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     debugPrint("calling here again");
     try {
       if (_currentState.searchController.text.trim().isEmpty) return;
 
       if (_currentState.lastSavedQuery?.trim() == _currentState.searchController.text.trim()) {
-        searchBodyCubit.loadedSearchBodyState();
+        event.functionsHolder.loadedSearchBodyStateFunc();
         return;
       }
 
@@ -165,7 +192,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         duration: const Duration(milliseconds: 500),
         curve: Curves.linear,
       );
-      searchBodyCubit.loadingSearchBodyState();
+      event.functionsHolder.loadingSearchBodyStateFunc();
 
       _currentState.searchData.removeWhere(
         (el) => el.trim().toLowerCase() == _currentState.searchController.text.trim().toLowerCase(),
@@ -177,7 +204,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
       await _hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
 
-      searchBodyCubit.loadingSearchBodyState();
+      event.functionsHolder.loadingSearchBodyStateFunc();
 
       _currentState.clearData();
 
@@ -190,7 +217,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
             videoId: extractIdFromUrl,
           );
           if (searchById.containsKey("server_error")) {
-            searchBodyCubit.errorSearchBodyState();
+            event.functionsHolder.errorSearchBodyStateFunc();
           } else if (searchById.containsKey("success") && searchById["success"] == true) {
             ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
             // videoData.video.;
@@ -215,9 +242,9 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
             _currentState.addAndPag(value: videoData.videosList);
 
-            searchBodyCubit.loadedSearchBodyState();
+            event.functionsHolder.loadedSearchBodyStateFunc();
           } else {
-            searchBodyCubit.errorSearchBodyState();
+            event.functionsHolder.errorSearchBodyStateFunc();
           }
         }
         //
@@ -229,17 +256,17 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         );
 
         if (data.containsKey("server_error")) {
-          searchBodyCubit.errorSearchBodyState();
+          event.functionsHolder.errorSearchBodyStateFunc();
         } else if (data.containsKey("success")) {
           List<ytv.Video> videos = data['videos'];
 
           _currentState.addAndPag(value: videos);
 
-          searchBodyCubit.loadedSearchBodyState();
+          event.functionsHolder.loadedSearchBodyStateFunc();
 
           // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
         } else {
-          searchBodyCubit.errorSearchBodyState();
+          event.functionsHolder.errorSearchBodyStateFunc();
         }
       }
 
@@ -250,10 +277,16 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   }
 
   void _clickOnAlreadySearchedValueEvent(
-      ClickOnAlreadySearchedValueEvent event, Emitter<SearchScreenStates> emit) async {
+    ClickOnAlreadySearchedValueEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
     FocusManager.instance.primaryFocus?.unfocus();
     _currentState.searchController.text = event.value.trim();
-    add(ClickSearchButtonEvent(context: event.context));
+    add(
+      ClickSearchButtonEvent(
+        functionsHolder: event.functionsHolder,
+      ),
+    );
   }
 
   void _paginateSearchScreenEvent(
@@ -261,8 +294,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     if (!_currentState.hasMore) return;
     if (_currentState.paginating) return;
     _currentState.paginating = true;
-    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
-    if (searchBodyCubit.state is! LoadedSearchBodyState) return;
+    // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    if (event.isLoadedSearchBodyState) return;
     try {
       var data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getSearchVideo(
         q: _currentState.searchController.text,
@@ -271,29 +304,31 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       _currentState.paginating = false;
 
       if (data.containsKey("server_error")) {
-        searchBodyCubit.errorSearchBodyState();
+        event.functionsHolder.errorSearchBodyStateFunc();
       } else if (data.containsKey("success")) {
         // _currentState.pageToken = data['next_page_token'];
         List<ytv.Video> videos = data['videos'];
         _currentState.addAndPag(value: videos, paginate: true);
-        searchBodyCubit.loadedSearchBodyState();
+        event.functionsHolder.loadedSearchBodyStateFunc();
         // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
       } else {
-        searchBodyCubit.errorSearchBodyState();
+        event.functionsHolder.errorSearchBodyStateFunc();
       }
     } catch (e) {
-      searchBodyCubit.errorSearchBodyState();
+      event.functionsHolder.errorSearchBodyStateFunc();
       debugPrint("_paginateSearchScreenEvent error is $e");
     }
   }
 
   void _getSuggestionRequestEvent(
-      GetSuggestionRequestEvent event, Emitter<SearchScreenStates> emit) async {
-    var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
+    GetSuggestionRequestEvent event,
+    Emitter<SearchScreenStates> emit,
+  ) async {
+    // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
 
     if (_currentState.searchController.text.isEmpty) {
       _currentState.suggestData.clear();
-      searchBodyCubit.searchingBodyState();
+      event.functionsHolder.searchingBodyStateFunc();
     } else {
       // if (_currentState.timerForMakingSuggestionRequest?.isActive ?? false) {
       //   _currentState.timerForMakingSuggestionRequest?.cancel();
@@ -302,12 +337,12 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       // _currentState.timerForMakingSuggestionRequest = Timer(const Duration(seconds: 1), () async {
       var data = await _screenRepo.getSuggestionSearch(_currentState.searchController.text);
       if (data.containsKey('server_error')) {
-        searchBodyCubit.errorSearchBodyState();
+        event.functionsHolder.errorSearchBodyStateFunc();
       } else if (data.containsKey('success')) {
         _currentState.suggestData = data['data'];
-        searchBodyCubit.emitState();
+        event.functionsHolder.emitStateFunc();
       } else {
-        searchBodyCubit.errorSearchBodyState();
+        event.functionsHolder.errorSearchBodyStateFunc();
       }
       // });
     }

@@ -11,12 +11,14 @@ class AnimatedSearchBar extends StatelessWidget {
   final AnimationController searchBarAnimationController;
   final Animation<double> searchBarAnimation;
   final ScrollController scrollController;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
   const AnimatedSearchBar({
     Key? key,
     required this.searchBarAnimationController,
     required this.searchBarAnimation,
     required this.scrollController,
+    required this.functionsHolder,
   }) : super(key: key);
 
   @override
@@ -69,18 +71,21 @@ class AnimatedSearchBar extends StatelessWidget {
                                   onSubmitted: (v) => context
                                       .read<MainSearchScreenBloc>()
                                       .add(ClickSearchButtonEvent(
-                                        context: context,
+                                        functionsHolder: functionsHolder,
                                         scrollController: scrollController,
                                       )),
-                                  onTap: () => context
-                                      .read<MainSearchScreenBloc>()
-                                      .add(InitSearchScreenEvent(
-                                        context: context,
-                                        scrollController: scrollController,
-                                      )),
-                                  onChanged: (v) => context
-                                      .read<MainSearchScreenBloc>()
-                                      .add(GetSuggestionRequestEvent(context: context)),
+                                  onTap: () => context.read<MainSearchScreenBloc>().add(
+                                        InitSearchScreenEvent(
+                                            scrollController: scrollController,
+                                            searchingBodyStateFunc: () {
+                                              context.read<SearchBodyCubit>().searchingBodyState();
+                                            }),
+                                      ),
+                                  onChanged: (v) => context.read<MainSearchScreenBloc>().add(
+                                        GetSuggestionRequestEvent(
+                                          functionsHolder: functionsHolder,
+                                        ),
+                                      ),
                                   textInputAction: TextInputAction.search,
                                   decoration: const InputDecoration(
                                       isDense: true,
@@ -102,8 +107,7 @@ class AnimatedSearchBar extends StatelessWidget {
                               child: _EndButton(
                                 voidCallback: () async =>
                                     await OpenSearchScreenFilter.openSearchScreenFilter(
-                                  context,
-                                ),
+                                        context, functionsHolder),
                                 icon: Icons.filter_list,
                               ),
                             )
@@ -113,11 +117,14 @@ class AnimatedSearchBar extends StatelessWidget {
                               right: 10,
                               bottom: 0,
                               child: _EndButton(
-                                voidCallback: () =>
-                                    context.read<MainSearchScreenBloc>().add(ClearTextField(
-                                          context: context,
-                                          scrollController: scrollController,
-                                        )),
+                                voidCallback: () => context.read<MainSearchScreenBloc>().add(
+                                      ClearTextField(
+                                        scrollController: scrollController,
+                                        searchingBodyStateFunc: () {
+                                          context.read<SearchBodyCubit>().searchingBodyState();
+                                        },
+                                      ),
+                                    ),
                                 icon: Icons.close,
                               ),
                             )
@@ -129,9 +136,14 @@ class AnimatedSearchBar extends StatelessWidget {
                               child: Material(
                                 child: _EndButton(
                                   voidCallback: () async {
-                                    context
-                                        .read<MainSearchScreenBloc>()
-                                        .add(StartListeningSpeechEvent(context: context));
+                                    context.read<MainSearchScreenBloc>().add(
+                                          StartListeningSpeechEvent(
+                                            functionsHolder: functionsHolder,
+                                            popupFunc: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        );
                                     await VoiceRecordingPopup.voiceRecordingPopup(context);
                                   },
                                   icon: Icons.keyboard_voice,

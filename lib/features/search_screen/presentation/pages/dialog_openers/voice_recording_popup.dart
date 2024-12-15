@@ -13,7 +13,12 @@ abstract class VoiceRecordingPopup {
           TextButton(
             onPressed: () {
               context.read<MainSearchScreenBloc>().add(
-                    StopListeningSpeechEvent(popup: true, context: context),
+                    StopListeningSpeechEvent(
+                      popup: true,
+                      popupFunc: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   );
             },
             child: const Text("Finish"),
@@ -22,9 +27,14 @@ abstract class VoiceRecordingPopup {
       ),
     );
     if (context.mounted) {
-      context
-          .read<MainSearchScreenBloc>()
-          .add(StopListeningSpeechEvent(popup: false, context: context));
+      context.read<MainSearchScreenBloc>().add(
+            StopListeningSpeechEvent(
+              popup: false,
+              popupFunc: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
     }
   }
 }

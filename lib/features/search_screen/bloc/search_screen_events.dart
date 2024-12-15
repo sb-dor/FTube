@@ -5,70 +5,83 @@ import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/o
 abstract class SearchScreenEvents {}
 
 class InitSearchScreenEvent extends SearchScreenEvents {
-  BuildContext context;
-  ScrollController? scrollController;
+  final ScrollController? scrollController;
+  final VoidCallback searchingBodyStateFunc;
 
   InitSearchScreenEvent({
-    required this.context,
     this.scrollController,
+    required this.searchingBodyStateFunc,
   });
 }
 
 class RequestToTextField extends SearchScreenEvents {}
 
 class ClearTextField extends SearchScreenEvents {
-  BuildContext context;
-  ScrollController? scrollController;
+  final ScrollController? scrollController;
+  final VoidCallback searchingBodyStateFunc;
 
   ClearTextField({
-    required this.context,
     this.scrollController,
+    required this.searchingBodyStateFunc,
   });
 }
 
 class StartListeningSpeechEvent extends SearchScreenEvents {
-  BuildContext context;
+  final VoidCallback popupFunc;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
-  StartListeningSpeechEvent({required this.context});
+  StartListeningSpeechEvent({
+    required this.popupFunc,
+    required this.functionsHolder,
+  });
 }
 
 class StopListeningSpeechEvent extends SearchScreenEvents {
-  bool popup;
-  BuildContext context;
+  final bool popup;
+  final VoidCallback popupFunc;
 
-  StopListeningSpeechEvent({required this.popup, required this.context});
+  StopListeningSpeechEvent({
+    required this.popup,
+    required this.popupFunc,
+  });
 }
 
 class ClickSearchButtonEvent extends SearchScreenEvents {
-  BuildContext context;
-  ScrollController? scrollController;
+  final ScrollController? scrollController;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
   ClickSearchButtonEvent({
-    required this.context,
     this.scrollController,
+    required this.functionsHolder,
   });
 }
 
 class ClickOnAlreadySearchedValueEvent extends SearchScreenEvents {
-  String value;
-  BuildContext context;
+  final String value;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
   ClickOnAlreadySearchedValueEvent({
     required this.value,
-    required this.context,
+    required this.functionsHolder,
   });
 }
 
 class PaginateSearchScreenEvent extends SearchScreenEvents {
-  BuildContext context;
+  final SearchScreenEventFunctionsHolder functionsHolder;
+  final bool isLoadedSearchBodyState;
 
-  PaginateSearchScreenEvent({required this.context});
+  PaginateSearchScreenEvent({
+    required this.functionsHolder,
+    required this.isLoadedSearchBodyState,
+  });
 }
 
 class GetSuggestionRequestEvent extends SearchScreenEvents {
-  BuildContext context;
+  final SearchScreenEventFunctionsHolder functionsHolder;
 
-  GetSuggestionRequestEvent({required this.context});
+  GetSuggestionRequestEvent({
+    required this.functionsHolder,
+  });
 }
 
 class SelectOrderByTimeEvent extends SearchScreenEvents {
@@ -93,4 +106,21 @@ class DeleteSearchedItemEvent extends SearchScreenEvents {
   final String item;
 
   DeleteSearchedItemEvent(this.item);
+}
+
+//
+class SearchScreenEventFunctionsHolder {
+  final VoidCallback searchingBodyStateFunc;
+  final VoidCallback errorSearchBodyStateFunc;
+  final VoidCallback loadedSearchBodyStateFunc;
+  final VoidCallback loadingSearchBodyStateFunc;
+  final VoidCallback emitStateFunc;
+
+  SearchScreenEventFunctionsHolder({
+    required this.searchingBodyStateFunc,
+    required this.errorSearchBodyStateFunc,
+    required this.loadedSearchBodyStateFunc,
+    required this.loadingSearchBodyStateFunc,
+    required this.emitStateFunc,
+  });
 }
