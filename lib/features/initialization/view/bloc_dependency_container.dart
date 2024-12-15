@@ -15,6 +15,7 @@ import 'package:youtube/features/initialization/logic/composition_root/factories
 import 'package:youtube/features/initialization/logic/composition_root/factories/playlist_videos_inner_screen_bloc_factory.dart';
 import 'package:youtube/features/initialization/logic/composition_root/factories/search_screen_bloc_factory.dart';
 import 'package:youtube/features/initialization/logic/composition_root/factories/trending_screen_bloc_factory.dart';
+import 'package:youtube/features/initialization/logic/composition_root/factories/video_category_cubit_factory.dart';
 import 'package:youtube/features/initialization/models/dependency_container.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/features/search_screen/presentation/bloc/cubits/search_body_cubit/search_body_cubit.dart';
@@ -41,14 +42,23 @@ class BlocDependencyContainer extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomePageBottomNavbarCubit()),
-        BlocProvider(create: (_) => HomeScreenBlocFactory().create()),
+        BlocProvider(
+          create: (_) => HomeScreenBlocFactory(
+            compositionResult.dependencyContainer.youtubeDataApi,
+          ).create(),
+        ),
         BlocProvider(create: (_) => MainAuthBloc()),
-        BlocProvider(create: (_) => MainVideoCategoryCubit()),
+        BlocProvider(
+          create: (_) => VideoCategoryCubitFactory(
+            compositionResult.dependencyContainer.youtubeDataApi,
+          ).create(),
+        ),
         BlocProvider(create: (_) => HomeScreenVideosCubit()),
         BlocProvider(
-            create: (_) => MainScreenOverlayInfoFeatureCubit(
-                  compositionResult.dependencyContainer.hiveDatabaseHelper,
-                )),
+          create: (_) => MainScreenOverlayInfoFeatureCubit(
+            compositionResult.dependencyContainer.hiveDatabaseHelper,
+          ),
+        ),
 
         // showing video popup cubits:
         BlocProvider(
