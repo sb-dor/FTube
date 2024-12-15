@@ -1,7 +1,5 @@
 import 'package:youtube/core/utils/enums.dart';
-import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/search_screen/data/source/suggestion_datasoruce.dart';
-import 'package:youtube/features/search_screen/data/source/suggestion_datasource_impl.dart';
 import 'package:youtube/features/search_screen/domain/repo/search_screen_repo.dart';
 
 class SearchScreenRepoImpl implements SearchScreenRepo {
@@ -18,17 +16,13 @@ class SearchScreenRepoImpl implements SearchScreenRepo {
     required String q,
     bool refresh = false,
     String? orderBy,
-  }) {
-    // TODO: implement getSearchVideo
-    throw UnimplementedError();
-  }
+  }) =>
+      _suggestionDatasource.getSearchVideo(q: q, refresh: refresh, orderBy: orderBy);
 
   @override
   Future<Map<String, dynamic>> getVideoInfo({
     required TypeContent videoContent,
     required String? videoId,
-  }) {
-    // TODO: implement getVideoInfo
-    throw UnimplementedError();
-  }
+  }) =>
+      _suggestionDatasource.getVideoInfo(videoContent: videoContent, videoId: videoId);
 }

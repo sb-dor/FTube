@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
+import 'package:youtube/core/utils/analytics/analytics_event.dart';
+import 'package:youtube/features/initialization/models/dependency_container.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
   final bool animate;
@@ -37,7 +40,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             children: [
               Expanded(
                   child: GestureDetector(
-                onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 0),
+                onTap: () async {
+                  context.read<HomePageBottomNavbarCubit>().changePage(index: 0);
+                  await Provider.of<DependencyContainer>(context, listen: false)
+                      .analyticsReporter
+                      .report(
+                        TabAnalyticEvent("home"),
+                      );
+                },
                 child: Container(
                     color: Colors.transparent,
                     child: Column(
@@ -68,7 +78,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               )),
               Expanded(
                 child: GestureDetector(
-                  onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 1),
+                  onTap: () async {
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 1);
+                    await Provider.of<DependencyContainer>(context, listen: false)
+                        .analyticsReporter
+                        .report(
+                          TabAnalyticEvent("trending"),
+                        );
+                  },
                   child: Container(
                     color: Colors.transparent,
                     child: Column(
@@ -168,7 +185,14 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               // )),
               Expanded(
                 child: GestureDetector(
-                  onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 2),
+                  onTap: () async {
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 2);
+                    await Provider.of<DependencyContainer>(context, listen: false)
+                        .analyticsReporter
+                        .report(
+                          TabAnalyticEvent("library"),
+                        );
+                  },
                   child: Container(
                     color: Colors.transparent,
                     child: Column(
