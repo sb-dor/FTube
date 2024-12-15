@@ -6,7 +6,7 @@ import 'package:youtube/features/trending_screen/data/datasource/trends_remote_d
 import 'package:youtube/features/trending_screen/data/models/trends_videos_model.dart';
 import 'package:youtube/features/trending_screen/data/repository/trends_repository_impl.dart';
 
-class MockTrendsRemoteDataSource extends Mock implements TrendsRemoteDataSource {}
+class MockTrendsRemoteDataSource extends Mock implements ITrendsRemoteDatasource {}
 
 class MockTrendsModel extends Mock implements TrendsVideosModel {}
 

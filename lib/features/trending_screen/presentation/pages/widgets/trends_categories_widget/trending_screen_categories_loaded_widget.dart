@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
-import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
+import 'package:youtube/features/trending_screen/bloc/trending_screen_bloc.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'i_trends_remote_datasource.dart';
 
 
 
-class TrendsRemoteDataSourceImpl implements TrendsRemoteDataSource {
+class TrendsRemoteDataSourceImpl implements ITrendsRemoteDatasource {
   final YoutubeDataApi _youtubeDataApi;
 
   TrendsRemoteDataSourceImpl(this._youtubeDataApi);

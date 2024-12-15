@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/state_model/top_overlay_feature_state_model.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_events.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_states.dart';
+
+import 'state_model/top_overlay_feature_state_model.dart';
+import 'top_overlay_feature_events.dart';
+import 'top_overlay_feature_states.dart';
 
 class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeatureStates> {
   late final TopOverlayFeatureStateModel _currentState;

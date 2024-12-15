@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/state_model/top_overlay_feature_state_model.dart';
+import 'state_model/top_overlay_feature_state_model.dart';
 
 @immutable
 class TopOverlayFeatureStates {

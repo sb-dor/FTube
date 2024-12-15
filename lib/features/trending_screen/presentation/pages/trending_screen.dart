@@ -5,7 +5,7 @@ import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/video_category_cubit_states.dart';
-import 'package:youtube/features/trending_screen/presentation/bloc/trending_screen_bloc.dart';
+import 'package:youtube/features/trending_screen/bloc/trending_screen_bloc.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
 import 'package:youtube/core/widgets/error_button_widget/error_button_widget.dart';

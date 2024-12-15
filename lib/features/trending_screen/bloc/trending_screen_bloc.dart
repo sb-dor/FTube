@@ -8,10 +8,6 @@ import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
-import 'package:youtube/features/trending_screen/domain/usecases/get_trending_gaming.dart';
-import 'package:youtube/features/trending_screen/domain/usecases/get_trending_movies.dart';
-import 'package:youtube/features/trending_screen/domain/usecases/get_trending_music.dart';
-import 'package:youtube/features/trending_screen/domain/usecases/get_trending_videos.dart';
 import 'state_model/trending_state_model.dart';
 
 part 'trending_screen_event.dart';
@@ -20,19 +16,11 @@ part 'trending_screen_state.dart';
 
 class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> {
   late final TrendingStateModel _currentState;
-  late final GetTrendingGaming _getTrendingGaming;
-  late final GetTrendingMovies _getTrendingMovies;
-  late final GetTrendingMusic _getTrendingMusic;
-  late final GetTrendingVideos _getTrendingVideos;
   final TrendsRepository _trendsRepository;
 
   TrendingScreenBloc(this._trendsRepository)
       : super(LoadingTrendingScreenState(TrendingStateModel())) {
     _currentState = state.trendingStateModel;
-    _getTrendingGaming = GetTrendingGaming(_trendsRepository);
-    _getTrendingMovies = GetTrendingMovies(_trendsRepository);
-    _getTrendingMusic = GetTrendingMusic(_trendsRepository);
-    _getTrendingVideos = GetTrendingVideos(_trendsRepository);
 
     //
     //
@@ -48,13 +36,13 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
         emit(LoadingTrendingScreenState(_currentState));
 
         if (event.category.id == '1') {
-          _currentState.videos = await _getTrendingGaming.getTrendingGaming();
+          _currentState.videos = await _trendsRepository.fetchTrendingGaming();
         } else if (event.category.id == '2') {
-          _currentState.videos = await _getTrendingMovies.getTrendingMovies();
+          _currentState.videos = await _trendsRepository.fetchTrendingMovies();
         } else if (event.category.id == '3') {
-          _currentState.videos = await _getTrendingMusic.getTrendingMusic();
+          _currentState.videos = await _trendsRepository.fetchTrendingMusic();
         } else {
-          _currentState.videos = await _getTrendingVideos.getTrendingVideos();
+          _currentState.videos = await _trendsRepository.fetchTrendingVideo();
         }
 
         emit(LoadedTrendingScreenState(_currentState));
@@ -129,7 +117,8 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
       await Future.wait(
         isolateVideos.map(
-          (e) => e.getVideoData(youtubeDataApi).then((value) => sendPort.send(e.videoData?.toJson())),
+          (e) =>
+              e.getVideoData(youtubeDataApi).then((value) => sendPort.send(e.videoData?.toJson())),
         ),
       );
     }

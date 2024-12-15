@@ -3,7 +3,7 @@ import 'package:youtube/features/trending_screen/data/datasource/i_trends_remote
 import 'package:youtube/features/trending_screen/domain/repository/trends_repository.dart';
 
 class TrendsRepositoryImpl implements TrendsRepository {
-  final TrendsRemoteDataSource _remoteDataSource;
+  final ITrendsRemoteDatasource _remoteDataSource;
 
   TrendsRepositoryImpl(this._remoteDataSource);
 

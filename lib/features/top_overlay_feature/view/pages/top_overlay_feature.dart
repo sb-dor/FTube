@@ -1,12 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:video_player/video_player.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_bloc.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_events.dart';
-import 'package:youtube/features/top_overlay_feature/view/bloc/top_overlay_feature_states.dart';
+import 'package:youtube/features/top_overlay_feature/bloc/top_overlay_feature_bloc.dart';
+import 'package:youtube/features/top_overlay_feature/bloc/top_overlay_feature_events.dart';
+import 'package:youtube/features/top_overlay_feature/bloc/top_overlay_feature_states.dart';
 import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
 
 class TopOverlayFeature extends StatefulWidget {
