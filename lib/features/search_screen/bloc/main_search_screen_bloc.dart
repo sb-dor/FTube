@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
-import 'package:youtube/core/api/api_get_data/rest_api_get_video_data.dart';
 import 'package:youtube/core/utils/enums.dart';
 import 'package:youtube/core/utils/hive_database_helper/hive_database_helper.dart';
 import 'package:youtube/core/utils/regex_helper/regex_helper.dart';
-import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
@@ -18,19 +16,14 @@ import 'search_screen_states.dart';
 import 'state_model/search_screen_state_model.dart';
 
 class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> with RegexHelper {
-  final YoutubeDataApi _youtubeDataApi;
   final HiveDatabaseHelper _hiveDatabaseHelper;
+  final SearchScreenRepo _screenRepo;
 
   late final SearchScreenStateModel _currentState;
 
-  final SearchScreenRepo _screenRepo;
-
   MainSearchScreenBloc(
-      {required SearchScreenRepo screenRepo,
-      required YoutubeDataApi youtubeDataApi,
-      required HiveDatabaseHelper hiveDatabaseHelper})
+      {required SearchScreenRepo screenRepo, required HiveDatabaseHelper hiveDatabaseHelper})
       : _screenRepo = screenRepo,
-        _youtubeDataApi = youtubeDataApi,
         _hiveDatabaseHelper = hiveDatabaseHelper,
         super(InitialSearchScreenState(SearchScreenStateModel())) {
     _currentState = state.searchScreenStateModel;
@@ -211,8 +204,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       if (_currentState.searchController.text.trim().contains("https")) {
         final extractIdFromUrl = videoId(_currentState.searchController.text.trim());
         if (extractIdFromUrl.isNotEmpty) {
-          final searchById =
-              await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
+          final searchById = await _screenRepo.getVideoInfo(
             videoContent: TypeContent.snippet,
             videoId: extractIdFromUrl,
           );
@@ -249,7 +241,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         }
         //
       } else {
-        var data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getSearchVideo(
+        var data = await _screenRepo.getSearchVideo(
           q: _currentState.searchController.text,
           refresh: true,
           orderBy: _currentState.orderBy?.id,
@@ -297,7 +289,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     if (event.isLoadedSearchBodyState) return;
     try {
-      var data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getSearchVideo(
+      var data = await _screenRepo.getSearchVideo(
         q: _currentState.searchController.text,
       );
 

@@ -24,7 +24,6 @@ final class SearchScreenBlocFactory implements Factory<MainSearchScreenBloc> {
 
     return MainSearchScreenBloc(
       screenRepo: searchScreenRepo,
-      youtubeDataApi: _youtubeDataApi,
       hiveDatabaseHelper: _hiveDatabaseHelper,
     );
   }
