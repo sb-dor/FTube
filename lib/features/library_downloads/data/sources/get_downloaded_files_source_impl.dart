@@ -4,8 +4,9 @@ import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/utils/mixins/storage_helper.dart';
 import 'package:youtube/core/utils/regex_helper/regex_helper.dart';
-import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source/get_downloaded_files_source.dart';
 import 'package:collection/collection.dart';
+
+import 'get_downloaded_files_source.dart';
 
 class GetDownloadedFilesSourceImpl
     with StorageHelper, RegexHelper

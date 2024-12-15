@@ -1,5 +1,5 @@
 import 'package:youtube/core/db/base_downloaded_file_model/base_downloaded_file_model.dart';
-import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source/get_downloaded_files_source.dart';
+import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source.dart';
 import 'package:youtube/features/library_downloads/domain/repository/library_downloads_repository.dart';
 
 class LibraryDownloadsRepositoryImpl implements LibraryDownloadsRepository {
@@ -10,5 +10,6 @@ class LibraryDownloadsRepositoryImpl implements LibraryDownloadsRepository {
   );
 
   @override
-  Future<List<BaseDownloadedFileModel>> loadDownloadFiles() => _getDownloadedFilesSource.loadDownloadFiles();
+  Future<List<BaseDownloadedFileModel>> loadDownloadFiles() =>
+      _getDownloadedFilesSource.loadDownloadFiles();
 }
