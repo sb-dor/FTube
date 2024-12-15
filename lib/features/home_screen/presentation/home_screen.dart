@@ -3,16 +3,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
-import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/core/models/video_category_models/video_category.dart';
+import 'package:youtube/features/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
+import 'package:youtube/features/home_screen/bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
+import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/video_category_cubit_states.dart';
+import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
+import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/features/main_screen_overlay_info_feature/presentation/cubit/main_screen_overlay_info_feature_cubit.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_error_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loaded_widget.dart';
 import 'package:youtube/core/widgets/videos_widgets/videos_loading_widget.dart';
-import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
-import 'bloc/cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
-import 'bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'bloc/cubits/video_category_cubit/video_category_cubit_states.dart';
-import 'bloc/home_screen_bloc_events.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_widget.dart';
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
 
@@ -33,9 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // context.read<MainVideoCategoryCubit>().loadVideoCategory();
 
-    context
-        .read<MainHomeScreenBloc>()
-        .add(RefreshHomeScreenEvent(context: context, refresh: false));
+    _refresh();
 
     _scrollController.addListener(() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
@@ -55,6 +54,27 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  void _refresh({VideoCategory? videoCategory, bool refresh = false}) =>
+      context.read<MainHomeScreenBloc>().add(
+            RefreshHomeScreenEvent(
+              videoCategory: videoCategory,
+              refresh: refresh,
+              scrollController: _scrollController,
+              showBottomNavbar: () => context.read<HomePageBottomNavbarCubit>().showBottomNavbar(),
+              loadingHomeScreenVideosState: () =>
+                  context.read<HomeScreenVideosCubit>().loadingHomeScreenVideosState(),
+              errorHomeScreenVideosState: () =>
+                  context.read<HomeScreenVideosCubit>().errorHomeScreenVideosState(),
+              loadedHomeScreenVideosState: () =>
+                  context.read<HomeScreenVideosCubit>().loadedHomeScreenVideosState(),
+              loadVideoCategory: () => context.read<MainVideoCategoryCubit>().loadVideoCategory(),
+              isLoadedHomeScreenVideos: BlocProvider.of<HomeScreenVideosCubit>(context).state
+                  is LoadedHomeScreenVideosState,
+              isErrorVideoCategoryState:
+                  BlocProvider.of<MainVideoCategoryCubit>(context).state is ErrorVideoCategoryState,
+            ),
+          );
+
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
@@ -66,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //data
       final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
       final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
-      debugPrint("is here working on scroll | ${videoCategoryState}");
+      debugPrint("is here working on scroll | $videoCategoryState");
       return PIPView(
         builder: (context, isFloating) {
           return Column(
@@ -76,7 +96,12 @@ class _HomeScreenState extends State<HomeScreen> {
               // else if (videoCategoryState is ErrorVideoCategoryState)
               //   const HomeScreenCategoriesErrorWidget()
               else if (videoCategoryState is! ErrorVideoCategoryState)
-                HomeScreenSelectTypeContentLoadedWidget(scrollController: _scrollController),
+                HomeScreenSelectTypeContentLoadedWidget(
+                  scrollController: _scrollController,
+                  refresh: (VideoCategory value) {
+                    _refresh(refresh: true, videoCategory: value);
+                  },
+                ),
               const SizedBox(height: 10),
               Expanded(
                 child: NotificationListener<UserScrollNotification>(
@@ -95,9 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         context.read<MainVideoCategoryCubit>().loadVideoCategory();
                       }
 
-                      context
-                          .read<MainHomeScreenBloc>()
-                          .add(RefreshHomeScreenEvent(context: context, refresh: true));
+                      _refresh(refresh: true);
                     },
                     child: ListView(
                         controller: _scrollController,
@@ -116,9 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 context.read<MainVideoCategoryCubit>().loadVideoCategory();
                               }
 
-                              context
-                                  .read<MainHomeScreenBloc>()
-                                  .add(RefreshHomeScreenEvent(context: context, refresh: true));
+                              _refresh(refresh: true);
                             })
                           else
                             VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
@@ -129,8 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                     width: 20,
                                     height: 20,
-                                    child:
-                                    CircularProgressIndicator(color: Colors.red, strokeWidth: 2))),
+                                    child: CircularProgressIndicator(
+                                        color: Colors.red, strokeWidth: 2))),
                           const SizedBox(height: 15)
                         ]),
                   ),

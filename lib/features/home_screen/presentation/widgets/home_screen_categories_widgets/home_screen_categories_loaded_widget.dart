@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 import 'package:youtube/core/utils/extensions.dart';
-import 'package:youtube/features/home_screen/presentation/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
-import 'package:youtube/features/home_screen/presentation/bloc/home_screen_bloc_events.dart';
-import 'package:youtube/features/home_screen/presentation/bloc/main_home_screen_bloc.dart';
+import 'package:youtube/features/home_screen/bloc/cubits/video_category_cubit/main_video_category_cubit.dart';
+import 'package:youtube/features/home_screen/bloc/home_screen_bloc_events.dart';
+import 'package:youtube/features/home_screen/bloc/main_home_screen_bloc.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
   final ScrollController? scrollController;
+  final ValueChanged<VideoCategory> refresh;
 
   const HomeScreenSelectTypeContentLoadedWidget({
     Key? key,
     this.scrollController,
+    required this.refresh,
   }) : super(key: key);
 
   @override
@@ -40,8 +42,10 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 onTap: () => context.read<MainHomeScreenBloc>().add(SelectVideoCategoryEvent(
                       videoCategory: category,
-                      context: context,
                       scrollController: scrollController,
+                      refresh: () {
+                        refresh(category);
+                      },
                     )),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),

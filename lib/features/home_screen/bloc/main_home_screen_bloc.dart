@@ -20,6 +20,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   late HomeScreenStateModel _currentState;
 
   final HomeScreenRepo _homeScreenRepo;
+
   // late final HsGetVideos _hsGetVideos;
   // late final HsGetCategories _hsGetCategories;
 
@@ -49,9 +50,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     RefreshHomeScreenEvent event,
     Emitter<HomeScreenStates> emit,
   ) async {
-    var homeScreenVideosState = BlocProvider.of<HomeScreenVideosCubit>(event.context).state;
-
-    if (homeScreenVideosState is LoadedHomeScreenVideosState && event.refresh == false) return;
+    if (event.isLoadedHomeScreenVideos && event.refresh == false) return;
 
     if (_currentState.videoCategory != null) {
       event.scrollController?.animateTo(
@@ -59,14 +58,10 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
         duration: const Duration(seconds: 1),
         curve: Curves.fastOutSlowIn,
       );
-      BlocProvider.of<HomePageBottomNavbarCubit>(event.context).showBottomNavbar();
+      event.showBottomNavbar();
     }
 
-    var homeScreenVideosCubit = BlocProvider.of<HomeScreenVideosCubit>(event.context);
-
-    var categoriesCubit = BlocProvider.of<MainVideoCategoryCubit>(event.context);
-
-    homeScreenVideosCubit.loadingHomeScreenVideosState();
+    event.loadingHomeScreenVideosState();
 
     var data = await _homeScreenRepo.homeScreenGetVideo(
       q: _currentState.videoCategory?.id == null
@@ -75,20 +70,20 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       clearSearch: true,
     );
 
-    if (categoriesCubit.state is ErrorVideoCategoryState) {
-      categoriesCubit.loadVideoCategory();
+    if (event.isErrorVideoCategoryState is ErrorVideoCategoryState) {
+      event.loadVideoCategory();
     }
 
     debugPrint("coming data from server: $data");
 
     if (data.containsKey("server_error")) {
       // server error
-      homeScreenVideosCubit.errorHomeScreenVideosState();
+      event.errorHomeScreenVideosState();
     } else if (data.containsKey("success")) {
       List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos);
       emitState(emit);
-      homeScreenVideosCubit.loadedHomeScreenVideosState();
+      event.loadedHomeScreenVideosState();
 
       // await _getVideosDataIsolate(
       //   videos: videos,
@@ -98,9 +93,9 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       debugPrint("is coming here");
 
       emitState(emit);
-      homeScreenVideosCubit.loadedHomeScreenVideosState();
+      event.loadedHomeScreenVideosState();
     } else {
-      homeScreenVideosCubit.errorHomeScreenVideosState();
+      event.errorHomeScreenVideosState();
       // server error
     }
     emitState(emit);
@@ -142,12 +137,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   ) async {
     if (_currentState.videoCategory?.id == event.videoCategory?.id) return;
     _currentState.videoCategory = event.videoCategory;
-    add(RefreshHomeScreenEvent(
-      context: event.context,
-      videoCategory: _currentState.videoCategory,
-      scrollController: event.scrollController,
-      refresh: true,
-    ));
+    event.refresh();
     emitState(emit);
   }
 
