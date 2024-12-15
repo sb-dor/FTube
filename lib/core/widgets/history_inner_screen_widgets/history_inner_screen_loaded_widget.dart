@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
+import 'package:youtube/features/library_screen/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;

@@ -5,8 +5,6 @@ import 'package:youtube/core/utils/constants.dart';
 import 'package:youtube/core/utils/mixins/storage_helper.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/library_screen/domain/repository/library_screen_repository.dart';
-import 'package:youtube/features/library_screen/domain/usecases/get_history.dart';
-import 'package:youtube/features/library_screen/domain/usecases/save_in_history.dart';
 import 'state_model/history_state_model.dart';
 
 part 'history_events.dart';
@@ -18,17 +16,10 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
 
   final LibraryScreenRepository _libraryScreenRepository;
 
-  late GetHistory _getHistory;
-
-  late SaveInHistory _saveInHistory;
 
   HistoryBloc(this._libraryScreenRepository) : super(LoadingHistoryState(HistoryStateModel())) {
     // registrations
     _currentState = state.historyStateModel;
-
-    _getHistory = GetHistory(_libraryScreenRepository);
-
-    _saveInHistory = SaveInHistory(_libraryScreenRepository);
 
     // events
     on<GetHistoryEvent>(_getHistoryEvent);
@@ -43,7 +34,7 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
   void _getHistoryEvent(GetHistoryEvent event, Emitter<HistoryStates> emit) async {
     emit(LoadingHistoryState(_currentState));
 
-    final data = await _getHistory.getHistory();
+    final data = await _libraryScreenRepository.getHistory();
 
     _currentState.addPaginate(videos: data);
 
@@ -51,7 +42,7 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
   }
 
   void _paginateHistoryEvent(PaginateHistoryEvent event, Emitter<HistoryStates> emit) async {
-    final data = await _getHistory.getHistory();
+    final data = await _libraryScreenRepository.getHistory();
 
     _currentState.addPaginate(videos: data, paginate: true);
 
@@ -59,7 +50,7 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
   }
 
   void _addOnHistoryEvent(AddOnHistoryEvent event, Emitter<HistoryStates> emit) async =>
-      await _saveInHistory.saveInHistory(event.video);
+      await _libraryScreenRepository.saveInHistory(event.video);
 
   void _initLengthOfDownloadedFiles(
     InitLengthOfDownloadedFiles event,

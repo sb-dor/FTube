@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
 
 class CreatePlayListPopup extends StatefulWidget {
   const CreatePlayListPopup({super.key});

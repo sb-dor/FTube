@@ -5,9 +5,9 @@ import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
 import 'package:youtube/features/library_inner_screens/presentation/pages/history_inner_screen/history_inner_screen.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
+import 'package:youtube/features/library_screen/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/library_module_title_widget/library_module_title_widget.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
@@ -70,8 +70,10 @@ class _Widget extends StatelessWidget {
           videoId: videoModelDb?.videoId ?? '',
           videoThumb: videoModelDb?.videoThumbnailUrl,
         ).then((value) {
-          context.read<HistoryBloc>().add(GetHistoryEvent());
-          context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+          if (context.mounted) {
+            context.read<HistoryBloc>().add(GetHistoryEvent());
+            context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+          }
         });
       },
       child: SizedBox(

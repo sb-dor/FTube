@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/popups/create_playlist_popup/select_playlist_popup.dart';
 
 import 'global_context_helper.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
 
 import 'create_playlist_popup.dart';
 
@@ -22,7 +22,6 @@ class SelectPlaylistPopup extends StatefulWidget {
 class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context
         .read<PlaylistsBloc>()

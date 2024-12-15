@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/features/library_inner_screens/presentation/pages/playlist_inner_screen/playlist_inner_screen.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/history_bloc/history_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_bloc.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_event.dart';
-import 'package:youtube/features/library_screen/presentation/bloc/playlists_bloc/playlists_state.dart';
+import 'package:youtube/features/library_screen/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
+import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_state.dart';
 import 'package:youtube/core/widgets/history_widgets/error_history_widget.dart';
 import 'package:youtube/core/widgets/history_widgets/loaded_history_widget.dart';
 import 'package:youtube/core/widgets/history_widgets/loading_history_widget.dart';
 import 'package:youtube/core/widgets/playlist_widgets/error_playlist_widget.dart';
 import 'package:youtube/core/widgets/playlist_widgets/loaded_playlist_widget.dart';
 import 'package:youtube/core/widgets/playlist_widgets/loading_playlist_widget.dart';
-
 import 'popups/create_playlist_popup/create_playlist_popup.dart';
 import 'widgets/library_download_files_widget/library_downloaded_files_widget.dart';
 import 'widgets/library_module_title_widget/library_module_title_widget.dart';
