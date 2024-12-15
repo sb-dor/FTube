@@ -1,20 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/library_inner_screens/domain/repository/history_inner_screen_repository/history_inner_screen_repository.dart';
-import 'package:youtube/features/library_inner_screens/domain/usecases/history_inner_screen_usecases/get_all_history_usecase.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/state_model/history_inner_screen_state_model.dart';
+import 'package:youtube/features/library_inner_screens/domain/repository/history_inner_screen_repository.dart';
 import 'history_inner_screen_event.dart';
 import 'history_inner_screen_state.dart';
+import 'state_model/history_inner_screen_state_model.dart';
 
 class HistoryInnerScreenBloc extends Bloc<HistoryInnerScreenEvent, HistoryInnerScreenState> {
   late HistoryInnerScreenStateModel _currentState;
-  late GetAllHistoryUseCase _getAllHistoryUseCase;
   final HistoryInnerScreenRepository _historyInnerScreenRepository;
 
   HistoryInnerScreenBloc(
     this._historyInnerScreenRepository,
   ) : super(LoadingHistoryInnerScreen(HistoryInnerScreenStateModel())) {
     _currentState = state.historyInnerScreenStateModel;
-    _getAllHistoryUseCase = GetAllHistoryUseCase(_historyInnerScreenRepository);
 
     on<RefreshHistoryInnerScreenEvent>(_refreshHistoryInnerScreenEvent);
 
@@ -28,7 +25,7 @@ class HistoryInnerScreenBloc extends Bloc<HistoryInnerScreenEvent, HistoryInnerS
   ) async {
     emit(LoadingHistoryInnerScreen(_currentState));
 
-    final data = await _getAllHistoryUseCase.getAllHistory();
+    final data = await _historyInnerScreenRepository.getHistory();
 
     _currentState.addPaginate(videos: data);
 
@@ -39,7 +36,7 @@ class HistoryInnerScreenBloc extends Bloc<HistoryInnerScreenEvent, HistoryInnerS
     PaginateHistoryInnerScreenEvent event,
     Emitter<HistoryInnerScreenState> emit,
   ) async {
-    final data = await _getAllHistoryUseCase.getAllHistory(
+    final data = await _historyInnerScreenRepository.getHistory(
       currentListLength: _currentState.historyVideos.length,
     );
 

@@ -1,26 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db.dart';
 import 'package:youtube/core/db/playlists_db/playlist_videos_model_db/playlist_videos_model_db.dart';
-import 'package:youtube/features/library_inner_screens/domain/repository/playlist_inner_screen_repository/playlist_inner_screen_repository.dart';
-import 'package:youtube/features/library_inner_screens/domain/usecases/playlist_inner_screen_usecases/get_all_playlist_usecase.dart';
-import 'package:youtube/features/library_inner_screens/domain/usecases/playlist_liked_videos_usecase/playlist_liked_videos_usecase.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/playlist_inner_screen_bloc/state_model/playlist_inner_screen_state_model.dart';
+import 'package:youtube/features/library_inner_screens/domain/repository/playlist_inner_screen_repository.dart';
 import 'playlist_inner_screen_event.dart';
 import 'playlist_inner_screen_state.dart';
+import 'state_model/playlist_inner_screen_state_model.dart';
 
 class PlaylistInnerScreenBloc extends Bloc<PlaylistInnerScreenEvent, PlaylistInnerScreenState> {
   final PlaylistInnerScreenRepository _playlistInnerScreenRepository;
   late PlaylistInnerScreenStateModel _currentState;
 
   //
-  late GetAllPlaylistsUseCase _getAllPlaylistsUseCase;
-  late PlaylistLikedVideosUseCase _playlistLikedVideosUseCase;
 
   PlaylistInnerScreenBloc(
     this._playlistInnerScreenRepository,
   ) : super(LoadingPlaylistInnerState(PlaylistInnerScreenStateModel())) {
-    _getAllPlaylistsUseCase = GetAllPlaylistsUseCase(_playlistInnerScreenRepository);
-    _playlistLikedVideosUseCase = PlaylistLikedVideosUseCase(_playlistInnerScreenRepository);
     _currentState = state.playlistInnerScreenStateModel;
     //
     //
@@ -36,9 +30,9 @@ class PlaylistInnerScreenBloc extends Bloc<PlaylistInnerScreenEvent, PlaylistInn
   ) async {
     emit(LoadingPlaylistInnerState(_currentState));
 
-    final data = await _getAllPlaylistsUseCase.getAllPlaylists();
+    final data = await _playlistInnerScreenRepository.getPlaylists();
 
-    final checkForLikes = await _playlistLikedVideosUseCase.getLikedVideosLength();
+    final checkForLikes = await _playlistInnerScreenRepository.getLikedVideos();
 
     if (checkForLikes.isNotEmpty) {
       data.insert(
@@ -60,7 +54,7 @@ class PlaylistInnerScreenBloc extends Bloc<PlaylistInnerScreenEvent, PlaylistInn
     PaginateInnerPlaylistScreen event,
     Emitter<PlaylistInnerScreenState> emit,
   ) async {
-    final data = await _getAllPlaylistsUseCase.getAllPlaylists(
+    final data = await _playlistInnerScreenRepository.getPlaylists(
       currentListLength: _currentState.playlists.length,
     );
 

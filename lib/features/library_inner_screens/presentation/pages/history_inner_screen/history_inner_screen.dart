@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_event.dart';
-import 'package:youtube/features/library_inner_screens/presentation/blocs/history_inner_screen_bloc/history_inner_screen_state.dart';
 import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_error_widget.dart';
 import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_loaded_widget.dart';
 import 'package:youtube/core/widgets/history_inner_screen_widgets/history_inner_screen_loading_widget.dart';
+import 'package:youtube/features/library_inner_screens/blocs/history_inner_screen_bloc/history_inner_screen_bloc.dart';
+import 'package:youtube/features/library_inner_screens/blocs/history_inner_screen_bloc/history_inner_screen_event.dart';
+import 'package:youtube/features/library_inner_screens/blocs/history_inner_screen_bloc/history_inner_screen_state.dart';
 
 class HistoryInnerScreen extends StatefulWidget {
   const HistoryInnerScreen({super.key});

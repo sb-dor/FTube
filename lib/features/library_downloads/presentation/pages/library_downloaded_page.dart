@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_bloc.dart';
-import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_event.dart';
-import 'package:youtube/features/library_downloads/presentation/bloc/library_downloads_state.dart';
+import 'package:youtube/features/library_downloads/bloc/library_downloads_bloc.dart';
+import 'package:youtube/features/library_downloads/bloc/library_downloads_event.dart';
+import 'package:youtube/features/library_downloads/bloc/library_downloads_state.dart';
 import 'package:youtube/core/widgets/history_inner_screen_widgets/downloaded_file_loaded_widget.dart';
 
 class LibraryDownloadedPage extends StatefulWidget {
