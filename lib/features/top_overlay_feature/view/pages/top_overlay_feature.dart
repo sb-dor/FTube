@@ -23,17 +23,13 @@ class TopOverlayFeature extends StatefulWidget {
 }
 
 class _TopOverlayFeatureState extends State<TopOverlayFeature> {
-  // late StreamSubscription _subscription;
+  static const double _containerWidth = 250;
+  static const double _containerHeight = 150;
   late final TopOverlayFeatureBloc _topOverlayFeatureBloc;
+  double? maxX;
+  double? maxY;
 
   Offset offset = const Offset(20, 40);
-
-  @override
-  void dispose() {
-    // _subscription.cancel();
-    _topOverlayFeatureBloc.add(DisposeOverlayVideoController());
-    super.dispose();
-  }
 
   @override
   void initState() {
@@ -53,6 +49,20 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
           ),
         );
     // });
+
+    WidgetsBinding.instance.addPersistentFrameCallback((_) {
+      if (!mounted) return;
+      final size = MediaQuery.of(context).size;
+      maxX = size.width - _containerWidth;
+      maxY = size.height - _containerHeight;
+    });
+  }
+
+  @override
+  void dispose() {
+    // _subscription.cancel();
+    _topOverlayFeatureBloc.add(DisposeOverlayVideoController());
+    super.dispose();
   }
 
   @override
@@ -69,7 +79,13 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
               TopOverlayLogic.instance.removeOverlay();
             },
             onPanUpdate: (details) {
-              offset += details.delta;
+              final newOffset = offset + details.delta;
+
+              // Clamp the new offset to keep the widget within the screen boundaries
+              final clampedX = newOffset.dx.clamp(0.0, maxX ?? 0.0);
+              final clampedY = newOffset.dy.clamp(0.0, maxY ?? 0.0);
+
+              offset = Offset(clampedX, clampedY);
               widget.overlayEntry.markNeedsBuild();
             },
             child: Stack(
@@ -87,8 +103,8 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                             // TODO: show stop overlay
                           },
                           child: Container(
-                            width: 250,
-                            height: 150,
+                            width: _containerWidth,
+                            height: _containerHeight,
                             color: Colors.black,
                             child: Center(
                               child: state is LoadedOverlayFeatureState &&
