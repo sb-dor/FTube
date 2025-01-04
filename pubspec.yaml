@@ -56,7 +56,7 @@ dependencies:
   video_player: ^2.9.2
   youtube_player_flutter: ^8.1.2
   youtube_explode_dart: ^2.3.1
-  flutter_statusbarcolor_ns: ^0.5.0
+  flutter_statusbarcolor_ns: ^0.6.0
   jiffy: ^6.2.1
   fluttertoast: ^8.2.4
   gal: ^2.2.0
