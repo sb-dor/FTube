@@ -14,6 +14,9 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     _currentState = state.topOverlayFeatureStateModel;
 
     //
+    on<TopOverlayEmitterEvent>(_topOverlayEmitterEvent);
+
+    //
     on<InitOverlayVideoController>(_initOverlayVideoController);
 
     on<ConvertToLoadingState>((event, emit) {
@@ -26,6 +29,18 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     on<ShowAndHideButtonsOnClickEvent>(_showAndHideButtonsOnClickEvent);
 
     on<PlatControllerListenerEvent>(_platControllerListenerEvent);
+  }
+
+  void _topOverlayEmitterEvent(
+    TopOverlayEmitterEvent event,
+    Emitter<TopOverlayFeatureStates> emit,
+  ) async {
+    switch (state) {
+      case LoadingOverlayFeatureState():
+        emit(LoadingOverlayFeatureState(_currentState));
+      case LoadedOverlayFeatureState():
+        emit(LoadedOverlayFeatureState(_currentState));
+    }
   }
 
   void _initOverlayVideoController(
@@ -78,6 +93,8 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     } else {
       _currentState.playerController?.pause();
     }
+
+    add(ShowAndHideButtonsOnClickEvent(refreshShowButtonTime: true));
   }
 
   void _showAndHideButtonsOnClickEvent(
@@ -86,8 +103,9 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
   ) async {
     await _currentState.changeShowButtons(
       () {
-        emit(LoadedOverlayFeatureState(_currentState));
+        add(TopOverlayEmitterEvent());
       },
+      refreshShowButtonTime: event.refreshShowButtonTime,
     );
   }
 

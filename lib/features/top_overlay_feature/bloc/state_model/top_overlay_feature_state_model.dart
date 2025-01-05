@@ -16,21 +16,32 @@ class TopOverlayFeatureStateModel {
 
   bool get showButtons => _showButtons;
 
-  Future<void> changeShowButtons(void Function() emitter) async {
-    if (!_showButtons) {
+  Timer? _timerForShowingButtons;
+
+  Future<void> changeShowButtons(
+    void Function() emitter, {
+    bool refreshShowButtonTime = false,
+  }) async {
+    if (!_showButtons || refreshShowButtonTime) {
       _showButtons = true;
       emitter();
 
+      if ((_timerForShowingButtons?.isActive ?? false)) {
+        _timerForShowingButtons?.cancel();
+      }
+
       // Use Future.delayed for the timer-like functionality
       try {
-        await Future.delayed(const Duration(seconds: 3));
-        _showButtons = false;
-        emitter();
+        _timerForShowingButtons = Timer(const Duration(seconds: 3), () {
+          _showButtons = false;
+          emitter();
+        });
       } catch (_) {
         // Handle cancellation or errors if needed
       }
     } else {
       _showButtons = false;
+      _timerForShowingButtons?.cancel();
       emitter();
     }
   }

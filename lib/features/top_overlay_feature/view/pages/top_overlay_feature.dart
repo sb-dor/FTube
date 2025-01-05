@@ -84,6 +84,12 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
   }
 
   @override
+  void dispose() {
+    TopOverlayLogic.instance.removeOverlay();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopOverlayFeatureBloc, TopOverlayFeatureStates>(
       builder: (context, state) {
