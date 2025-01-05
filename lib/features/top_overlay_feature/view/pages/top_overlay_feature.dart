@@ -111,6 +111,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
 
               offset = Offset(clampedX, clampedY);
               widget.overlayEntry.markNeedsBuild();
+              // setState(() {});
             },
             child: Stack(
               fit: StackFit.loose,
