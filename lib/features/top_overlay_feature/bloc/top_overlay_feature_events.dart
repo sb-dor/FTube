@@ -18,3 +18,5 @@ class ConvertToLoadingState extends TopOverlayFeatureEvents {}
 class PlayAndPauseVideoEvent extends TopOverlayFeatureEvents {}
 
 class ShowAndHideButtonsOnClickEvent extends TopOverlayFeatureEvents {}
+
+class PlatControllerListenerEvent extends TopOverlayFeatureEvents {}

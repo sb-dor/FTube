@@ -24,6 +24,8 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     on<PlayAndPauseVideoEvent>(_playAndPauseVideoEvent);
 
     on<ShowAndHideButtonsOnClickEvent>(_showAndHideButtonsOnClickEvent);
+
+    on<PlatControllerListenerEvent>(_platControllerListenerEvent);
   }
 
   void _initOverlayVideoController(
@@ -44,18 +46,32 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
       await _currentState.playerController?.play();
       debugPrint("loaded coming here 3");
       emit(LoadedOverlayFeatureState(_currentState));
+      _currentState.playerController?.addListener(() {
+        add(PlatControllerListenerEvent());
+      });
     } catch (e) {
       debugPrint("overlay error is url: ${event.videoUrl} | $e");
     }
   }
 
-
+  void _platControllerListenerEvent(
+    PlatControllerListenerEvent event,
+    Emitter<TopOverlayFeatureStates> emit,
+  ) async {
+    if ((_currentState.playerController?.value.isCompleted ?? false)) {
+      _currentState.setValueToPlaying(false);
+      emit(LoadedOverlayFeatureState(_currentState));
+      debugPrint("working listener 1: finish");
+    }
+  }
 
   void _playAndPauseVideoEvent(
     PlayAndPauseVideoEvent event,
     Emitter<TopOverlayFeatureStates> emit,
   ) async {
     _currentState.setValueToPlaying(!_currentState.isPlaying);
+
+    emit(LoadedOverlayFeatureState(_currentState));
 
     if (_currentState.isPlaying) {
       _currentState.playerController?.play();
@@ -74,7 +90,6 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
       },
     );
   }
-
 
   @override
   Future<void> close() async {
