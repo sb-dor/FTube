@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'state_model/top_overlay_feature_state_model.dart';
 
 @immutable
-class TopOverlayFeatureStates {
+sealed class TopOverlayFeatureStates {
   final TopOverlayFeatureStateModel topOverlayFeatureStateModel;
 
   const TopOverlayFeatureStates(this.topOverlayFeatureStateModel);

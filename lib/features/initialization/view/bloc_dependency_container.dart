@@ -122,9 +122,7 @@ class BlocDependencyContainer extends StatelessWidget {
           ).create(),
         ),
         //
-        BlocProvider<TopOverlayFeatureBloc>(
-          create: (_) => TopOverlayFeatureBloc(),
-        ),
+
         //
       ],
       child: Provider<DependencyContainer>(

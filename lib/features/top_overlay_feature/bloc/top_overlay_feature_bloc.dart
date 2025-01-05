@@ -16,14 +16,14 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     //
     on<InitOverlayVideoController>(_initOverlayVideoController);
 
-    on<DisposeOverlayVideoController>(_disposeOverlayVideoController);
-
     on<ConvertToLoadingState>((event, emit) {
       _currentState.initController(null);
       emit(LoadingOverlayFeatureState(_currentState));
     });
 
     on<PlayAndPauseVideoEvent>(_playAndPauseVideoEvent);
+
+    on<ShowAndHideButtonsOnClickEvent>(_showAndHideButtonsOnClickEvent);
   }
 
   void _initOverlayVideoController(
@@ -49,13 +49,7 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     }
   }
 
-  void _disposeOverlayVideoController(
-    DisposeOverlayVideoController event,
-    Emitter<TopOverlayFeatureStates> emit,
-  ) async {
-    await _currentState.disposeController();
-    emit(LoadedOverlayFeatureState(_currentState));
-  }
+
 
   void _playAndPauseVideoEvent(
     PlayAndPauseVideoEvent event,
@@ -68,5 +62,23 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     } else {
       _currentState.playerController?.pause();
     }
+  }
+
+  void _showAndHideButtonsOnClickEvent(
+    ShowAndHideButtonsOnClickEvent event,
+    Emitter<TopOverlayFeatureStates> emit,
+  ) async {
+    await _currentState.changeShowButtons(
+      () {
+        emit(LoadedOverlayFeatureState(_currentState));
+      },
+    );
+  }
+
+
+  @override
+  Future<void> close() async {
+    await _currentState.disposeController();
+    return super.close();
   }
 }

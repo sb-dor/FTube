@@ -194,7 +194,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     currentVideoGoingDuration = null;
     _videoIsInitializing = false;
     _initializingVideoBeforeShowing = false;
-    if (context.mounted) setState(() {});
+    if (mounted) setState(() {});
   }
 
   @override
@@ -205,7 +205,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         if (widget.closeScreenBeforeOpeningAnotherOne && context.mounted) Navigator.pop(context);
         if (!context.mounted) return;
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
-        OpenVideoScreen.openVideoScreen(
+        await OpenVideoScreen.openVideoScreen(
           context: context,
           videoId: widget.video.videoId ?? '',
           videoThumb:

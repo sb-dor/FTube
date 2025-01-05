@@ -6,7 +6,7 @@ import 'package:youtube/features/top_overlay_feature/bloc/top_overlay_feature_ev
 import 'package:youtube/features/top_overlay_feature/bloc/top_overlay_feature_states.dart';
 import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
 
-class TopOverlayFeature extends StatefulWidget {
+class TopOverlayFeature extends StatelessWidget {
   final OverlayEntry overlayEntry;
   final String videoId;
   final Duration? position;
@@ -19,10 +19,35 @@ class TopOverlayFeature extends StatefulWidget {
   });
 
   @override
-  State<TopOverlayFeature> createState() => _TopOverlayFeatureState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => TopOverlayFeatureBloc(),
+      child: _TopOverlayFeatureUI(
+        overlayEntry: overlayEntry,
+        videoId: videoId,
+        position: position,
+      ),
+    );
+  }
 }
 
-class _TopOverlayFeatureState extends State<TopOverlayFeature> {
+class _TopOverlayFeatureUI extends StatefulWidget {
+  final OverlayEntry overlayEntry;
+  final String videoId;
+  final Duration? position;
+
+  const _TopOverlayFeatureUI({
+    super.key,
+    required this.overlayEntry,
+    required this.videoId,
+    required this.position,
+  });
+
+  @override
+  State<_TopOverlayFeatureUI> createState() => _TopOverlayFeatureState();
+}
+
+class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
   static const double _containerWidth = 250;
   static const double _containerHeight = 150;
   late final TopOverlayFeatureBloc _topOverlayFeatureBloc;
@@ -56,13 +81,6 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
       maxX = size.width - _containerWidth;
       maxY = size.height - _containerHeight;
     });
-  }
-
-  @override
-  void dispose() {
-    // _subscription.cancel();
-    _topOverlayFeatureBloc.add(DisposeOverlayVideoController());
-    super.dispose();
   }
 
   @override
@@ -101,6 +119,9 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                         GestureDetector(
                           onTap: () {
                             // TODO: show stop overlay
+                            context
+                                .read<TopOverlayFeatureBloc>()
+                                .add(ShowAndHideButtonsOnClickEvent());
                           },
                           child: Container(
                             width: _containerWidth,
@@ -137,52 +158,41 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 3,
-                          right: 3,
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // if (state is LoadedOverlayFeatureState &&
-                        //     currentState.playerController != null &&
-                        //     !(currentState.playerController?.value.isPlaying ?? false))
-                        Positioned.fill(
-                          child: Material(
-                            color: Colors.black.withOpacity(0.5),
-                            child: Center(
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6.0),
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(50),
-                                    onTap: () {
-                                      context.read<TopOverlayFeatureBloc>().add(
-                                            PlayAndPauseVideoEvent(),
-                                          );
-                                    },
-                                    child: Center(
-                                      child: Icon(
-                                        (currentState.playerController?.value.isPlaying ?? false)
-                                            ? Icons.stop
-                                            : Icons.play_arrow,
-                                        color: Colors.white,
+                        if (state is LoadedOverlayFeatureState &&
+                            currentState.playerController != null &&
+                            currentState.showButtons)
+                          Positioned.fill(
+                            child: GestureDetector(
+                              onTap: () {
+                                context
+                                    .read<TopOverlayFeatureBloc>()
+                                    .add(ShowAndHideButtonsOnClickEvent());
+                              },
+                              child: Material(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                child: Center(
+                                  child: Container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withValues(alpha: 0.5),
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(6.0),
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(50),
+                                        onTap: () {
+                                          context.read<TopOverlayFeatureBloc>().add(
+                                                PlayAndPauseVideoEvent(),
+                                              );
+                                        },
+                                        child: Center(
+                                          child: Icon(
+                                            currentState.isPlaying ? Icons.stop : Icons.play_arrow,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -190,7 +200,26 @@ class _TopOverlayFeatureState extends State<TopOverlayFeature> {
                               ),
                             ),
                           ),
-                        ),
+                        if (state is LoadedOverlayFeatureState &&
+                            currentState.playerController != null &&
+                            currentState.showButtons)
+                          Positioned(
+                            top: 3,
+                            right: 3,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),
