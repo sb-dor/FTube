@@ -103,7 +103,7 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
   ) async {
     await _currentState.changeShowButtons(
       () {
-        add(TopOverlayEmitterEvent());
+        if (!isClosed) add(TopOverlayEmitterEvent());
       },
       refreshShowButtonTime: event.refreshShowButtonTime,
     );
