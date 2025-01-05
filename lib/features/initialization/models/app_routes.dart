@@ -16,7 +16,10 @@ final goRouter = GoRouter(routes: [
             path: 'watch',
             name: '/watch',
             builder: (context, state) {
-              return VideoPlayerScreen(videoId: state.uri.queryParameters['v'] ?? 'NQDinnsjabs');
+              return VideoPlayerScreen(
+                videoId: state.uri.queryParameters['v'] ?? 'NQDinnsjabs',
+                showOverlay: () {},
+              );
             }),
 
         // example for:
@@ -25,14 +28,20 @@ final goRouter = GoRouter(routes: [
         GoRoute(
             path: 'shorts/:id',
             builder: (context, state) {
-              return VideoPlayerScreen(videoId: state.pathParameters['id'] ?? "NQDinnsjabs");
+              return VideoPlayerScreen(
+                videoId: state.pathParameters['id'] ?? "NQDinnsjabs",
+                showOverlay: () {},
+              );
             }),
         // example for:
         /// [https://youtu.be/NQDinnsjabs?si=VtdU7uiZoWY2qsdb]
         GoRoute(
             path: ':id',
             builder: (context, state) {
-              return VideoPlayerScreen(videoId: state.pathParameters['id'] ?? "NQDinnsjabs");
+              return VideoPlayerScreen(
+                videoId: state.pathParameters['id'] ?? "NQDinnsjabs",
+                showOverlay: () {},
+              );
             })
       ]),
 ]);

@@ -140,7 +140,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         ),
                   )
                 else
-                  VideosLoadedWidget(videoList: mainSearchScreenStateModel.videos),
+                  VideosLoadedWidget(
+                    videoList: mainSearchScreenStateModel.videos,
+                    parentContext: context,
+                  ),
                 if (mainSearchScreenStateModel.hasMore &&
                     searchBodyCubit.state is LoadedSearchBodyState)
                   const Column(

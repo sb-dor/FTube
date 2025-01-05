@@ -142,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               _refresh(refresh: true);
                             })
                           else
-                            VideosLoadedWidget(videoList: mainHomeScreenStateModel.videos),
+                            VideosLoadedWidget(
+                              videoList: mainHomeScreenStateModel.videos,
+                              parentContext: context,
+                            ),
                           const SizedBox(height: 5),
                           if (homeScreenVideosState is LoadedHomeScreenVideosState &&
                               mainHomeScreenStateModel.hasMore)

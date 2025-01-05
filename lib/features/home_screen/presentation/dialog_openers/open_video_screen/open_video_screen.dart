@@ -8,23 +8,17 @@ abstract class OpenVideoScreen {
   static Future<void> openVideoScreen({
     required BuildContext context,
     required String videoId,
+    required void Function() showOverlay,
     String? videoThumb,
   }) async =>
       await showModalBottomSheet(
         isScrollControlled: true,
+        useRootNavigator: true,
         context: context,
         builder: (context) => VideoPlayerScreen(
           videoId: videoId,
           videoThumb: videoThumb,
+          showOverlay: showOverlay,
         ),
-      ).then((v) {
-        if (context.mounted) {
-          final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
-          TopOverlayLogic.instance.showOverlay(
-            context,
-            model.videoUrlForOverlayRun ?? '',
-            model.lastVideoDurationForMediaBackground,
-          );
-        }
-      });
+      );
 }

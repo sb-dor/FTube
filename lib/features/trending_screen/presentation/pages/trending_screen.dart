@@ -48,8 +48,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
           Expanded(
             child: RefreshIndicator(
               color: Colors.red,
-              onRefresh: () async =>
-                  context.read<TrendingScreenBloc>().add(
+              onRefresh: () async => context.read<TrendingScreenBloc>().add(
                     RefreshTrendingScreen(
                       category: trendsVideosState.trendingStateModel.category,
                       refresh: true,
@@ -82,6 +81,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
                     else
                       VideosLoadedWidget(
                         videoList: trendsVideosState.trendingStateModel.videos,
+                        parentContext: context,
                       ),
                     const SizedBox(height: 15)
                   ],

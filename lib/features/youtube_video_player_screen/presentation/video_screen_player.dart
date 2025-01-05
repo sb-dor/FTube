@@ -26,10 +26,12 @@ import 'widgets/video_player_widgets/video_settings_button.dart';
 class VideoPlayerScreen extends StatefulWidget {
   final String videoId;
   final String? videoThumb;
+  final void Function() showOverlay;
 
   const VideoPlayerScreen({
     Key? key,
     required this.videoId,
+    required this.showOverlay,
     this.videoThumb,
   }) : super(key: key);
 
@@ -80,6 +82,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   @override
   void dispose() {
+    widget.showOverlay();
     WidgetsBinding.instance.removeObserver(this);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _youtubeVideoCubit.dispose();
@@ -306,6 +309,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                     closeScreenBeforeOpeningAnotherOne: true,
                                     videoList: similarVideoCubit
                                         .state.similarVideoStateModel.similarVideos,
+                                    parentContext: context,
                                   ),
                                 )
                               else

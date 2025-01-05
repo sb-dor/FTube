@@ -11,10 +11,14 @@ class TopOverlayLogic {
   OverlayEntry? _overlayEntry;
 
   // Method to show an overlay
-  void showOverlay(BuildContext context, String videoId, Duration? position,) {
-    if (_overlayEntry != null) {
-      return; // Prevent multiple overlays
-    }
+  void showOverlay(
+    BuildContext context,
+    String videoId,
+    Duration? position,
+  ) {
+    if(videoId.trim().isEmpty) return;
+
+    removeOverlay();
 
     _overlayEntry = OverlayEntry(
       builder: (context) => TopOverlayFeature(
@@ -29,7 +33,9 @@ class TopOverlayLogic {
 
   // Method to remove the overlay
   void removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+    if ((_overlayEntry?.mounted ?? false)) {
+      _overlayEntry?.remove();
+      _overlayEntry = null;
+    }
   }
 }

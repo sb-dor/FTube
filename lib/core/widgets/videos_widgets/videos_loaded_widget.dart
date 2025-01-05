@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
+import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
@@ -12,15 +13,19 @@ import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/features/library_screen/bloc/history_bloc/history_bloc.dart';
+import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class VideosLoadedWidget extends StatelessWidget {
   final List<ytv.Video> videoList;
   final bool closeScreenBeforeOpeningAnotherOne;
+  final BuildContext parentContext;
 
   const VideosLoadedWidget({
     Key? key,
     required this.videoList,
+    required this.parentContext,
     this.closeScreenBeforeOpeningAnotherOne = false,
   }) : super(key: key);
 
@@ -36,6 +41,7 @@ class VideosLoadedWidget extends StatelessWidget {
         return _MainVideoWidget(
           video: video,
           closeScreenBeforeOpeningAnotherOne: closeScreenBeforeOpeningAnotherOne,
+          parentContext: parentContext,
         );
       },
     );
@@ -45,9 +51,11 @@ class VideosLoadedWidget extends StatelessWidget {
 class _MainVideoWidget extends StatefulWidget {
   final ytv.Video video;
   final bool closeScreenBeforeOpeningAnotherOne;
+  final BuildContext parentContext;
 
   const _MainVideoWidget({
     required this.video,
+    required this.parentContext,
     required this.closeScreenBeforeOpeningAnotherOne,
   });
 
@@ -201,15 +209,30 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        TopOverlayLogic.instance.removeOverlay();
         await _clearController();
         if (widget.closeScreenBeforeOpeningAnotherOne && context.mounted) Navigator.pop(context);
         if (!context.mounted) return;
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
         await OpenVideoScreen.openVideoScreen(
-          context: context,
+          context: widget.parentContext,
           videoId: widget.video.videoId ?? '',
           videoThumb:
               (widget.video.thumbnails ?? []).isEmpty ? null : widget.video.thumbnails?.first.url,
+          showOverlay: () {
+            debugPrint("calling on: before mounted");
+              debugPrint("calling on: after mounted");
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                final model = widget.parentContext.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+                debugPrint("setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
+                debugPrint("setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
+                TopOverlayLogic.instance.showOverlay(
+                  widget.parentContext,
+                  model.videoUrlForOverlayRun ?? '',
+                  model.lastVideoDurationForMediaBackground,
+                );
+              });
+          },
         );
       },
       child: Container(

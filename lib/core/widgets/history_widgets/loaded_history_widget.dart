@@ -11,6 +11,8 @@ import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_ev
 import 'package:youtube/features/library_screen/presentation/pages/main_library_page/widgets/library_module_title_widget/library_module_title_widget.dart';
 import 'package:youtube/core/widgets/image_loader_widget.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
+import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 
 class LoadedHistoryWidget extends StatelessWidget {
   final List<BaseVideoModelDb> videos;
@@ -63,12 +65,29 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        TopOverlayLogic.instance.removeOverlay();
         Video video = Video.fromBaseVideoModelDb(videoModelDb);
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
         await OpenVideoScreen.openVideoScreen(
           context: context,
           videoId: videoModelDb?.videoId ?? '',
           videoThumb: videoModelDb?.videoThumbnailUrl,
+          showOverlay: () {
+            debugPrint("calling on: before mounted");
+            if (context.mounted) {
+              debugPrint("calling on: after mounted");
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+                debugPrint("setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
+                debugPrint("setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
+                TopOverlayLogic.instance.showOverlay(
+                  context,
+                  model.videoUrlForOverlayRun ?? '',
+                  model.lastVideoDurationForMediaBackground,
+                );
+              });
+            }
+          },
         ).then((value) {
           if (context.mounted) {
             context.read<HistoryBloc>().add(GetHistoryEvent());

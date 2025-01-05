@@ -8,6 +8,8 @@ import 'package:youtube/core/widgets/text_widget.dart';
 import 'package:youtube/features/library_screen/bloc/history_bloc/history_bloc.dart';
 import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_bloc.dart';
 import 'package:youtube/features/library_screen/bloc/playlists_bloc/playlists_event.dart';
+import 'package:youtube/features/top_overlay_feature/view/overlay_opener/top_overlay_logic.dart';
+import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_cubit.dart';
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;
@@ -46,12 +48,25 @@ class _Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        TopOverlayLogic.instance.removeOverlay();
         Video video = Video.fromBaseVideoModelDb(baseVideoModelDb);
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
         await OpenVideoScreen.openVideoScreen(
           context: context,
           videoId: baseVideoModelDb?.videoId ?? '',
           videoThumb: baseVideoModelDb?.videoThumbnailUrl,
+          showOverlay: () {
+            if (context.mounted) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+                TopOverlayLogic.instance.showOverlay(
+                  context,
+                  model.videoUrlForOverlayRun ?? '',
+                  model.lastVideoDurationForMediaBackground,
+                );
+              });
+            }
+          },
         ).then(
           (value) {
             if (context.mounted) {
