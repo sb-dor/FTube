@@ -7,6 +7,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/video_
 abstract class OpenVideoScreen {
   static Future<void> openVideoScreen({
     required BuildContext context,
+    required BuildContext parentContext,
     required String videoId,
     required void Function() showOverlay,
     String? videoThumb,
@@ -19,6 +20,7 @@ abstract class OpenVideoScreen {
           videoId: videoId,
           videoThumb: videoThumb,
           showOverlay: showOverlay,
+          parentContext: parentContext,
         ),
       );
 }

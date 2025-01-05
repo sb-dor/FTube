@@ -16,10 +16,12 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/y
 
 class LoadedHistoryWidget extends StatelessWidget {
   final List<BaseVideoModelDb> videos;
+  final BuildContext parentContext;
 
   const LoadedHistoryWidget({
     super.key,
     required this.videos,
+    required this.parentContext,
   });
 
   @override
@@ -45,7 +47,10 @@ class LoadedHistoryWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               final video = videos[index];
-              return _Widget(videoModelDb: video);
+              return _Widget(
+                videoModelDb: video,
+                parentContext: parentContext,
+              );
             },
           ),
         ),
@@ -56,9 +61,11 @@ class LoadedHistoryWidget extends StatelessWidget {
 
 class _Widget extends StatelessWidget {
   final BaseVideoModelDb? videoModelDb;
+  final BuildContext parentContext;
 
   const _Widget({
     required this.videoModelDb,
+    required this.parentContext,
   });
 
   @override
@@ -70,6 +77,7 @@ class _Widget extends StatelessWidget {
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
         await OpenVideoScreen.openVideoScreen(
           context: context,
+          parentContext: parentContext,
           videoId: videoModelDb?.videoId ?? '',
           videoThumb: videoModelDb?.videoThumbnailUrl,
           showOverlay: () {
@@ -79,7 +87,8 @@ class _Widget extends StatelessWidget {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
                 debugPrint("setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
-                debugPrint("setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
+                debugPrint(
+                    "setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
                 TopOverlayLogic.instance.showOverlay(
                   context,
                   model.videoUrlForOverlayRun ?? '',

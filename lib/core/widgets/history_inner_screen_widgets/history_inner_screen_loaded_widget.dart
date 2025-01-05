@@ -13,10 +13,12 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/y
 
 class HistoryInnerScreenLoadedWidget extends StatelessWidget {
   final List<BaseVideoModelDb> historyVideos;
+  final BuildContext parentContext;
 
   const HistoryInnerScreenLoadedWidget({
     super.key,
     required this.historyVideos,
+    required this.parentContext,
   });
 
   @override
@@ -30,6 +32,7 @@ class HistoryInnerScreenLoadedWidget extends StatelessWidget {
         final video = historyVideos[index];
         return _Widget(
           baseVideoModelDb: video,
+          parentContext: parentContext,
         );
       },
     );
@@ -38,10 +41,12 @@ class HistoryInnerScreenLoadedWidget extends StatelessWidget {
 
 class _Widget extends StatelessWidget {
   final BaseVideoModelDb? baseVideoModelDb;
+  final BuildContext parentContext;
 
   const _Widget({
     Key? key,
     required this.baseVideoModelDb,
+    required this.parentContext,
   }) : super(key: key);
 
   @override
@@ -54,6 +59,7 @@ class _Widget extends StatelessWidget {
         await OpenVideoScreen.openVideoScreen(
           context: context,
           videoId: baseVideoModelDb?.videoId ?? '',
+          parentContext: parentContext,
           videoThumb: baseVideoModelDb?.videoThumbnailUrl,
           showOverlay: () {
             if (context.mounted) {

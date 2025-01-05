@@ -214,18 +214,15 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         if (widget.closeScreenBeforeOpeningAnotherOne && context.mounted) Navigator.pop(context);
         if (!context.mounted) return;
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
+        final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
         await OpenVideoScreen.openVideoScreen(
-          context: widget.parentContext,
+          parentContext: widget.parentContext,
+          context: context,
           videoId: widget.video.videoId ?? '',
           videoThumb:
               (widget.video.thumbnails ?? []).isEmpty ? null : widget.video.thumbnails?.first.url,
           showOverlay: () {
-            debugPrint("calling on: before mounted");
-              debugPrint("calling on: after mounted");
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                final model = widget.parentContext.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
-                debugPrint("setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
-                debugPrint("setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
                 TopOverlayLogic.instance.showOverlay(
                   widget.parentContext,
                   model.videoUrlForOverlayRun ?? '',

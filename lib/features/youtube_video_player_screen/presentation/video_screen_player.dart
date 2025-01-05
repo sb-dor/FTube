@@ -27,11 +27,13 @@ class VideoPlayerScreen extends StatefulWidget {
   final String videoId;
   final String? videoThumb;
   final void Function() showOverlay;
+  final BuildContext parentContext;
 
   const VideoPlayerScreen({
     Key? key,
     required this.videoId,
     required this.showOverlay,
+    required this.parentContext,
     this.videoThumb,
   }) : super(key: key);
 
@@ -309,7 +311,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                     closeScreenBeforeOpeningAnotherOne: true,
                                     videoList: similarVideoCubit
                                         .state.similarVideoStateModel.similarVideos,
-                                    parentContext: context,
+                                    parentContext: widget.parentContext,
                                   ),
                                 )
                               else

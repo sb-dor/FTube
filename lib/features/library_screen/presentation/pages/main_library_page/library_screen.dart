@@ -62,7 +62,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     historyStateModel.videos.isEmpty)
                   const SizedBox()
                 else
-                  LoadedHistoryWidget(videos: historyStateModel.videos),
+                  LoadedHistoryWidget(
+                    videos: historyStateModel.videos,
+                    parentContext: context,
+                  ),
 
                 //
                 if (playlistBloc.state is LoadedPlaylistsState)

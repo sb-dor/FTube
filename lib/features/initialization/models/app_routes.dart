@@ -19,6 +19,7 @@ final goRouter = GoRouter(routes: [
               return VideoPlayerScreen(
                 videoId: state.uri.queryParameters['v'] ?? 'NQDinnsjabs',
                 showOverlay: () {},
+                parentContext: context,
               );
             }),
 
@@ -31,6 +32,7 @@ final goRouter = GoRouter(routes: [
               return VideoPlayerScreen(
                 videoId: state.pathParameters['id'] ?? "NQDinnsjabs",
                 showOverlay: () {},
+                parentContext: context,
               );
             }),
         // example for:
@@ -41,6 +43,7 @@ final goRouter = GoRouter(routes: [
               return VideoPlayerScreen(
                 videoId: state.pathParameters['id'] ?? "NQDinnsjabs",
                 showOverlay: () {},
+                parentContext: context,
               );
             })
       ]),

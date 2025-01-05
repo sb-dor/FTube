@@ -63,6 +63,7 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
               else
                 HistoryInnerScreenLoadedWidget(
                   historyVideos: historyInnerScreenStateModel.historyVideos,
+                  parentContext: context,
                 ),
               if (historyInnerScreenStateModel.hasMore)
                 const Column(

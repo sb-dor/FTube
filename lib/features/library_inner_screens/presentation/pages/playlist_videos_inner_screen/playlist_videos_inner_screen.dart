@@ -78,6 +78,7 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
               else if (playlistVideosInnerScreenBloc.state is LoadedPlaylistVideosInnerScreenState)
                 HistoryInnerScreenLoadedWidget(
                   historyVideos: playlistVideosInnerScreenStateModel.playlistVideos,
+                  parentContext: context,
                 ),
               const SizedBox(height: 10),
             ],
