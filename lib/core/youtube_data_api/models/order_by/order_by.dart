@@ -88,8 +88,8 @@ class OrderBy {
     OrderByTime? time,
     OrderByArrange? arrange,
   }) {
-    debugPrint("type herere: ${type?.id}");
-    debugPrint("time herere: ${time?.id}");
+    // debugPrint"type herere: ${type?.id}");
+    // debugPrint"time herere: ${time?.id}");
     return orderBy.firstWhereOrNull((element) {
       return element.orderByType?.id == type?.id && element.orderByTime?.id == time?.id;
     });

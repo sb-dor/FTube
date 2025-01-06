@@ -31,7 +31,7 @@ abstract class RestApiGetChannelData {
         }
       }
     } catch (e) {
-      debugPrint("channel error is: $e");
+      // debugPrint"channel error is: $e");
       res['server_error'] = true;
     }
     return res;

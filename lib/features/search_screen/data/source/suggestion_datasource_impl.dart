@@ -24,7 +24,7 @@ class SuggestionDatasourceImpl implements SuggestionDatasource {
     } catch (e) {
       result['success'] = true;
       result['data'] = <String>[];
-      debugPrint("getSuggestionSearch error is: $e");
+      // debugPrint"getSuggestionSearch error is: $e");
     }
     return result;
   }

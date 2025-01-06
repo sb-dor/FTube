@@ -13,7 +13,7 @@ mixin class StorageHelper {
       getExternalStoragePath = await getExternalStorageDirectory();
     }
 
-    debugPrint("external path: ${getExternalStoragePath?.path}");
+    // debugPrint"external path: ${getExternalStoragePath?.path}");
     return getExternalStoragePath;
   }
 }

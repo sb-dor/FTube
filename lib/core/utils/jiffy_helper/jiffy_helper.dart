@@ -15,7 +15,7 @@ abstract class JiffyHelper {
       if (data[i] != '-' || int.tryParse(data[i]) == null || data[i] == ' ') continue;
       res += data[i];
     }
-    debugPrint("result of string is : $res");
+    // debugPrint"result of string is : $res");
     return res;
   }
 }

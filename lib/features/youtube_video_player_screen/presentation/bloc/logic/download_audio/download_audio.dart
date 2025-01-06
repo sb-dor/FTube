@@ -59,8 +59,8 @@ class DownloadAudio {
         mainVideoId: stateModel.tempVideoId,
       );
       audioDownloadingCubit.audioGettingInformationState();
-      debugPrint(
-          "audio url: |${audioStreamInfo.size.totalKiloBytes}| ${audioStreamInfo.url.toString()}");
+      // debugPrint
+      //     "audio url: |${audioStreamInfo.size.totalKiloBytes}| ${audioStreamInfo.url.toString()}");
       var data = await APISettings.dio.get<List<int>>(
         audioStreamInfo.url.toString(),
         cancelToken: stateModel.cancelAudioToken,
@@ -99,11 +99,11 @@ class DownloadAudio {
       if (e.type.name == 'cancel') return;
       audioDownloadingCubit.state.downloadingAudioInfo = null;
       audioDownloadingCubit.audioDownloadingErrorState();
-      debugPrint("download audio error is : $e");
+      // debugPrint"download audio error is : $e");
     } catch (e) {
       audioDownloadingCubit.state.downloadingAudioInfo = null;
       audioDownloadingCubit.audioDownloadingErrorState();
-      debugPrint("download audio error is : $e");
+      // debugPrint"download audio error is : $e");
     }
   }
 }

@@ -47,7 +47,7 @@ import 'package:collection/collection.dart';
         stateModel.videoData = data['item'];
 
         // Log the codec subtype of the first audio in the list for debugging
-        debugPrint("setting background audio type: ${stateModel.audios.first.codec.subtype}");
+        // debugPrint"setting background audio type: ${stateModel.audios.first.codec.subtype}");
 
         // Create a MediaItem for background playback with the fetched video data
         stateModel.mediaItemForRunningInBackground = MediaItem(
@@ -79,7 +79,7 @@ import 'package:collection/collection.dart';
       }
     } catch (e) {
       // Log any errors that occur during the process
-      debugPrint("getVideoInformation: $e");
+      // debugPrint"getVideoInformation: $e");
       // Set the error state in the cubit if an exception is caught
       videoInfoCubit.errorVideoInformationState();
     }

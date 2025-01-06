@@ -32,8 +32,8 @@ class GoogleService implements AuthorizationService {
         key: "google_id_token",
       );
 
-      debugPrint("access token : $accessToken");
-      debugPrint("idtoken : $idToken");
+      // debugPrint"access token : $accessToken");
+      // debugPrint"idtoken : $idToken");
 
       OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: accessToken,
@@ -52,7 +52,7 @@ class GoogleService implements AuthorizationService {
       res['success'] = true;
       res['user'] = user;
     } catch (e) {
-      debugPrint("checkAuth error is : $e");
+      // debugPrint"checkAuth error is : $e");
       res = await refreshToken();
     }
     return res;
@@ -91,7 +91,7 @@ class GoogleService implements AuthorizationService {
       res['user'] = user;
     } catch (e) {
       res['auth_error'] = true;
-      debugPrint('login error is: $e');
+      // debugPrint'login error is: $e');
     }
     return res;
   }

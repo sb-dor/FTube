@@ -89,7 +89,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
       _currentState.playerController?.addListener(_controllerListener);
     } catch (e) {
-      debugPrint("the getVideo error is :$e");
+      // debugPrint"the getVideo error is :$e");
       emit(ErrorYoutubeVideoState(_currentState));
     }
   }

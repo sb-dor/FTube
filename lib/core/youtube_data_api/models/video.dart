@@ -182,7 +182,7 @@ class Video {
       videoData = await youtubeDataApi.fetchVideoData(videoId!);
       loadingVideoData = false;
     } catch (e) {
-      debugPrint("get video data error is $e");
+      // debugPrint"get video data error is $e");
       errorOfLoadingVideoData = true;
     }
   }

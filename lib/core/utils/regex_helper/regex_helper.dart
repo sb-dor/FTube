@@ -5,10 +5,10 @@ mixin class RegexHelper {
     RegExp? regExp;
     // .be\/(.{1,})\?
     if (text.contains('shorts/')) {
-      debugPrint("working 1");
+      // debugPrint"working 1");
       regExp = RegExp(r'shorts\/([^?]+)');
     } else if (text.contains("youtu.be/")) {
-      debugPrint("working 2");
+      // debugPrint"working 2");
       regExp = RegExp(r"youtu\.be/([a-zA-Z0-9_-]+)");
     } else {
       regExp = RegExp(r"v=([a-zA-Z0-9_-]+)");
@@ -16,7 +16,7 @@ mixin class RegexHelper {
 
     final foundGroup = regExp.firstMatch(text);
 
-    debugPrint("found group: ${foundGroup?.group(1)}");
+    // debugPrint"found group: ${foundGroup?.group(1)}");
 
     return foundGroup?.group(1) ?? '';
   }

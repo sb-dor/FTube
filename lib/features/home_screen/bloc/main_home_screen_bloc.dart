@@ -74,7 +74,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       event.loadVideoCategory();
     }
 
-    debugPrint("coming data from server: $data");
+    // debugPrint"coming data from server: $data");
 
     if (data.containsKey("server_error")) {
       // server error
@@ -90,7 +90,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       //   emit: emit,
       // );
 
-      debugPrint("is coming here");
+      // debugPrint"is coming here");
 
       emitState(emit);
       event.loadedHomeScreenVideosState();
@@ -178,7 +178,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
           each.videoData = videoData?.clone();
         }
       }
-      debugPrint("event coming: $each");
+      // debugPrint"event coming: $each");
       emitState(emit);
     }
   }

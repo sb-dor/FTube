@@ -17,7 +17,7 @@ class HomeScreenStateModel {
       videos = list;
     }
     hasMore = globalFunc.checkIsListHasMorePageBool(list: list);
-    debugPrint("has more? :$hasMore");
+    // debugPrint"has more? :$hasMore");
   }
 
 }

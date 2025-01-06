@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _scrollController.addListener(() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
-        debugPrint("last");
+        // debugPrint"last");
         context.read<MainHomeScreenBloc>().add(PaginateHomeScreenEvent());
       }
     });
@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
       //data
       final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
       final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
-      debugPrint("is here working on scroll | $videoCategoryState");
+      // debugPrint"is here working on scroll | $videoCategoryState");
       return PIPView(
         builder: (context, isFloating) {
           return Column(

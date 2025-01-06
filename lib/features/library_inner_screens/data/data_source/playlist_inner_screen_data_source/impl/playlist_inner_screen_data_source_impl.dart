@@ -26,7 +26,7 @@ class PlaylistInnerScreenDataSourceImpl implements PlaylistInnerScreenDataSource
 
     playlists = playlists.reversed.toList();
 
-    debugPrint("working here inner playlist screenj");
+    // debugPrint"working here inner playlist screenj");
 
     final result = ListPaginator().paginateList<PlaylistModelDb>(
       wholeList: playlists,

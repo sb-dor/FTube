@@ -93,7 +93,7 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
           each.videoData = videoData?.clone();
         }
       }
-      // debugPrint("event coming trending screen: $each");
+      // // debugPrint"event coming trending screen: $each");
       _emitState(emit);
     }
   }

@@ -12,7 +12,7 @@ class Permissions {
     if (checkPermissionForManagingExternalStorage != PermissionStatus.granted) {
       final permissionForManagingStorage = await Permission.manageExternalStorage.request();
 
-      debugPrint("permission for managing external storage denied");
+      // debugPrint"permission for managing external storage denied");
 
       return permissionForManagingStorage != PermissionStatus.granted;
     }
@@ -25,7 +25,7 @@ class Permissions {
     if (checkPermissionForStorage != PermissionStatus.granted) {
       final permissionForStorage = await Permission.storage.request();
 
-      debugPrint("permission for managing storage denied");
+      // debugPrint"permission for managing storage denied");
       return permissionForStorage != PermissionStatus.granted;
     }
     return false;

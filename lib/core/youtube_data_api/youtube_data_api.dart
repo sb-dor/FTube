@@ -44,13 +44,13 @@ class YoutubeDataApi {
 
     if (clearLastSearch) lastQuery = null;
 
-    debugPrint("search token : $_searchToken");
-    debugPrint("query : $query");
-    debugPrint("lastQuery : $lastQuery");
+    // debugPrint"search token : $_searchToken");
+    // debugPrint"query : $query");
+    // debugPrint"lastQuery : $lastQuery");
 
     if (_searchToken != null && query == lastQuery) {
       var url = 'https://www.youtube.com/youtubei/v1/search?key=$apiKey';
-      debugPrint("working first query");
+      // debugPrint"working first query");
       var body = {
         'context': const {
           'client': {'hl': 'en', 'clientName': 'WEB', 'clientVersion': '2.20200911.04.00'}
@@ -70,7 +70,7 @@ class YoutubeDataApi {
       contentList = (contents ?? []).toList();
       _searchToken = _getContinuationToken(jsonMap);
     } else {
-      debugPrint("working second query");
+      // debugPrint"working second query");
       lastQuery = query;
       var url =
           "https://www.youtube.com/results?search_query=$query${orderBy != null ? "&sp=$orderBy" : ''}";

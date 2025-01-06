@@ -48,9 +48,9 @@ abstract class GetVideo {
     stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
 
     // for (var each in stateModel.audios) {
-    //   debugPrint("audio data media type: ${each.codec.subtype}");
-    //   debugPrint("audio data size: ${each.size.totalMegaBytes}");
-    //   debugPrint("audio data url: ${each.url}");
+    //   // debugPrint"audio data media type: ${each.codec.subtype}");
+    //   // debugPrint"audio data size: ${each.size.totalMegaBytes}");
+    //   // debugPrint"audio data url: ${each.url}");
     // }
 
     // Filter out video streams with sound and without sound, keeping only those with size >= 1 MB
@@ -137,7 +137,7 @@ abstract class GetVideo {
       ),
     );
 
-    debugPrint("video url: ${ minStreamVideo.url}");
+    // debugPrint"video url: ${ minStreamVideo.url}");
 
     // Set the URL for overlay run in the state model
     stateModel.videoUrlForOverlayRun = minStreamVideo.url.toString();

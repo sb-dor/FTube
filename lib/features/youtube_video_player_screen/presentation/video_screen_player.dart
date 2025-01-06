@@ -97,15 +97,15 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.detached) {
-      debugPrint("AppLife is: detached");
+      // debugPrint"AppLife is: detached");
       final audioHandler = JustAudioBackgroundHelper.instance;
       await audioHandler.stopPlayer();
     } else if (state == AppLifecycleState.hidden) {
-      debugPrint("AppLife is: hidden");
+      // debugPrint"AppLife is: hidden");
     } else if (state == AppLifecycleState.inactive) {
-      debugPrint("AppLife is: inactive");
+      // debugPrint"AppLife is: inactive");
     } else if (state == AppLifecycleState.paused) {
-      debugPrint("AppLife is: paused");
+      // debugPrint"AppLife is: paused");
       // if (defaultTargetPlatform == TargetPlatform.android) {
       //   final bodyForSend = {
       //     "url_for_run": _youtubeVideoCubit.state.youtubeVideoStateModel.videoUrlForOverlayRun,

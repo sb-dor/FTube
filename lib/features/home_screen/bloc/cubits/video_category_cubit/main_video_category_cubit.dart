@@ -13,10 +13,10 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   }
 
   Future<void> loadVideoCategory() async {
-    debugPrint("loading categories 1");
+    // debugPrint"loading categories 1");
     emit(LoadingVideoCategoryState(List.empty()));
     var data = await _homeScreenRepo.getCategories();
-    debugPrint("get categories data: $data");
+    // debugPrint"get categories data: $data");
     if (data.containsKey("server_error")) {
       emit(ErrorVideoCategoryState(List.empty()));
     } else if (data.containsKey("success")) {

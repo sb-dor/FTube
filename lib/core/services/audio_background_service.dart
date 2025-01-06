@@ -56,7 +56,7 @@ class JustAudioBackgroundHelper {
         //
       },
       onError: (Object e, StackTrace stackTrace) {
-        debugPrint('A stream error occurred: $e');
+        // // debugPrint'A stream error occurred: $e');
       },
     );
 

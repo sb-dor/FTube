@@ -42,7 +42,7 @@ class RestApiGetVideoData {
       //   }
       // }
     } catch (e) {
-      debugPrint("getVideoStatistics error is: $e");
+      // debugPrint"getVideoStatistics error is: $e");
       result['server_error'] = true;
     }
     return result;
@@ -62,7 +62,7 @@ class RestApiGetVideoData {
         orderBy: orderBy,
       );
 
-      debugPrint("okay: $list");
+      // debugPrint"okay: $list");
 
       List<ytv.Video> videos = [];
       List<ytc.Channel> channels = [];
@@ -76,7 +76,7 @@ class RestApiGetVideoData {
         }
       }
 
-      // debugPrint("coming also here");
+      // // debugPrint"coming also here");
 
       // var response = await APISettings.dio.get(search + key + snippetPart, queryParameters: params);
       //
@@ -94,7 +94,7 @@ class RestApiGetVideoData {
       //   // if (response.statusCode != Constants.STATUS_SUCCESS) return {"server_error": true};
     } catch (e) {
       results['server_error'] = true;
-      debugPrint("getSearchVideo error is $e");
+      // debugPrint"getSearchVideo error is $e");
     }
     return results;
   }

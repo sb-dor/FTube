@@ -62,7 +62,7 @@ class YoutubeVideoStateModel {
     Map<String, VideoStreamInfo> getUnique = {};
 
     for (var each in allVideos) {
-      debugPrint("all videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
+      // debugPrint"all videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
       if (getUnique.containsKey(each.qualityLabel.trim())) {
         var value = getUnique[each.qualityLabel.trim()] as VideoStreamInfo;
         if (each.size.totalMegaBytes > value.size.totalMegaBytes) {
@@ -75,7 +75,7 @@ class YoutubeVideoStateModel {
     allVideos = getUnique.entries.map((e) => e.value).toList();
 
     for (var each in allVideos) {
-      debugPrint("all after videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
+      // debugPrint"all after videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
     }
   }
 

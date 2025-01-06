@@ -11,8 +11,8 @@ class VideoPlayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
       var currentState = state.youtubeVideoStateModel;
-      // debugPrint("width is : ${currentState.playerController?.value.size.width}");
-      // debugPrint("height is : ${currentState.playerController?.value.size.height}");
+      // // debugPrint"width is : ${currentState.playerController?.value.size.width}");
+      // // debugPrint"height is : ${currentState.playerController?.value.size.height}");
       return Positioned.fill(
         child: Container(
           color: Colors.black,

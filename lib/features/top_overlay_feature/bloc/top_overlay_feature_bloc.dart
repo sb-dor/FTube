@@ -48,7 +48,7 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     Emitter<TopOverlayFeatureStates> emit,
   ) async {
     try {
-      debugPrint("test coming here");
+      // debugPrint"test coming here");
       await _currentState.disposeController();
       LoadingOverlayFeatureState(_currentState);
       _currentState.initController(
@@ -59,13 +59,13 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
       await _currentState.playerController?.initialize();
       await _currentState.playerController?.seekTo(event.position ?? const Duration());
       await _currentState.playerController?.play();
-      debugPrint("loaded coming here 3");
+      // debugPrint"loaded coming here 3");
       emit(LoadedOverlayFeatureState(_currentState));
       _currentState.playerController?.addListener(() {
         add(PlatControllerListenerEvent());
       });
     } catch (e) {
-      debugPrint("overlay error is url: ${event.videoUrl} | $e");
+      // debugPrint"overlay error is url: ${event.videoUrl} | $e");
     }
   }
 
@@ -76,7 +76,7 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     if ((_currentState.playerController?.value.isCompleted ?? false)) {
       _currentState.setValueToPlaying(false);
       emit(LoadedOverlayFeatureState(_currentState));
-      debugPrint("working listener 1: finish");
+      // debugPrint"working listener 1: finish");
     }
   }
 

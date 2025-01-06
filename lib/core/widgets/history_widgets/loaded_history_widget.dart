@@ -81,14 +81,14 @@ class _Widget extends StatelessWidget {
           videoId: videoModelDb?.videoId ?? '',
           videoThumb: videoModelDb?.videoThumbnailUrl,
           showOverlay: () {
-            debugPrint("calling on: before mounted");
+            // debugPrint"calling on: before mounted");
             if (context.mounted) {
-              debugPrint("calling on: after mounted");
+              // debugPrint"calling on: after mounted");
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
-                debugPrint("setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
-                debugPrint(
-                    "setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
+                // debugPrint"setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
+                // debugPrint
+                //     "setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
                 TopOverlayLogic.instance.showOverlay(
                   context,
                   model.videoUrlForOverlayRun ?? '',

@@ -82,10 +82,10 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
         communicatorSendPort.send(stateModel.tempMinAudioForVideo?.url.toString());
 
-        debugPrint("coming into here");
+        // debugPrint"coming into here");
 
         broadcastRp.listen((message) async {
-          debugPrint("message is here $message");
+          // debugPrint"message is here $message");
           audioList = message;
         });
       }
@@ -98,7 +98,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
           videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
               solvePercentage / 100;
           videoDownloadingCubit.videoDownloadingLoadingState();
-          // debugPrint("still downloading");
+          // // debugPrint"still downloading");
         },
         options: Options(
           headers: await APISettings.headers(),
@@ -111,7 +111,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
       // var downloadingVideo =
       //     await HttpDownloaderHelper.download(video.url.toString(), (total, downloading, progress) {
-      //   debugPrint("total: $total | downloading: $downloading | progress: $progress");
+      //   // debugPrint"total: $total | downloading: $downloading | progress: $progress");
       //   videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress = progress / 100;
       //   videoDownloadingCubit.videoDownloadingLoadingState();
       // });
@@ -123,10 +123,10 @@ abstract class DownloadVideo with SolvePercentageMixin {
         );
         stateModel.isolateForDownloadingAudio = null;
       } else {
-        debugPrint("then coming here");
+        // debugPrint"then coming here");
         if (audioList == null) {
           broadcastRp?.listen((message) async {
-            debugPrint("message is here 2 $message");
+            // debugPrint"message is here 2 $message");
             await _downloadVideoWithoutSound(
               videoDownloadingCubit: videoDownloadingCubit,
               stateModel: stateModel,
@@ -139,7 +139,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
             // isolate?.kill();
           });
         } else {
-          debugPrint("then coming here 2");
+          // debugPrint"then coming here 2");
           await _downloadVideoWithoutSound(
             videoDownloadingCubit: videoDownloadingCubit,
             stateModel: stateModel,
@@ -165,11 +165,11 @@ abstract class DownloadVideo with SolvePercentageMixin {
       if (e.type.name == 'cancel') return;
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
       videoDownloadingCubit.videoDownloadingErrorState();
-      debugPrint("downloadInGallery error is $e");
+      // debugPrint"downloadInGallery error is $e");
     } catch (e) {
       videoDownloadingCubit.state.tempDownloadingVideoInfo = null;
       videoDownloadingCubit.videoDownloadingErrorState();
-      debugPrint("downloadInGallery error is $e");
+      // debugPrint"downloadInGallery error is $e");
     }
   }
 
@@ -265,7 +265,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
       log("result of fail: ${await value.getFailStackTrace()}");
 
       if (ReturnCode.isSuccess(returnCode)) {
-        debugPrint("SUCCESS");
+        // debugPrint"SUCCESS");
         await DownloadingVideoUseCase(
           path,
           dbFloor,
@@ -275,14 +275,14 @@ abstract class DownloadVideo with SolvePercentageMixin {
           stateModel: stateModel,
         );
       } else if (ReturnCode.isCancel(returnCode)) {
-        debugPrint("CANCEL");
+        // debugPrint"CANCEL");
       } else {
         stateModel.globalFunc.showToast(
           msg: Constants.videoDownloadingErrorOccurred,
           typeError: true,
           toastLength: Toast.LENGTH_LONG,
         );
-        debugPrint("ERROR");
+        // debugPrint"ERROR");
       }
     });
 

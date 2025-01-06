@@ -75,7 +75,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       if (_currentState.paginating && searchBodyCubit.state is LoadedSearchBodyState) {
         _currentState.paginating = false;
       }
-      debugPrint("working here buddy for timer: ${_currentState.paginating}");
+      // debugPrint"working here buddy for timer: ${_currentState.paginating}");
     });
   }
 
@@ -169,7 +169,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     Emitter<SearchScreenStates> emit,
   ) async {
     // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
-    debugPrint("calling here again");
+    // debugPrint"calling here again");
     try {
       if (_currentState.searchController.text.trim().isEmpty) return;
 
@@ -228,7 +228,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
               duration: videoData.video?.videoDuration,
             );
 
-            debugPrint("image of video is: ${videoFromVideoData.duration}");
+            // debugPrint"image of video is: ${videoFromVideoData.duration}");
 
             videoData.videosList.insert(0, videoFromVideoData);
 
@@ -264,7 +264,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 
       emit(InitialSearchScreenState(_currentState));
     } catch (e) {
-      debugPrint("_clickSearchButtonEvent error is : $e");
+      // debugPrint"_clickSearchButtonEvent error is : $e");
     }
   }
 
@@ -308,7 +308,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       }
     } catch (e) {
       event.functionsHolder.errorSearchBodyStateFunc();
-      debugPrint("_paginateSearchScreenEvent error is $e");
+      // debugPrint"_paginateSearchScreenEvent error is $e");
     }
   }
 

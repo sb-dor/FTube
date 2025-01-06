@@ -36,7 +36,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
 
       String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
 
-      debugPrint("making req: $query");
+      // debugPrint"making req: $query");
 
       var data = await _youtubeDataApi.fetchSearchVideo(
         query,
@@ -67,7 +67,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
       // }
     } catch (e) {
       res['server_error'] = true;
-      debugPrint("home screen get video error is : $e");
+      // debugPrint"home screen get video error is : $e");
     }
     return res;
   }
@@ -90,9 +90,9 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
 
       res['categories'] = categories;
       res['success'] = true;
-      debugPrint("server categories: $res");
+      // debugPrint"server categories: $res");
     } catch (e) {
-      debugPrint("getCategories error is $e");
+      // debugPrint"getCategories error is $e");
       res['server_error'] = true;
     }
     return res;
