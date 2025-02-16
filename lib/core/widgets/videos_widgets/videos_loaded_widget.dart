@@ -233,7 +233,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
           },
         );
       },
-      child: Container(
+      child: ColoredBox(
         color: Colors.transparent,
         child: Column(
           children: [

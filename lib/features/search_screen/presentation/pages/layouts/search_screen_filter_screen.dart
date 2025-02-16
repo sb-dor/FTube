@@ -67,7 +67,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                     onTap: () => context
                         .read<MainSearchScreenBloc>()
                         .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.transparent,
                       child: Row(
                         children: [
@@ -113,7 +113,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                     onTap: () => context
                         .read<MainSearchScreenBloc>()
                         .add(SelectOrderByTypeEvent(orderByType: orderByType)),
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.transparent,
                       child: Row(
                         children: [

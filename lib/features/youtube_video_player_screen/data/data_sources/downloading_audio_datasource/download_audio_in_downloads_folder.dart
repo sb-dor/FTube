@@ -3,7 +3,7 @@ import 'package:youtube/core/utils/permissions/permissions.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i_downloading.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
-import 'package:lecle_downloads_path_provider/lecle_downloads_path_provider.dart';
+import 'package:downloadsfolder/downloadsfolder.dart';
 
 class DownloadAudioInDownloadsFolder implements IDownloading {
   final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
@@ -26,11 +26,11 @@ class DownloadAudioInDownloadsFolder implements IDownloading {
 
     // debugPrint"permission coming here");
 
-    final directory = await DownloadsPath.downloadsDirectory();
+    final directory = await getDownloadDirectory();
 
     final dateTimeForAudioName = DateTime.now();
 
-    final pathOfAudio = '${directory?.path}/'
+    final pathOfAudio = '${directory.path}/'
         '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
             "_${dateTimeForAudioName.toString()}")}.mp3';
 

@@ -49,7 +49,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                           TabAnalyticEvent("home"),
                         );
                   },
-                  child: Container(
+                  child: ColoredBox(
                     color: Colors.transparent,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,7 +93,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                           TabAnalyticEvent("trending"),
                         );
                   },
-                  child: Container(
+                  child: ColoredBox(
                     color: Colors.transparent,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -203,7 +203,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                           TabAnalyticEvent("library"),
                         );
                   },
-                  child: Container(
+                  child: ColoredBox(
                     color: Colors.transparent,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

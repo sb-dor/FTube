@@ -25,6 +25,8 @@ linter:
     - avoid_dynamic_calls
     # reminds to close stream_subscriptions
     - cancel_subscriptions
+    - use_colored_box
+    - use_decorated_box
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

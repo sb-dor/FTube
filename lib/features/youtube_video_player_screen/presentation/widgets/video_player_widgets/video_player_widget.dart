@@ -15,7 +15,7 @@ class VideoPlayerWidget extends StatelessWidget {
         // // debugPrint"width is : ${currentState.playerController?.value.size.width}");
         // // debugPrint"height is : ${currentState.playerController?.value.size.height}");
         return Positioned.fill(
-          child: Container(
+          child: ColoredBox(
             color: Colors.black,
             child: Center(
               child: state is InitialYoutubeVideoState

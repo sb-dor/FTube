@@ -35,7 +35,7 @@ class HiveDatabase {
     // get by key (key name is "values")
     final values = box.get('values'); // you can name this "values" what event you want;
 
-    final List<Map<dynamic, dynamic>> results = values ?? [];
+    final List<dynamic> results = values ?? [];
 
     return results.map(_convertMap).toList();
   }
@@ -53,7 +53,7 @@ class HiveDatabase {
 
     /// you can name this ["values"] what event you want;
 
-    final List<Map<dynamic, dynamic>> results = values ?? [];
+    final List<dynamic> results = values ?? [];
 
     final List<Map<String, dynamic>> boxValues = results.map(_convertMap).toList();
 
@@ -77,7 +77,7 @@ class HiveDatabase {
 
     /// you can name this ["values"] what event you want;
 
-    final List<Map<dynamic, dynamic>> tempList = values ?? [];
+    final List<dynamic> tempList = values ?? [];
 
     final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
 
@@ -117,7 +117,7 @@ class HiveDatabase {
 
     /// you can name this ["values"] what event you want;
 
-    final List<Map<dynamic, dynamic>> tempList = values ?? [];
+    final List<dynamic> tempList = values ?? [];
 
     final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
 
@@ -135,7 +135,9 @@ class HiveDatabase {
     /// you can name this ["values"] what event you want;
   }
 
-  Map<String, dynamic> _convertMap(Map<dynamic, dynamic> originalMap) {
+  Map<String, dynamic> _convertMap(dynamic originalMap) {
+    originalMap = originalMap as Map<dynamic, dynamic>;
+
     final Map<String, dynamic> newMap = {};
 
     originalMap.forEach((key, value) {

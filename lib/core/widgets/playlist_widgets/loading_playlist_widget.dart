@@ -88,7 +88,7 @@ class _Widget extends StatelessWidget {
                 right: 0,
                 left: 0,
                 bottom: 0,
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [

@@ -97,7 +97,7 @@ class _Widget extends StatelessWidget {
                   right: 0,
                   left: 0,
                   bottom: 0,
-                  child: Container(
+                  child: DecoratedBox(
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -123,7 +123,7 @@ class _Widget extends StatelessWidget {
                                 ),
                               ),
                               Positioned.fill(
-                                child: Container(
+                                child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: Colors.black.withValues(alpha: 0.3),
                                     borderRadius: BorderRadius.circular(10),

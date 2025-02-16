@@ -42,7 +42,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
           builder: (context, scrollController) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Container(
+              child: ColoredBox(
                 color: Colors.white,
                 child: Column(
                   children: [

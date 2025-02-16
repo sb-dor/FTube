@@ -241,18 +241,18 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                           },
                           showGettingInfo: downloadingAudioCubit is AudioGettingInformationState &&
                               youtubeCubit.showInformationInButtonIfTheSameVideosAudioIsDownloading(
-                                  context),
+                                  context,),
                           showErrorInfo: downloadingAudioCubit is AudioDownloadingErrorState &&
                               youtubeCubit.showInformationInButtonIfTheSameVideosAudioIsDownloading(
-                                  context),
+                                  context,),
                           showDownloading: downloadingAudioCubit is AudioDownloadingState &&
                               youtubeCubit.showInformationInButtonIfTheSameVideosAudioIsDownloading(
-                                  context),
+                                  context,),
                           showTheSoundGettingInfo: false,
                           showPrecessingTheSound: false,
                           savingOnStorage: downloadingAudioCubit is AudioSavingOnStorageState &&
                               youtubeCubit.showInformationInButtonIfTheSameVideosAudioIsDownloading(
-                                  context),
+                                  context,),
                           loading: currentState.loadingVideo,
                           downloadingVideoProgress:
                               downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ??

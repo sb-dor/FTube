@@ -34,7 +34,7 @@ class CircleSelectedWidget extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   left: 0,
-                  child: Container(
+                  child: ColoredBox(
                     color: Colors.transparent,
                     child: Center(
                       child: Container(
@@ -54,7 +54,7 @@ class CircleSelectedWidget extends StatelessWidget {
                     bottom: 0,
                     right: 0,
                     left: 0,
-                    child: Container(
+                    child: ColoredBox(
                       color: Colors.transparent,
                       child: Center(
                         child: Container(
