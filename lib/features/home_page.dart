@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
+// import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
 import 'package:youtube/core/widgets/home_page_widgets/bottom_navigation_widget.dart';
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       // InboxScreen(),
       LibraryScreen(),
     ];
-    getRequestForAppOverlayEntry();
+    // getRequestForAppOverlayEntry();
   }
 
   @override
@@ -43,19 +43,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void getRequestForAppOverlayEntry() async {
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      bool? status = await FlutterOverlayWindow.isPermissionGranted();
-
-      if (status) return;
-
-      status = await FlutterOverlayWindow.requestPermission();
-
-      if (!(status ?? false)) {
-        // show message that user did not allow the permission and overlay will not be shown
-      }
-    }
-  }
+  // void getRequestForAppOverlayEntry() async {
+  //   if (defaultTargetPlatform == TargetPlatform.android) {
+  //     bool? status = await FlutterOverlayWindow.isPermissionGranted();
+  //
+  //     if (status) return;
+  //
+  //     status = await FlutterOverlayWindow.requestPermission();
+  //
+  //     if (!(status ?? false)) {
+  //       // show message that user did not allow the permission and overlay will not be shown
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
