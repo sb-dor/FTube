@@ -9,7 +9,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 import 'package:collection/collection.dart';
 
- class GetVideoInformation {
+class GetVideoInformation {
   final YoutubeDataApi _youtubeDataApi;
 
   GetVideoInformation(this._youtubeDataApi);

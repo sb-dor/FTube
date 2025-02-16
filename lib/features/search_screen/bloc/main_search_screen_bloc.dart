@@ -395,7 +395,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
 //         each.videoData = videoData?.clone();
 //       }
 //     }
-//     searchBodyCubit.emitState();
+//     searchBodyCubit._emitState();
 //     // rp.close();
 //   });
 // }

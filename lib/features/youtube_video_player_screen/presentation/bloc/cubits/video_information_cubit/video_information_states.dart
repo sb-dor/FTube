@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 @immutable
-abstract class VideoInformationStates {}
+sealed class VideoInformationStates {}
 
-class LoadingVideoInformationState extends VideoInformationStates {}
+final class LoadingVideoInformationState extends VideoInformationStates {}
 
-class ErrorVideoInformationState extends VideoInformationStates {}
+final class ErrorVideoInformationState extends VideoInformationStates {}
 
-class LoadedVideoInformationState extends VideoInformationStates {}
+final class LoadedVideoInformationState extends VideoInformationStates {}

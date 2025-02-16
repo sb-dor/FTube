@@ -35,8 +35,11 @@ class PlaylistInnerScreenRepositoryImpl implements PlaylistInnerScreenRepository
   @override
   Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0}) =>
       _playlistVideosInnerScreenDataSource.getLikedVideos(
-          page: page, currentListLength: currentListLength,);
+        page: page,
+        currentListLength: currentListLength,
+      );
 
   @override
-  Future<List<BaseVideoModelDb>> getAllLikesLength() => _playlistInnerScreenDataSource.getAllLikes();
+  Future<List<BaseVideoModelDb>> getAllLikesLength() =>
+      _playlistInnerScreenDataSource.getAllLikes();
 }

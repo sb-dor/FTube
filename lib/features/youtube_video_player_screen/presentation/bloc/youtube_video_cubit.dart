@@ -30,12 +30,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   final YoutubeDataApi _youtubeDataApi;
   final Permissions _permissions;
 
-  YoutubeVideoCubit(
-      {required DbFloor dbFloor,
-      required YoutubeDataApi youtubeDataApi,
-      required Permissions permission,
-      s,})
-      : _dbFloor = dbFloor,
+  YoutubeVideoCubit({
+    required DbFloor dbFloor,
+    required YoutubeDataApi youtubeDataApi,
+    required Permissions permission,
+    s,
+  })  : _dbFloor = dbFloor,
         _youtubeDataApi = youtubeDataApi,
         _permissions = permission,
         super(InitialYoutubeVideoState(YoutubeVideoStateModel())) {
@@ -196,7 +196,8 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
   Future<void> cancelTheVideo() async {
     final downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
-        GlobalContextHelper.instance.globalNavigatorContext.currentContext!,);
+      GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
+    );
     await cancelTheAudio();
     _currentState.cancelVideoToken?.cancel();
     _currentState.cancelVideoToken = null;

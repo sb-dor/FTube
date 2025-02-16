@@ -1,5 +1,5 @@
-abstract class HistoryInnerScreenEvent {}
+sealed class HistoryInnerScreenEvent {}
 
-class RefreshHistoryInnerScreenEvent extends HistoryInnerScreenEvent {}
+final class RefreshHistoryInnerScreenEvent extends HistoryInnerScreenEvent {}
 
-class PaginateHistoryInnerScreenEvent extends HistoryInnerScreenEvent {}
+final class PaginateHistoryInnerScreenEvent extends HistoryInnerScreenEvent {}

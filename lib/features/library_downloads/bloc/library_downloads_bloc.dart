@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gal/gal.dart';
@@ -10,7 +9,6 @@ import 'state_model/library_downloads_state_model.dart';
 class LibraryDownloadsBloc extends Bloc<LibraryDownloadsEvent, LibraryDownloadsState> {
   final LibraryDownloadsRepository _libraryDownloadsRepository;
   late LibraryDownloadsStateModel _currentState;
-
 
   LibraryDownloadsBloc(this._libraryDownloadsRepository)
       : super(LibraryDownloadsLoadingState(LibraryDownloadsStateModel())) {

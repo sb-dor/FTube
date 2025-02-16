@@ -40,13 +40,15 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
               final category = listOfCategory[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: () => context.read<MainHomeScreenBloc>().add(SelectVideoCategoryEvent(
-                      videoCategory: category,
-                      scrollController: scrollController,
-                      refresh: () {
-                        refresh(category);
-                      },
-                    ),),
+                onTap: () => context.read<MainHomeScreenBloc>().add(
+                      SelectVideoCategoryEvent(
+                        videoCategory: category,
+                        scrollController: scrollController,
+                        refresh: () {
+                          refresh(category);
+                        },
+                      ),
+                    ),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   padding: const EdgeInsets.only(left: 20, right: 20),

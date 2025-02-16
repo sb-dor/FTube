@@ -26,7 +26,6 @@ class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget>
     _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
 
-
     final youTubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context).state;
     if ((youTubeVideoCubit.youtubeVideoStateModel.playerController?.value.isPlaying ?? false)) {
       _animationController.reset();

@@ -1,5 +1,5 @@
-abstract class PlaylistInnerScreenEvent {}
+sealed class PlaylistInnerScreenEvent {}
 
-class RefreshInnerPlaylistScreen extends PlaylistInnerScreenEvent {}
+final class RefreshInnerPlaylistScreen extends PlaylistInnerScreenEvent {}
 
-class PaginateInnerPlaylistScreen extends PlaylistInnerScreenEvent {}
+final class PaginateInnerPlaylistScreen extends PlaylistInnerScreenEvent {}

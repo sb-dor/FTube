@@ -182,20 +182,22 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
     await for (var each in messages) {
       try {
-        downloadingAudio = await Dio().get<List<int>>(each,
-            onReceiveProgress: (int receive, int total) {},
-            options: Options(
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json',
-                "Connection": "Keep-Alive",
-                "Keep-Alive": "timeout=500, max=1000",
-              },
-              responseType: ResponseType.bytes,
-              receiveDataWhenStatusError: true,
-              receiveTimeout: const Duration(minutes: 5),
-              persistentConnection: true,
-            ),);
+        downloadingAudio = await Dio().get<List<int>>(
+          each,
+          onReceiveProgress: (int receive, int total) {},
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              "Connection": "Keep-Alive",
+              "Keep-Alive": "timeout=500, max=1000",
+            },
+            responseType: ResponseType.bytes,
+            receiveDataWhenStatusError: true,
+            receiveTimeout: const Duration(minutes: 5),
+            persistentConnection: true,
+          ),
+        );
         // var downloadingAudio =
         //     await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
 

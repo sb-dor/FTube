@@ -1,4 +1,4 @@
-abstract interface class HomeScreenRepo{
+abstract interface class HomeScreenRepo {
   Future<Map<String, dynamic>> getCategories();
 
   Future<Map<String, dynamic>> homeScreenGetVideo({

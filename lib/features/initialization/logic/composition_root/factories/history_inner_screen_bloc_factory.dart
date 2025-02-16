@@ -7,7 +7,6 @@ import 'package:youtube/features/library_inner_screens/data/repository/history_i
 import 'package:youtube/features/library_inner_screens/domain/repository/history_inner_screen_repository.dart';
 
 final class HistoryInnerScreenBlocFactory implements Factory<HistoryInnerScreenBloc> {
-
   final DbFloor _dbFloor;
 
   HistoryInnerScreenBlocFactory(this._dbFloor);

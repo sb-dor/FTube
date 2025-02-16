@@ -23,10 +23,11 @@ class AnimatedSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final currentState = context.watch<MainSearchScreenBloc>().state.searchScreenStateModel;
-      final searchBodyCubit = context.watch<SearchBodyCubit>().state;
-      return AnimatedBuilder(
+    return Builder(
+      builder: (context) {
+        final currentState = context.watch<MainSearchScreenBloc>().state.searchScreenStateModel;
+        final searchBodyCubit = context.watch<SearchBodyCubit>().state;
+        return AnimatedBuilder(
           animation: searchBarAnimationController,
           builder: (context, child) {
             return Builder(
@@ -40,63 +41,68 @@ class AnimatedSearchBar extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * searchBarAnimation.value,
                     height: 40,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 5,
-                            color: Colors.grey.shade300,
-                          ),
-                        ],),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(50),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 5,
+                          color: Colors.grey.shade300,
+                        ),
+                      ],
+                    ),
                     child: Stack(
                       children: [
-                        Row(children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.130,
-                            height: MediaQuery.of(context).size.width * 0.130,
-                            decoration: BoxDecoration(
-                              // color: Colors.amber,
-                              borderRadius: BorderRadius.circular(50),
+                        Row(
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.130,
+                              height: MediaQuery.of(context).size.width * 0.130,
+                              decoration: BoxDecoration(
+                                // color: Colors.amber,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 60),
-                                child: TextField(
-                                  style: const TextStyle(fontSize: 14),
-                                  focusNode: currentState.focusNode,
-                                  controller: currentState.searchController,
-                                  onSubmitted: (v) => context
-                                      .read<MainSearchScreenBloc>()
-                                      .add(ClickSearchButtonEvent(
-                                        functionsHolder: functionsHolder,
-                                        scrollController: scrollController,
-                                      ),),
-                                  onTap: () => context.read<MainSearchScreenBloc>().add(
-                                        InitSearchScreenEvent(
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 60),
+                                  child: TextField(
+                                    style: const TextStyle(fontSize: 14),
+                                    focusNode: currentState.focusNode,
+                                    controller: currentState.searchController,
+                                    onSubmitted: (v) => context.read<MainSearchScreenBloc>().add(
+                                          ClickSearchButtonEvent(
+                                            functionsHolder: functionsHolder,
+                                            scrollController: scrollController,
+                                          ),
+                                        ),
+                                    onTap: () => context.read<MainSearchScreenBloc>().add(
+                                          InitSearchScreenEvent(
                                             scrollController: scrollController,
                                             searchingBodyStateFunc: () {
                                               context.read<SearchBodyCubit>().searchingBodyState();
-                                            },),
-                                      ),
-                                  onChanged: (v) => context.read<MainSearchScreenBloc>().add(
-                                        GetSuggestionRequestEvent(
-                                          functionsHolder: functionsHolder,
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                  textInputAction: TextInputAction.search,
-                                  decoration: const InputDecoration(
+                                    onChanged: (v) => context.read<MainSearchScreenBloc>().add(
+                                          GetSuggestionRequestEvent(
+                                            functionsHolder: functionsHolder,
+                                          ),
+                                        ),
+                                    textInputAction: TextInputAction.search,
+                                    decoration: const InputDecoration(
                                       isDense: true,
                                       contentPadding: EdgeInsets.zero,
                                       border: InputBorder.none,
-                                      hintText: "Search",),
+                                      hintText: "Search",
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],),
+                          ],
+                        ),
                         if (searchBarAnimationController.isCompleted)
                           if (searchBodyCubit is LoadedSearchBodyState ||
                               searchBodyCubit is LoadingSearchBodyState)
@@ -107,7 +113,9 @@ class AnimatedSearchBar extends StatelessWidget {
                               child: _EndButton(
                                 voidCallback: () async =>
                                     await OpenSearchScreenFilter.openSearchScreenFilter(
-                                        context, functionsHolder,),
+                                  context,
+                                  functionsHolder,
+                                ),
                                 icon: Icons.filter_list,
                               ),
                             )
@@ -140,6 +148,7 @@ class AnimatedSearchBar extends StatelessWidget {
                                           StartListeningSpeechEvent(
                                             functionsHolder: functionsHolder,
                                             popupFunc: () {
+                                              if (!context.mounted) return;
                                               Navigator.pop(context);
                                             },
                                           ),
@@ -151,34 +160,37 @@ class AnimatedSearchBar extends StatelessWidget {
                               ),
                             ),
                         Positioned(
-                            left: 0,
-                            bottom: 0,
-                            top: 0,
-                            child: GestureDetector(
-                              onTap: () => Navigator.pop(context),
-                              child: Center(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width * 0.130,
-                                  height: MediaQuery.of(context).size.width * 0.130,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                  ),
-                                  child: const Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.black,
-                                    size: 20,
-                                  ),
+                          left: 0,
+                          bottom: 0,
+                          top: 0,
+                          child: GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.130,
+                                height: MediaQuery.of(context).size.width * 0.130,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.black,
+                                  size: 20,
                                 ),
                               ),
-                            ),),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             );
-          },);
-    },);
+          },
+        );
+      },
+    );
   }
 }
 

@@ -1,12 +1,12 @@
 import 'state_model/search_screen_state_model.dart';
 
-abstract class SearchScreenStates {
+sealed class SearchScreenStates {
   SearchScreenStateModel searchScreenStateModel;
 
   SearchScreenStates({required this.searchScreenStateModel});
 }
 
-class InitialSearchScreenState extends SearchScreenStates {
+final class InitialSearchScreenState extends SearchScreenStates {
   InitialSearchScreenState(SearchScreenStateModel searchScreenStateModel)
       : super(searchScreenStateModel: searchScreenStateModel);
 }

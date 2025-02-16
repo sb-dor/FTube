@@ -80,52 +80,53 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
-      final videoCategoryState = context.watch<MainVideoCategoryCubit>().state;
-      final homeScreenVideosState = context.watch<HomeScreenVideosCubit>().state;
-      final mainScreenOverlayCubit = context.watch<MainScreenOverlayInfoFeatureCubit>().state;
+    return Builder(
+      builder: (context) {
+        final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
+        final videoCategoryState = context.watch<MainVideoCategoryCubit>().state;
+        final homeScreenVideosState = context.watch<HomeScreenVideosCubit>().state;
+        final mainScreenOverlayCubit = context.watch<MainScreenOverlayInfoFeatureCubit>().state;
 
-      //data
-      final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
-      final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
-      // debugPrint"is here working on scroll | $videoCategoryState");
-      return PIPView(
-        builder: (context, isFloating) {
-          return Column(
-            children: [
-              if (videoCategoryState is LoadingVideoCategoryState)
-                const HomeScreenCategoriesLoadingWidget()
-              // else if (videoCategoryState is ErrorVideoCategoryState)
-              //   const HomeScreenCategoriesErrorWidget()
-              else if (videoCategoryState is! ErrorVideoCategoryState)
-                HomeScreenSelectTypeContentLoadedWidget(
-                  scrollController: _scrollController,
-                  refresh: (VideoCategory value) {
-                    _refresh(refresh: true, videoCategory: value);
-                  },
-                ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: NotificationListener<UserScrollNotification>(
-                  onNotification: (notification) {
-                    if (notification.direction == ScrollDirection.forward) {
-                      context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
-                    } else if (notification.direction == ScrollDirection.reverse) {
-                      context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
-                    }
-                    return true;
-                  },
-                  child: RefreshIndicator(
-                    color: Colors.red,
-                    onRefresh: () async {
-                      if (videoCategoryState is ErrorVideoCategoryState) {
-                        context.read<MainVideoCategoryCubit>().loadVideoCategory();
-                      }
-
-                      _refresh(refresh: true);
+        //data
+        final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
+        final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
+        // debugPrint"is here working on scroll | $videoCategoryState");
+        return PIPView(
+          builder: (context, isFloating) {
+            return Column(
+              children: [
+                if (videoCategoryState is LoadingVideoCategoryState)
+                  const HomeScreenCategoriesLoadingWidget()
+                // else if (videoCategoryState is ErrorVideoCategoryState)
+                //   const HomeScreenCategoriesErrorWidget()
+                else if (videoCategoryState is! ErrorVideoCategoryState)
+                  HomeScreenSelectTypeContentLoadedWidget(
+                    scrollController: _scrollController,
+                    refresh: (VideoCategory value) {
+                      _refresh(refresh: true, videoCategory: value);
                     },
-                    child: ListView(
+                  ),
+                const SizedBox(height: 10),
+                Expanded(
+                  child: NotificationListener<UserScrollNotification>(
+                    onNotification: (notification) {
+                      if (notification.direction == ScrollDirection.forward) {
+                        context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
+                      } else if (notification.direction == ScrollDirection.reverse) {
+                        context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
+                      }
+                      return true;
+                    },
+                    child: RefreshIndicator(
+                      color: Colors.red,
+                      onRefresh: () async {
+                        if (videoCategoryState is ErrorVideoCategoryState) {
+                          context.read<MainVideoCategoryCubit>().loadVideoCategory();
+                        }
+
+                        _refresh(refresh: true);
+                      },
+                      child: ListView(
                         controller: _scrollController,
                         physics: mainScreenOverlayStateModel.canUserScroll
                             ? const AlwaysScrollableScrollPhysics()
@@ -137,13 +138,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             const VideosLoadingWidget()
                           else if (homeScreenVideosState is ErrorHomeScreenVideosState ||
                               videoCategoryState is ErrorVideoCategoryState)
-                            VideosErrorWidget(onTap: () {
-                              if (videoCategoryState is ErrorVideoCategoryState) {
-                                context.read<MainVideoCategoryCubit>().loadVideoCategory();
-                              }
+                            VideosErrorWidget(
+                              onTap: () {
+                                if (videoCategoryState is ErrorVideoCategoryState) {
+                                  context.read<MainVideoCategoryCubit>().loadVideoCategory();
+                                }
 
-                              _refresh(refresh: true);
-                            },)
+                                _refresh(refresh: true);
+                              },
+                            )
                           else
                             VideosLoadedWidget(
                               videoList: mainHomeScreenStateModel.videos,
@@ -153,20 +156,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (homeScreenVideosState is LoadedHomeScreenVideosState &&
                               mainHomeScreenStateModel.hasMore)
                             const Center(
-                                child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                        color: Colors.red, strokeWidth: 2,),),),
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.red,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
                           const SizedBox(height: 15),
-                        ],),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
-      );
-    },);
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }

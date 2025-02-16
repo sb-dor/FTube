@@ -72,11 +72,12 @@ class SearchScreenFilterLayout extends StatelessWidget {
                       child: Row(
                         children: [
                           CircleSelectedWidget(
-                              onTap: () => context
-                                  .read<MainSearchScreenBloc>()
-                                  .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
-                              selected: orderByTime.id ==
-                                  mainSearchScreenStateModel.orderBy?.orderByTime?.id,),
+                            onTap: () => context
+                                .read<MainSearchScreenBloc>()
+                                .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
+                            selected: orderByTime.id ==
+                                mainSearchScreenStateModel.orderBy?.orderByTime?.id,
+                          ),
                           const SizedBox(width: 5),
                           Expanded(
                             child: TextWidget(
@@ -117,11 +118,12 @@ class SearchScreenFilterLayout extends StatelessWidget {
                       child: Row(
                         children: [
                           CircleSelectedWidget(
-                              onTap: () => context
-                                  .read<MainSearchScreenBloc>()
-                                  .add(SelectOrderByTypeEvent(orderByType: orderByType)),
-                              selected: orderByType.id ==
-                                  mainSearchScreenStateModel.orderBy?.orderByType?.id,),
+                            onTap: () => context
+                                .read<MainSearchScreenBloc>()
+                                .add(SelectOrderByTypeEvent(orderByType: orderByType)),
+                            selected: orderByType.id ==
+                                mainSearchScreenStateModel.orderBy?.orderByType?.id,
+                          ),
                           const SizedBox(width: 5),
                           Expanded(
                             child: TextWidget(

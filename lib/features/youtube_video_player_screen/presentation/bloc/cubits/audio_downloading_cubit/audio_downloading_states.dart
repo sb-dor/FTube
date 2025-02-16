@@ -1,6 +1,6 @@
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/downloading_audio_info.dart';
 
-abstract class AudioDownloadingStates {
+sealed class AudioDownloadingStates {
   DownloadingAudioInfo? downloadingAudioInfo;
 
   bool get isAudioDownloading => downloadingAudioInfo != null;
@@ -8,22 +8,22 @@ abstract class AudioDownloadingStates {
   AudioDownloadingStates({this.downloadingAudioInfo});
 }
 
-class AudioGettingInformationState extends AudioDownloadingStates {
+final class AudioGettingInformationState extends AudioDownloadingStates {
   AudioGettingInformationState({super.downloadingAudioInfo});
 }
 
-class AudioDownloadingState extends AudioDownloadingStates {
+final class AudioDownloadingState extends AudioDownloadingStates {
   AudioDownloadingState({super.downloadingAudioInfo});
 }
 
-class AudioDownloadingErrorState extends AudioDownloadingStates {
+final class AudioDownloadingErrorState extends AudioDownloadingStates {
   AudioDownloadingErrorState({super.downloadingAudioInfo});
 }
 
-class AudioSavingOnStorageState extends AudioDownloadingStates {
+final class AudioSavingOnStorageState extends AudioDownloadingStates {
   AudioSavingOnStorageState({super.downloadingAudioInfo});
 }
 
-class AudioDownloadingLoadedState extends AudioDownloadingStates {
+final class AudioDownloadingLoadedState extends AudioDownloadingStates {
   AudioDownloadingLoadedState({super.downloadingAudioInfo});
 }

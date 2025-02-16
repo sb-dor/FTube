@@ -2,7 +2,6 @@ import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 
 class PlaylistInnerScreenStateModel {
-
   final ReusableGlobalFunctions _globalFunctions = ReusableGlobalFunctions.instance;
 
   List<PlaylistModelDb> playlists = [];

@@ -49,7 +49,6 @@ class _TopOverlayFeatureUI extends StatefulWidget {
 class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
   static const double _containerWidth = 250;
   static const double _containerHeight = 150;
-  late final TopOverlayFeatureBloc _topOverlayFeatureBloc;
   double? maxX;
   double? maxY;
 
@@ -58,7 +57,6 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
   @override
   void initState() {
     super.initState();
-    _topOverlayFeatureBloc = BlocProvider.of<TopOverlayFeatureBloc>(context);
     // _subscription = FlutterOverlayWindow.overlayListener.listen((event) {
     context.read<TopOverlayFeatureBloc>().add(ConvertToLoadingState());
     //   // debugPrint"Current Event: $event | type: ${event.runtimeType}");

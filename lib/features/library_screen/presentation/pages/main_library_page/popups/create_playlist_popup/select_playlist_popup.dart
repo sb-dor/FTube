@@ -30,12 +30,13 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final playlistBloc = context.watch<PlaylistsBloc>();
+    return Builder(
+      builder: (context) {
+        final playlistBloc = context.watch<PlaylistsBloc>();
 
-      // data
-      final playlistStateModel = playlistBloc.state.playListsStateModel;
-      return DraggableScrollableSheet(
+        // data
+        final playlistStateModel = playlistBloc.state.playListsStateModel;
+        return DraggableScrollableSheet(
           initialChildSize: 0.6,
           expand: false,
           builder: (context, scrollController) {
@@ -165,7 +166,9 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                 ),
               ),
             );
-          },);
-    },);
+          },
+        );
+      },
+    );
   }
 }

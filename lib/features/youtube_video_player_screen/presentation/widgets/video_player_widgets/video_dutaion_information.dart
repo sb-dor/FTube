@@ -42,15 +42,18 @@ class VideoDurationInformation extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                    child: SizedBox(
-                  height: 15,
-                  child: VideoProgressIndicator(
-                    currentState.playerController!,
-                    allowScrubbing: true,
-                    colors: const VideoProgressColors(
-                        playedColor: Colors.green, bufferedColor: Colors.white60,),
+                  child: SizedBox(
+                    height: 15,
+                    child: VideoProgressIndicator(
+                      currentState.playerController!,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                        playedColor: Colors.green,
+                        bufferedColor: Colors.white60,
+                      ),
+                    ),
                   ),
-                ),),
+                ),
                 const SizedBox(width: 10),
                 Row(
                   children: [
@@ -64,7 +67,8 @@ class VideoDurationInformation extends StatelessWidget {
                     ),
                     IconButton(
                       style: ButtonStyle(
-                          overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.3)),),
+                        overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.3)),
+                      ),
                       onPressed: () async {
                         if (fullScreen) {
                           await Navigator.push(

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/order_by_time.dart';
 import 'package:youtube/core/youtube_data_api/models/order_by/order_by_details/order_by_type.dart';
 
-abstract class SearchScreenEvents {}
+sealed class SearchScreenEvents {}
 
-class InitSearchScreenEvent extends SearchScreenEvents {
+final class InitSearchScreenEvent extends SearchScreenEvents {
   final ScrollController? scrollController;
   final VoidCallback searchingBodyStateFunc;
 
@@ -14,9 +14,9 @@ class InitSearchScreenEvent extends SearchScreenEvents {
   });
 }
 
-class RequestToTextField extends SearchScreenEvents {}
+final class RequestToTextField extends SearchScreenEvents {}
 
-class ClearTextField extends SearchScreenEvents {
+final class ClearTextField extends SearchScreenEvents {
   final ScrollController? scrollController;
   final VoidCallback searchingBodyStateFunc;
 
@@ -26,7 +26,7 @@ class ClearTextField extends SearchScreenEvents {
   });
 }
 
-class StartListeningSpeechEvent extends SearchScreenEvents {
+final class StartListeningSpeechEvent extends SearchScreenEvents {
   final VoidCallback popupFunc;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
@@ -36,7 +36,7 @@ class StartListeningSpeechEvent extends SearchScreenEvents {
   });
 }
 
-class StopListeningSpeechEvent extends SearchScreenEvents {
+final class StopListeningSpeechEvent extends SearchScreenEvents {
   final bool popup;
   final VoidCallback popupFunc;
 
@@ -46,7 +46,7 @@ class StopListeningSpeechEvent extends SearchScreenEvents {
   });
 }
 
-class ClickSearchButtonEvent extends SearchScreenEvents {
+final class ClickSearchButtonEvent extends SearchScreenEvents {
   final ScrollController? scrollController;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
@@ -56,7 +56,7 @@ class ClickSearchButtonEvent extends SearchScreenEvents {
   });
 }
 
-class ClickOnAlreadySearchedValueEvent extends SearchScreenEvents {
+final class ClickOnAlreadySearchedValueEvent extends SearchScreenEvents {
   final String value;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
@@ -66,7 +66,7 @@ class ClickOnAlreadySearchedValueEvent extends SearchScreenEvents {
   });
 }
 
-class PaginateSearchScreenEvent extends SearchScreenEvents {
+final class PaginateSearchScreenEvent extends SearchScreenEvents {
   final SearchScreenEventFunctionsHolder functionsHolder;
   final bool isLoadedSearchBodyState;
 
@@ -76,7 +76,7 @@ class PaginateSearchScreenEvent extends SearchScreenEvents {
   });
 }
 
-class GetSuggestionRequestEvent extends SearchScreenEvents {
+final class GetSuggestionRequestEvent extends SearchScreenEvents {
   final SearchScreenEventFunctionsHolder functionsHolder;
 
   GetSuggestionRequestEvent({
@@ -84,32 +84,32 @@ class GetSuggestionRequestEvent extends SearchScreenEvents {
   });
 }
 
-class SelectOrderByTimeEvent extends SearchScreenEvents {
+final class SelectOrderByTimeEvent extends SearchScreenEvents {
   OrderByTime orderByTime;
 
   SelectOrderByTimeEvent({required this.orderByTime});
 }
 
-class SelectOrderByTypeEvent extends SearchScreenEvents {
+final class SelectOrderByTypeEvent extends SearchScreenEvents {
   OrderByType orderByType;
 
   SelectOrderByTypeEvent({required this.orderByType});
 }
 
-class StartCheckingPaginatingTimer extends SearchScreenEvents {
+final class StartCheckingPaginatingTimer extends SearchScreenEvents {
   final bool close;
 
   StartCheckingPaginatingTimer({this.close = false});
 }
 
-class DeleteSearchedItemEvent extends SearchScreenEvents {
+final class DeleteSearchedItemEvent extends SearchScreenEvents {
   final String item;
 
   DeleteSearchedItemEvent(this.item);
 }
 
 //
-class SearchScreenEventFunctionsHolder {
+final class SearchScreenEventFunctionsHolder {
   final VoidCallback searchingBodyStateFunc;
   final VoidCallback errorSearchBodyStateFunc;
   final VoidCallback loadedSearchBodyStateFunc;

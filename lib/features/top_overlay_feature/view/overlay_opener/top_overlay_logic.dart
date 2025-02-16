@@ -16,7 +16,7 @@ class TopOverlayLogic {
     String videoId,
     Duration? position,
   ) {
-    if(videoId.trim().isEmpty) return;
+    if (videoId.trim().isEmpty) return;
 
     removeOverlay();
 

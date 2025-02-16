@@ -1,8 +1,8 @@
 part of 'trending_screen_bloc.dart';
 
-abstract class TrendingScreenEvent extends Equatable {}
+sealed class TrendingScreenEvent extends Equatable {}
 
-class RefreshTrendingScreen extends TrendingScreenEvent {
+final class RefreshTrendingScreen extends TrendingScreenEvent {
   final VideoCategory category;
   final bool refresh;
 
@@ -11,4 +11,3 @@ class RefreshTrendingScreen extends TrendingScreenEvent {
   @override
   List<Object?> get props => [category, refresh];
 }
-

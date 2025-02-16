@@ -7,9 +7,7 @@ import 'package:youtube/features/library_inner_screens/data/data_source/playlist
 class PlaylistVideosInnerScreenDataSourceImpl implements PlaylistVideosInnerScreenDataSource {
   final DbFloor _dbFloor;
 
-
   PlaylistVideosInnerScreenDataSourceImpl(this._dbFloor);
-
 
   @override
   Future<List<BaseVideoModelDb>> getPlaylistsVideos({
@@ -18,8 +16,8 @@ class PlaylistVideosInnerScreenDataSourceImpl implements PlaylistVideosInnerScre
     PlaylistModelDb? playlistModelDb,
   }) async {
     var playlistVideos = await _dbFloor.playListDao.getPlaylistAllVideos(
-          playlistModelDb?.id ?? 0,
-        );
+      playlistModelDb?.id ?? 0,
+    );
 
     // debugPrint"coming here getplaylistvideos");
 

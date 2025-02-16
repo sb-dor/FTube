@@ -36,35 +36,37 @@ class SearchingBodyScreen extends StatelessWidget {
           child: Container(
             color: Colors.transparent,
             padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Row(children: [
-              const Icon(Icons.search),
-              const SizedBox(width: 10),
-              Expanded(
-                child: TextWidget(
-                  text: value,
-                  size: 15,
-                ),
-              ),
-              if (showDeleteButton)
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: IconButton(
-                    constraints: const BoxConstraints(),
-                    padding: const EdgeInsets.all(2),
-                    onPressed: () {
-                      context.read<MainSearchScreenBloc>().add(
-                            DeleteSearchedItemEvent(value),
-                          );
-                    },
-                    style: const ButtonStyle(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
-                    ),
-                    icon: const Icon(
-                      Icons.delete,
-                    ),
+            child: Row(
+              children: [
+                const Icon(Icons.search),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextWidget(
+                    text: value,
+                    size: 15,
                   ),
                 ),
-            ],),
+                if (showDeleteButton)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: IconButton(
+                      constraints: const BoxConstraints(),
+                      padding: const EdgeInsets.all(2),
+                      onPressed: () {
+                        context.read<MainSearchScreenBloc>().add(
+                              DeleteSearchedItemEvent(value),
+                            );
+                      },
+                      style: const ButtonStyle(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
+                      ),
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
           ),
         );
       },

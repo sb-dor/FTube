@@ -7,7 +7,6 @@ class LibraryGetHistoryLocally implements LibraryGetHistoryDataSource {
 
   LibraryGetHistoryLocally(this._dbFloor);
 
-
   @override
   Future<List<VideoModelDb>> getHistory({int page = 1}) async {
     var data = <VideoModelDb>[];

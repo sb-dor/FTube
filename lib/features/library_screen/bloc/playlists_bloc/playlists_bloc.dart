@@ -84,7 +84,8 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     Emitter<PlaylistsStates> emit,
   ) async {
     if (_currentState.tempSelectedPlaylist == null) return;
-    await _libraryScreenRepository.saveInPlayList(event.videoModelDb, _currentState.tempSelectedPlaylist);
+    await _libraryScreenRepository.saveInPlayList(
+        event.videoModelDb, _currentState.tempSelectedPlaylist);
     add(GetPlaylistsEvent());
   }
 

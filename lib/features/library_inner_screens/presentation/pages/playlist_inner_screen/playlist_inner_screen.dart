@@ -30,58 +30,60 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      final playlistInnerScreenBloc = context.watch<PlaylistInnerScreenBloc>();
+    return Builder(
+      builder: (context) {
+        final playlistInnerScreenBloc = context.watch<PlaylistInnerScreenBloc>();
 
-      // data
-      final playlistInnerScreenStateModel =
-          playlistInnerScreenBloc.state.playlistInnerScreenStateModel;
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text("Playlists"),
-          scrolledUnderElevation: 0,
-        ),
-        body: RefreshIndicator(
-          color: Colors.red,
-          onRefresh: () async =>
-              context.read<PlaylistInnerScreenBloc>().add(RefreshInnerPlaylistScreen()),
-          child: ListView(
-            controller: _scrollController,
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              if (playlistInnerScreenBloc.state is LoadingPlaylistInnerState)
-                const LoadingPlaylistWidget(
-                  gridView: true,
-                )
-              else if (playlistInnerScreenBloc.state is ErrorPlaylistInnerState)
-                const SizedBox()
-              else if (playlistInnerScreenBloc.state is LoadedPlaylistInnerState &&
-                  playlistInnerScreenStateModel.playlists.isEmpty)
-                const SizedBox()
-              else
-                LoadedPlaylistWidget(
-                  playlist: playlistInnerScreenStateModel.playlists,
-                  gridView: true,
-                ),
-              if (playlistInnerScreenStateModel.hasMore)
-                const Column(
-                  children: [
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 15,
-                      height: 15,
-                      child: CircularProgressIndicator(
-                        color: Colors.red,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 15),
-            ],
+        // data
+        final playlistInnerScreenStateModel =
+            playlistInnerScreenBloc.state.playlistInnerScreenStateModel;
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Playlists"),
+            scrolledUnderElevation: 0,
           ),
-        ),
-      );
-    },);
+          body: RefreshIndicator(
+            color: Colors.red,
+            onRefresh: () async =>
+                context.read<PlaylistInnerScreenBloc>().add(RefreshInnerPlaylistScreen()),
+            child: ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                if (playlistInnerScreenBloc.state is LoadingPlaylistInnerState)
+                  const LoadingPlaylistWidget(
+                    gridView: true,
+                  )
+                else if (playlistInnerScreenBloc.state is ErrorPlaylistInnerState)
+                  const SizedBox()
+                else if (playlistInnerScreenBloc.state is LoadedPlaylistInnerState &&
+                    playlistInnerScreenStateModel.playlists.isEmpty)
+                  const SizedBox()
+                else
+                  LoadedPlaylistWidget(
+                    playlist: playlistInnerScreenStateModel.playlists,
+                    gridView: true,
+                  ),
+                if (playlistInnerScreenStateModel.hasMore)
+                  const Column(
+                    children: [
+                      SizedBox(height: 15),
+                      SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                          color: Colors.red,
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

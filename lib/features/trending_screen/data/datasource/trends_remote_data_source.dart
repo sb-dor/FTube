@@ -3,8 +3,6 @@ import 'package:youtube/features/trending_screen/data/models/trends_videos_model
 
 import 'i_trends_remote_datasource.dart';
 
-
-
 class TrendsRemoteDataSourceImpl implements ITrendsRemoteDatasource {
   final YoutubeDataApi _youtubeDataApi;
 

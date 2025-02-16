@@ -27,22 +27,22 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     // _hsGetCategories = HsGetCategories(_homeScreenRepo);
 
     on<RefreshHomeScreenEvent>(
-      (event, emit) async => await refreshHomeScreen(event, emit),
+      (event, emit) async => await _refreshHomeScreen(event, emit),
       transformer: restartable(),
     );
 
     on<PaginateHomeScreenEvent>(
-      (event, emit) async => await paginateHomeScreen(event, emit),
+      (event, emit) async => await _paginateHomeScreen(event, emit),
       transformer: concurrent(),
     );
 
     on<SelectVideoCategoryEvent>(
-      (event, emit) async => await selectVideoCategoryEvent(event, emit),
+      (event, emit) async => await _selectVideoCategoryEvent(event, emit),
       transformer: droppable(),
     );
   }
 
-  Future<void> refreshHomeScreen(
+  Future<void> _refreshHomeScreen(
     RefreshHomeScreenEvent event,
     Emitter<HomeScreenStates> emit,
   ) async {
@@ -78,7 +78,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     } else if (data.containsKey("success")) {
       final List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos);
-      emitState(emit);
+      _emitState(emit);
       event.loadedHomeScreenVideosState();
 
       // await _getVideosDataIsolate(
@@ -88,16 +88,16 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
       // debugPrint"is coming here");
 
-      emitState(emit);
+      _emitState(emit);
       event.loadedHomeScreenVideosState();
     } else {
       event.errorHomeScreenVideosState();
       // server error
     }
-    emitState(emit);
+    _emitState(emit);
   }
 
-  Future<void> paginateHomeScreen(
+  Future<void> _paginateHomeScreen(
     PaginateHomeScreenEvent event,
     Emitter<HomeScreenStates> emit,
   ) async {
@@ -118,26 +118,26 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     } else if (data.containsKey('success')) {
       final List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos, paginate: true);
-      emitState(emit);
+      _emitState(emit);
 
       // await _getVideosDataIsolate(videos: videos, emit: emit);
 
-      emitState(emit);
+      _emitState(emit);
     }
-    emitState(emit);
+    _emitState(emit);
   }
 
-  Future<void> selectVideoCategoryEvent(
+  Future<void> _selectVideoCategoryEvent(
     SelectVideoCategoryEvent event,
     Emitter<HomeScreenStates> emit,
   ) async {
     if (_currentState.videoCategory?.id == event.videoCategory?.id) return;
     _currentState.videoCategory = event.videoCategory;
     event.refresh();
-    emitState(emit);
+    _emitState(emit);
   }
 
-  void emitState(Emitter<HomeScreenStates> emit) {
+  void _emitState(Emitter<HomeScreenStates> emit) {
     if (state is InitialHomeScreenState) {
       emit(InitialHomeScreenState(_currentState));
     } else if (state is ErrorHomeScreenState) {
@@ -175,7 +175,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
         }
       }
       // debugPrint"event coming: $each");
-      emitState(emit);
+      _emitState(emit);
     }
   }
 

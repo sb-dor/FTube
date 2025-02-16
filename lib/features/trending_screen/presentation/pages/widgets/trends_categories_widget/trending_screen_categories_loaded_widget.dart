@@ -25,10 +25,12 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
               final category = VideoCategory.trendsCategories[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: () => context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
-                      category: category,
-                      refresh: true,
-                    ),),
+                onTap: () => context.read<TrendingScreenBloc>().add(
+                      RefreshTrendingScreen(
+                        category: category,
+                        refresh: true,
+                      ),
+                    ),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
@@ -40,14 +42,16 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
                     border: Border.all(color: Colors.red),
                   ),
                   child: Center(
-                      child: TextWidget(
-                          text: category.kind ?? '-',
-                          size: 13,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.9,
-                          color: trendsVideosState.trendingStateModel.category.id == category.id
-                              ? Colors.white
-                              : Colors.red,),),
+                    child: TextWidget(
+                      text: category.kind ?? '-',
+                      size: 13,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.9,
+                      color: trendsVideosState.trendingStateModel.category.id == category.id
+                          ? Colors.white
+                          : Colors.red,
+                    ),
+                  ),
                 ),
               );
             },

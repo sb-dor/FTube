@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/core/models/video_category_models/video_category.dart';
 
-abstract class HomeScreenBlocEvents {}
+sealed class HomeScreenBlocEvents {}
 
-class RefreshHomeScreenEvent extends HomeScreenBlocEvents {
+final class RefreshHomeScreenEvent extends HomeScreenBlocEvents {
   final VideoCategory? videoCategory;
   final ScrollController? scrollController;
   final bool refresh;
@@ -31,9 +31,9 @@ class RefreshHomeScreenEvent extends HomeScreenBlocEvents {
   });
 }
 
-class PaginateHomeScreenEvent extends HomeScreenBlocEvents {}
+final class PaginateHomeScreenEvent extends HomeScreenBlocEvents {}
 
-class SelectVideoCategoryEvent extends HomeScreenBlocEvents {
+final class SelectVideoCategoryEvent extends HomeScreenBlocEvents {
   final VideoCategory? videoCategory;
   final VoidCallback refresh;
   final ScrollController? scrollController;

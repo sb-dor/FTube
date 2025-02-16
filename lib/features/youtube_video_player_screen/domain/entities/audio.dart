@@ -1,3 +1,1 @@
-class Audio {
-
-}
+class Audio {}

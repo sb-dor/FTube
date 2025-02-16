@@ -5,23 +5,23 @@ class SimilarVideoStateModel {
   bool hasMore = true;
 }
 
-abstract class SimilarVideosStates {
+sealed class SimilarVideosStates {
   SimilarVideoStateModel similarVideoStateModel;
 
   SimilarVideosStates({required this.similarVideoStateModel});
 }
 
-class LoadingSimilarVideosState extends SimilarVideosStates {
+final class LoadingSimilarVideosState extends SimilarVideosStates {
   LoadingSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
       : super(similarVideoStateModel: similarVideoStateModel);
 }
 
-class ErrorSimilarVideosState extends SimilarVideosStates {
+final class ErrorSimilarVideosState extends SimilarVideosStates {
   ErrorSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
       : super(similarVideoStateModel: similarVideoStateModel);
 }
 
-class LoadedSimilarVideosState extends SimilarVideosStates {
+final class LoadedSimilarVideosState extends SimilarVideosStates {
   LoadedSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
       : super(similarVideoStateModel: similarVideoStateModel);
 }

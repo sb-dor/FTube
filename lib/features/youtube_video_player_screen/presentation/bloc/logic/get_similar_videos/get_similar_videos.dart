@@ -9,13 +9,13 @@ import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/cubits/similar_videos_cubit/similar_videos_cubit.dart';
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
- class GetSimilarVideos {
-   final YoutubeDataApi _youtubeDataApi;
+class GetSimilarVideos {
+  final YoutubeDataApi _youtubeDataApi;
 
-   GetSimilarVideos(this._youtubeDataApi);
+  GetSimilarVideos(this._youtubeDataApi);
 
   // Define a static method `getSimilarVideos` to fetch similar videos based on a video title
-   Future<void> getSimilarVideos({
+  Future<void> getSimilarVideos({
     required String videoTitle, // The title of the video to find similar videos for
     required YoutubeVideoStateModel stateModel, // The state model that holds video data and state
     required BuildContext context, // The BuildContext used for accessing cubits
@@ -31,7 +31,8 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
     if (!paginating) similarVideosCubit.clearAndSetLoadingState();
 
     // Fetch similar videos using the RestApiGetVideoData
-    final data = await RestApiGetVideoData(youtubeDataApi:_youtubeDataApi ).getSearchVideo(q: videoTitle.trim());
+    final data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi)
+        .getSearchVideo(q: videoTitle.trim());
 
     // Check if the data contains a server error
     if (data.containsKey("server_error")) {

@@ -18,5 +18,4 @@ class HomeScreenStateModel {
     hasMore = globalFunc.checkIsListHasMorePageBool(list: list);
     // debugPrint"has more? :$hasMore");
   }
-
 }

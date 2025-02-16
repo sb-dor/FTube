@@ -1,15 +1,15 @@
 part of 'history_bloc.dart';
 
-abstract class HistoryEvents {}
+sealed class HistoryEvents {}
 
-class GetHistoryEvent extends HistoryEvents {}
+final class GetHistoryEvent extends HistoryEvents {}
 
-class PaginateHistoryEvent extends HistoryEvents {}
+final class PaginateHistoryEvent extends HistoryEvents {}
 
-class AddOnHistoryEvent extends HistoryEvents {
+final class AddOnHistoryEvent extends HistoryEvents {
   Video? video;
 
   AddOnHistoryEvent({required this.video});
 }
 
-class InitLengthOfDownloadedFiles extends HistoryEvents {}
+final class InitLengthOfDownloadedFiles extends HistoryEvents {}

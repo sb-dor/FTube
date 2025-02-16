@@ -318,9 +318,11 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: IconButton(
                             onPressed: _hideAndShowVideo,
-                            icon: Icon(_isShowingVideo
-                                ? Icons.highlight_remove
-                                : Icons.slow_motion_video_outlined,),
+                            icon: Icon(
+                              _isShowingVideo
+                                  ? Icons.highlight_remove
+                                  : Icons.slow_motion_video_outlined,
+                            ),
                           ),
                         ),
                     ],

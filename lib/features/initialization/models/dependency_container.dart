@@ -16,7 +16,6 @@ final class DependencyContainer {
   final SharedPreferencesHelper sharedPreferencesHelper;
   final HiveDatabaseHelper hiveDatabaseHelper;
 
-
   final Permissions storagePermissions;
   final YoutubeDataApi youtubeDataApi;
 

@@ -14,11 +14,12 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      final currentState = state.youtubeVideoStateModel;
-      return FadeAnimation(
-        beginInterval: 0.7,
-        child: Row(
+    return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(
+      builder: (context, state) {
+        final currentState = state.youtubeVideoStateModel;
+        return FadeAnimation(
+          beginInterval: 0.7,
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -69,15 +70,17 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                       onTap: () => [],
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
-                          color: Colors.transparent,
-                          padding: const EdgeInsets.all(10),
-                          child: const Center(
-                              child: Icon(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.all(10),
+                        child: const Center(
+                          child: Icon(
                             FontAwesomeIcons.thumbsDown,
                             weight: 0.5,
                             color: Colors.grey,
                             size: 20,
-                          ),),),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -129,7 +132,8 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap: () async {
-                        final VideoModelDb? model = VideoModelDb.fromVideoData(currentState.videoData);
+                        final VideoModelDb? model =
+                            VideoModelDb.fromVideoData(currentState.videoData);
                         model?.videoThumbnailUrl = currentState.videoPicture;
                         await ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
                           context: context,
@@ -171,8 +175,10 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                   ),
                 ],
               ),
-            ],),
-      );
-    },);
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -8,10 +8,10 @@ sealed class TopOverlayFeatureStates {
   const TopOverlayFeatureStates(this.topOverlayFeatureStateModel);
 }
 
-class LoadingOverlayFeatureState extends TopOverlayFeatureStates {
+final class LoadingOverlayFeatureState extends TopOverlayFeatureStates {
   const LoadingOverlayFeatureState(super.topOverlayFeatureStateModel);
 }
 
-class LoadedOverlayFeatureState extends TopOverlayFeatureStates {
+final class LoadedOverlayFeatureState extends TopOverlayFeatureStates {
   const LoadedOverlayFeatureState(super.topOverlayFeatureStateModel);
 }

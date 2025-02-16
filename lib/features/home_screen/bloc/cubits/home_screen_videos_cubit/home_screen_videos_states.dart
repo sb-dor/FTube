@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 @immutable
-abstract class HomeScreenVideosStates {}
+sealed class HomeScreenVideosStates {}
 
-class LoadingHomeScreenVideosState extends HomeScreenVideosStates {}
+final class LoadingHomeScreenVideosState extends HomeScreenVideosStates {}
 
-class ErrorHomeScreenVideosState extends HomeScreenVideosStates {}
+final class ErrorHomeScreenVideosState extends HomeScreenVideosStates {}
 
-class LoadedHomeScreenVideosState extends HomeScreenVideosStates {}
+final class LoadedHomeScreenVideosState extends HomeScreenVideosStates {}

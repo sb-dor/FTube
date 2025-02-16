@@ -28,20 +28,24 @@ abstract class GetVideo {
 
     // Filter video streams with sound, where size is at least 1 MB and is in MP4 format
     stateModel.videosWithSound = (informationVideo?.video ?? <VideoStreamInfo>[])
-        .where((e) =>
-            e.size.totalMegaBytes >= 1 &&
-            stateModel.globalFunc.checkMp4FromURI(
-              value: e.url.toString(),
-            ),)
+        .where(
+          (e) =>
+              e.size.totalMegaBytes >= 1 &&
+              stateModel.globalFunc.checkMp4FromURI(
+                value: e.url.toString(),
+              ),
+        )
         .toList();
 
     // Filter audio streams, where size is at least 1 MB and is in MP3 format
     stateModel.audios = (informationVideo?.audio ?? <AudioStreamInfo>[])
-        .where((el) =>
-            // el.size.totalMegaBytes >= 1.5 &&
-            stateModel.globalFunc.checkMp3FromURI(
-              value: el.url.toString(),
-            ),)
+        .where(
+          (el) =>
+              // el.size.totalMegaBytes >= 1.5 &&
+              stateModel.globalFunc.checkMp3FromURI(
+            value: el.url.toString(),
+          ),
+        )
         .toList();
 
     // Sort audio streams by their size in ascending order
@@ -94,11 +98,14 @@ abstract class GetVideo {
 
     // If a high-bitrate audio is available, update the list of audios and filter videos
     if (stateModel.tempMinAudioForVideo != null) {
-      stateModel.audios.removeWhere((el) =>
-          el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim(),);
+      stateModel.audios.removeWhere(
+        (el) => el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim(),
+      );
       stateModel.audios.insert(0, stateModel.tempMinAudioForVideo!);
-      stateModel.allVideos.removeWhere((el) =>
-          el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0),);
+      stateModel.allVideos.removeWhere(
+        (el) =>
+            el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0),
+      );
     }
 
     // Add videos with sound at the beginning of the allVideos list

@@ -34,7 +34,8 @@ class GetDownloadedFilesSourceImpl
         // Find the corresponding file in external storage by matching the videoId in the path
         final findPath = (dataFromStorage ?? <FileSystemEntity>[]).firstWhereOrNull(
           (e) => e.path.contains(
-              "videoId_${videoIdFromStorageSavedData(dataFromDb[i].downloadedPath ?? '')}",),
+            "videoId_${videoIdFromStorageSavedData(dataFromDb[i].downloadedPath ?? '')}",
+          ),
         );
 
         // If a matching file is found, update the path in the database model

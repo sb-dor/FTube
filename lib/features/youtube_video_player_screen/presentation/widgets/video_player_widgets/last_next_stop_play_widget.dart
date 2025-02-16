@@ -15,49 +15,53 @@ class LastNextStopPlayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      final currentState = state.youtubeVideoStateModel;
-      return Positioned.fill(
+    return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(
+      builder: (context, state) {
+        final currentState = state.youtubeVideoStateModel;
+        return Positioned.fill(
           child: AnimatedBuilder(
-              animation: animationController,
-              builder: (context, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // IconButton(
-                    //     onPressed: () => [],
-                    //     icon: const Icon(
-                    //       CupertinoIcons.backward_end_fill,
-                    //       color: Colors.white,
-                    //     )),
-                    GestureDetector(
-                      onTap: () {
-                        context.read<YoutubeVideoCubit>().stopVideo();
-                        if (currentState.stopVideo) {
-                          animationController.forward();
-                        } else {
-                          animationController.reverse();
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        child: AnimatedIcon(
-                          icon: AnimatedIcons.pause_play,
-                          progress: animation,
-                          color: Colors.white,
-                          size: 30,
-                        ),
+            animation: animationController,
+            builder: (context, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  // IconButton(
+                  //     onPressed: () => [],
+                  //     icon: const Icon(
+                  //       CupertinoIcons.backward_end_fill,
+                  //       color: Colors.white,
+                  //     )),
+                  GestureDetector(
+                    onTap: () {
+                      context.read<YoutubeVideoCubit>().stopVideo();
+                      if (currentState.stopVideo) {
+                        animationController.forward();
+                      } else {
+                        animationController.reverse();
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      child: AnimatedIcon(
+                        icon: AnimatedIcons.pause_play,
+                        progress: animation,
+                        color: Colors.white,
+                        size: 30,
                       ),
                     ),
-                    // IconButton(
-                    //     onPressed: () => [],
-                    //     icon: const Icon(
-                    //       CupertinoIcons.forward_end_fill,
-                    //       color: Colors.white,
-                    //     )),
-                  ],
-                );
-              },),);
-    },);
+                  ),
+                  // IconButton(
+                  //     onPressed: () => [],
+                  //     icon: const Icon(
+                  //       CupertinoIcons.forward_end_fill,
+                  //       color: Colors.white,
+                  //     )),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

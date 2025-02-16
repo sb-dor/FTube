@@ -16,7 +16,6 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
 
   final LibraryScreenRepository _libraryScreenRepository;
 
-
   HistoryBloc(this._libraryScreenRepository) : super(LoadingHistoryState(HistoryStateModel())) {
     // registrations
     _currentState = state.historyStateModel;

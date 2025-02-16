@@ -20,8 +20,8 @@ class BlackWithOpacityBackground extends StatelessWidget {
             child: GestureDetector(
               onTap: () => context.read<YoutubeVideoCubit>().clickOnVideo(),
               child: Container(
-                color: Colors.black.withValues(alpha: 
-                  0.5,
+                color: Colors.black.withValues(
+                  alpha: 0.5,
                 ),
               ),
             ),
