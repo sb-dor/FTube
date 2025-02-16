@@ -10,7 +10,7 @@ import 'package:youtube/features/initialization/models/dependency_container.dart
 class BottomNavigationWidget extends StatefulWidget {
   final bool animate;
 
-  const BottomNavigationWidget({Key? key, required this.animate}) : super(key: key);
+  const BottomNavigationWidget({super.key, required this.animate});
 
   @override
   State<BottomNavigationWidget> createState() => _BottomNavigationWidgetState();
@@ -21,7 +21,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBottomNavbarCubit, HomePageBottomNavbarStates>(
       builder: (context, bottomNavbarStates) {
-        var bottomNavBarState = bottomNavbarStates.homePageBottomNavbarCubit;
+        final bottomNavBarState = bottomNavbarStates.homePageBottomNavbarCubit;
         return AnimatedContainer(
           curve: Curves.easeInOut,
           duration: const Duration(seconds: 1),
@@ -30,52 +30,59 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey.shade300,
-                  blurRadius: widget.animate ? 3 : 0.3,
-                  spreadRadius: widget.animate ? 0.5 : 0)
+                color: Colors.grey.shade300,
+                blurRadius: widget.animate ? 3 : 0.3,
+                spreadRadius: widget.animate ? 0.5 : 0,
+              ),
             ],
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
             children: [
               Expanded(
-                  child: GestureDetector(
-                onTap: () async {
-                  context.read<HomePageBottomNavbarCubit>().changePage(index: 0);
-                  await Provider.of<DependencyContainer>(context, listen: false)
-                      .analyticsReporter
-                      .report(
-                        TabAnalyticEvent("home"),
-                      );
-                },
-                child: Container(
+                child: GestureDetector(
+                  onTap: () async {
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 0);
+                    await Provider.of<DependencyContainer>(context, listen: false)
+                        .analyticsReporter
+                        .report(
+                          TabAnalyticEvent("home"),
+                        );
+                  },
+                  child: Container(
                     color: Colors.transparent,
                     child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FaIcon(FontAwesomeIcons.laptop,
-                              size: 25,
-                              color: bottomNavBarState.page == 0
-                                  ? Colors.red
-                                  : Colors.black.withOpacity(0.3)),
-                          const SizedBox(height: 5),
-                          AnimatedDefaultTextStyle(
-                            duration: const Duration(milliseconds: 375),
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.ellipsis,
-                                color: bottomNavBarState.page == 0
-                                    ? Colors.red
-                                    : Colors.black.withOpacity(0.3)),
-                            child: const Text(
-                              "Home",
-                              maxLines: 1,
-                            ),
-                          )
-                        ])),
-              )),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.laptop,
+                          size: 25,
+                          color: bottomNavBarState.page == 0
+                              ? Colors.red
+                              : Colors.black.withValues(alpha: 0.3),
+                        ),
+                        const SizedBox(height: 5),
+                        AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 375),
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: bottomNavBarState.page == 0
+                                ? Colors.red
+                                : Colors.black.withValues(alpha: 0.3),
+                          ),
+                          child: const Text(
+                            "Home",
+                            maxLines: 1,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
@@ -92,26 +99,29 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FaIcon(FontAwesomeIcons.boltLightning,
-                            size: 25,
-                            color: bottomNavBarState.page == 1
-                                ? Colors.red
-                                : Colors.black.withOpacity(0.3)),
+                        FaIcon(
+                          FontAwesomeIcons.boltLightning,
+                          size: 25,
+                          color: bottomNavBarState.page == 1
+                              ? Colors.red
+                              : Colors.black.withValues(alpha: 0.3),
+                        ),
                         const SizedBox(height: 5),
                         AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 375),
                           style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.ellipsis,
-                              color: bottomNavBarState.page == 1
-                                  ? Colors.red
-                                  : Colors.black.withOpacity(0.3)),
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: bottomNavBarState.page == 1
+                                ? Colors.red
+                                : Colors.black.withValues(alpha: 0.3),
+                          ),
                           child: const Text(
                             "Trending",
                             maxLines: 1,
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -131,7 +141,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               //               size: 25,
               //               color: bottomNavBarState.page == 2
               //                   ? Colors.red
-              //                   : Colors.black.withOpacity(0.3),
+              //                   : Colors.black.withValues(alpha: 0.3),
               //             ),
               //             const SizedBox(height: 5),
               //             AnimatedDefaultTextStyle(
@@ -141,7 +151,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               //                   overflow: TextOverflow.ellipsis,
               //                   color: bottomNavBarState.page == 2
               //                       ? Colors.red
-              //                       : Colors.black.withOpacity(0.3)),
+              //                       : Colors.black.withValues(alpha: 0.3)),
               //               duration: const Duration(milliseconds: 375),
               //               child: const Text(
               //                 "Subscription",
@@ -164,7 +174,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               //               size: 25,
               //               color: bottomNavBarState.page == 3
               //                   ? Colors.red
-              //                   : Colors.black.withOpacity(0.3),
+              //                   : Colors.black.withValues(alpha: 0.3),
               //             ),
               //             const SizedBox(height: 5),
               //             AnimatedDefaultTextStyle(
@@ -175,7 +185,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               //                   overflow: TextOverflow.ellipsis,
               //                   color: bottomNavBarState.page == 3
               //                       ? Colors.red
-              //                       : Colors.black.withOpacity(0.3)),
+              //                       : Colors.black.withValues(alpha: 0.3)),
               //               child: const Text(
               //                 "Inbox",
               //                 maxLines: 1,
@@ -199,20 +209,23 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FaIcon(FontAwesomeIcons.folder,
-                            size: 25,
-                            color: bottomNavBarState.page == 2
-                                ? Colors.red
-                                : Colors.black.withOpacity(0.3)),
+                        FaIcon(
+                          FontAwesomeIcons.folder,
+                          size: 25,
+                          color: bottomNavBarState.page == 2
+                              ? Colors.red
+                              : Colors.black.withValues(alpha: 0.3),
+                        ),
                         const SizedBox(height: 5),
                         AnimatedDefaultTextStyle(
                           style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                              overflow: TextOverflow.ellipsis,
-                              color: bottomNavBarState.page == 2
-                                  ? Colors.red
-                                  : Colors.black.withOpacity(0.3)),
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                            color: bottomNavBarState.page == 2
+                                ? Colors.red
+                                : Colors.black.withValues(alpha: 0.3),
+                          ),
                           duration: const Duration(milliseconds: 375),
                           child: const Text(
                             "Library",

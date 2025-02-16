@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:isolate';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
@@ -59,12 +58,12 @@ class YoutubeVideoStateModel {
   }
 
   Future<void> removeSameVideosWithLowerQuality() async {
-    Map<String, VideoStreamInfo> getUnique = {};
+    final Map<String, VideoStreamInfo> getUnique = {};
 
     for (var each in allVideos) {
       // debugPrint"all videos: ${each.qualityLabel} | ${each.size.totalMegaBytes}");
       if (getUnique.containsKey(each.qualityLabel.trim())) {
-        var value = getUnique[each.qualityLabel.trim()] as VideoStreamInfo;
+        final value = getUnique[each.qualityLabel.trim()] as VideoStreamInfo;
         if (each.size.totalMegaBytes > value.size.totalMegaBytes) {
           getUnique[each.qualityLabel.trim()] = each;
         }

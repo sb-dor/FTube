@@ -50,10 +50,9 @@ class _Widget extends StatelessWidget {
   final LibraryDownloadsStateModel libraryDownloadsStateModel;
 
   const _Widget({
-    Key? key,
     required this.downloadedFile,
     required this.libraryDownloadsStateModel,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +90,7 @@ class _Widget extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 7, right: 7, top: 3, bottom: 3),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        color: Colors.black.withOpacity(0.4),
+                        color: Colors.black.withValues(alpha: 0.4),
                       ),
                       child: Center(
                         child: TextWidget(
@@ -104,7 +103,7 @@ class _Widget extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -162,7 +161,7 @@ class _Widget extends StatelessWidget {
                               ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

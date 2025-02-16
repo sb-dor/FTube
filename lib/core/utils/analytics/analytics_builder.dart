@@ -1,4 +1,3 @@
-
 import 'analytics_property.dart';
 
 class AnalyticsBuilder {

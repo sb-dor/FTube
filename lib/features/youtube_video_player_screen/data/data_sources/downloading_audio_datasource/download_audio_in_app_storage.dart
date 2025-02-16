@@ -19,19 +19,19 @@ class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
     List<int>? downloadData,
     YoutubeVideoStateModel stateModel,
   ) async {
-    var getExternalStoragePath = await getStorage();
+    final getExternalStoragePath = await getStorage();
 
-    var dateTimeForAudioName = DateTime.now();
+    final dateTimeForAudioName = DateTime.now();
 
-    var pathOfAudio = '${getExternalStoragePath?.path}/'
+    final pathOfAudio = '${getExternalStoragePath?.path}/'
         '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
             "_${dateTimeForAudioName.toString()}")}'
         '_videoId_${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(stateModel.tempVideoId ?? '')}.mp3';
 
-    File fileForSaving = File(pathOfAudio);
+    final File fileForSaving = File(pathOfAudio);
 
     if (downloadData != null && downloadData.isNotEmpty) {
-      var data = FileDownloadModel.fromVideoData(stateModel.videoData);
+      final data = FileDownloadModel.fromVideoData(stateModel.videoData);
       data.imagePath = stateModel.videoPicture;
       data.downloadedPath = pathOfAudio;
       fileForSaving.writeAsBytesSync(downloadData);

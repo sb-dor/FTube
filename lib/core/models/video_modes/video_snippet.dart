@@ -83,7 +83,7 @@ class VideoSnippet extends Video {
 
   Future<void> _loadChannel() async {
     loadingChannel = true;
-    var data = await RestApiGetChannelData.channel(
+    final data = await RestApiGetChannelData.channel(
       typeContent: TypeContent.snippet,
       channelId: channelID ?? '',
     );
@@ -98,7 +98,7 @@ class VideoSnippet extends Video {
 
   Future<void> _loadStatistics(RestApiGetVideoData restApiGetVideoData) async {
     loadingStatistics = true;
-    var data = await restApiGetVideoData.getVideoInfo(
+    final data = await restApiGetVideoData.getVideoInfo(
       videoContent: TypeContent.statistics,
       videoId: videoId,
     );
@@ -112,8 +112,10 @@ class VideoSnippet extends Video {
 
   Future<void> _loadContentDetails(RestApiGetVideoData restApiGetVideoData) async {
     loadingContentDetails = true;
-    var data = await restApiGetVideoData.getVideoInfo(
-        videoContent: TypeContent.contentDetails, videoId: videoId);
+    final data = await restApiGetVideoData.getVideoInfo(
+      videoContent: TypeContent.contentDetails,
+      videoId: videoId,
+    );
     if (data.containsKey("server_error")) {
       errorContentDetails = true;
     } else if (data.containsKey('success') && data['success'] == true) {

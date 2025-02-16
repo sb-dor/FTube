@@ -4,7 +4,7 @@ import 'package:youtube/core/animations/fade_animation.dart';
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
-  const VideoInfoSubsButtonsLoadedWidget({Key? key}) : super(key: key);
+  const VideoInfoSubsButtonsLoadedWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

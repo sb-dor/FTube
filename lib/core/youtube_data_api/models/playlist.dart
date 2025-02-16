@@ -19,19 +19,23 @@ class PlayList {
   PlayList({this.playListId, this.thumbnails, this.title, this.channelName, this.videoCount});
 
   factory PlayList.fromMap(Map<String, dynamic>? map) {
-    List<Thumbnail> thumbnails = [];
+    final List<Thumbnail> thumbnails = [];
     map?['playlistRenderer']['thumbnails'].forEach((thumbnail) {
-      thumbnails.add(Thumbnail(
+      thumbnails.add(
+        Thumbnail(
           url: thumbnail['thumbnails'][0]['url'],
           width: thumbnail['thumbnails'][0]['width'],
-          height: thumbnail['thumbnails'][0]['height']));
+          height: thumbnail['thumbnails'][0]['height'],
+        ),
+      );
     });
     return PlayList(
-        playListId: map?['playlistRenderer']['playlistId'],
-        thumbnails: thumbnails,
-        title: map?['playlistRenderer']['title']['simpleText'],
-        videoCount: map?['playlistRenderer']['videoCount'],
-        channelName: map?['playlistRenderer']?['shortBylineText']?['runs'][0]?['text']);
+      playListId: map?['playlistRenderer']['playlistId'],
+      thumbnails: thumbnails,
+      title: map?['playlistRenderer']['title']['simpleText'],
+      videoCount: map?['playlistRenderer']['videoCount'],
+      channelName: map?['playlistRenderer']?['shortBylineText']?['runs'][0]?['text'],
+    );
   }
 
   Map<String, dynamic> toJson() {

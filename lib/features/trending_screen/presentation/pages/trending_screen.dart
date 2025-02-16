@@ -12,7 +12,7 @@ import 'package:youtube/core/widgets/error_button_widget/error_button_widget.dar
 import 'widgets/trends_categories_widget/trending_screen_categories_loaded_widget.dart';
 
 class TrendingScreen extends StatefulWidget {
-  const TrendingScreen({Key? key}) : super(key: key);
+  const TrendingScreen({super.key});
 
   @override
   State<TrendingScreen> createState() => _TrendingScreenState();
@@ -83,14 +83,14 @@ class _TrendingScreenState extends State<TrendingScreen> {
                         videoList: trendsVideosState.trendingStateModel.videos,
                         parentContext: context,
                       ),
-                    const SizedBox(height: 15)
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       );
-    });
+    },);
   }
 }

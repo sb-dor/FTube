@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_overlay_window/flutter_overlay_window.dart';
-import 'package:pip_view/pip_view.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_states.dart';
 import 'package:youtube/core/widgets/home_page_widgets/bottom_navigation_widget.dart';
@@ -14,7 +13,7 @@ import 'trending_screen/presentation/pages/trending_screen.dart';
 
 //main page begins here
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -62,7 +61,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageBottomNavbarCubit, HomePageBottomNavbarStates>(
       builder: (context, bottomNavbarStates) {
-        var bottomNavbarState = bottomNavbarStates.homePageBottomNavbarCubit;
+        final bottomNavbarState = bottomNavbarStates.homePageBottomNavbarCubit;
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
@@ -86,7 +85,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   right: 15,
                   left: 15,
                   child: BottomNavigationWidget(animate: _animate),
-                )
+                ),
               ],
             ),
           ),

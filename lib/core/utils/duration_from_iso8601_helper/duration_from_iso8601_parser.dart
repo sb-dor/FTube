@@ -8,15 +8,15 @@ abstract class DurationFromIso8601Helper {
     // "T" is used to separate the date and time parts.
     // "2M" is means 2 minutes
     // "1S" means 1 second.
-    RegExp regex = RegExp('P([0-9]{1,}D)?T([0-9]{1,}H)?([0-9]{1,}M)?([0-9]{1,}S)?');
+    final RegExp regex = RegExp('P([0-9]{1,}D)?T([0-9]{1,}H)?([0-9]{1,}M)?([0-9]{1,}S)?');
 
-    RegExpMatch? match = regex.firstMatch(durationString);
-    int? days = int.tryParse(_getNumFromString(value: match?.group(1)));
-    int? hours = int.tryParse(_getNumFromString(value: match?.group(2)));
-    int? minutes = int.tryParse(_getNumFromString(value: match?.group(3)));
-    int? seconds = int.tryParse(_getNumFromString(value: match?.group(4)));
+    final RegExpMatch? match = regex.firstMatch(durationString);
+    final int? days = int.tryParse(_getNumFromString(value: match?.group(1)));
+    final int? hours = int.tryParse(_getNumFromString(value: match?.group(2)));
+    final int? minutes = int.tryParse(_getNumFromString(value: match?.group(3)));
+    final int? seconds = int.tryParse(_getNumFromString(value: match?.group(4)));
 
-    Duration? duration = Duration(
+    final Duration duration = Duration(
       days: days ?? 0,
       hours: hours ?? 0,
       minutes: minutes ?? 0,

@@ -10,11 +10,11 @@ class SearchingBodyScreen extends StatelessWidget {
   final SearchScreenEventFunctionsHolder functionsHolder;
 
   const SearchingBodyScreen({
-    Key? key,
+    super.key,
     required this.suggests,
     this.showDeleteButton = false,
     required this.functionsHolder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SearchingBodyScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: suggests.length,
       itemBuilder: (context, index) {
-        String value = suggests[index];
+        final String value = suggests[index];
         return GestureDetector(
           onTap: () => context.read<MainSearchScreenBloc>().add(
                 ClickOnAlreadySearchedValueEvent(
@@ -63,8 +63,8 @@ class SearchingBodyScreen extends StatelessWidget {
                       Icons.delete,
                     ),
                   ),
-                )
-            ]),
+                ),
+            ],),
           ),
         );
       },

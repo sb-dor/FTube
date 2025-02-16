@@ -18,7 +18,7 @@ import 'widgets/home_screen_categories_widgets/home_screen_categories_loaded_wid
 import 'widgets/home_screen_categories_widgets/home_screen_categories_loading_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -54,26 +54,29 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _refresh({VideoCategory? videoCategory, bool refresh = false}) =>
-      context.read<MainHomeScreenBloc>().add(
-            RefreshHomeScreenEvent(
-              videoCategory: videoCategory,
-              refresh: refresh,
-              scrollController: _scrollController,
-              showBottomNavbar: () => context.read<HomePageBottomNavbarCubit>().showBottomNavbar(),
-              loadingHomeScreenVideosState: () =>
-                  context.read<HomeScreenVideosCubit>().loadingHomeScreenVideosState(),
-              errorHomeScreenVideosState: () =>
-                  context.read<HomeScreenVideosCubit>().errorHomeScreenVideosState(),
-              loadedHomeScreenVideosState: () =>
-                  context.read<HomeScreenVideosCubit>().loadedHomeScreenVideosState(),
-              loadVideoCategory: () => context.read<MainVideoCategoryCubit>().loadVideoCategory(),
-              isLoadedHomeScreenVideos: BlocProvider.of<HomeScreenVideosCubit>(context).state
-                  is LoadedHomeScreenVideosState,
-              isErrorVideoCategoryState:
-                  BlocProvider.of<MainVideoCategoryCubit>(context).state is ErrorVideoCategoryState,
-            ),
-          );
+  void _refresh({VideoCategory? videoCategory, bool refresh = false}) {
+    final isLoadedHomeScreenVideos =
+        BlocProvider.of<HomeScreenVideosCubit>(context).state is LoadedHomeScreenVideosState;
+    final isErrorVideoCategoryState =
+        BlocProvider.of<MainVideoCategoryCubit>(context).state is ErrorVideoCategoryState;
+    context.read<MainHomeScreenBloc>().add(
+          RefreshHomeScreenEvent(
+            videoCategory: videoCategory,
+            refresh: refresh,
+            scrollController: _scrollController,
+            showBottomNavbar: () => context.read<HomePageBottomNavbarCubit>().showBottomNavbar(),
+            loadingHomeScreenVideosState: () =>
+                context.read<HomeScreenVideosCubit>().loadingHomeScreenVideosState(),
+            errorHomeScreenVideosState: () =>
+                context.read<HomeScreenVideosCubit>().errorHomeScreenVideosState(),
+            loadedHomeScreenVideosState: () =>
+                context.read<HomeScreenVideosCubit>().loadedHomeScreenVideosState(),
+            loadVideoCategory: () => context.read<MainVideoCategoryCubit>().loadVideoCategory(),
+            isLoadedHomeScreenVideos: isLoadedHomeScreenVideos,
+            isErrorVideoCategoryState: isErrorVideoCategoryState,
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
 
                               _refresh(refresh: true);
-                            })
+                            },)
                           else
                             VideosLoadedWidget(
                               videoList: mainHomeScreenStateModel.videos,
@@ -154,9 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     width: 20,
                                     height: 20,
                                     child: CircularProgressIndicator(
-                                        color: Colors.red, strokeWidth: 2))),
-                          const SizedBox(height: 15)
-                        ]),
+                                        color: Colors.red, strokeWidth: 2,),),),
+                          const SizedBox(height: 15),
+                        ],),
                   ),
                 ),
               ),
@@ -164,6 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       );
-    });
+    },);
   }
 }

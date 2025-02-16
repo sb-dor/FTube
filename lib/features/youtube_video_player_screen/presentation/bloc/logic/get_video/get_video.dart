@@ -20,7 +20,7 @@ abstract class GetVideo {
     stateModel.tempVideoId = videoId;
 
     // Fetch video manifest using the provided video ID
-    var informationVideo =
+    final informationVideo =
         await stateModel.youtubeExplode?.videos.streamsClient.getManifest(videoId);
 
     // Check if the context is still mounted after fetching the video manifest
@@ -32,7 +32,7 @@ abstract class GetVideo {
             e.size.totalMegaBytes >= 1 &&
             stateModel.globalFunc.checkMp4FromURI(
               value: e.url.toString(),
-            ))
+            ),)
         .toList();
 
     // Filter audio streams, where size is at least 1 MB and is in MP3 format
@@ -41,7 +41,7 @@ abstract class GetVideo {
             // el.size.totalMegaBytes >= 1.5 &&
             stateModel.globalFunc.checkMp3FromURI(
               value: el.url.toString(),
-            ))
+            ),)
         .toList();
 
     // Sort audio streams by their size in ascending order
@@ -95,10 +95,10 @@ abstract class GetVideo {
     // If a high-bitrate audio is available, update the list of audios and filter videos
     if (stateModel.tempMinAudioForVideo != null) {
       stateModel.audios.removeWhere((el) =>
-          el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim());
+          el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim(),);
       stateModel.audios.insert(0, stateModel.tempMinAudioForVideo!);
       stateModel.allVideos.removeWhere((el) =>
-          el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0));
+          el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0),);
     }
 
     // Add videos with sound at the beginning of the allVideos list
@@ -125,7 +125,7 @@ abstract class GetVideo {
     if (!context.mounted) return;
 
     // Get the minimum stream video from the list
-    var minStreamVideo = await stateModel.minStreamFromArray();
+    final minStreamVideo = await stateModel.minStreamFromArray();
 
     // Check if the context is still mounted before proceeding
     if (!context.mounted) return;

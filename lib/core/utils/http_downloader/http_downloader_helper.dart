@@ -4,9 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 typedef DownloadingProgress = void Function(
-  int total, /// [total mb]
-  int downloading, /// [total downloaded]
-  double progress, /// [percentage of downloaded]
+  /// [total mb]
+  int total,
+
+  /// [total downloaded]
+  int downloading,
+
+  /// [percentage of downloaded]
+  double progress,
 );
 
 abstract class HttpDownloaderHelper {
@@ -19,7 +24,7 @@ abstract class HttpDownloaderHelper {
       final response = client.send(request);
 
       int downloadingBytes = 0;
-      List<List<int>> chunkList = [];
+      final List<List<int>> chunkList = [];
 
       response.asStream().listen((http.StreamedResponse streamedResponse) {
         streamedResponse.stream.listen(

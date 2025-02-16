@@ -34,7 +34,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       {required DbFloor dbFloor,
       required YoutubeDataApi youtubeDataApi,
       required Permissions permission,
-      s})
+      s,})
       : _dbFloor = dbFloor,
         _youtubeDataApi = youtubeDataApi,
         _permissions = permission,
@@ -64,7 +64,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
 
     // change the state
     emit(InitialYoutubeVideoState(_currentState));
-    var similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
+    final similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
     similarVideosCubit.clearAndSetLoadingState();
     await initToken();
 
@@ -187,16 +187,16 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void onDownloadingError(BuildContext context) async {
-    var downloadingVideoCubit = BlocProvider.of<VideoDownloadingCubit>(context);
-    var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(context);
+    final downloadingVideoCubit = BlocProvider.of<VideoDownloadingCubit>(context);
+    final downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(context);
     downloadingVideoCubit.videoDownloadingLoadedState();
     downloadingAudioCubit.audioDownloadingLoadedState();
     clearTypeOfDownloadingVideoOnPopup();
   }
 
   Future<void> cancelTheVideo() async {
-    var downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
-        GlobalContextHelper.instance.globalNavigatorContext.currentContext!);
+    final downloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
+        GlobalContextHelper.instance.globalNavigatorContext.currentContext!,);
     await cancelTheAudio();
     _currentState.cancelVideoToken?.cancel();
     _currentState.cancelVideoToken = null;
@@ -211,7 +211,7 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> cancelTheAudio() async {
-    var downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
+    final downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
       GlobalContextHelper.instance.globalNavigatorContext.currentContext!,
     );
     _currentState.cancelAudioToken?.cancel();
@@ -257,12 +257,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   bool showInformationInButtonIfTheSameVideoIsDownloading(BuildContext context) {
-    var videoDownloaderCubit = BlocProvider.of<VideoDownloadingCubit>(context).state;
+    final videoDownloaderCubit = BlocProvider.of<VideoDownloadingCubit>(context).state;
     return videoDownloaderCubit.tempDownloadingVideoInfo?.mainVideoId == _currentState.tempVideoId;
   }
 
   bool showInformationInButtonIfTheSameVideosAudioIsDownloading(BuildContext context) {
-    var audioDownloadCubit = BlocProvider.of<AudioDownloadingCubit>(context).state;
+    final audioDownloadCubit = BlocProvider.of<AudioDownloadingCubit>(context).state;
     return audioDownloadCubit.downloadingAudioInfo?.mainVideoId == _currentState.tempVideoId;
   }
 

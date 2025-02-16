@@ -15,7 +15,7 @@ class ImageLoaderWidget extends StatelessWidget {
   final BorderRadius? borderRadius;
 
   const ImageLoaderWidget({
-    Key? key,
+    super.key,
     required this.url,
     this.errorImageUrl = 'assets/custom_images/custom_user_image.png',
     this.imageBlurHash,
@@ -25,7 +25,7 @@ class ImageLoaderWidget extends StatelessWidget {
     this.marginShimmerContainer,
     this.paddingShimmerContainer,
     this.borderRadius,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class ImageLoaderWidget extends StatelessWidget {
       httpHeaders: const {
         "Accept": "application/json",
         "Connection": "Keep-Alive",
-        "Keep-Alive": "timeout=10, max=1000"
+        "Keep-Alive": "timeout=10, max=1000",
       },
       fit: boxFit ?? BoxFit.scaleDown,
       placeholder: (context, url) {

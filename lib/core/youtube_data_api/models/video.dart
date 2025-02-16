@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
@@ -66,13 +65,13 @@ class Video {
     String? tempChannelThumbnail;
     String? tempPublishedDateTime;
 
-    var channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
+    final channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
     if (channelThumbnailRenderer != null) {
       tempChannelThumbnail = channelThumbnailRenderer['channelThumbnailWithLinkRenderer']
           ['thumbnail']['thumbnails'][0]['url'];
     }
 
-    var publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
+    final publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
 
     if (publishedTimeText != null) {
       tempPublishedDateTime = publishedTimeText;
@@ -80,12 +79,17 @@ class Video {
 
     if (map?.containsKey("videoRenderer") ?? false) {
       //Trending and search videos
-      var lengthText = map?['videoRenderer']?['lengthText'];
-      var simpleText = map?['videoRenderer']?['shortViewCountText']?['simpleText'];
+      final lengthText = map?['videoRenderer']?['lengthText'];
+      final simpleText = map?['videoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
       map?['videoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
-        thumbnails!.add(Thumbnail(
-            url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
+        thumbnails!.add(
+          Thumbnail(
+            url: thumbnail['url'],
+            width: thumbnail['width'],
+            height: thumbnail['height'],
+          ),
+        );
       });
 
       return Video(
@@ -102,8 +106,13 @@ class Video {
       //Related videos
       thumbnails = [];
       map?['compactVideoRenderer']['thumbnail']['thumbnails'].forEach((thumbnail) {
-        thumbnails!.add(Thumbnail(
-            url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
+        thumbnails!.add(
+          Thumbnail(
+            url: thumbnail['url'],
+            width: thumbnail['width'],
+            height: thumbnail['height'],
+          ),
+        );
       });
       return Video(
         videoId: map?['compactVideoRenderer']?['videoId'],
@@ -116,11 +125,16 @@ class Video {
         publishedDateTime: tempPublishedDateTime,
       );
     } else if (map?.containsKey("gridVideoRenderer") ?? false) {
-      String? simpleText = map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
+      final String? simpleText = map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
       map?['gridVideoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
-        thumbnails!.add(Thumbnail(
-            url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']));
+        thumbnails!.add(
+          Thumbnail(
+            url: thumbnail['url'],
+            width: thumbnail['width'],
+            height: thumbnail['height'],
+          ),
+        );
       });
       return Video(
         videoId: map?['gridVideoRenderer']?['videoId'],

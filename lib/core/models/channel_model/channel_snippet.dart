@@ -62,7 +62,7 @@ class ChannelSnippet {
   Future<void> _loadStatistics() async {
     loadingStatistics = true;
     try {
-      var data = await RestApiGetChannelData.channel(
+      final data = await RestApiGetChannelData.channel(
         typeContent: TypeContent.statistics,
         channelId: channelId,
       );

@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/core/db/video_db/video_model_db/video_model_db.dart';
 import 'package:youtube/core/utils/duration_helper/duration_helper.dart';
-import 'package:youtube/core/utils/global_context_helper.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/core/utils/reusable_global_widgets.dart';
 import 'package:youtube/features/home_screen/presentation/dialog_openers/open_video_screen/open_video_screen.dart';
@@ -23,11 +22,11 @@ class VideosLoadedWidget extends StatelessWidget {
   final BuildContext parentContext;
 
   const VideosLoadedWidget({
-    Key? key,
+    super.key,
     required this.videoList,
     required this.parentContext,
     this.closeScreenBeforeOpeningAnotherOne = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class VideosLoadedWidget extends StatelessWidget {
       shrinkWrap: true,
       itemCount: videoList.length,
       itemBuilder: (context, index) {
-        var video = videoList[index];
+        final video = videoList[index];
         return _MainVideoWidget(
           video: video,
           closeScreenBeforeOpeningAnotherOne: closeScreenBeforeOpeningAnotherOne,
@@ -98,17 +97,19 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         _videoIsInitializing = true;
 
         // get information about video
-        var informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
+        final informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
           widget.video.videoId,
         );
 
         // get only those videos which are recommended and will not throw any error in the future
         final videosWithSound = informationVideo.video
-            .where((e) =>
-                e.size.totalMegaBytes >= 1 &&
-                _globalFunctions.checkMp4FromURI(
-                  value: e.url.toString(),
-                ))
+            .where(
+              (e) =>
+                  e.size.totalMegaBytes >= 1 &&
+                  _globalFunctions.checkMp4FromURI(
+                    value: e.url.toString(),
+                  ),
+            )
             .toList();
 
         // get the lowest video one (360p quality)
@@ -222,13 +223,13 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
           videoThumb:
               (widget.video.thumbnails ?? []).isEmpty ? null : widget.video.thumbnails?.first.url,
           showOverlay: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                TopOverlayLogic.instance.showOverlay(
-                  widget.parentContext,
-                  model.videoUrlForOverlayRun ?? '',
-                  model.lastVideoDurationForMediaBackground,
-                );
-              });
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              TopOverlayLogic.instance.showOverlay(
+                widget.parentContext,
+                model.videoUrlForOverlayRun ?? '',
+                model.lastVideoDurationForMediaBackground,
+              );
+            });
           },
         );
       },
@@ -275,28 +276,29 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                       ),
                     ),
                   Positioned(
-                      top: 5,
-                      left: 10,
-                      right: 10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child:
-                                // (video.loadingVideoData)
-                                //     ? const TextWidget(
-                                //         text: ". . .",
-                                //         size: 12,
-                                //         fontWeight: FontWeight.bold,
-                                //         color: Colors.white,
-                                //       )
-                                //     :
-                                Row(children: [
+                    top: 5,
+                    left: 10,
+                    right: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child:
+                              // (video.loadingVideoData)
+                              //     ? const TextWidget(
+                              //         text: ". . .",
+                              //         size: 12,
+                              //         fontWeight: FontWeight.bold,
+                              //         color: Colors.white,
+                              //       )
+                              //     :
+                              Row(
+                            children: [
                               const Icon(
                                 Icons.remove_red_eye_outlined,
                                 size: 20,
@@ -308,125 +310,132 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                 size: 12,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                              )
-                            ]),
+                              ),
+                            ],
                           ),
-                          IconButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStatePropertyAll(Colors.black.withOpacity(0.2))),
-                              onPressed: () {
-                                VideoModelDb model = VideoModelDb.fromVideo(widget.video);
-                                ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
-                                  context: context,
-                                  videoModelDb: model,
-                                );
-                              },
-                              icon: const Icon(
-                                Icons.more_horiz,
-                                color: Colors.white,
-                              ))
-                        ],
-                      )),
+                        ),
+                        IconButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.2)),
+                          ),
+                          onPressed: () {
+                            final VideoModelDb model = VideoModelDb.fromVideo(widget.video);
+                            ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
+                              context: context,
+                              videoModelDb: model,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.more_horiz,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Positioned(
-                      bottom: 10,
-                      right: 10,
-                      left: 10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          if (_initializingVideoBeforeShowing)
-                            const SizedBox(
-                              width: 15,
-                              height: 15,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          else if ((_videoPlayerController?.value.isInitialized ?? false) &&
-                              (_videoPlayerController?.value.isPlaying ?? false))
-                            Column(
-                              children: [
-                                Material(
-                                  color: Colors.black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      await _clearController();
-                                    },
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.play_disabled,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Material(
-                                  color: Colors.black.withOpacity(0.5),
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: InkWell(
-                                    onTap: () {
-                                      if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
-                                        _videoPlayerController?.setVolume(0.0);
-                                      } else {
-                                        _videoPlayerController?.setVolume(1.0);
-                                      }
-                                      setState(() {});
-                                    },
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Center(
-                                        child: Icon(
-                                          _videoPlayerController?.value.volume == 1
-                                              ? Icons.volume_down_sharp
-                                              : Icons.volume_up_sharp,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          else
-                            const SizedBox(),
-                          if (currentVideoGoingDuration != null)
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
-                              decoration: BoxDecoration(
-                                  color: Colors.black, borderRadius: BorderRadius.circular(3)),
-                              child: TextWidget(
-                                text: currentVideoGoingDuration ?? "-",
-                                color: Colors.white,
-                                size: 10,
-                              ),
-                            )
-                          else if ((widget.video.duration ?? '').isNotEmpty)
-                            Container(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
-                              decoration: BoxDecoration(
-                                  color: Colors.black, borderRadius: BorderRadius.circular(3)),
-                              child: TextWidget(
-                                text: widget.video.duration ?? "",
-                                color: Colors.white,
-                                size: 10,
-                              ),
+                    bottom: 10,
+                    right: 10,
+                    left: 10,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        if (_initializingVideoBeforeShowing)
+                          const SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
                             ),
-                        ],
-                      )),
+                          )
+                        else if ((_videoPlayerController?.value.isInitialized ?? false) &&
+                            (_videoPlayerController?.value.isPlaying ?? false))
+                          Column(
+                            children: [
+                              Material(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(50),
+                                child: InkWell(
+                                  onTap: () async {
+                                    await _clearController();
+                                  },
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    child: const Center(
+                                      child: Icon(
+                                        Icons.play_disabled,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Material(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(50),
+                                child: InkWell(
+                                  onTap: () {
+                                    if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
+                                      _videoPlayerController?.setVolume(0.0);
+                                    } else {
+                                      _videoPlayerController?.setVolume(1.0);
+                                    }
+                                    setState(() {});
+                                  },
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Center(
+                                      child: Icon(
+                                        _videoPlayerController?.value.volume == 1
+                                            ? Icons.volume_down_sharp
+                                            : Icons.volume_up_sharp,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          const SizedBox(),
+                        if (currentVideoGoingDuration != null)
+                          Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: TextWidget(
+                              text: currentVideoGoingDuration ?? "-",
+                              color: Colors.white,
+                              size: 10,
+                            ),
+                          )
+                        else if ((widget.video.duration ?? '').isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(3),
+                            ),
+                            child: TextWidget(
+                              text: widget.video.duration ?? "",
+                              color: Colors.white,
+                              size: 10,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                   Positioned(
                     top: 0,
                     bottom: 0,
@@ -439,7 +448,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                         color: Colors.transparent,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -493,18 +502,20 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                           text: TextSpan(
                             children: [
                               WidgetSpan(
-                                  child: TextWidget(
-                                text: widget.video.channelName ?? "-",
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                              )),
+                                child: TextWidget(
+                                  text: widget.video.channelName ?? "-",
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                               const WidgetSpan(
-                                  child: TextWidget(
-                                text: "  •  ",
-                                size: 12,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w500,
-                              )),
+                                child: TextWidget(
+                                  text: "  •  ",
+                                  size: 12,
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                               WidgetSpan(
                                 child: TextWidget(
                                   text: widget.video.publishedDateTime ?? '-',
@@ -521,7 +532,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

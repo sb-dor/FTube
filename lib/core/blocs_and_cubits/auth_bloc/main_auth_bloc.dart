@@ -22,7 +22,7 @@ class MainAuthBloc extends Bloc<AuthBlocEvents, AuthBlocStates> {
   }
 
   Future<void> checkAuth(CheckAuthEvent event, Emitter<AuthBlocStates> emit) async {
-    var data = await event.authorizationService.checkAuth();
+    final data = await event.authorizationService.checkAuth();
     if (data.containsKey("auth_error")) {
       emit(ErrorAuthState(_currentState));
     } else if (data.containsKey("success")) {
@@ -38,7 +38,7 @@ class MainAuthBloc extends Bloc<AuthBlocEvents, AuthBlocStates> {
   }
 
   Future<void> login(LoginEvent event, Emitter<AuthBlocStates> emit) async {
-    var data = await event.authorizationService.login();
+    final data = await event.authorizationService.login();
     emit(LoadingAuthState(_currentState));
     if (data.containsKey('user_popup_dialog')) return;
     if (data.containsKey("auth_error")) {

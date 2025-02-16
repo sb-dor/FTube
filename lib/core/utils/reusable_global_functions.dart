@@ -12,8 +12,11 @@ class ReusableGlobalFunctions {
 
   ReusableGlobalFunctions._();
 
-  int checkIsListHasMorePageInt(
-      {required List<dynamic> list, required int page, int limitInPage = Constants.perPage}) {
+  int checkIsListHasMorePageInt({
+    required List<dynamic> list,
+    required int page,
+    int limitInPage = Constants.perPage,
+  }) {
     if (list.length < limitInPage) {
       page = 1;
     } else {
@@ -23,8 +26,10 @@ class ReusableGlobalFunctions {
   }
 
 //this fun will check is there more list in pag (returns boolean)
-  bool checkIsListHasMorePageBool(
-      {required List<dynamic> list, int limitInPage = Constants.perPage}) {
+  bool checkIsListHasMorePageBool({
+    required List<dynamic> list,
+    int limitInPage = Constants.perPage,
+  }) {
     if (list.length < limitInPage) {
       return false;
     } else {
@@ -33,16 +38,16 @@ class ReusableGlobalFunctions {
   }
 
   bool checkMp4FromURI({required String value}) {
-    var reg = RegExp('mime=video%2Fmp4');
-    var reg2 = RegExp('ratebypass=yes');
+    final reg = RegExp('mime=video%2Fmp4');
+    final reg2 = RegExp('ratebypass=yes');
     return reg.hasMatch(value) && reg2.hasMatch(value);
   }
 
   bool checkMp3FromURI({required String value}) {
-    var reg = RegExp("mime=audio%2Fmp4");
-    var reg2 = RegExp("mime=audio%2F3gpp");
-    var reg3 = RegExp("mime=audio%2Fwebm");
-    var reg4 = RegExp('gir=yes');
+    final reg = RegExp("mime=audio%2Fmp4");
+    final reg2 = RegExp("mime=audio%2F3gpp");
+    final reg3 = RegExp("mime=audio%2Fwebm");
+    final reg4 = RegExp('gir=yes');
     return ((reg.hasMatch(value) || reg2.hasMatch(value) || reg3.hasMatch(value)) &&
         reg4.hasMatch(value));
   }
@@ -109,7 +114,7 @@ class ReusableGlobalFunctions {
   }
 
   Map<String, dynamic> convertMap(Map<dynamic, dynamic> originalMap) {
-    Map<String, dynamic> newMap = {};
+    final Map<String, dynamic> newMap = {};
 
     originalMap.forEach((key, value) {
       if (key is String) {

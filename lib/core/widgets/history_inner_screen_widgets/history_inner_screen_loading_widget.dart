@@ -20,9 +20,7 @@ class HistoryInnerScreenLoadingWidget extends StatelessWidget {
 }
 
 class _Widget extends StatelessWidget {
-  const _Widget({
-    Key? key,
-  }) : super(key: key);
+  const _Widget();
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube/core/widgets/shimmer_container.dart';
 
 class TrendingScreenCategoriesLoadingWidget extends StatelessWidget {
-  const TrendingScreenCategoriesLoadingWidget({Key? key}) : super(key: key);
+  const TrendingScreenCategoriesLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

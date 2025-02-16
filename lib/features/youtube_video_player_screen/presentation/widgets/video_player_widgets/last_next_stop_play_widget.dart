@@ -8,15 +8,15 @@ class LastNextStopPlayWidget extends StatelessWidget {
   final Animation<double> animation;
 
   const LastNextStopPlayWidget({
-    Key? key,
+    super.key,
     required this.animationController,
     required this.animation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      var currentState = state.youtubeVideoStateModel;
+      final currentState = state.youtubeVideoStateModel;
       return Positioned.fill(
           child: AnimatedBuilder(
               animation: animationController,
@@ -57,7 +57,7 @@ class LastNextStopPlayWidget extends StatelessWidget {
                     //     )),
                   ],
                 );
-              }));
-    });
+              },),);
+    },);
   }
 }

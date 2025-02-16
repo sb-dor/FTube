@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_env.dart';
 import 'package:youtube/core/api/api_urls.dart';
 import 'package:youtube/core/utils/enums.dart';
@@ -15,12 +14,12 @@ class RestApiGetVideoData {
     required TypeContent videoContent,
     required String? videoId,
   }) async {
-    Map<String, dynamic> result = {};
+    final Map<String, dynamic> result = {};
 
     // String part = _partBuilder(videoContent);
 
     try {
-      var response = await _youtubeDataApi.fetchVideoData(videoId ?? '');
+      final response = await _youtubeDataApi.fetchVideoData(videoId ?? '');
 
       result['success'] = true;
       result['item'] = response;
@@ -53,9 +52,9 @@ class RestApiGetVideoData {
     bool refresh = false,
     String? orderBy,
   }) async {
-    Map<String, dynamic> results = {};
+    final Map<String, dynamic> results = {};
     try {
-      List<dynamic>? list = await _youtubeDataApi.fetchSearchVideo(
+      final List<dynamic> list = await _youtubeDataApi.fetchSearchVideo(
         q,
         YOUTUBE_API_KEY,
         clearLastSearch: refresh,
@@ -64,8 +63,8 @@ class RestApiGetVideoData {
 
       // debugPrint"okay: $list");
 
-      List<ytv.Video> videos = [];
-      List<ytc.Channel> channels = [];
+      final List<ytv.Video> videos = [];
+      final List<ytc.Channel> channels = [];
 
       for (var each in list) {
         if (each is ytv.Video) {

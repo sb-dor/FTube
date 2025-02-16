@@ -14,7 +14,7 @@ void main() {
     dataSource = MockTrendsRemoteDataSource();
   });
 
-  List<TrendsVideosModel> videos = List.generate(
+  final List<TrendsVideosModel> videos = List.generate(
     50,
     (index) => MockTrendsVideoModel(),
   );

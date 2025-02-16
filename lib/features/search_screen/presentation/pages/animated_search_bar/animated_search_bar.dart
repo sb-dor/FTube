@@ -14,18 +14,18 @@ class AnimatedSearchBar extends StatelessWidget {
   final SearchScreenEventFunctionsHolder functionsHolder;
 
   const AnimatedSearchBar({
-    Key? key,
+    super.key,
     required this.searchBarAnimationController,
     required this.searchBarAnimation,
     required this.scrollController,
     required this.functionsHolder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      var currentState = context.watch<MainSearchScreenBloc>().state.searchScreenStateModel;
-      var searchBodyCubit = context.watch<SearchBodyCubit>().state;
+      final currentState = context.watch<MainSearchScreenBloc>().state.searchScreenStateModel;
+      final searchBodyCubit = context.watch<SearchBodyCubit>().state;
       return AnimatedBuilder(
           animation: searchBarAnimationController,
           builder: (context, child) {
@@ -46,8 +46,8 @@ class AnimatedSearchBar extends StatelessWidget {
                           BoxShadow(
                             blurRadius: 5,
                             color: Colors.grey.shade300,
-                          )
-                        ]),
+                          ),
+                        ],),
                     child: Stack(
                       children: [
                         Row(children: [
@@ -73,13 +73,13 @@ class AnimatedSearchBar extends StatelessWidget {
                                       .add(ClickSearchButtonEvent(
                                         functionsHolder: functionsHolder,
                                         scrollController: scrollController,
-                                      )),
+                                      ),),
                                   onTap: () => context.read<MainSearchScreenBloc>().add(
                                         InitSearchScreenEvent(
                                             scrollController: scrollController,
                                             searchingBodyStateFunc: () {
                                               context.read<SearchBodyCubit>().searchingBodyState();
-                                            }),
+                                            },),
                                       ),
                                   onChanged: (v) => context.read<MainSearchScreenBloc>().add(
                                         GetSuggestionRequestEvent(
@@ -91,12 +91,12 @@ class AnimatedSearchBar extends StatelessWidget {
                                       isDense: true,
                                       contentPadding: EdgeInsets.zero,
                                       border: InputBorder.none,
-                                      hintText: "Search"),
+                                      hintText: "Search",),
                                 ),
                               ),
                             ),
                           ),
-                        ]),
+                        ],),
                         if (searchBarAnimationController.isCompleted)
                           if (searchBodyCubit is LoadedSearchBodyState ||
                               searchBodyCubit is LoadingSearchBodyState)
@@ -107,7 +107,7 @@ class AnimatedSearchBar extends StatelessWidget {
                               child: _EndButton(
                                 voidCallback: () async =>
                                     await OpenSearchScreenFilter.openSearchScreenFilter(
-                                        context, functionsHolder),
+                                        context, functionsHolder,),
                                 icon: Icons.filter_list,
                               ),
                             )
@@ -170,15 +170,15 @@ class AnimatedSearchBar extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            )),
+                            ),),
                       ],
                     ),
                   ),
                 ),
               ),
             );
-          });
-    });
+          },);
+    },);
   }
 }
 

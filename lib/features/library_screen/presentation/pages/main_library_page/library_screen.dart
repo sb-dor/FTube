@@ -16,7 +16,7 @@ import 'widgets/library_download_files_widget/library_downloaded_files_widget.da
 import 'widgets/library_module_title_widget/library_module_title_widget.dart';
 
 class LibraryScreen extends StatefulWidget {
-  const LibraryScreen({Key? key}) : super(key: key);
+  const LibraryScreen({super.key});
 
   @override
   State<LibraryScreen> createState() => _LibraryScreenState();
@@ -112,7 +112,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   ),
                 if (historyStateModel.lengthOfDownloadedFiles != 0)
                   const LibraryDownloadedFilesWidget(),
-                const SizedBox(height: 120)
+                const SizedBox(height: 120),
               ],
             ),
           ),

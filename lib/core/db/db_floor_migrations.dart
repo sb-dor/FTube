@@ -3,7 +3,7 @@ import 'package:youtube/core/db/db_floor.dart';
 
 abstract class DbFloorMigrations {
   static List<Migration> migrations() {
-    List<Migration> mig = [];
+    final List<Migration> mig = [];
 
     if (Versions.currentVersion == Migration1to2.updatingVersion) {
       mig.add(Migration1to2.migration1to2);

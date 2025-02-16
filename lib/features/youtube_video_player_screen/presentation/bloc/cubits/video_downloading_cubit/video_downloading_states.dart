@@ -15,70 +15,42 @@ abstract class VideoDownloadingStates {
 
 class VideoDownloadingGettingInfoState extends VideoDownloadingStates {
   VideoDownloadingGettingInfoState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingLoadingState extends VideoDownloadingStates {
   VideoDownloadingLoadingState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingErrorState extends VideoDownloadingStates {
   VideoDownloadingErrorState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingGettingAudioInformationState extends VideoDownloadingStates {
   VideoDownloadingGettingAudioInformationState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingAudioState extends VideoDownloadingStates {
   VideoDownloadingAudioState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingSavingOnStorageState extends VideoDownloadingStates {
   VideoDownloadingSavingOnStorageState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }
 
 class VideoDownloadingLoadedState extends VideoDownloadingStates {
   VideoDownloadingLoadedState(
-      {DownloadingVideoInfo? tempDownloadingVideoInfo,
-      DownloadingAudioInfo? tempDownloadingAudioInfo})
-      : super(
-          tempDownloadingVideoInfo: tempDownloadingVideoInfo,
-          tempDownloadingAudioInfo: tempDownloadingAudioInfo,
-        );
+      {super.tempDownloadingVideoInfo,
+      super.tempDownloadingAudioInfo,});
 }

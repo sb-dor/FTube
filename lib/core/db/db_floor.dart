@@ -18,13 +18,16 @@ abstract class Versions {
   static const int currentVersion = 5;
 }
 
-@Database(version: Versions.currentVersion, entities: [
-  VideoModelDb,
-  PlaylistModelDb,
-  PlaylistVideosModelDb,
-  LikeModelDb,
-  FileDownloadModel,
-])
+@Database(
+  version: Versions.currentVersion,
+  entities: [
+    VideoModelDb,
+    PlaylistModelDb,
+    PlaylistVideosModelDb,
+    LikeModelDb,
+    FileDownloadModel,
+  ],
+)
 abstract class DbFloor extends FloorDatabase {
   VideoModelDbDao get videoDbDao;
 

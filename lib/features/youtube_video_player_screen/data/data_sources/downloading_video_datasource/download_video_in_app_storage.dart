@@ -19,17 +19,17 @@ class DownloadVideoInAppStorage with StorageHelper implements IDownloading {
   ) async {
     final getExternalStoragePath = await getStorage();
 
-    var dateTimeForVideoName = DateTime.now();
+    final dateTimeForVideoName = DateTime.now();
 
-    var pathOfVideo = '${getExternalStoragePath?.path}/'
+    final pathOfVideo = '${getExternalStoragePath?.path}/'
         '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? "-"}"
             "_${dateTimeForVideoName.toString()}")}'
         '_videoId_${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(stateModel.tempVideoId ?? '')}.mp4';
 
-    File fileForSaving = File(pathOfVideo);
+    final File fileForSaving = File(pathOfVideo);
 
     if (downloadingVideo != null && downloadingVideo.isNotEmpty) {
-      var data = FileDownloadModel.fromVideoData(stateModel.videoData);
+      final data = FileDownloadModel.fromVideoData(stateModel.videoData);
       data.imagePath = stateModel.videoPicture;
       data.downloadedPath = pathOfVideo;
       fileForSaving.writeAsBytesSync(downloadingVideo);

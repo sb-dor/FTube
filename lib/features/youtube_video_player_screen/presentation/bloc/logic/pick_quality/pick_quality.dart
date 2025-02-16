@@ -9,7 +9,7 @@ abstract class PickQuality {
     required VideoStreamInfo videoStreamInfo,
     required Function(YoutubeVideoStates) emit,
   }) async {
-    var tempPositionOfTheVideo = await stateModel.playerController?.position;
+    final tempPositionOfTheVideo = await stateModel.playerController?.position;
     if (tempPositionOfTheVideo == null) return;
     stateModel.playerController?.dispose();
     stateModel.playerController = null;

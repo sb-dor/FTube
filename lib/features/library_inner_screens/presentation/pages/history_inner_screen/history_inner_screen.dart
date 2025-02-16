@@ -76,7 +76,7 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
                         color: Colors.red,
                         strokeWidth: 2,
                       ),
-                    )
+                    ),
                   ],
                 ),
               const SizedBox(height: 15),
@@ -84,6 +84,6 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
           ),
         ),
       );
-    });
+    },);
   }
 }

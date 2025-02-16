@@ -11,7 +11,7 @@ class SlideAnimation extends StatelessWidget {
   final Curves? curves;
 
   const SlideAnimation({
-    Key? key,
+    super.key,
     required this.child,
     this.begin,
     this.end,
@@ -19,7 +19,7 @@ class SlideAnimation extends StatelessWidget {
     this.intervalBegin,
     this.intervalEnd,
     this.curves,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

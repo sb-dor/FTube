@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube/core/widgets/shimmer_container.dart';
 
 class VideoInformationLoadingWidget extends StatelessWidget {
-  const VideoInformationLoadingWidget({Key? key}) : super(key: key);
+  const VideoInformationLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class VideoInformationLoadingWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              ShimmerContainer(width: 100, height: 30, borderRadius: BorderRadius.circular(15))
+              ShimmerContainer(width: 100, height: 30, borderRadius: BorderRadius.circular(15)),
             ],
           ),
         ),

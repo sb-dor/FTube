@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:youtube/core/api/api_settings.dart';
@@ -27,11 +26,11 @@ class DownloadAudio {
     required DbFloor dbFloor,
     required Permissions permissions,
   }) async {
-    var audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
+    final audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
       _contextHelper.globalNavigatorContext.currentState!.context,
     );
 
-    var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
+    final videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
       _contextHelper.globalNavigatorContext.currentState!.context,
     );
 
@@ -61,7 +60,7 @@ class DownloadAudio {
       audioDownloadingCubit.audioGettingInformationState();
       // debugPrint
       //     "audio url: |${audioStreamInfo.size.totalKiloBytes}| ${audioStreamInfo.url.toString()}");
-      var data = await APISettings.dio.get<List<int>>(
+      final data = await APISettings.dio.get<List<int>>(
         audioStreamInfo.url.toString(),
         cancelToken: stateModel.cancelAudioToken,
         onReceiveProgress: (int receive, int total) {
@@ -73,7 +72,7 @@ class DownloadAudio {
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json',
             "Connection": "Keep-Alive",
-            "Keep-Alive": "timeout=500, max=1000"
+            "Keep-Alive": "timeout=500, max=1000",
           },
           responseType: ResponseType.bytes,
           receiveTimeout: const Duration(minutes: 5),

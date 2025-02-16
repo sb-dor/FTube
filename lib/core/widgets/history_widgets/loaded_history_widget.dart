@@ -73,7 +73,7 @@ class _Widget extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         TopOverlayLogic.instance.removeOverlay();
-        Video video = Video.fromBaseVideoModelDb(videoModelDb);
+        final Video video = Video.fromBaseVideoModelDb(videoModelDb);
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
         await OpenVideoScreen.openVideoScreen(
           context: context,
@@ -131,7 +131,7 @@ class _Widget extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.only(top: 3, bottom: 3, right: 8, left: 8),
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withValues(alpha: 0.5),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           child: TextWidget(
@@ -187,9 +187,9 @@ class _Widget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                   Column(
@@ -220,9 +220,9 @@ class _Widget extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

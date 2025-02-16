@@ -26,14 +26,14 @@ import 'package:collection/collection.dart';
     if (!context.mounted) return;
 
     // Obtain the VideoInformationCubit from the context
-    var videoInfoCubit = BlocProvider.of<VideoInformationCubit>(context);
+    final videoInfoCubit = BlocProvider.of<VideoInformationCubit>(context);
 
     // Set the video information loading state in the cubit
     videoInfoCubit.loadingVideoInformationState();
 
     try {
       // Fetch video information using RestApiGetVideoData
-      var data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
+      final data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
         videoContent: TypeContent.snippet, // Specify the type of content to fetch
         videoId: videoId, // Provide the video ID
       );

@@ -30,12 +30,12 @@ class VideoPlayerScreen extends StatefulWidget {
   final BuildContext parentContext;
 
   const VideoPlayerScreen({
-    Key? key,
+    super.key,
     required this.videoId,
     required this.showOverlay,
     required this.parentContext,
     this.videoThumb,
-  }) : super(key: key);
+  });
 
   @override
   State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
@@ -163,7 +163,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
         final videoInformationStates = context.watch<VideoInformationCubit>().state;
         final similarVideoCubit = context.watch<SimilarVideosCubit>();
 
-        var youtubeStateModel = youtubeStates.youtubeVideoStateModel;
+        final youtubeStateModel = youtubeStates.youtubeVideoStateModel;
 
         return DraggableScrollableSheet(
           controller: _scrollableController,
@@ -221,7 +221,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                               ),
                             if (youtubeStateModel.clickedUpOnVideo) const VideoSettingsButton(),
                           ],
-                        )),
+                        ),),
                   Expanded(
                     child: Stack(
                       children: [
@@ -274,7 +274,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                                   is ErrorVideoInformationState)
                                                 const SizedBox()
                                               else
-                                                const VideoInfoLikeButtonLoadedWidget()
+                                                const VideoInfoLikeButtonLoadedWidget(),
                                             ],
                                           ),
                                         ),
@@ -300,7 +300,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                   child: VideosErrorWidget(
                                       onTap: () => context
                                           .read<YoutubeVideoCubit>()
-                                          .getSimilarVideos(context: context, paginating: false)),
+                                          .getSimilarVideos(context: context, paginating: false),),
                                 )
                               else if (similarVideoCubit.state is LoadedSimilarVideosState &&
                                   similarVideoCubit
@@ -331,7 +331,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                     ),
                                     SizedBox(height: 10),
                                   ],
-                                )
+                                ),
                               // VideoInformationLoadedWidget(),
                             ],
                           ),
@@ -339,7 +339,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                       ],
                     ),
                   ),
-                ]),
+                ],),
               ),
             );
           },
@@ -352,7 +352,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 class _Clipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    var path = Path();
+    final path = Path();
 
     path.moveTo(0, 0);
 

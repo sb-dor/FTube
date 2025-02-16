@@ -37,7 +37,6 @@ class _TopOverlayFeatureUI extends StatefulWidget {
   final Duration? position;
 
   const _TopOverlayFeatureUI({
-    super.key,
     required this.overlayEntry,
     required this.videoId,
     required this.position,

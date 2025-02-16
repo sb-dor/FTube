@@ -106,8 +106,10 @@ class VideoPage {
               ?['likeButtonViewModel']?['toggleButtonViewModel']?['toggleButtonViewModel']
           ?['defaultButtonViewModel']?['buttonViewModel']?['title'],
       unlikeCount: '',
-      description: collectDescriptionString(map?['results']?['results']?['contents']?[1]
-          ?['videoSecondaryInfoRenderer']?['description']?['runs']),
+      description: collectDescriptionString(
+        map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['description']
+            ?['runs'],
+      ),
       date: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['dateText']
           ?['simpleText'],
       channelThumb: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']

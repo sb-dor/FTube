@@ -30,8 +30,8 @@ class Channel {
     if (map?['channelRenderer']?['videoCountText']?['accessibility']?['accessibilityData']
             ?['simpleText'] !=
         null) {
-      subCount = map?['channelRenderer']?['videoCountText']?['accessibility']?['accessibilityData']?
-          ['simpleText'];
+      subCount = map?['channelRenderer']?['videoCountText']?['accessibility']?['accessibilityData']
+          ?['simpleText'];
     }
     return Channel(
       channelId: map?['channelRenderer']?['channelId'],

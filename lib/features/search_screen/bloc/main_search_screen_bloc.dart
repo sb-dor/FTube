@@ -22,7 +22,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   late final SearchScreenStateModel _currentState;
 
   MainSearchScreenBloc(
-      {required SearchScreenRepo screenRepo, required HiveDatabaseHelper hiveDatabaseHelper})
+      {required SearchScreenRepo screenRepo, required HiveDatabaseHelper hiveDatabaseHelper,})
       : _screenRepo = screenRepo,
         _hiveDatabaseHelper = hiveDatabaseHelper,
         super(InitialSearchScreenState(SearchScreenStateModel())) {
@@ -70,8 +70,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
     if (event.close) return;
 
     _currentState.timerForCheckingPaginating = Timer.periodic(const Duration(seconds: 20), (timer) {
-      var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(
-          _currentState.globalContext.globalNavigatorContext.currentContext!);
+      final searchBodyCubit = BlocProvider.of<SearchBodyCubit>(
+          _currentState.globalContext.globalNavigatorContext.currentContext!,);
       if (_currentState.paginating && searchBodyCubit.state is LoadedSearchBodyState) {
         _currentState.paginating = false;
       }
@@ -145,10 +145,10 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         add(StopListeningSpeechEvent(
           popup: true,
           popupFunc: event.popupFunc,
-        ));
+        ),);
       });
       _currentState.searchController.text = result.recognizedWords;
-    });
+    },);
     emit(InitialSearchScreenState(_currentState));
   }
 
@@ -211,9 +211,9 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
           if (searchById.containsKey("server_error")) {
             event.functionsHolder.errorSearchBodyStateFunc();
           } else if (searchById.containsKey("success") && searchById["success"] == true) {
-            ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
+            final ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
             // videoData.video.;
-            ytv.Video videoFromVideoData = ytv.Video(
+            final ytv.Video videoFromVideoData = ytv.Video(
               videoId: videoData.video?.videoId,
               title: videoData.video?.title,
               videoData: videoData,
@@ -241,7 +241,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         }
         //
       } else {
-        var data = await _screenRepo.getSearchVideo(
+        final data = await _screenRepo.getSearchVideo(
           q: _currentState.searchController.text,
           refresh: true,
           orderBy: _currentState.orderBy?.id,
@@ -250,7 +250,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         if (data.containsKey("server_error")) {
           event.functionsHolder.errorSearchBodyStateFunc();
         } else if (data.containsKey("success")) {
-          List<ytv.Video> videos = data['videos'];
+          final List<ytv.Video> videos = data['videos'];
 
           _currentState.addAndPag(value: videos);
 
@@ -282,14 +282,14 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
   }
 
   void _paginateSearchScreenEvent(
-      PaginateSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
+      PaginateSearchScreenEvent event, Emitter<SearchScreenStates> emit,) async {
     if (!_currentState.hasMore) return;
     if (_currentState.paginating) return;
     _currentState.paginating = true;
     // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     if (event.isLoadedSearchBodyState) return;
     try {
-      var data = await _screenRepo.getSearchVideo(
+      final data = await _screenRepo.getSearchVideo(
         q: _currentState.searchController.text,
       );
 
@@ -299,7 +299,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
         event.functionsHolder.errorSearchBodyStateFunc();
       } else if (data.containsKey("success")) {
         // _currentState.pageToken = data['next_page_token'];
-        List<ytv.Video> videos = data['videos'];
+        final List<ytv.Video> videos = data['videos'];
         _currentState.addAndPag(value: videos, paginate: true);
         event.functionsHolder.loadedSearchBodyStateFunc();
         // _getVideoDataInAnotherIsolate(videos, searchBodyCubit);
@@ -327,7 +327,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> 
       // }
 
       // _currentState.timerForMakingSuggestionRequest = Timer(const Duration(seconds: 1), () async {
-      var data = await _screenRepo.getSuggestionSearch(_currentState.searchController.text);
+      final data = await _screenRepo.getSuggestionSearch(_currentState.searchController.text);
       if (data.containsKey('server_error')) {
         event.functionsHolder.errorSearchBodyStateFunc();
       } else if (data.containsKey('success')) {

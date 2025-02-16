@@ -1,4 +1,3 @@
-
 class Thumbnail {
   String? url;
   int? width, height;

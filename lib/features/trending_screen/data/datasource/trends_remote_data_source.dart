@@ -12,25 +12,25 @@ class TrendsRemoteDataSourceImpl implements ITrendsRemoteDatasource {
 
   @override
   Future<List<TrendsVideosModel>> fetchTrendingGaming() async {
-    var data = await _youtubeDataApi.fetchTrendingGaming();
-    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
+    final data = await _youtubeDataApi.fetchTrendingGaming();
+    return data.map(TrendsVideosModel.fromEntity).toList();
   }
 
   @override
   Future<List<TrendsVideosModel>> fetchTrendingMovies() async {
-    var data = await _youtubeDataApi.fetchTrendingMovies();
-    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
+    final data = await _youtubeDataApi.fetchTrendingMovies();
+    return data.map(TrendsVideosModel.fromEntity).toList();
   }
 
   @override
   Future<List<TrendsVideosModel>> fetchTrendingMusic() async {
-    var data = await _youtubeDataApi.fetchTrendingMusic();
-    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
+    final data = await _youtubeDataApi.fetchTrendingMusic();
+    return data.map(TrendsVideosModel.fromEntity).toList();
   }
 
   @override
   Future<List<TrendsVideosModel>> fetchTrendingVideo() async {
-    var data = await _youtubeDataApi.fetchTrendingVideo();
-    return data.map((e) => TrendsVideosModel.fromEntity(e)).toList();
+    final data = await _youtubeDataApi.fetchTrendingVideo();
+    return data.map(TrendsVideosModel.fromEntity).toList();
   }
 }

@@ -35,7 +35,7 @@ class AnotherVideosDownloading extends StatelessWidget {
                 strokeWidth: 2,
                 value: downloadingProgress,
               ),
-            )
+            ),
           ],
         ),
       ),

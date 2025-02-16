@@ -16,7 +16,7 @@ import 'downloaded_button_widget/another_video_downloading.dart';
 import 'downloaded_button_widget/downloaded_button_widget.dart';
 
 class VideoInformationLoadedWidget extends StatelessWidget {
-  const VideoInformationLoadedWidget({Key? key}) : super(key: key);
+  const VideoInformationLoadedWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
       final downloadingVideoCubit = context.watch<VideoDownloadingCubit>().state;
       final downloadingAudioCubit = context.watch<AudioDownloadingCubit>().state;
 
-      var currentState = youtubeCubit.state.youtubeVideoStateModel;
+      final currentState = youtubeCubit.state.youtubeVideoStateModel;
       // var channel = currentState.video?.snippet?.channel;
 
       return Column(
@@ -54,21 +54,21 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                     color: Colors.grey,
                     size: 12,
                     fontWeight: FontWeight.w500,
-                  )),
+                  ),),
                   const WidgetSpan(
                       child: TextWidget(
                     text: " • ",
                     size: 12,
                     color: Colors.grey,
                     fontWeight: FontWeight.w500,
-                  )),
+                  ),),
                   WidgetSpan(
                       child: TextWidget(
                     text: currentState.videoData?.video?.date ?? '',
                     color: Colors.grey,
                     size: 12,
                     fontWeight: FontWeight.w500,
-                  )),
+                  ),),
                   const WidgetSpan(child: SizedBox(width: 5)),
 
                   // for future development
@@ -108,7 +108,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                           url: currentState.videoData?.video?.channelThumb ?? '',
                           errorImageUrl: 'assets/custom_images/custom_user_image.png',
                         ),
-                      )),
+                      ),),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -123,7 +123,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                                 color: Colors.grey,
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
-                              )),
+                              ),),
                           TextSpan(
                             text: " • ${currentState.videoData?.video?.subscribeCount ?? '-'} ",
                             style: const TextStyle(
@@ -148,7 +148,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                           onTap: () => context.read<YoutubeVideoCubit>().cancelTheVideo(),
                           downloadingProgress:
                               downloadingVideoCubit.tempDownloadingVideoInfo?.downloadingProgress ??
-                                  0.0)
+                                  0.0,)
                     else if (downloadingAudioCubit.isAudioDownloading &&
                         downloadingAudioCubit.downloadingAudioInfo?.mainVideoId !=
                             currentState.tempVideoId)
@@ -156,7 +156,7 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                           onTap: () => context.read<YoutubeVideoCubit>().cancelTheAudio(),
                           downloadingProgress:
                               downloadingAudioCubit.downloadingAudioInfo?.downloadingProgress ??
-                                  0.0)
+                                  0.0,)
                     else
                       const SizedBox(),
                     if (downloadingVideoCubit.isDownloading)
@@ -251,12 +251,12 @@ class VideoInformationLoadedWidget extends StatelessWidget {
                         downloadingAudioProgress: 0.0,
                       ),
                   ],
-                )
+                ),
               ],
             ),
           ),
         ],
       );
-    });
+    },);
   }
 }

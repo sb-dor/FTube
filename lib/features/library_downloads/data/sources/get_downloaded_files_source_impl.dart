@@ -22,7 +22,7 @@ class GetDownloadedFilesSourceImpl
     final Directory? externalStorage = await getStorage();
 
     // List all files in the external storage directory and convert them to a list
-    var dataFromStorage = await externalStorage?.list().toList();
+    final dataFromStorage = await externalStorage?.list().toList();
 
     // Retrieve the list of downloaded files from the database using the locator pattern
     var dataFromDb = await _dbFloor.downloadedFiles.getDownloadedFiles();
@@ -34,7 +34,7 @@ class GetDownloadedFilesSourceImpl
         // Find the corresponding file in external storage by matching the videoId in the path
         final findPath = (dataFromStorage ?? <FileSystemEntity>[]).firstWhereOrNull(
           (e) => e.path.contains(
-              "videoId_${videoIdFromStorageSavedData(dataFromDb[i].downloadedPath ?? '')}"),
+              "videoId_${videoIdFromStorageSavedData(dataFromDb[i].downloadedPath ?? '')}",),
         );
 
         // If a matching file is found, update the path in the database model

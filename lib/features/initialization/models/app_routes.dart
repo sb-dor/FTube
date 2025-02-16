@@ -21,7 +21,7 @@ final goRouter = GoRouter(routes: [
                 showOverlay: () {},
                 parentContext: context,
               );
-            }),
+            },),
 
         // example for:
         /// [https://www.youtube.com/shorts/CMUtk1pG46M]
@@ -34,7 +34,7 @@ final goRouter = GoRouter(routes: [
                 showOverlay: () {},
                 parentContext: context,
               );
-            }),
+            },),
         // example for:
         /// [https://youtu.be/NQDinnsjabs?si=VtdU7uiZoWY2qsdb]
         GoRoute(
@@ -45,6 +45,6 @@ final goRouter = GoRouter(routes: [
                 showOverlay: () {},
                 parentContext: context,
               );
-            })
-      ]),
-]);
+            },),
+      ],),
+],);

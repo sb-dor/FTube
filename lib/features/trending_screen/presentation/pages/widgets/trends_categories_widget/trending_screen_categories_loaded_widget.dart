@@ -5,7 +5,7 @@ import 'package:youtube/features/trending_screen/bloc/trending_screen_bloc.dart'
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
-  const TrendingScreenCategoriesLoadedWidget({Key? key}) : super(key: key);
+  const TrendingScreenCategoriesLoadedWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: VideoCategory.trendsCategories.length,
             itemBuilder: (context, index) {
-              var category = VideoCategory.trendsCategories[index];
+              final category = VideoCategory.trendsCategories[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
                 onTap: () => context.read<TrendingScreenBloc>().add(RefreshTrendingScreen(
                       category: category,
                       refresh: true,
-                    )),
+                    ),),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
@@ -47,7 +47,7 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
                           letterSpacing: 0.9,
                           color: trendsVideosState.trendingStateModel.category.id == category.id
                               ? Colors.white
-                              : Colors.red)),
+                              : Colors.red,),),
                 ),
               );
             },

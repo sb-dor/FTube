@@ -22,7 +22,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
     required bool paginating, // A flag to indicate if paginating results
   }) async {
     // Obtain the SimilarVideosCubit from the context
-    var similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
+    final similarVideosCubit = BlocProvider.of<SimilarVideosCubit>(context);
 
     // Check if there are more similar videos to load; if not, exit the method
     if (!similarVideosCubit.state.similarVideoStateModel.hasMore) return;
@@ -31,7 +31,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
     if (!paginating) similarVideosCubit.clearAndSetLoadingState();
 
     // Fetch similar videos using the RestApiGetVideoData
-    var data = await RestApiGetVideoData(youtubeDataApi:_youtubeDataApi ).getSearchVideo(q: videoTitle.trim());
+    final data = await RestApiGetVideoData(youtubeDataApi:_youtubeDataApi ).getSearchVideo(q: videoTitle.trim());
 
     // Check if the data contains a server error
     if (data.containsKey("server_error")) {
@@ -39,7 +39,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
       similarVideosCubit.errorSimilarVideosState();
     } else if (data.containsKey('success')) {
       // If the success key is present, process the list of videos
-      List<Video> videos = data['videos'];
+      final List<Video> videos = data['videos'];
       similarVideosCubit.addVideosAndSetLoadedState(videos);
       // Optionally, perform additional processing with an isolate
       // _isolate(similarVideosCubit, videos);
@@ -52,12 +52,12 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
   // Define a static method `_isolate` to handle video data processing in an isolate
   static Future<void> _isolate(SimilarVideosCubit similarVideosCubit, List<Video> videos) async {
     // Prepare a map of videos to send to the isolate
-    Map<String, dynamic> sendingList = {
+    final Map<String, dynamic> sendingList = {
       "list": videos.map((e) => e.toJson()).toList(),
     };
 
     // Convert the map to a JSON string
-    var toStringing = jsonEncode(sendingList);
+    final toStringing = jsonEncode(sendingList);
 
     // Create a receive port for communication with the isolate
     final rp = ReceivePort();
@@ -97,7 +97,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
     // Process each message received from the main isolate
     await for (final eachM in message) {
       // Decode the JSON string to a map
-      Map<String, dynamic> gettingData = jsonDecode(eachM);
+      final Map<String, dynamic> gettingData = jsonDecode(eachM);
 
       // Extract the list of videos from the map
       List<dynamic> list = [];
@@ -105,7 +105,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
         list = gettingData['list'];
       }
       // Convert the list of dynamic objects to a list of Video objects
-      List<Video> videos = list.map((e) => Video.fromIsolate(e)).toList();
+      final List<Video> videos = list.map((e) => Video.fromIsolate(e)).toList();
 
       // Fetch video data for each video and send it back to the main isolate
       await Future.wait(

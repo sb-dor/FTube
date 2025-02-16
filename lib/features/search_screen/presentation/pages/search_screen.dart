@@ -12,7 +12,7 @@ import 'animated_search_bar/animated_search_bar.dart';
 import 'layouts/searching_body_sreen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     _searchBarAnimationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _searchBarAnimation = Tween<double>(begin: 0.200, end: 1.0).animate(
-        CurvedAnimation(parent: _searchBarAnimationController, curve: Curves.easeInOutCubic));
+        CurvedAnimation(parent: _searchBarAnimationController, curve: Curves.easeInOutCubic),);
     _searchBarAnimationController.forward();
     _searchBarAnimationController.addListener(() {
       if (_searchBarAnimationController.isCompleted) {
@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
       final mainSearchScreenCubit = context.watch<MainSearchScreenBloc>().state;
 
       // data
-      var mainSearchScreenStateModel = mainSearchScreenCubit.searchScreenStateModel;
+      final mainSearchScreenStateModel = mainSearchScreenCubit.searchScreenStateModel;
       return Scaffold(
         appBar: AppBar(
           scrolledUnderElevation: 0,
@@ -112,7 +112,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             color: Colors.red,
             onRefresh: () async => context.read<MainSearchScreenBloc>().add(ClickSearchButtonEvent(
                   functionsHolder: searchFunc(),
-                )),
+                ),),
             child: ListView(
               controller: _scrollController,
               padding: const EdgeInsets.only(left: 10, right: 10),
@@ -152,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                       SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2)),
+                          child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2),),
                     ],
                   ),
                 const SizedBox(height: 10),
@@ -161,6 +161,6 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
           ),
         ),
       );
-    });
+    },);
   }
 }

@@ -5,13 +5,13 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/y
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class ChangeQualityVideoPopup extends StatelessWidget {
-  const ChangeQualityVideoPopup({Key? key}) : super(key: key);
+  const ChangeQualityVideoPopup({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(
       builder: (context, state) {
-        var currentState = state.youtubeVideoStateModel;
+        final currentState = state.youtubeVideoStateModel;
         return ListView.separated(
           padding: const EdgeInsets.only(bottom: 20),
           separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -20,7 +20,7 @@ class ChangeQualityVideoPopup extends StatelessWidget {
           itemCount: currentState.videosWithSound.length,
           itemBuilder: (context, index) {
             // debugPrint"length of videos: ${currentState.videosWithSound.length}");
-            var video = currentState.videosWithSound[index];
+            final video = currentState.videosWithSound[index];
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

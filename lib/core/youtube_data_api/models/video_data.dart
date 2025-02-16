@@ -19,7 +19,7 @@ class VideoData {
       list = json['videoList'];
     }
 
-    List<Video> videos = list.map((e) => Video.fromIsolate(e)).toList();
+    final List<Video> videos = list.map((e) => Video.fromIsolate(e)).toList();
 
     return VideoData(
       videosList: videos,

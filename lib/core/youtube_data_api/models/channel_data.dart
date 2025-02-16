@@ -10,14 +10,14 @@ class ChannelData {
   ChannelData({required this.channel, required this.videosList});
 
   factory ChannelData.fromMap(Map<String, dynamic> map) {
-    var headers = map.get('header');
-    String? subscribers =
+    final headers = map.get('header');
+    final String? subscribers =
         headers?.get('c4TabbedHeaderRenderer')?.get('subscriberCountText')?['simpleText'];
-    var thumbnails = headers?.get('c4TabbedHeaderRenderer')?.get('avatar')?.getList('thumbnails');
-    String avatar = thumbnails?.elementAtSafe(thumbnails.length - 1)?['url'];
-    String? banner =
+    final thumbnails = headers?.get('c4TabbedHeaderRenderer')?.get('avatar')?.getList('thumbnails');
+    final String avatar = thumbnails?.elementAtSafe(thumbnails.length - 1)?['url'];
+    final String? banner =
         headers?.get('c4TabbedHeaderRenderer')?.get('banner')?.getList('thumbnails')?.first['url'];
-    var contents = map
+    final contents = map
         .get('contents')
         ?.get('twoColumnBrowseResultsRenderer')
         ?.getList('tabs')?[1]
@@ -31,10 +31,10 @@ class ChannelData {
         ?.firstOrNull
         ?.get('gridRenderer')
         ?.getList('items');
-    var contentList = contents!.toList();
-    List<Video> videoList = [];
+    final contentList = contents!.toList();
+    final List<Video> videoList = [];
     for (var element in contentList) {
-      Video video = Video.fromMap(element);
+      final Video video = Video.fromMap(element);
       videoList.add(video);
     }
 

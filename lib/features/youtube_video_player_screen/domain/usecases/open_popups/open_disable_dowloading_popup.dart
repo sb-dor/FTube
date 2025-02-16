@@ -6,7 +6,7 @@ import 'open_downloading_video_popup.dart';
 
 abstract class OpenDisableDownloadingPopup {
   static void openDisableDownloadingPopup(BuildContext context,
-      {bool showOpenDownloadsPopup = false}) async {
+      {bool showOpenDownloadsPopup = false,}) async {
     await showDialog(
         context: context,
         builder: (context) {
@@ -18,7 +18,7 @@ abstract class OpenDisableDownloadingPopup {
               showOpenDownloadsPopup: showOpenDownloadsPopup,
             ),
           );
-        });
+        },);
   }
 
   static List<Widget> _buttons(BuildContext context, {bool showOpenDownloadsPopup = false}) {
@@ -29,13 +29,13 @@ abstract class OpenDisableDownloadingPopup {
               Navigator.pop(context);
               OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
             },
-            child: const Text("Open Downloads")),
+            child: const Text("Open Downloads"),),
       TextButton(
           onPressed: () async {
             Navigator.pop(context);
             await context.read<YoutubeVideoCubit>().cancelTheVideo();
           },
-          child: const Text("Continue")),
+          child: const Text("Continue"),),
       TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
     ];
   }

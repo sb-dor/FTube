@@ -115,7 +115,7 @@ class _Widget extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
             height: 15,
           ),
-        )
+        ),
       ],
     );
   }

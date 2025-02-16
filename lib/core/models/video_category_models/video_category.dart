@@ -21,7 +21,9 @@ class VideoCategory {
     VideoCategory(id: "#films#animations#films#animations", kind: "Films and animations"),
     VideoCategory(id: "#musics", kind: "Music"),
     VideoCategory(
-        id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo", kind: "Video games"),
+      id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo",
+      kind: "Video games",
+    ),
   ];
 
   static List<VideoCategory> trendsCategories = [

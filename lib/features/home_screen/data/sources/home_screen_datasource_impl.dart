@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/api/api_env.dart';
 import 'package:youtube/core/api/api_settings.dart';
 import 'package:youtube/core/api/api_urls.dart';
@@ -20,7 +19,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
     String? q,
     bool clearSearch = false,
   }) async {
-    Map<String, dynamic> res = {};
+    final Map<String, dynamic> res = {};
     try {
       // if (videoCategoryId != null) {
       //   params['videoCategoryId'] = videoCategoryId;
@@ -34,19 +33,19 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
       //   List<dynamic> listItem = json['items'];
       //   List<Video> videos = listItem.map((e) => Video.fromJson(e)).toList();
 
-      String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
+      final String query = q ?? (await _youtubeDataApi.fetchRandomWord() ?? '');
 
       // debugPrint"making req: $query");
 
-      var data = await _youtubeDataApi.fetchSearchVideo(
+      final data = await _youtubeDataApi.fetchSearchVideo(
         query,
         YOUTUBE_API_KEY,
         clearLastSearch: clearSearch,
       );
 
-      List<ytv.Video> videos = [];
-      List<ytch.Channel> channels = [];
-      List<ytp.PlayList> playlist = [];
+      final List<ytv.Video> videos = [];
+      final List<ytch.Channel> channels = [];
+      final List<ytp.PlayList> playlist = [];
 
       for (var each in data) {
         if (each is ytv.Video) {
@@ -74,7 +73,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
 
   @override
   Future<Map<String, dynamic>> getCategories() async {
-    Map<String, dynamic> res = {};
+    final Map<String, dynamic> res = {};
     try {
       final response = await APISettings.dio.get(
         videoCategories + key + snippetPart + regionCode + languageEn,
@@ -82,11 +81,11 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
 
       if (response.statusCode != Constants.STATUS_SUCCESS) return {'server_error': true};
 
-      Map<String, dynamic> json = response.data;
+      final Map<String, dynamic> json = response.data;
 
-      List<dynamic> listCat = json['items'];
+      final List<dynamic> listCat = json['items'];
 
-      List<VideoCategory> categories = listCat.map((e) => VideoCategory.fromJson(e)).toList();
+      final List<VideoCategory> categories = listCat.map((e) => VideoCategory.fromJson(e)).toList();
 
       res['categories'] = categories;
       res['success'] = true;

@@ -4,7 +4,6 @@ import 'dart:isolate';
 import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
 import 'package:dio/dio.dart';
 import 'package:ffmpeg_kit_flutter/return_code.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
@@ -34,10 +33,10 @@ abstract class DownloadVideo with SolvePercentageMixin {
     required DbFloor dbFloor,
     required Permissions permissions,
   }) async {
-    var videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
+    final videoDownloadingCubit = BlocProvider.of<VideoDownloadingCubit>(
       _globalContextHelper.globalNavigatorContext.currentState!.context,
     );
-    var audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
+    final audioDownloadingCubit = BlocProvider.of<AudioDownloadingCubit>(
       _globalContextHelper.globalNavigatorContext.currentState!.context,
     );
     try {
@@ -90,11 +89,11 @@ abstract class DownloadVideo with SolvePercentageMixin {
         });
       }
 
-      var downloadingVideo = await APISettings.dio.get<List<int>>(
+      final downloadingVideo = await APISettings.dio.get<List<int>>(
         video.url.toString(),
         cancelToken: stateModel.cancelVideoToken,
         onReceiveProgress: (int receive, int total) {
-          var solvePercentage = receive / total * 100;
+          final solvePercentage = receive / total * 100;
           videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
               solvePercentage / 100;
           videoDownloadingCubit.videoDownloadingLoadingState();
@@ -190,13 +189,13 @@ abstract class DownloadVideo with SolvePercentageMixin {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': 'application/json',
                 "Connection": "Keep-Alive",
-                "Keep-Alive": "timeout=500, max=1000"
+                "Keep-Alive": "timeout=500, max=1000",
               },
               responseType: ResponseType.bytes,
               receiveDataWhenStatusError: true,
               receiveTimeout: const Duration(minutes: 5),
               persistentConnection: true,
-            ));
+            ),);
         // var downloadingAudio =
         //     await HttpDownloaderHelper.download(url, (total, downloading, progress) {});
 
@@ -218,26 +217,26 @@ abstract class DownloadVideo with SolvePercentageMixin {
   }) async {
     videoDownloadingCubit.videoDownloadingSavingOnStorageState();
 
-    var tempPath = await getTemporaryDirectory();
+    final tempPath = await getTemporaryDirectory();
 
-    String videoName = stateModel.videoData?.video?.title ?? '-';
+    final String videoName = stateModel.videoData?.video?.title ?? '-';
 
-    var newVideoPath =
+    final newVideoPath =
         "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${videoName}_${downloadingVideo.length}")}_video.mp4";
-    var newAudioPath =
+    final newAudioPath =
         "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("${videoName}_${downloadingAudio.length}")}_sound.mp3";
 
-    File newVideoFile = File(newVideoPath);
-    File newAudioFile = File(newAudioPath);
+    final File newVideoFile = File(newVideoPath);
+    final File newAudioFile = File(newAudioPath);
 
     if (!newVideoFile.existsSync()) newVideoFile.writeAsBytesSync(downloadingVideo);
     if (!newAudioFile.existsSync()) newAudioFile.writeAsBytesSync(downloadingAudio);
 
     // create output path where file will be saved
 
-    var dateTime = DateTime.now();
+    final dateTime = DateTime.now();
 
-    String outputPath =
+    final String outputPath =
         "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("$videoName"
             "_${downloadingVideo.length + downloadingAudio.length}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
 

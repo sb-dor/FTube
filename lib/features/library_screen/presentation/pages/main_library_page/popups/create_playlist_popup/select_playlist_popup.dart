@@ -70,7 +70,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                               "New",
                               style: TextStyle(color: Colors.red, fontSize: 18),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -111,7 +111,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                                     size: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           );
@@ -165,7 +165,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                 ),
               ),
             );
-          });
-    });
+          },);
+    },);
   }
 }

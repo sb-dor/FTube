@@ -14,7 +14,7 @@ class TextWidget extends StatelessWidget {
   final double? height;
 
   const TextWidget({
-    Key? key,
+    super.key,
     required this.text,
     this.size,
     this.color,
@@ -26,22 +26,26 @@ class TextWidget extends StatelessWidget {
     this.padding,
     this.letterSpacing,
     this.height,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: padding ?? const EdgeInsets.all(0),
-        child: Text(text,
-            maxLines: maxLines,
-            textAlign: textAlign,
-            style: TextStyle(
-                height: height,
-                color: color ?? Colors.black,
-                fontSize: size ?? 14,
-                fontWeight: fontWeight ?? FontWeight.normal,
-                decoration: textDecoration,
-                overflow: overFlow,
-                letterSpacing: letterSpacing)));
+      padding: padding ?? const EdgeInsets.all(0),
+      child: Text(
+        text,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        style: TextStyle(
+          height: height,
+          color: color ?? Colors.black,
+          fontSize: size ?? 14,
+          fontWeight: fontWeight ?? FontWeight.normal,
+          decoration: textDecoration,
+          overflow: overFlow,
+          letterSpacing: letterSpacing,
+        ),
+      ),
+    );
   }
 }

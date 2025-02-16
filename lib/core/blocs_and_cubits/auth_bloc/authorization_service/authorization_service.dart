@@ -1,4 +1,3 @@
-
 abstract class AuthorizationService {
   Future<Map<String, dynamic>> login();
 

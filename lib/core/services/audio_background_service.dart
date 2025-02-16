@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:audio_session/audio_session.dart';
@@ -31,15 +30,13 @@ class JustAudioBackgroundHelper {
     final playlist = ConcatenatingAudioSource(
       children: [
         if (items != null)
-          ...items
-              .map(
-                (e) => AudioSource.uri(
-                  // I will put url of audio in id
-                  Uri.parse(e.id),
-                  tag: e,
-                ),
-              )
-              .toList(),
+          ...items.map(
+            (e) => AudioSource.uri(
+              // I will put url of audio in id
+              Uri.parse(e.id),
+              tag: e,
+            ),
+          ),
         if (localFilesPaths != null)
           ...localFilesPaths.map(
             (e) => AudioSource.uri(

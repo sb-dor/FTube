@@ -13,15 +13,15 @@ class DownloadVideoInGallery implements IDownloading {
     List<int>? downloadingVideo,
     YoutubeVideoStateModel stateModel,
   ) async {
-    var getTemporaryPath = await getTemporaryDirectory();
+    final getTemporaryPath = await getTemporaryDirectory();
 
-    var dateTimeForVideoName = DateTime.now();
+    final dateTimeForVideoName = DateTime.now();
 
-    var pathOfVideo = '${getTemporaryPath.path}/'
+    final pathOfVideo = '${getTemporaryPath.path}/'
         '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
             "_${dateTimeForVideoName.toString()}")}.mp4';
 
-    File fileForSaving = File(pathOfVideo);
+    final File fileForSaving = File(pathOfVideo);
 
     if (downloadingVideo != null && downloadingVideo.isNotEmpty) {
       fileForSaving.writeAsBytesSync(downloadingVideo);

@@ -30,7 +30,7 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
     super.initState();
     context.read<PlaylistVideosInnerScreenBloc>().add(RefreshPlaylistVideosInnerScreenEvent(
           playlistModelDb: widget.playlistModelDb,
-        ));
+        ),);
     _scrollController.addListener(() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         context.read<PlaylistVideosInnerScreenBloc>().add(
@@ -65,7 +65,7 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
               .read<PlaylistVideosInnerScreenBloc>()
               .add(RefreshPlaylistVideosInnerScreenEvent(
                 playlistModelDb: widget.playlistModelDb,
-              )),
+              ),),
           child: ListView(
             padding: const EdgeInsets.only(left: 10, right: 10),
             physics: const AlwaysScrollableScrollPhysics(),
@@ -85,6 +85,6 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
           ),
         ),
       );
-    });
+    },);
   }
 }

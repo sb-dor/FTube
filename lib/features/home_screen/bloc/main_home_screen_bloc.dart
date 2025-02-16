@@ -3,14 +3,10 @@ import 'dart:isolate';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:youtube/core/blocs_and_cubits/home_page_bottom_navbar_cubit/home_page_bottom_navbar_cubit.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
 import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
-import 'cubits/home_screen_videos_cubit/home_screen_videos_cubit.dart';
-import 'cubits/home_screen_videos_cubit/home_screen_videos_states.dart';
-import 'cubits/video_category_cubit/main_video_category_cubit.dart';
 import 'cubits/video_category_cubit/video_category_cubit_states.dart';
 import 'home_screen_bloc_events.dart';
 import 'home_screen_bloc_states.dart';
@@ -63,7 +59,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
     event.loadingHomeScreenVideosState();
 
-    var data = await _homeScreenRepo.homeScreenGetVideo(
+    final data = await _homeScreenRepo.homeScreenGetVideo(
       q: _currentState.videoCategory?.id == null
           ? null
           : _currentState.videoCategory?.videoCategorySnippet?.title,
@@ -80,7 +76,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
       // server error
       event.errorHomeScreenVideosState();
     } else if (data.containsKey("success")) {
-      List<ytv.Video> videos = data['videos'];
+      final List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos);
       emitState(emit);
       event.loadedHomeScreenVideosState();
@@ -111,7 +107,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
 
     _currentState.paginating = true;
 
-    var data = await _homeScreenRepo.homeScreenGetVideo(
+    final data = await _homeScreenRepo.homeScreenGetVideo(
       q: _currentState.videoCategory?.videoCategorySnippet?.title,
     );
 
@@ -120,7 +116,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     if (data.containsKey('server_error')) {
       //error
     } else if (data.containsKey('success')) {
-      List<ytv.Video> videos = data['videos'];
+      final List<ytv.Video> videos = data['videos'];
       _currentState.getAndPaginate(list: videos, paginate: true);
       emitState(emit);
 
@@ -153,11 +149,11 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     required List<ytv.Video> videos,
     required Emitter<HomeScreenStates> emit,
   }) async {
-    Map<String, dynamic> toIsolateData = {
+    final Map<String, dynamic> toIsolateData = {
       "list": videos.map((e) => e.toJson()).toList(),
     };
 
-    var toIsolateString = jsonEncode(toIsolateData);
+    final toIsolateString = jsonEncode(toIsolateData);
 
     final rp = ReceivePort();
 
@@ -190,7 +186,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     final message = rp.takeWhile((el) => el is String).cast<String>();
 
     await for (var each in message) {
-      Map<String, dynamic> data = jsonDecode(each);
+      final Map<String, dynamic> data = jsonDecode(each);
 
       List<dynamic> list = [];
 
@@ -198,7 +194,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
         list = data['list'];
       }
 
-      List<ytv.Video> videoList = list.map((e) => ytv.Video.fromIsolate(e)).toList();
+      final List<ytv.Video> videoList = list.map((e) => ytv.Video.fromIsolate(e)).toList();
 
       await Future.wait(
         videoList.map(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoadingSearchBodyScreen extends StatelessWidget {
-  const LoadingSearchBodyScreen({Key? key}) : super(key: key);
+  const LoadingSearchBodyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

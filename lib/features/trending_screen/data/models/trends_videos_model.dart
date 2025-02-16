@@ -1,28 +1,17 @@
-import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart';
 
 class TrendsVideosModel extends Video {
   TrendsVideosModel({
-    String? videoId,
-    String? duration,
-    String? title,
-    String? channelName,
-    String? views,
-    List<Thumbnail>? thumbnails,
+    super.videoId,
+    super.duration,
+    super.title,
+    super.channelName,
+    super.views,
+    super.thumbnails,
     // VideoData? videoData,
-    String? channelThumbnailUrl,
-    String? publishedDateTime,
-  }) : super(
-          videoId: videoId,
-          duration: duration,
-          title: title,
-          channelName: channelName,
-          views: views,
-          thumbnails: thumbnails,
-          // videoData: videoData,
-          channelThumbnailUrl: channelThumbnailUrl,
-          publishedDateTime: publishedDateTime,
-        );
+    super.channelThumbnailUrl,
+    super.publishedDateTime,
+  });
 
   factory TrendsVideosModel.fromEntity(Video video) {
     return TrendsVideosModel(

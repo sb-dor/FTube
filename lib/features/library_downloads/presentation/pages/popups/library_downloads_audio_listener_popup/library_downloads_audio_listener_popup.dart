@@ -245,7 +245,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                             // Container(
                             //   margin: const EdgeInsets.only(left: 10, right: 10),
                             //   width: MediaQuery.of(context).size.width,
@@ -309,7 +309,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                             ),
                             TextWidget(
                               text: _durationHelper.getFromDuration(_totalDuration),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -317,16 +317,16 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                         Padding(
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: IconButton(
-                            onPressed: () => _hideAndShowVideo(),
+                            onPressed: _hideAndShowVideo,
                             icon: Icon(_isShowingVideo
                                 ? Icons.highlight_remove
-                                : Icons.slow_motion_video_outlined),
+                                : Icons.slow_motion_video_outlined,),
                           ),
-                        )
+                        ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

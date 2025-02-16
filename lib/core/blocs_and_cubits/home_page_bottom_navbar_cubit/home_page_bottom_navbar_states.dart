@@ -6,13 +6,13 @@ class HomePageBottomNavbarStateModel {
   Timer? timeForChangingBottomNavBar;
 }
 
-abstract class HomePageBottomNavbarStates {
+sealed class HomePageBottomNavbarStates {
   HomePageBottomNavbarStateModel homePageBottomNavbarCubit;
 
   HomePageBottomNavbarStates({required this.homePageBottomNavbarCubit});
 }
 
-class InitialHomePageBottomNavbarState extends HomePageBottomNavbarStates {
+final class InitialHomePageBottomNavbarState extends HomePageBottomNavbarStates {
   InitialHomePageBottomNavbarState(HomePageBottomNavbarStateModel homePageBottomNavbarStateModel)
       : super(homePageBottomNavbarCubit: homePageBottomNavbarStateModel);
 }

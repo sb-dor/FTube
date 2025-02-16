@@ -9,7 +9,7 @@ class HiveDatabase {
   // static HiveDatabase get instance => _instance ??= HiveDatabase._();
 
   Future<void> initHive() async {
-    var directory = await getApplicationDocumentsDirectory();
+    final directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
     await BoxCollection.open(
       'hive_database_name', // name of database
@@ -33,11 +33,11 @@ class HiveDatabase {
       box = await Hive.openBox(boxName);
     }
     // get by key (key name is "values")
-    var values = box.get('values'); // you can name this "values" what event you want;
+    final values = box.get('values'); // you can name this "values" what event you want;
 
-    List<dynamic> results = values ?? [];
+    final List<Map<dynamic, dynamic>> results = values ?? [];
 
-    return results.map((e) => _convertMap(e)).toList();
+    return results.map(_convertMap).toList();
   }
 
   Future<void> insert({required String boxName, required Map<String, dynamic> value}) async {
@@ -49,13 +49,13 @@ class HiveDatabase {
     }
 
     /// get by key (key name is ["values"])
-    var values = box.get('values');
+    final values = box.get('values');
 
     /// you can name this ["values"] what event you want;
 
-    List<dynamic> results = values ?? [];
+    final List<Map<dynamic, dynamic>> results = values ?? [];
 
-    List<Map<String, dynamic>> boxValues = results.map((e) => _convertMap(e)).toList();
+    final List<Map<String, dynamic>> boxValues = results.map(_convertMap).toList();
 
     boxValues.add(value);
 
@@ -73,13 +73,13 @@ class HiveDatabase {
     } else {
       box = await Hive.openBox(boxName);
     }
-    var values = await box.get('values');
+    final values = await box.get('values');
 
     /// you can name this ["values"] what event you want;
 
-    List<dynamic> tempList = values ?? [];
+    final List<Map<dynamic, dynamic>> tempList = values ?? [];
 
-    List<Map<String, dynamic>> boxValues = tempList.map((e) => _convertMap(e)).toList();
+    final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
 
     if (boxValues.isEmpty) return;
 
@@ -104,7 +104,7 @@ class HiveDatabase {
       {required String boxName,
       required String key,
       required dynamic value,
-      required Map<String, dynamic> updatingValue}) async {
+      required Map<String, dynamic> updatingValue,}) async {
     late Box box;
 
     if (Hive.isBoxOpen(boxName)) {
@@ -113,17 +113,17 @@ class HiveDatabase {
       box = await Hive.openBox(boxName);
     }
 
-    var values = await box.get('values');
+    final values = await box.get('values');
 
     /// you can name this ["values"] what event you want;
 
-    List<dynamic> tempList = values ?? [];
+    final List<Map<dynamic, dynamic>> tempList = values ?? [];
 
-    List<Map<String, dynamic>> boxValues = tempList.map((e) => _convertMap(e)).toList();
+    final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
 
     if (boxValues.isEmpty) return;
 
-    var valueIndex =
+    final valueIndex =
         boxValues.indexWhere((element) => element.containsKey(key) && element[key] == value);
 
     boxValues.removeWhere((element) => element.containsKey(key) && element[key] == value);
@@ -136,7 +136,7 @@ class HiveDatabase {
   }
 
   Map<String, dynamic> _convertMap(Map<dynamic, dynamic> originalMap) {
-    Map<String, dynamic> newMap = {};
+    final Map<String, dynamic> newMap = {};
 
     originalMap.forEach((key, value) {
       if (key is String) {

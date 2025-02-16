@@ -57,10 +57,9 @@ class _Widget extends StatelessWidget {
   final bool gridView;
 
   const _Widget({
-    Key? key,
     required this.playlist,
     this.gridView = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +125,7 @@ class _Widget extends StatelessWidget {
                               Positioned.fill(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.3),
+                                    color: Colors.black.withValues(alpha: 0.3),
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
@@ -140,11 +139,11 @@ class _Widget extends StatelessWidget {
                                       TextWidget(
                                         text: "${playlist?.videos?.length ?? 0}",
                                         color: Colors.white,
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           )
                         : Image.asset(
@@ -166,7 +165,7 @@ class _Widget extends StatelessWidget {
               maxLines: 1,
               overFlow: TextOverflow.ellipsis,
             ),
-          )
+          ),
         ],
       ),
     );

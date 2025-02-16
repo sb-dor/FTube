@@ -15,7 +15,7 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/c
 import 'package:youtube/core/widgets/text_widget.dart';
 
 class DownloadingVideoPopupWidget extends StatefulWidget {
-  const DownloadingVideoPopupWidget({Key? key}) : super(key: key);
+  const DownloadingVideoPopupWidget({super.key});
 
   @override
   State<DownloadingVideoPopupWidget> createState() => _DownloadingVideoPopupWidgetState();
@@ -68,7 +68,7 @@ class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidge
                                     .read<YoutubeVideoCubit>()
                                     .clearTypeOfDownloadingVideoOnPopup();
                               },
-                              child: Container(color: Colors.transparent)),
+                              child: Container(color: Colors.transparent),),
                         ),
                         Container(
                           height: _position,
@@ -77,19 +77,19 @@ class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidge
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),
                                 topLeft: Radius.circular(10),
-                              )),
+                              ),),
                           child: _screens[index],
                         ),
                       ],
                     );
-                  });
+                  },);
             } else {
               return Container(height: 130);
             }
           },
         ),
       );
-    });
+    },);
   }
 }
 
@@ -97,14 +97,13 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
   final PageController pageController;
 
   const _SelectDownloadingTypeScreen({
-    Key? key,
     required this.pageController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      var currentState = state.youtubeVideoStateModel;
+      final currentState = state.youtubeVideoStateModel;
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -121,7 +120,7 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
                                 pageController.animateToPage(
                                     ((pageController.page ?? 0) + 1).toInt(),
                                     duration: const Duration(milliseconds: 500),
-                                    curve: Curves.fastOutSlowIn);
+                                    curve: Curves.fastOutSlowIn,);
 
                                 await Provider.of<DependencyContainer>(context, listen: false)
                                     .analyticsReporter
@@ -143,7 +142,7 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
                                               color: Colors.grey,
                                               blurRadius: 5,
                                             ),
-                                          ]),
+                                          ],),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -155,18 +154,18 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
                                       size: 15,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 0.9,
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                        ))
-                    .toList()),
+                        ),)
+                    .toList(),),
           ),
         ],
       );
-    });
+    },);
   }
 }
 
@@ -174,17 +173,16 @@ class _VideosDownloadingInformation extends StatelessWidget {
   final PageController pageController;
 
   const _VideosDownloadingInformation({
-    Key? key,
     required this.pageController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      var youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
-      var downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
+      final youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+      final downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
       final downloadingAudiosState = context.watch<AudioDownloadingCubit>().state;
-      var arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
+      final arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
           ? youtubeStateModel.videosWithSound
           : youtubeStateModel.allVideos;
       return SizedBox(
@@ -195,9 +193,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
               child: IconButton(
                   onPressed: () {
                     pageController.animateToPage(((pageController.page ?? 0) - 1).toInt(),
-                        duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+                        duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn,);
                   },
-                  icon: const Icon(Icons.arrow_back)),
+                  icon: const Icon(Icons.arrow_back),),
             ),
             const SizedBox(height: 10),
             if (youtubeStateModel.downloadingType?.id == 1)
@@ -208,7 +206,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: youtubeStateModel.audios.length,
                   itemBuilder: (context, index) {
-                    var audio = youtubeStateModel.audios[index];
+                    final audio = youtubeStateModel.audios[index];
                     return Row(
                       children: [
                         Expanded(
@@ -233,7 +231,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                         text:
-                                            "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
+                                            "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ",),
                                     if (!ReusableGlobalFunctions.instance
                                         .checkMp4FromURI(value: audio.url.toString()))
                                       TextSpan(
@@ -280,7 +278,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                   IconButton(
                                       onPressed: () async =>
                                           await context.read<YoutubeVideoCubit>().cancelTheAudio(),
-                                      icon: const Icon(Icons.cancel_outlined)),
+                                      icon: const Icon(Icons.cancel_outlined),),
                                   const SizedBox(width: 10),
                                   SizedBox(
                                     width: 20,
@@ -331,10 +329,10 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )
+                          ),
                       ],
                     );
-                  })
+                  },)
             else if (youtubeStateModel.downloadingType?.id == 2)
               ListView.separated(
                   shrinkWrap: true,
@@ -346,7 +344,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   itemCount: arrayOfVideos.length,
                   itemBuilder: (context, index) {
-                    var video = arrayOfVideos[index];
+                    final video = arrayOfVideos[index];
                     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                       Expanded(
                         child: Column(
@@ -370,7 +368,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                       text:
-                                          "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ"),
+                                          "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",),
                                   if (!ReusableGlobalFunctions.instance
                                       .checkMp4FromURI(value: video.url.toString()))
                                     TextSpan(
@@ -418,7 +416,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 IconButton(
                                     onPressed: () async =>
                                         await context.read<YoutubeVideoCubit>().cancelTheVideo(),
-                                    icon: const Icon(Icons.cancel_outlined)),
+                                    icon: const Icon(Icons.cancel_outlined),),
                                 const SizedBox(width: 10),
                                 SizedBox(
                                   width: 20,
@@ -454,7 +452,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 IconButton(
                                     onPressed: () async =>
                                         await context.read<YoutubeVideoCubit>().cancelTheVideo(),
-                                    icon: const Icon(Icons.cancel_outlined)),
+                                    icon: const Icon(Icons.cancel_outlined),),
                                 const SizedBox(width: 10),
                                 SizedBox(
                                   width: 20,
@@ -489,7 +487,7 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                       height: 40,
                                       child: Image.asset(
                                         'assets/download_icons/gallery_save.png',
-                                      ))),
+                                      ),),),
                             ),
                             Tooltip(
                               message: "Download video in App Storage",
@@ -505,15 +503,15 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                   child: Image.asset('assets/download_icons/in_app_download.png'),
                                 ),
                               ),
-                            )
+                            ),
                           ],
-                        )
-                    ]);
-                  }),
+                        ),
+                    ],);
+                  },),
             const SizedBox(height: 10),
           ],
         ),
       );
-    });
+    },);
   }
 }

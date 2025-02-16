@@ -5,13 +5,13 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/y
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 
 class BlackWithOpacityBackground extends StatelessWidget {
-  const BlackWithOpacityBackground({Key? key}) : super(key: key);
+  const BlackWithOpacityBackground({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(
       builder: (context, state) {
-        var currentState = state.youtubeVideoStateModel;
+        final currentState = state.youtubeVideoStateModel;
         return Positioned.fill(
           child: FadeAnimation(
             beginValue: currentState.clickedUpOnVideo ? 0 : 1,
@@ -20,7 +20,7 @@ class BlackWithOpacityBackground extends StatelessWidget {
             child: GestureDetector(
               onTap: () => context.read<YoutubeVideoCubit>().clickOnVideo(),
               child: Container(
-                color: Colors.black.withOpacity(
+                color: Colors.black.withValues(alpha: 
                   0.5,
                 ),
               ),

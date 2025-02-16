@@ -56,7 +56,7 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
     InitLengthOfDownloadedFiles event,
     Emitter<HistoryStates> emit,
   ) async {
-    Directory? path = await getStorage();
+    final Directory? path = await getStorage();
     _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
     _emitter(emit);
   }

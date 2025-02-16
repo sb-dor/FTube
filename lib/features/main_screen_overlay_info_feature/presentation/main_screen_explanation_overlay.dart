@@ -19,7 +19,7 @@ class MainScreenExplanationOverlay extends StatelessWidget {
             color: Colors.black,
           ),
           child: Container(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: SafeArea(
@@ -53,7 +53,7 @@ class _SquareWidget extends StatelessWidget {
         width: (MediaQuery.of(context).size.width / 4.3) * 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          color: Colors.black.withOpacity(0.5),
+          color: Colors.black.withValues(alpha: 0.5),
           border: Border.all(
             color: Colors.red,
             width: 3.0,
@@ -81,11 +81,11 @@ class _SquareInfoWidget extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black.withOpacity(0.1),
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.5),
-              Colors.black.withOpacity(0.7),
-              Colors.black.withOpacity(0.9),
+              Colors.black.withValues(alpha: 0.1),
+              Colors.black.withValues(alpha: 0.3),
+              Colors.black.withValues(alpha: 0.5),
+              Colors.black.withValues(alpha: 0.7),
+              Colors.black.withValues(alpha: 0.9),
             ],
           ),
         ),

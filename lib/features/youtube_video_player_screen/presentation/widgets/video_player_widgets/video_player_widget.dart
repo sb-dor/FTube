@@ -5,12 +5,12 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/y
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/youtube_video_states.dart';
 
 class VideoPlayerWidget extends StatelessWidget {
-  const VideoPlayerWidget({Key? key}) : super(key: key);
+  const VideoPlayerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(builder: (context, state) {
-      var currentState = state.youtubeVideoStateModel;
+      final currentState = state.youtubeVideoStateModel;
       // // debugPrint"width is : ${currentState.playerController?.value.size.width}");
       // // debugPrint"height is : ${currentState.playerController?.value.size.height}");
       return Positioned.fill(
@@ -40,6 +40,6 @@ class VideoPlayerWidget extends StatelessWidget {
           ),
         ),
       );
-    });
+    },);
   }
 }

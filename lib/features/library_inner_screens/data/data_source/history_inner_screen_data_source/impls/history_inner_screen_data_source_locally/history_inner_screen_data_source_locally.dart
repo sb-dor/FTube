@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/db/db_floor.dart';
 import 'package:youtube/core/utils/list_paginator/list_paginator.dart';
@@ -17,7 +16,7 @@ class HistoryInnerScreenDataSourceLocally implements HistoryInnerScreenDataSourc
 
     // debugPrint"whole list :${data.length} | $currentListLength");
 
-    List<BaseVideoModelDb> currentData = ListPaginator().paginateList<BaseVideoModelDb>(
+    final List<BaseVideoModelDb> currentData = ListPaginator().paginateList<BaseVideoModelDb>(
       wholeList: data,
       currentListLength: currentListLength,
     );

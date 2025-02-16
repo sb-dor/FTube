@@ -5,27 +5,18 @@ import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 @Entity(tableName: "file_downloads")
 class FileDownloadModel extends BaseDownloadedFileModel {
   FileDownloadModel({
-    int? id,
-    String? name,
-    String? downloadedPath,
-    String? imagePath,
-    String? views,
-    String? createdAt,
-    String? channelName,
-    bool savingToSpecificPath = false,
-  }) : super(
-          id: id,
-          name: name,
-          downloadedPath: downloadedPath,
-          imagePath: imagePath,
-          views: views,
-          createdAt: createdAt,
-          channelName: channelName,
-          savingToSpecificPath: savingToSpecificPath,
-        );
+    super.id,
+    super.name,
+    super.downloadedPath,
+    super.imagePath,
+    super.views,
+    super.createdAt,
+    super.channelName,
+    super.savingToSpecificPath = false,
+  });
 
   factory FileDownloadModel.fromVideoData(VideoData? videoData) {
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
     return FileDownloadModel(
       name: videoData?.video?.title,
       views: videoData?.video?.viewCount,

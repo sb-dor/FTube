@@ -6,28 +6,17 @@ import 'package:youtube/core/youtube_data_api/models/video_data.dart';
 @Entity(tableName: 'video_history')
 class VideoModelDb extends BaseVideoModelDb {
   VideoModelDb({
-    int? id,
-    String? videoId,
-    String? videoThumbnailUrl,
-    String? views,
-    String? duration,
-    String? title,
-    String? channelName,
-    String? channelThumb,
-    String? videoDate,
-    String? dateTime,
-  }) : super(
-          id: id,
-          videoId: videoId,
-          videoThumbnailUrl: videoThumbnailUrl,
-          views: views,
-          duration: duration,
-          title: title,
-          channelName: channelName,
-          channelThumb: channelThumb,
-          videoDate: videoDate,
-          dateTime: dateTime,
-        );
+    super.id,
+    super.videoId,
+    super.videoThumbnailUrl,
+    super.views,
+    super.duration,
+    super.title,
+    super.channelName,
+    super.channelThumb,
+    super.videoDate,
+    super.dateTime,
+  });
 
   factory VideoModelDb.fromVideo(Video? video) {
     return VideoModelDb(

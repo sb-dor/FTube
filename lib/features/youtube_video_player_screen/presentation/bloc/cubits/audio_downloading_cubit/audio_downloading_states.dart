@@ -9,26 +9,21 @@ abstract class AudioDownloadingStates {
 }
 
 class AudioGettingInformationState extends AudioDownloadingStates {
-  AudioGettingInformationState({DownloadingAudioInfo? downloadingAudioInfo})
-      : super(downloadingAudioInfo: downloadingAudioInfo);
+  AudioGettingInformationState({super.downloadingAudioInfo});
 }
 
 class AudioDownloadingState extends AudioDownloadingStates {
-  AudioDownloadingState({DownloadingAudioInfo? downloadingAudioInfo})
-      : super(downloadingAudioInfo: downloadingAudioInfo);
+  AudioDownloadingState({super.downloadingAudioInfo});
 }
 
 class AudioDownloadingErrorState extends AudioDownloadingStates {
-  AudioDownloadingErrorState({DownloadingAudioInfo? downloadingAudioInfo})
-      : super(downloadingAudioInfo: downloadingAudioInfo);
+  AudioDownloadingErrorState({super.downloadingAudioInfo});
 }
 
 class AudioSavingOnStorageState extends AudioDownloadingStates {
-  AudioSavingOnStorageState({DownloadingAudioInfo? downloadingAudioInfo})
-      : super(downloadingAudioInfo: downloadingAudioInfo);
+  AudioSavingOnStorageState({super.downloadingAudioInfo});
 }
 
 class AudioDownloadingLoadedState extends AudioDownloadingStates {
-  AudioDownloadingLoadedState({DownloadingAudioInfo? downloadingAudioInfo})
-      : super(downloadingAudioInfo: downloadingAudioInfo);
+  AudioDownloadingLoadedState({super.downloadingAudioInfo});
 }

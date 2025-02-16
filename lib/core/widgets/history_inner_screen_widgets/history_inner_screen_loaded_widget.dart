@@ -44,17 +44,16 @@ class _Widget extends StatelessWidget {
   final BuildContext parentContext;
 
   const _Widget({
-    Key? key,
     required this.baseVideoModelDb,
     required this.parentContext,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
         TopOverlayLogic.instance.removeOverlay();
-        Video video = Video.fromBaseVideoModelDb(baseVideoModelDb);
+        final Video video = Video.fromBaseVideoModelDb(baseVideoModelDb);
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: video));
         await OpenVideoScreen.openVideoScreen(
           context: context,

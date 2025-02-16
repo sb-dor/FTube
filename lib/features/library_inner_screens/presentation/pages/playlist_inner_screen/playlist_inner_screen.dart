@@ -74,7 +74,7 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
                         color: Colors.red,
                         strokeWidth: 2,
                       ),
-                    )
+                    ),
                   ],
                 ),
               const SizedBox(height: 15),
@@ -82,6 +82,6 @@ class _PlaylistInnerScreenState extends State<PlaylistInnerScreen> {
           ),
         ),
       );
-    });
+    },);
   }
 }

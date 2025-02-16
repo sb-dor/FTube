@@ -62,7 +62,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: OrderByTime.orderByTimes.length,
                 itemBuilder: (context, index) {
-                  var orderByTime = OrderByTime.orderByTimes[index];
+                  final orderByTime = OrderByTime.orderByTimes[index];
                   return GestureDetector(
                     onTap: () => context
                         .read<MainSearchScreenBloc>()
@@ -76,7 +76,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                                   .read<MainSearchScreenBloc>()
                                   .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
                               selected: orderByTime.id ==
-                                  mainSearchScreenStateModel.orderBy?.orderByTime?.id),
+                                  mainSearchScreenStateModel.orderBy?.orderByTime?.id,),
                           const SizedBox(width: 5),
                           Expanded(
                             child: TextWidget(
@@ -85,7 +85,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.9,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -107,7 +107,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: OrderByType.orderByType.length,
                 itemBuilder: (context, index) {
-                  var orderByType = OrderByType.orderByType[index];
+                  final orderByType = OrderByType.orderByType[index];
                   return GestureDetector(
                     onTap: () => context
                         .read<MainSearchScreenBloc>()
@@ -121,7 +121,7 @@ class SearchScreenFilterLayout extends StatelessWidget {
                                   .read<MainSearchScreenBloc>()
                                   .add(SelectOrderByTypeEvent(orderByType: orderByType)),
                               selected: orderByType.id ==
-                                  mainSearchScreenStateModel.orderBy?.orderByType?.id),
+                                  mainSearchScreenStateModel.orderBy?.orderByType?.id,),
                           const SizedBox(width: 5),
                           Expanded(
                             child: TextWidget(
@@ -130,13 +130,13 @@ class SearchScreenFilterLayout extends StatelessWidget {
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.9,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                   );
                 },
-              )
+              ),
             ],
           ),
         );

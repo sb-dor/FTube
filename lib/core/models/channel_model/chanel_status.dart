@@ -12,12 +12,12 @@ class ChannelStatus {
   });
 
   factory ChannelStatus.fromJson(Map<String, dynamic> json) {
-    Map<String, dynamic> status = json['status'];
+    final Map<String, dynamic> status = json['status'];
     return ChannelStatus(
       privacyStatus: status['privacyStatus'],
       isLinked: status['isLinked'],
       longUploadsStatus: status['longUploadsStatus'],
-      madeForKids: status['madeForKids']
+      madeForKids: status['madeForKids'],
     );
   }
 }

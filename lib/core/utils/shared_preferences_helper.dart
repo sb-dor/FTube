@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
   late SharedPreferences _sharedPreferences;
+
   //
   // static SharedPreferencesHelper? _instance;
   //

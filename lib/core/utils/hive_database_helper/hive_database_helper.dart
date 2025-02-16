@@ -12,14 +12,14 @@ class HiveDatabaseHelper {
   final HiveDatabase _database;
 
   Future<List<String>> getSearchData() async {
-    var data = await _database.getFromBox(boxName: 'search_data');
+    final data = await _database.getFromBox(boxName: 'search_data');
     if (data.isEmpty) return [];
-    var firstData = data.first;
+    final firstData = data.first;
     return firstData['data'];
   }
 
   Future<void> saveSearchData({required List<String> listOfSearch}) async {
-    Map<String, dynamic> dataForSave = {
+    final Map<String, dynamic> dataForSave = {
       'data': listOfSearch,
     };
     await _database.insert(boxName: 'search_data', value: dataForSave);
@@ -33,7 +33,7 @@ class HiveDatabaseHelper {
   }
 
   Future<void> overlayShowedForMainScreen() async {
-    Map<String, dynamic> dataForSave = {"main_screen_overlay_value": true};
+    final Map<String, dynamic> dataForSave = {"main_screen_overlay_value": true};
     await _database.insert(boxName: "main_screen_overlay", value: dataForSave);
   }
 }

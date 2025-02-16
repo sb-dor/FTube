@@ -77,7 +77,7 @@ class _Widget extends StatelessWidget {
                     ShimmerContainer(
                       height: 15,
                       borderRadius: BorderRadius.circular(10),
-                    )
+                    ),
                   ],
                 ),
                 Column(
@@ -97,9 +97,9 @@ class _Widget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ],
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),

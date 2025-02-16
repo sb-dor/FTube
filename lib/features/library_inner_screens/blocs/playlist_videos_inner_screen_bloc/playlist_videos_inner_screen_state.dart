@@ -8,18 +8,18 @@ abstract class PlaylistVideosInnerScreenState {
 
 class LoadingPlaylistVideosInnerScreenState extends PlaylistVideosInnerScreenState {
   LoadingPlaylistVideosInnerScreenState(
-      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel)
+      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel,)
       : super(playlistVideosInnerScreenStateModel: playlistVideosInnerScreenStateModel);
 }
 
 class ErrorPlaylistVideosInnerScreenState extends PlaylistVideosInnerScreenState {
   ErrorPlaylistVideosInnerScreenState(
-      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel)
+      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel,)
       : super(playlistVideosInnerScreenStateModel: playlistVideosInnerScreenStateModel);
 }
 
 class LoadedPlaylistVideosInnerScreenState extends PlaylistVideosInnerScreenState {
   LoadedPlaylistVideosInnerScreenState(
-      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel)
+      PlaylistVideosInnerScreenStateModel playlistVideosInnerScreenStateModel,)
       : super(playlistVideosInnerScreenStateModel: playlistVideosInnerScreenStateModel);
 }

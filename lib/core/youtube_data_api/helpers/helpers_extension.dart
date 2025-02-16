@@ -1,7 +1,7 @@
 extension GetOrNullMap on Map {
   /// Get a map inside a map
   Map<String, dynamic>? get(String key) {
-    var v = this[key];
+    final v = this[key];
     if (v == null) {
       return null;
     }
@@ -11,7 +11,7 @@ extension GetOrNullMap on Map {
   /// Get a value inside a map.
   /// If it is null this returns null, if of another type this throws.
   T? getT<T>(String key) {
-    var v = this[key];
+    final v = this[key];
     if (v == null) {
       return null;
     }
@@ -23,7 +23,7 @@ extension GetOrNullMap on Map {
 
   /// Get a List<Map<String, dynamic>>> from a map.
   List<Map<String, dynamic>>? getList(String key) {
-    var v = this[key];
+    final v = this[key];
     if (v == null) {
       return null;
     }

@@ -9,8 +9,8 @@ class _CustomShadowPainterWithClipper extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var painter = shadow.toPaint();
-    var clipPath = clipper.getClip(size).shift(shadow.offset);
+    final painter = shadow.toPaint();
+    final clipPath = clipper.getClip(size).shift(shadow.offset);
     canvas.drawPath(clipPath, painter);
   }
 
@@ -25,23 +25,24 @@ class CustomerClipperWithShadow extends StatelessWidget {
   final Offset? offset;
 
   const CustomerClipperWithShadow({
-    Key? key,
+    super.key,
     required this.clipper,
     required this.child,
     this.blurRadius,
     this.offset,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _CustomShadowPainterWithClipper(
-          shadow: Shadow(
-            color: Colors.grey.shade400,
-            blurRadius: blurRadius ?? 5,
-            offset: offset ?? const Offset(0, 0.3),
-          ),
-          clipper: clipper),
+        shadow: Shadow(
+          color: Colors.grey.shade400,
+          blurRadius: blurRadius ?? 5,
+          offset: offset ?? const Offset(0, 0.3),
+        ),
+        clipper: clipper,
+      ),
       child: ClipPath(clipper: clipper, child: child),
     );
   }

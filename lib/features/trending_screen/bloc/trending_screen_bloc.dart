@@ -68,7 +68,7 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
     List<Video> videos,
     Emitter<TrendingScreenState> emit,
   ) async {
-    Map<String, dynamic> toIsolateData = {
+    final Map<String, dynamic> toIsolateData = {
       "list": videos.map((e) => e.toJson()).toList(),
     };
 
@@ -105,15 +105,15 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
     final message = isolateRp.takeWhile((element) => element is String).cast<String>();
 
     await for (final each in message) {
-      Map<String, dynamic> json = jsonDecode(each);
+      final Map<String, dynamic> json = jsonDecode(each);
 
       List<dynamic> list = [];
 
       if (json.containsKey('list')) list = json['list'];
 
-      List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
+      final List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
 
-      YoutubeDataApi youtubeDataApi = YoutubeDataApi();
+      final YoutubeDataApi youtubeDataApi = YoutubeDataApi();
 
       await Future.wait(
         isolateVideos.map(

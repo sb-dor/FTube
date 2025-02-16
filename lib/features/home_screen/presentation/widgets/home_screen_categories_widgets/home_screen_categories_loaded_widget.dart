@@ -12,10 +12,10 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
   final ValueChanged<VideoCategory> refresh;
 
   const HomeScreenSelectTypeContentLoadedWidget({
-    Key? key,
+    super.key,
     this.scrollController,
     required this.refresh,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       builder: (context) {
         final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
 
-        var videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>();
-        var mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
+        final videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>();
+        final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
 
-        var listOfCategory =
+        final listOfCategory =
             videoCategoriesStateModel.state.videoCategories.limit<VideoCategory>(limit: 5);
         return SizedBox(
           height: 40,
@@ -37,7 +37,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: listOfCategory.length,
             itemBuilder: (context, index) {
-              var category = listOfCategory[index];
+              final category = listOfCategory[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
                 onTap: () => context.read<MainHomeScreenBloc>().add(SelectVideoCategoryEvent(
@@ -46,7 +46,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                       refresh: () {
                         refresh(category);
                       },
-                    )),
+                    ),),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   padding: const EdgeInsets.only(left: 20, right: 20),

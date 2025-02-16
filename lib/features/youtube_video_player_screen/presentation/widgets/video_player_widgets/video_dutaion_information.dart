@@ -14,17 +14,17 @@ class VideoDurationInformation extends StatelessWidget {
   final bool fullScreen;
 
   const VideoDurationInformation({
-    Key? key,
+    super.key,
     this.fullScreen = true,
     required this.animationController,
     required this.animation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<YoutubeVideoCubit, YoutubeVideoStates>(
       builder: (context, state) {
-        var currentState = state.youtubeVideoStateModel;
+        final currentState = state.youtubeVideoStateModel;
         return Positioned(
           right: 10,
           left: 18,
@@ -48,9 +48,9 @@ class VideoDurationInformation extends StatelessWidget {
                     currentState.playerController!,
                     allowScrubbing: true,
                     colors: const VideoProgressColors(
-                        playedColor: Colors.green, bufferedColor: Colors.white60),
+                        playedColor: Colors.green, bufferedColor: Colors.white60,),
                   ),
-                )),
+                ),),
                 const SizedBox(width: 10),
                 Row(
                   children: [
@@ -64,7 +64,7 @@ class VideoDurationInformation extends StatelessWidget {
                     ),
                     IconButton(
                       style: ButtonStyle(
-                          overlayColor: WidgetStatePropertyAll(Colors.white.withOpacity(0.3))),
+                          overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.3)),),
                       onPressed: () async {
                         if (fullScreen) {
                           await Navigator.push(
@@ -91,7 +91,7 @@ class VideoDurationInformation extends StatelessWidget {
                         size: 28,
                         color: Colors.white,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:youtube/core/utils/permissions/permissions.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i_downloading.dart';
@@ -27,15 +26,15 @@ class DownloadAudioInDownloadsFolder implements IDownloading {
 
     // debugPrint"permission coming here");
 
-    var directory = await DownloadsPath.downloadsDirectory();
+    final directory = await DownloadsPath.downloadsDirectory();
 
-    var dateTimeForAudioName = DateTime.now();
+    final dateTimeForAudioName = DateTime.now();
 
-    var pathOfAudio = '${directory?.path}/'
+    final pathOfAudio = '${directory?.path}/'
         '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
             "_${dateTimeForAudioName.toString()}")}.mp3';
 
-    File fileForSaving = File(pathOfAudio);
+    final File fileForSaving = File(pathOfAudio);
 
     if (downloadData != null && downloadData.isNotEmpty) {
       fileForSaving.writeAsBytesSync(downloadData);
