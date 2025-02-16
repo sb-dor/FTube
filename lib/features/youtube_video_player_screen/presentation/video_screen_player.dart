@@ -264,7 +264,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                                   const VideoInformationLoadingWidget()
                                                 else if (videoInformationStates
                                                     is ErrorVideoInformationState)
-                                                  const SizedBox()
+                                                  const Text("Error")
                                                 else
                                                   const VideoInformationLoadedWidget(),
 
@@ -275,7 +275,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                                   const VideoInfoLikeButtonLoadingWidgets()
                                                 else if (videoInformationStates
                                                     is ErrorVideoInformationState)
-                                                  const SizedBox()
+                                                  const Text("Error")
                                                 else
                                                   const VideoInfoLikeButtonLoadedWidget(),
                                               ],

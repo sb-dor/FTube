@@ -88,9 +88,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
       );
 
       _currentState.playerController?.addListener(_controllerListener);
-    } catch (e) {
+    } catch (error, stackTrace) {
       // debugPrint"the getVideo error is :$e");
       emit(ErrorYoutubeVideoState(_currentState));
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
 
