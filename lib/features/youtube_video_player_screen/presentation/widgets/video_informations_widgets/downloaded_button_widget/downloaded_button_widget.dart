@@ -43,12 +43,7 @@ class DownloadedButtonWidget extends StatelessWidget {
             child: AnimatedSize(
               duration: const Duration(milliseconds: 500),
               child: Container(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 7,
-                  top: 7,
-                ),
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -66,18 +61,12 @@ class DownloadedButtonWidget extends StatelessWidget {
                           SizedBox(
                             width: 10,
                             height: 10,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.red,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.red),
                           ),
                         ],
                       )
                     else if (showErrorInfo)
-                      const TextWidget(
-                        text: "Download error",
-                        color: Colors.white,
-                      )
+                      const TextWidget(text: "Download error", color: Colors.white)
                     else if (showDownloading)
                       Row(
                         children: [
@@ -114,10 +103,7 @@ class DownloadedButtonWidget extends StatelessWidget {
                           SizedBox(
                             width: 10,
                             height: 10,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.blue,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.blue),
                           ),
                         ],
                       )
@@ -157,10 +143,7 @@ class DownloadedButtonWidget extends StatelessWidget {
                           SizedBox(
                             width: 10,
                             height: 10,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.red,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.red),
                           ),
                         ],
                       )
@@ -169,10 +152,7 @@ class DownloadedButtonWidget extends StatelessWidget {
                           ? const SizedBox(
                             width: 20,
                             height: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                           )
                           : const FadeAnimation(
                             beginInterval: 0.6,
@@ -186,11 +166,7 @@ class DownloadedButtonWidget extends StatelessWidget {
                                   letterSpacing: 0.6,
                                 ),
                                 SizedBox(width: 7),
-                                Icon(
-                                  Icons.download,
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
+                                Icon(Icons.download, size: 12, color: Colors.white),
                               ],
                             ),
                           ),

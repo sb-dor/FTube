@@ -6,14 +6,10 @@ import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
 class DownloadVideoInGallery implements IDownloading {
-  ReusableGlobalFunctions reusableGlobalFunctions =
-      ReusableGlobalFunctions.instance;
+  ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
-  Future<void> download(
-    List<int>? downloadingVideo,
-    YoutubeVideoStateModel stateModel,
-  ) async {
+  Future<void> download(List<int>? downloadingVideo, YoutubeVideoStateModel stateModel) async {
     final getTemporaryPath = await getTemporaryDirectory();
 
     final dateTimeForVideoName = DateTime.now();

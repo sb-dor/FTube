@@ -5,8 +5,7 @@ import 'package:audio_session/audio_session.dart';
 class JustAudioBackgroundHelper {
   static JustAudioBackgroundHelper? _instance;
 
-  static JustAudioBackgroundHelper get instance =>
-      _instance ??= JustAudioBackgroundHelper._();
+  static JustAudioBackgroundHelper get instance => _instance ??= JustAudioBackgroundHelper._();
 
   JustAudioBackgroundHelper._();
 
@@ -39,9 +38,7 @@ class JustAudioBackgroundHelper {
             ),
           ),
         if (localFilesPaths != null)
-          ...localFilesPaths.map(
-            (e) => AudioSource.uri(Uri.file(e.id), tag: e),
-          ),
+          ...localFilesPaths.map((e) => AudioSource.uri(Uri.file(e.id), tag: e)),
       ],
     );
     final session = await AudioSession.instance;

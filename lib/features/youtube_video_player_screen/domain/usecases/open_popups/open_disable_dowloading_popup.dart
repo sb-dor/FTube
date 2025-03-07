@@ -15,27 +15,19 @@ abstract class OpenDisableDownloadingPopup {
         return AlertDialog(
           title: const Text("Cancel download"),
           content: const Text("Do you want to continue?"),
-          actions: _buttons(
-            context,
-            showOpenDownloadsPopup: showOpenDownloadsPopup,
-          ),
+          actions: _buttons(context, showOpenDownloadsPopup: showOpenDownloadsPopup),
         );
       },
     );
   }
 
-  static List<Widget> _buttons(
-    BuildContext context, {
-    bool showOpenDownloadsPopup = false,
-  }) {
+  static List<Widget> _buttons(BuildContext context, {bool showOpenDownloadsPopup = false}) {
     return [
       if (showOpenDownloadsPopup)
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-            OpenDownloadingVideoPopup.openDownloadingVideoPopup(
-              context: context,
-            );
+            OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
           },
           child: const Text("Open Downloads"),
         ),
@@ -46,10 +38,7 @@ abstract class OpenDisableDownloadingPopup {
         },
         child: const Text("Continue"),
       ),
-      TextButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Text("Cancel"),
-      ),
+      TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
     ];
   }
 }

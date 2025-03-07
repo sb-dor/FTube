@@ -31,8 +31,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
-                      onTap:
-                          () => context.read<YoutubeVideoCubit>().likeVideo(),
+                      onTap: () => context.read<YoutubeVideoCubit>().likeVideo(),
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -42,10 +41,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                                 ? FontAwesomeIcons.solidThumbsUp
                                 : FontAwesomeIcons.thumbsUp,
                             weight: 0.5,
-                            color:
-                                currentState.isVideoAddedToFavorites
-                                    ? Colors.red
-                                    : Colors.grey,
+                            color: currentState.isVideoAddedToFavorites ? Colors.red : Colors.grey,
                             size: 20,
                           ),
                         ),
@@ -99,9 +95,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(50),
                     child: InkWell(
                       onTap:
-                          () async => await ShareHelper().shareVideoPath(
-                            currentState.tempVideoId,
-                          ),
+                          () async => await ShareHelper().shareVideoPath(currentState.tempVideoId),
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
                         color: Colors.transparent,
@@ -141,24 +135,18 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                           currentState.videoData,
                         );
                         model?.videoThumbnailUrl = currentState.videoPicture;
-                        await ReusableGlobalWidgets.instance
-                            .showPlaylistAddingPopup(
-                              context: context,
-                              videoModelDb: model,
-                              onFunc: () async {
-                                await Future.delayed(
-                                  const Duration(milliseconds: 500),
-                                );
-                                if (context.mounted) {
-                                  context
-                                      .read<YoutubeVideoCubit>()
-                                      .checkVideoInBookmarks(
-                                        videoId:
-                                            currentState.tempVideoId ?? '0',
-                                      );
-                                }
-                              },
-                            );
+                        await ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
+                          context: context,
+                          videoModelDb: model,
+                          onFunc: () async {
+                            await Future.delayed(const Duration(milliseconds: 500));
+                            if (context.mounted) {
+                              context.read<YoutubeVideoCubit>().checkVideoInBookmarks(
+                                videoId: currentState.tempVideoId ?? '0',
+                              );
+                            }
+                          },
+                        );
                       },
                       borderRadius: BorderRadius.circular(50),
                       child: Container(
@@ -170,10 +158,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                                 ? FontAwesomeIcons.solidBookmark
                                 : FontAwesomeIcons.bookmark,
                             weight: 0.5,
-                            color:
-                                currentState.isVideoAddedToBookMarks
-                                    ? Colors.red
-                                    : Colors.grey,
+                            color: currentState.isVideoAddedToBookMarks ? Colors.red : Colors.grey,
                             size: 20,
                           ),
                         ),

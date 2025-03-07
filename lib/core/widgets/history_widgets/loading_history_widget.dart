@@ -11,18 +11,9 @@ class LoadingHistoryWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(
-              child: ShimmerContainer(
-                height: 20,
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
+            Expanded(child: ShimmerContainer(height: 20, borderRadius: BorderRadius.circular(10))),
             const SizedBox(width: 30),
-            ShimmerContainer(
-              width: 100,
-              height: 50,
-              borderRadius: BorderRadius.circular(10),
-            ),
+            ShimmerContainer(width: 100, height: 50, borderRadius: BorderRadius.circular(10)),
           ],
         ),
         const SizedBox(height: 15),
@@ -69,15 +60,9 @@ class _Widget extends StatelessWidget {
                 Column(
                   children: [
                     const SizedBox(height: 5),
-                    ShimmerContainer(
-                      height: 15,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    ShimmerContainer(height: 15, borderRadius: BorderRadius.circular(10)),
                     const SizedBox(height: 10),
-                    ShimmerContainer(
-                      height: 15,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    ShimmerContainer(height: 15, borderRadius: BorderRadius.circular(10)),
                   ],
                 ),
                 Column(

@@ -16,10 +16,8 @@ class GetSimilarVideos {
 
   // Define a static method `getSimilarVideos` to fetch similar videos based on a video title
   Future<void> getSimilarVideos({
-    required String
-    videoTitle, // The title of the video to find similar videos for
-    required YoutubeVideoStateModel
-    stateModel, // The state model that holds video data and state
+    required String videoTitle, // The title of the video to find similar videos for
+    required YoutubeVideoStateModel stateModel, // The state model that holds video data and state
     required BuildContext context, // The BuildContext used for accessing cubits
     required bool paginating, // A flag to indicate if paginating results
   }) async {
@@ -54,14 +52,9 @@ class GetSimilarVideos {
   }
 
   // Define a static method `_isolate` to handle video data processing in an isolate
-  static Future<void> _isolate(
-    SimilarVideosCubit similarVideosCubit,
-    List<Video> videos,
-  ) async {
+  static Future<void> _isolate(SimilarVideosCubit similarVideosCubit, List<Video> videos) async {
     // Prepare a map of videos to send to the isolate
-    final Map<String, dynamic> sendingList = {
-      "list": videos.map((e) => e.toJson()).toList(),
-    };
+    final Map<String, dynamic> sendingList = {"list": videos.map((e) => e.toJson()).toList()};
 
     // Convert the map to a JSON string
     final toStringing = jsonEncode(sendingList);
@@ -96,8 +89,7 @@ class GetSimilarVideos {
     sp.send(isoLateRP.sendPort);
 
     // Take messages from the receive port that are of type String
-    final message =
-        isoLateRP.takeWhile((element) => element is String).cast<String>();
+    final message = isoLateRP.takeWhile((element) => element is String).cast<String>();
 
     // Initialize the YouTube Data API
     // Injections.initYoutubeDataApi();

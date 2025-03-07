@@ -8,8 +8,5 @@ abstract class PlaylistVideosInnerScreenDataSource {
     PlaylistModelDb? playlistModelDb,
   });
 
-  Future<List<BaseVideoModelDb>> getLikedVideos({
-    int page = 1,
-    int currentListLength = 0,
-  });
+  Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0});
 }

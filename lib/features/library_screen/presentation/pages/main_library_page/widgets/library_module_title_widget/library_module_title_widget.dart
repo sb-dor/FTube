@@ -24,25 +24,15 @@ class LibraryModuleTitleWidget extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              TextWidget(
-                text: title,
-                size: 20,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.9,
-              ),
+              TextWidget(text: title, size: 20, fontWeight: FontWeight.w500, letterSpacing: 0.9),
               if (showAdd)
-                IconButton(
-                  onPressed: onAddTap,
-                  icon: const Icon(Icons.add, color: Colors.red),
-                ),
+                IconButton(onPressed: onAddTap, icon: const Icon(Icons.add, color: Colors.red)),
             ],
           ),
         ),
         if (showSeeAll)
           OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.red),
-            ),
+            style: OutlinedButton.styleFrom(side: const BorderSide(color: Colors.red)),
             onPressed: onButtonTap,
             child: const Text("See all", style: TextStyle(color: Colors.red)),
           ),

@@ -7,8 +7,7 @@ import 'package:youtube/core/utils/hive_database_helper/hive_database_helper.dar
 import 'package:youtube/core/utils/regex_helper/regex_helper.dart';
 import 'package:youtube/core/youtube_data_api/models/thumbnail.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
-import 'package:youtube/core/youtube_data_api/models/video_data.dart'
-    as ytvdata;
+import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/features/search_screen/domain/repo/search_screen_repo.dart';
 import 'cubits/search_body_cubit/search_body_cubit.dart';
 import 'cubits/search_body_cubit/search_body_states.dart';
@@ -16,8 +15,7 @@ import 'search_screen_events.dart';
 import 'search_screen_states.dart';
 import 'state_model/search_screen_state_model.dart';
 
-class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
-    with RegexHelper {
+class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates> with RegexHelper {
   final HiveDatabaseHelper _hiveDatabaseHelper;
   final SearchScreenRepo _screenRepo;
 
@@ -72,27 +70,20 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
 
     if (event.close) return;
 
-    _currentState.timerForCheckingPaginating = Timer.periodic(
-      const Duration(seconds: 20),
-      (timer) {
-        final searchBodyCubit = BlocProvider.of<SearchBodyCubit>(
-          _currentState.globalContext.globalNavigatorContext.currentContext!,
-        );
-        if (_currentState.paginating &&
-            searchBodyCubit.state is LoadedSearchBodyState) {
-          _currentState.paginating = false;
-        }
-        // debugPrint"working here buddy for timer: ${_currentState.paginating}");
-      },
-    );
+    _currentState.timerForCheckingPaginating = Timer.periodic(const Duration(seconds: 20), (timer) {
+      final searchBodyCubit = BlocProvider.of<SearchBodyCubit>(
+        _currentState.globalContext.globalNavigatorContext.currentContext!,
+      );
+      if (_currentState.paginating && searchBodyCubit.state is LoadedSearchBodyState) {
+        _currentState.paginating = false;
+      }
+      // debugPrint"working here buddy for timer: ${_currentState.paginating}");
+    });
   }
 
   //
 
-  void _initSearchScreenEvent(
-    InitSearchScreenEvent event,
-    Emitter<SearchScreenStates> emit,
-  ) async {
+  void _initSearchScreenEvent(InitSearchScreenEvent event, Emitter<SearchScreenStates> emit) async {
     _currentState.suggestData.clear();
     event.searchingBodyStateFunc();
     _currentState.searchData = await _hiveDatabaseHelper.getSearchData();
@@ -105,10 +96,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
     emit(InitialSearchScreenState(_currentState));
   }
 
-  void _requestToTextField(
-    RequestToTextField event,
-    Emitter<SearchScreenStates> emit,
-  ) => _currentState.focusNode.requestFocus();
+  void _requestToTextField(RequestToTextField event, Emitter<SearchScreenStates> emit) =>
+      _currentState.focusNode.requestFocus();
 
   void _clearTextField(ClearTextField event, Emitter<SearchScreenStates> emit) {
     _currentState.suggestData.clear();
@@ -132,31 +121,26 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
         if (_currentState.timerForAutoClosingSpeech?.isActive ?? false) {
           _currentState.timerForAutoClosingSpeech?.cancel();
         }
-        _currentState.timerForAutoClosingSpeech = Timer(
-          const Duration(seconds: 1),
-          () {
-            add(
-              GetSuggestionRequestEvent(
-                functionsHolder: SearchScreenEventFunctionsHolder(
-                  searchingBodyStateFunc: () {
-                    event.functionsHolder.searchingBodyStateFunc();
-                  },
-                  errorSearchBodyStateFunc: () {
-                    event.functionsHolder.errorSearchBodyStateFunc();
-                  },
-                  emitStateFunc: () {
-                    event.functionsHolder.emitStateFunc();
-                  },
-                  loadedSearchBodyStateFunc: () {},
-                  loadingSearchBodyStateFunc: () {},
-                ),
+        _currentState.timerForAutoClosingSpeech = Timer(const Duration(seconds: 1), () {
+          add(
+            GetSuggestionRequestEvent(
+              functionsHolder: SearchScreenEventFunctionsHolder(
+                searchingBodyStateFunc: () {
+                  event.functionsHolder.searchingBodyStateFunc();
+                },
+                errorSearchBodyStateFunc: () {
+                  event.functionsHolder.errorSearchBodyStateFunc();
+                },
+                emitStateFunc: () {
+                  event.functionsHolder.emitStateFunc();
+                },
+                loadedSearchBodyStateFunc: () {},
+                loadingSearchBodyStateFunc: () {},
               ),
-            );
-            add(
-              StopListeningSpeechEvent(popup: true, popupFunc: event.popupFunc),
-            );
-          },
-        );
+            ),
+          );
+          add(StopListeningSpeechEvent(popup: true, popupFunc: event.popupFunc));
+        });
         _currentState.searchController.text = result.recognizedWords;
       },
     );
@@ -184,8 +168,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
     try {
       if (_currentState.searchController.text.trim().isEmpty) return;
 
-      if (_currentState.lastSavedQuery?.trim() ==
-          _currentState.searchController.text.trim()) {
+      if (_currentState.lastSavedQuery?.trim() == _currentState.searchController.text.trim()) {
         event.functionsHolder.loadedSearchBodyStateFunc();
         return;
       }
@@ -200,32 +183,23 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
       event.functionsHolder.loadingSearchBodyStateFunc();
 
       _currentState.searchData.removeWhere(
-        (el) =>
-            el.trim().toLowerCase() ==
-            _currentState.searchController.text.trim().toLowerCase(),
+        (el) => el.trim().toLowerCase() == _currentState.searchController.text.trim().toLowerCase(),
       );
 
-      _currentState.searchData.insert(
-        0,
-        _currentState.searchController.text.trim(),
-      );
+      _currentState.searchData.insert(0, _currentState.searchController.text.trim());
 
       if (_currentState.searchData.length >= 30) {
         _currentState.searchData.removeLast();
       }
 
-      await _hiveDatabaseHelper.saveSearchData(
-        listOfSearch: _currentState.searchData,
-      );
+      await _hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
 
       event.functionsHolder.loadingSearchBodyStateFunc();
 
       _currentState.clearData();
 
       if (_currentState.searchController.text.trim().contains("https")) {
-        final extractIdFromUrl = videoId(
-          _currentState.searchController.text.trim(),
-        );
+        final extractIdFromUrl = videoId(_currentState.searchController.text.trim());
         if (extractIdFromUrl.isNotEmpty) {
           final searchById = await _screenRepo.getVideoInfo(
             videoContent: TypeContent.snippet,
@@ -233,10 +207,8 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
           );
           if (searchById.containsKey("server_error")) {
             event.functionsHolder.errorSearchBodyStateFunc();
-          } else if (searchById.containsKey("success") &&
-              searchById["success"] == true) {
-            final ytvdata.VideoData videoData =
-                searchById['item'] as ytvdata.VideoData;
+          } else if (searchById.containsKey("success") && searchById["success"] == true) {
+            final ytvdata.VideoData videoData = searchById['item'] as ytvdata.VideoData;
             // videoData.video.;
             final ytv.Video videoFromVideoData = ytv.Video(
               videoId: videoData.video?.videoId,
@@ -310,9 +282,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
     // var searchBodyCubit = BlocProvider.of<SearchBodyCubit>(event.context);
     if (event.isLoadedSearchBodyState) return;
     try {
-      final data = await _screenRepo.getSearchVideo(
-        q: _currentState.searchController.text,
-      );
+      final data = await _screenRepo.getSearchVideo(q: _currentState.searchController.text);
 
       _currentState.paginating = false;
 
@@ -348,9 +318,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
       // }
 
       // _currentState.timerForMakingSuggestionRequest = Timer(const Duration(seconds: 1), () async {
-      final data = await _screenRepo.getSuggestionSearch(
-        _currentState.searchController.text,
-      );
+      final data = await _screenRepo.getSuggestionSearch(_currentState.searchController.text);
       if (data.containsKey('server_error')) {
         event.functionsHolder.errorSearchBodyStateFunc();
       } else if (data.containsKey('success')) {
@@ -364,18 +332,12 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
     emit(InitialSearchScreenState(_currentState));
   }
 
-  void _selectOrderByTimeEvent(
-    SelectOrderByTimeEvent event,
-    Emitter<SearchScreenStates> emit,
-  ) {
+  void _selectOrderByTimeEvent(SelectOrderByTimeEvent event, Emitter<SearchScreenStates> emit) {
     _currentState.setOrderBy(time: event.orderByTime);
     emit(InitialSearchScreenState(_currentState));
   }
 
-  void _selectOrderByTypeEvent(
-    SelectOrderByTypeEvent event,
-    Emitter<SearchScreenStates> emit,
-  ) {
+  void _selectOrderByTypeEvent(SelectOrderByTypeEvent event, Emitter<SearchScreenStates> emit) {
     _currentState.setOrderBy(type: event.orderByType);
     emit(InitialSearchScreenState(_currentState));
   }
@@ -386,9 +348,7 @@ class MainSearchScreenBloc extends Bloc<SearchScreenEvents, SearchScreenStates>
     Emitter<SearchScreenStates> emit,
   ) async {
     _currentState.searchData.removeWhere((e) => e.trim() == event.item.trim());
-    await _hiveDatabaseHelper.saveSearchData(
-      listOfSearch: _currentState.searchData,
-    );
+    await _hiveDatabaseHelper.saveSearchData(listOfSearch: _currentState.searchData);
     emit(InitialSearchScreenState(_currentState));
   }
 

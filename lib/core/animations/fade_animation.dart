@@ -31,11 +31,7 @@ class FadeAnimation extends StatelessWidget {
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: beginValue ?? 0, end: endValue ?? 1),
       duration: duration ?? const Duration(milliseconds: 350),
-      curve: Interval(
-        beginInterval ?? 0,
-        endInterval ?? 1,
-        curve: curve ?? Curves.linear,
-      ),
+      curve: Interval(beginInterval ?? 0, endInterval ?? 1, curve: curve ?? Curves.linear),
       builder: (context, anim, _) => Opacity(opacity: anim, child: child),
     );
   }

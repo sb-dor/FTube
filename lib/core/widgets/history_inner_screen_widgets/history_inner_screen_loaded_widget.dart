@@ -57,11 +57,7 @@ class _Widget extends StatelessWidget {
           showOverlay: () {
             if (context.mounted) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                final model =
-                    context
-                        .read<YoutubeVideoCubit>()
-                        .state
-                        .youtubeVideoStateModel;
+                final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
                 TopOverlayLogic.instance.showOverlay(
                   context,
                   model.videoUrlForOverlayRun ?? '',

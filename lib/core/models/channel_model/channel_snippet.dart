@@ -34,10 +34,7 @@ class ChannelSnippet {
     this.channelStatistics,
   });
 
-  factory ChannelSnippet.fromJson(
-    Map<String, dynamic> json, {
-    String? channelId,
-  }) {
+  factory ChannelSnippet.fromJson(Map<String, dynamic> json, {String? channelId}) {
     Map<String, dynamic>? thumbDefault;
     Map<String, dynamic>? thumbMedium;
     Map<String, dynamic>? thumbHigh;
@@ -51,8 +48,7 @@ class ChannelSnippet {
       title: json['title'],
       description: json['description'],
       customUrl: json['customUrl'],
-      thumbDefault:
-          thumbDefault == null ? null : Thumbnail.fromJson(thumbDefault),
+      thumbDefault: thumbDefault == null ? null : Thumbnail.fromJson(thumbDefault),
       thumbMedium: thumbMedium == null ? null : Thumbnail.fromJson(thumbMedium),
       thumbHigh: thumbHigh == null ? null : Thumbnail.fromJson(thumbHigh),
       country: json['country'],

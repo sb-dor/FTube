@@ -15,16 +15,10 @@ class MainAuthBloc extends Bloc<AuthBlocEvents, AuthBlocStates> {
       transformer: droppable(),
     );
 
-    on<LoginEvent>(
-      (event, emit) async => await login(event, emit),
-      transformer: droppable(),
-    );
+    on<LoginEvent>((event, emit) async => await login(event, emit), transformer: droppable());
   }
 
-  Future<void> checkAuth(
-    CheckAuthEvent event,
-    Emitter<AuthBlocStates> emit,
-  ) async {
+  Future<void> checkAuth(CheckAuthEvent event, Emitter<AuthBlocStates> emit) async {
     final data = await event.authorizationService.checkAuth();
     if (data.containsKey("auth_error")) {
       emit(ErrorAuthState(_currentState));

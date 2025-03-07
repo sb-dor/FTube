@@ -27,11 +27,7 @@ class VideoInfoSubsButtonsLoadedWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(),
                   child: const Center(
-                    child: Icon(
-                      CupertinoIcons.bell,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                    child: Icon(CupertinoIcons.bell, color: Colors.white, size: 20),
                   ),
                 ),
               ),

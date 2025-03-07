@@ -8,10 +8,7 @@ final class InitSearchScreenEvent extends SearchScreenEvents {
   final ScrollController? scrollController;
   final VoidCallback searchingBodyStateFunc;
 
-  InitSearchScreenEvent({
-    this.scrollController,
-    required this.searchingBodyStateFunc,
-  });
+  InitSearchScreenEvent({this.scrollController, required this.searchingBodyStateFunc});
 }
 
 final class RequestToTextField extends SearchScreenEvents {}
@@ -27,10 +24,7 @@ final class StartListeningSpeechEvent extends SearchScreenEvents {
   final VoidCallback popupFunc;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
-  StartListeningSpeechEvent({
-    required this.popupFunc,
-    required this.functionsHolder,
-  });
+  StartListeningSpeechEvent({required this.popupFunc, required this.functionsHolder});
 }
 
 final class StopListeningSpeechEvent extends SearchScreenEvents {
@@ -44,30 +38,21 @@ final class ClickSearchButtonEvent extends SearchScreenEvents {
   final ScrollController? scrollController;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
-  ClickSearchButtonEvent({
-    this.scrollController,
-    required this.functionsHolder,
-  });
+  ClickSearchButtonEvent({this.scrollController, required this.functionsHolder});
 }
 
 final class ClickOnAlreadySearchedValueEvent extends SearchScreenEvents {
   final String value;
   final SearchScreenEventFunctionsHolder functionsHolder;
 
-  ClickOnAlreadySearchedValueEvent({
-    required this.value,
-    required this.functionsHolder,
-  });
+  ClickOnAlreadySearchedValueEvent({required this.value, required this.functionsHolder});
 }
 
 final class PaginateSearchScreenEvent extends SearchScreenEvents {
   final SearchScreenEventFunctionsHolder functionsHolder;
   final bool isLoadedSearchBodyState;
 
-  PaginateSearchScreenEvent({
-    required this.functionsHolder,
-    required this.isLoadedSearchBodyState,
-  });
+  PaginateSearchScreenEvent({required this.functionsHolder, required this.isLoadedSearchBodyState});
 }
 
 final class GetSuggestionRequestEvent extends SearchScreenEvents {

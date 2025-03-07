@@ -8,8 +8,7 @@ import 'package:youtube/features/library_inner_screens/data/data_source/playlist
 import 'package:youtube/features/library_inner_screens/data/repository/playlist_inner_screen_repository_impl.dart';
 import 'package:youtube/features/library_inner_screens/domain/repository/playlist_inner_screen_repository.dart';
 
-final class PlaylistInnerScreenBlocFactory
-    implements Factory<PlaylistInnerScreenBloc> {
+final class PlaylistInnerScreenBlocFactory implements Factory<PlaylistInnerScreenBloc> {
   final DbFloor _dbFloor;
 
   PlaylistInnerScreenBlocFactory(this._dbFloor);
@@ -17,17 +16,17 @@ final class PlaylistInnerScreenBlocFactory
   @override
   PlaylistInnerScreenBloc create() {
     // will be rewrite in the future
-    final PlaylistInnerScreenDataSource innerScreenDataSource =
-        PlaylistInnerScreenDataSourceImpl(_dbFloor);
+    final PlaylistInnerScreenDataSource innerScreenDataSource = PlaylistInnerScreenDataSourceImpl(
+      _dbFloor,
+    );
 
     final PlaylistVideosInnerScreenDataSource videosInnerScreenDataSource =
         PlaylistVideosInnerScreenDataSourceImpl(_dbFloor);
 
-    final PlaylistInnerScreenRepository repository =
-        PlaylistInnerScreenRepositoryImpl(
-          innerScreenDataSource,
-          videosInnerScreenDataSource,
-        );
+    final PlaylistInnerScreenRepository repository = PlaylistInnerScreenRepositoryImpl(
+      innerScreenDataSource,
+      videosInnerScreenDataSource,
+    );
 
     return PlaylistInnerScreenBloc(repository);
   }

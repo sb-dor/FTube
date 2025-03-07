@@ -23,19 +23,11 @@ class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget>
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
 
     final youTubeVideoCubit = BlocProvider.of<YoutubeVideoCubit>(context).state;
-    if ((youTubeVideoCubit
-            .youtubeVideoStateModel
-            .playerController
-            ?.value
-            .isPlaying ??
-        false)) {
+    if ((youTubeVideoCubit.youtubeVideoStateModel.playerController?.value.isPlaying ?? false)) {
       _animationController.reset();
     } else {
       _animationController.forward();
@@ -56,8 +48,7 @@ class _VideoFullScreenWidgetState extends State<VideoFullScreenWidget>
 
         // data
 
-        final youtubeVideoStateModel =
-            youtubeVideoCubit.state.youtubeVideoStateModel;
+        final youtubeVideoStateModel = youtubeVideoCubit.state.youtubeVideoStateModel;
 
         return Scaffold(
           body: RotatedBox(

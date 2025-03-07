@@ -15,10 +15,7 @@ class HomeScreenCategoriesLoadingWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: 10,
         itemBuilder: (context, index) {
-          return ShimmerContainer(
-            width: 100,
-            borderRadius: BorderRadius.circular(15),
-          );
+          return ShimmerContainer(width: 100, borderRadius: BorderRadius.circular(15));
         },
       ),
     );

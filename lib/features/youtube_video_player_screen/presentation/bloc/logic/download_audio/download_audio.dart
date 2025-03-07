@@ -16,10 +16,8 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class DownloadAudio {
-  static final GlobalContextHelper _contextHelper =
-      GlobalContextHelper.instance;
-  static final ReusableGlobalFunctions _globalFunc =
-      ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _contextHelper = GlobalContextHelper.instance;
+  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
 
   static Future<void> download({
     required AudioStreamInfo audioStreamInfo,
@@ -66,10 +64,7 @@ class DownloadAudio {
         audioStreamInfo.url.toString(),
         cancelToken: stateModel.cancelAudioToken,
         onReceiveProgress: (int receive, int total) {
-          audioDownloadingCubit
-              .state
-              .downloadingAudioInfo
-              ?.downloadingProgress = receive / total;
+          audioDownloadingCubit.state.downloadingAudioInfo?.downloadingProgress = receive / total;
           audioDownloadingCubit.audioDownloadingState();
         },
         options: Options(

@@ -10,8 +10,7 @@ part of 'db_floor.dart';
 class $FloorDbFloor {
   /// Creates a database builder for a persistent database.
   /// Once a database is built, you should keep a reference to it and re-use it.
-  static _$DbFloorBuilder databaseBuilder(String name) =>
-      _$DbFloorBuilder(name);
+  static _$DbFloorBuilder databaseBuilder(String name) => _$DbFloorBuilder(name);
 
   /// Creates a database builder for an in memory database.
   /// Information stored in an in memory database disappears when the process is killed.
@@ -42,10 +41,7 @@ class _$DbFloorBuilder {
 
   /// Creates the database and initializes it.
   Future<DbFloor> build() async {
-    final path =
-        name != null
-            ? await sqfliteDatabaseFactory.getDatabasePath(name!)
-            : ':memory:';
+    final path = name != null ? await sqfliteDatabaseFactory.getDatabasePath(name!) : ':memory:';
     final database = _$DbFloor();
     database.database = await database.open(path, _migrations, _callback);
     return database;
@@ -80,12 +76,7 @@ class _$DbFloor extends DbFloor {
         await callback?.onOpen?.call(database);
       },
       onUpgrade: (database, startVersion, endVersion) async {
-        await MigrationAdapter.runMigrations(
-          database,
-          startVersion,
-          endVersion,
-          migrations,
-        );
+        await MigrationAdapter.runMigrations(database, startVersion, endVersion, migrations);
 
         await callback?.onUpgrade?.call(database, startVersion, endVersion);
       },
@@ -119,26 +110,17 @@ class _$DbFloor extends DbFloor {
 
   @override
   PlaylistModelDao get playListDao {
-    return _playListDaoInstance ??= _$PlaylistModelDao(
-      database,
-      changeListener,
-    );
+    return _playListDaoInstance ??= _$PlaylistModelDao(database, changeListener);
   }
 
   @override
   LikeDataAccessObject get likeDao {
-    return _likeDaoInstance ??= _$LikeDataAccessObject(
-      database,
-      changeListener,
-    );
+    return _likeDaoInstance ??= _$LikeDataAccessObject(database, changeListener);
   }
 
   @override
   FileDownloadedDao get downloadedFiles {
-    return _downloadedFilesInstance ??= _$FileDownloadedDao(
-      database,
-      changeListener,
-    );
+    return _downloadedFilesInstance ??= _$FileDownloadedDao(database, changeListener);
   }
 }
 
@@ -213,10 +195,7 @@ class _$VideoModelDbDao extends VideoModelDbDao {
 
   @override
   Future<void> deleteVideo(int id) async {
-    await _queryAdapter.queryNoReturn(
-      'delete from video_history where id = ?1',
-      arguments: [id],
-    );
+    await _queryAdapter.queryNoReturn('delete from video_history where id = ?1', arguments: [id]);
   }
 
   @override
@@ -229,10 +208,7 @@ class _$VideoModelDbDao extends VideoModelDbDao {
 
   @override
   Future<void> insertVideo(VideoModelDb videoModelDb) async {
-    await _videoModelDbInsertionAdapter.insert(
-      videoModelDb,
-      OnConflictStrategy.abort,
-    );
+    await _videoModelDbInsertionAdapter.insert(videoModelDb, OnConflictStrategy.abort);
   }
 }
 
@@ -242,10 +218,7 @@ class _$PlaylistModelDao extends PlaylistModelDao {
       _playlistModelDbInsertionAdapter = InsertionAdapter(
         database,
         'playlists',
-        (PlaylistModelDb item) => <String, Object?>{
-          'id': item.id,
-          'name': item.name,
-        },
+        (PlaylistModelDb item) => <String, Object?>{'id': item.id, 'name': item.name},
       ),
       _playlistVideosModelDbInsertionAdapter = InsertionAdapter(
         database,
@@ -273,18 +246,15 @@ class _$PlaylistModelDao extends PlaylistModelDao {
 
   final InsertionAdapter<PlaylistModelDb> _playlistModelDbInsertionAdapter;
 
-  final InsertionAdapter<PlaylistVideosModelDb>
-  _playlistVideosModelDbInsertionAdapter;
+  final InsertionAdapter<PlaylistVideosModelDb> _playlistVideosModelDbInsertionAdapter;
 
   @override
   Future<List<PlaylistModelDb>> getPlaylists(int limit) async {
     return _queryAdapter.queryList(
       'select * from playlists limit ?1',
       mapper:
-          (Map<String, Object?> row) => PlaylistModelDb(
-            id: row['id'] as int?,
-            name: row['name'] as String?,
-          ),
+          (Map<String, Object?> row) =>
+              PlaylistModelDb(id: row['id'] as int?, name: row['name'] as String?),
       arguments: [limit],
     );
   }
@@ -294,18 +264,13 @@ class _$PlaylistModelDao extends PlaylistModelDao {
     return _queryAdapter.queryList(
       'select * from playlists',
       mapper:
-          (Map<String, Object?> row) => PlaylistModelDb(
-            id: row['id'] as int?,
-            name: row['name'] as String?,
-          ),
+          (Map<String, Object?> row) =>
+              PlaylistModelDb(id: row['id'] as int?, name: row['name'] as String?),
     );
   }
 
   @override
-  Future<List<PlaylistVideosModelDb>> getPlaylistVideos(
-    int id,
-    int limit,
-  ) async {
+  Future<List<PlaylistVideosModelDb>> getPlaylistVideos(int id, int limit) async {
     return _queryAdapter.queryList(
       'select * from playlist_videos where play_list_id = ?1 limit ?2',
       mapper:
@@ -349,9 +314,7 @@ class _$PlaylistModelDao extends PlaylistModelDao {
   }
 
   @override
-  Future<PlaylistVideosModelDb?> getVideoFromPlaylistVideos(
-    String videoId,
-  ) async {
+  Future<PlaylistVideosModelDb?> getVideoFromPlaylistVideos(String videoId) async {
     return _queryAdapter.query(
       'select * from playlist_videos where videoId = ?1',
       mapper:
@@ -377,20 +340,15 @@ class _$PlaylistModelDao extends PlaylistModelDao {
     return _queryAdapter.query(
       'select * from playlists where id = ?1',
       mapper:
-          (Map<String, Object?> row) => PlaylistModelDb(
-            id: row['id'] as int?,
-            name: row['name'] as String?,
-          ),
+          (Map<String, Object?> row) =>
+              PlaylistModelDb(id: row['id'] as int?, name: row['name'] as String?),
       arguments: [playlistId],
     );
   }
 
   @override
   Future<void> deletePlaylist(int id) async {
-    await _queryAdapter.queryNoReturn(
-      'delete from playlists where id ?1',
-      arguments: [id],
-    );
+    await _queryAdapter.queryNoReturn('delete from playlists where id ?1', arguments: [id]);
   }
 
   @override
@@ -403,16 +361,11 @@ class _$PlaylistModelDao extends PlaylistModelDao {
 
   @override
   Future<void> createPlaylist(PlaylistModelDb playlistModelDb) async {
-    await _playlistModelDbInsertionAdapter.insert(
-      playlistModelDb,
-      OnConflictStrategy.abort,
-    );
+    await _playlistModelDbInsertionAdapter.insert(playlistModelDb, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> insertVideoIntoPlaylist(
-    PlaylistVideosModelDb playlistVideosModelDb,
-  ) async {
+  Future<void> insertVideoIntoPlaylist(PlaylistVideosModelDb playlistVideosModelDb) async {
     await _playlistVideosModelDbInsertionAdapter.insert(
       playlistVideosModelDb,
       OnConflictStrategy.ignore,
@@ -499,10 +452,7 @@ class _$LikeDataAccessObject extends LikeDataAccessObject {
 
   @override
   Future<void> insertLikedVideo(LikeModelDb likeModelDb) async {
-    await _likeModelDbInsertionAdapter.insert(
-      likeModelDb,
-      OnConflictStrategy.abort,
-    );
+    await _likeModelDbInsertionAdapter.insert(likeModelDb, OnConflictStrategy.abort);
   }
 }
 
@@ -566,9 +516,6 @@ class _$FileDownloadedDao extends FileDownloadedDao {
 
   @override
   Future<void> insertDownloadedFile(FileDownloadModel fileDownloadModel) async {
-    await _fileDownloadModelInsertionAdapter.insert(
-      fileDownloadModel,
-      OnConflictStrategy.abort,
-    );
+    await _fileDownloadModelInsertionAdapter.insert(fileDownloadModel, OnConflictStrategy.abort);
   }
 }

@@ -25,9 +25,7 @@ abstract class OpenDownloadingErrorPopup {
   }
 
   static List<Widget> _buttons(BuildContext context) {
-    return [
-      TextButton(onPressed: () => _popUpFunc(context), child: const Text("OK")),
-    ];
+    return [TextButton(onPressed: () => _popUpFunc(context), child: const Text("OK"))];
   }
 
   static void _popUpFunc(BuildContext context) {

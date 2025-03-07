@@ -7,21 +7,17 @@ abstract class AuthBlocStates {
 }
 
 final class LoadingAuthState extends AuthBlocStates {
-  LoadingAuthState(AuthStateModel authStateModel)
-    : super(authStateModel: authStateModel);
+  LoadingAuthState(AuthStateModel authStateModel) : super(authStateModel: authStateModel);
 }
 
 final class ErrorAuthState extends AuthBlocStates {
-  ErrorAuthState(AuthStateModel authStateModel)
-    : super(authStateModel: authStateModel);
+  ErrorAuthState(AuthStateModel authStateModel) : super(authStateModel: authStateModel);
 }
 
 final class UnAuthenticatedState extends AuthBlocStates {
-  UnAuthenticatedState(AuthStateModel authStateModel)
-    : super(authStateModel: authStateModel);
+  UnAuthenticatedState(AuthStateModel authStateModel) : super(authStateModel: authStateModel);
 }
 
 final class AuthenticatedState extends AuthBlocStates {
-  AuthenticatedState(AuthStateModel authStateModel)
-    : super(authStateModel: authStateModel);
+  AuthenticatedState(AuthStateModel authStateModel) : super(authStateModel: authStateModel);
 }

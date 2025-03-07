@@ -6,11 +6,7 @@ import 'package:youtube/core/youtube_data_api/models/video.dart';
 @Entity(
   tableName: 'playlist_videos',
   foreignKeys: [
-    ForeignKey(
-      childColumns: ['play_list_id'],
-      parentColumns: ['id'],
-      entity: PlaylistModelDb,
-    ),
+    ForeignKey(childColumns: ['play_list_id'], parentColumns: ['id'], entity: PlaylistModelDb),
   ],
 )
 class PlaylistVideosModelDb extends BaseVideoModelDb {

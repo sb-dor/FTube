@@ -4,12 +4,7 @@ class ChannelStatus {
   String? longUploadsStatus;
   bool? madeForKids;
 
-  ChannelStatus({
-    this.privacyStatus,
-    this.isLinked,
-    this.longUploadsStatus,
-    this.madeForKids,
-  });
+  ChannelStatus({this.privacyStatus, this.isLinked, this.longUploadsStatus, this.madeForKids});
 
   factory ChannelStatus.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic> status = json['status'];

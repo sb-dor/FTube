@@ -20,9 +20,7 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
             onTap:
                 () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const LibraryDownloadedPage(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const LibraryDownloadedPage()),
                 ),
             child: Container(
               padding: const EdgeInsets.only(top: 5, bottom: 5),
@@ -42,8 +40,7 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
                           letterSpacing: 0.9,
                         ),
                         TextWidget(
-                          text:
-                              "${historyStateModel.lengthOfDownloadedFiles} Files",
+                          text: "${historyStateModel.lengthOfDownloadedFiles} Files",
                           size: 13,
                           fontWeight: FontWeight.normal,
                           color: Colors.grey,

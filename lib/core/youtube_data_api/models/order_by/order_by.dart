@@ -9,12 +9,7 @@ class OrderBy {
   OrderByType? orderByType;
   OrderByArrange? orderByArrange;
 
-  OrderBy({
-    required this.id,
-    this.orderByTime,
-    this.orderByType,
-    this.orderByArrange,
-  });
+  OrderBy({required this.id, this.orderByTime, this.orderByType, this.orderByArrange});
 
   // get after checking orderTime, orderType or any other orders. If it contains any of it get it
   static final List<OrderBy> orderBy = [
@@ -52,51 +47,41 @@ class OrderBy {
     //
     OrderBy(
       id: "EgQIARAE",
-      orderByType:
-          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes.first,
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIAhAE",
-      orderByType:
-          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[1],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIAxAE",
-      orderByType:
-          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[2],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIBBAE",
-      orderByType:
-          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[3],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIBRAE",
-      orderByType:
-          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[4],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
   ];
 
-  static OrderBy? getOnCheck({
-    OrderByType? type,
-    OrderByTime? time,
-    OrderByArrange? arrange,
-  }) {
+  static OrderBy? getOnCheck({OrderByType? type, OrderByTime? time, OrderByArrange? arrange}) {
     // debugPrint"type herere: ${type?.id}");
     // debugPrint"time herere: ${time?.id}");
     return orderBy.firstWhereOrNull((element) {
-      return element.orderByType?.id == type?.id &&
-          element.orderByTime?.id == time?.id;
+      return element.orderByType?.id == type?.id && element.orderByTime?.id == time?.id;
     });
   }
 }

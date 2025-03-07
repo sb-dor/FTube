@@ -4,11 +4,7 @@ class CircleSelectedWidget extends StatelessWidget {
   final VoidCallback onTap;
   final bool selected;
 
-  const CircleSelectedWidget({
-    super.key,
-    required this.onTap,
-    required this.selected,
-  });
+  const CircleSelectedWidget({super.key, required this.onTap, required this.selected});
 
   @override
   Widget build(BuildContext context) {

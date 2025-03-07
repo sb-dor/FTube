@@ -22,8 +22,7 @@ class DownloadedFileLoadedWidget extends StatelessWidget {
 
         // data
 
-        final libraryDownloadStateModel =
-            libraryDownloadBloc.state.libraryDownloadsStateModel;
+        final libraryDownloadStateModel = libraryDownloadBloc.state.libraryDownloadsStateModel;
 
         return ListView.separated(
           separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -47,10 +46,7 @@ class _Widget extends StatelessWidget {
   final BaseDownloadedFileModel? downloadedFile;
   final LibraryDownloadsStateModel libraryDownloadsStateModel;
 
-  const _Widget({
-    required this.downloadedFile,
-    required this.libraryDownloadsStateModel,
-  });
+  const _Widget({required this.downloadedFile, required this.libraryDownloadsStateModel});
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +72,7 @@ class _Widget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: ImageLoaderWidget(
                         url: downloadedFile?.imagePath ?? '',
-                        errorImageUrl:
-                            'assets/custom_images/custom_user_image.png',
+                        errorImageUrl: 'assets/custom_images/custom_user_image.png',
                         boxFit: BoxFit.cover,
                       ),
                     ),
@@ -86,12 +81,7 @@ class _Widget extends StatelessWidget {
                     bottom: 5,
                     right: 5,
                     child: Container(
-                      padding: const EdgeInsets.only(
-                        left: 7,
-                        right: 7,
-                        top: 3,
-                        bottom: 3,
-                      ),
+                      padding: const EdgeInsets.only(left: 7, right: 7, top: 3, bottom: 3),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         color: Colors.black.withValues(alpha: 0.4),
@@ -143,9 +133,7 @@ class _Widget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Tooltip(
-                      message: libraryDownloadsStateModel.toolTipMessage(
-                        downloadedFile,
-                      ),
+                      message: libraryDownloadsStateModel.toolTipMessage(downloadedFile),
                       child: IconButton(
                         onPressed:
                             () => context.read<LibraryDownloadsBloc>().add(
@@ -154,16 +142,12 @@ class _Widget extends StatelessWidget {
                               ),
                             ),
                         icon:
-                            ReusableGlobalFunctions.instance.fileExtensionName(
-                                      downloadedFile,
-                                    ) ==
+                            ReusableGlobalFunctions.instance.fileExtensionName(downloadedFile) ==
                                     "mp4"
                                 ? SizedBox(
                                   width: 25,
                                   height: 25,
-                                  child: Image.asset(
-                                    "assets/download_icons/gallery_save.png",
-                                  ),
+                                  child: Image.asset("assets/download_icons/gallery_save.png"),
                                 )
                                 : const Icon(Icons.download, size: 20),
                       ),

@@ -15,10 +15,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
   HomeScreenDatasourceImpl(this._youtubeDataApi);
 
   @override
-  Future<Map<String, dynamic>> homeScreenGetVideo({
-    String? q,
-    bool clearSearch = false,
-  }) async {
+  Future<Map<String, dynamic>> homeScreenGetVideo({String? q, bool clearSearch = false}) async {
     final Map<String, dynamic> res = {};
     try {
       // if (videoCategoryId != null) {
@@ -87,8 +84,7 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
 
       final List<dynamic> listCat = json['items'];
 
-      final List<VideoCategory> categories =
-          listCat.map((e) => VideoCategory.fromJson(e)).toList();
+      final List<VideoCategory> categories = listCat.map((e) => VideoCategory.fromJson(e)).toList();
 
       res['categories'] = categories;
       res['success'] = true;

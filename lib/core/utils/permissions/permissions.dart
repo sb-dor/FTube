@@ -6,12 +6,10 @@ class Permissions {
   }
 
   Future<bool> manageExternalStoragePermission() async {
-    final checkPermissionForManagingExternalStorage =
-        await Permission.manageExternalStorage.status;
+    final checkPermissionForManagingExternalStorage = await Permission.manageExternalStorage.status;
 
     if (checkPermissionForManagingExternalStorage != PermissionStatus.granted) {
-      final permissionForManagingStorage =
-          await Permission.manageExternalStorage.request();
+      final permissionForManagingStorage = await Permission.manageExternalStorage.request();
 
       // debugPrint"permission for managing external storage denied");
 

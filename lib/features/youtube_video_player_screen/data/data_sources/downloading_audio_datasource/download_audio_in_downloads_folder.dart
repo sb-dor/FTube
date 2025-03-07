@@ -6,21 +6,16 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
 import 'package:downloadsfolder/downloadsfolder.dart';
 
 class DownloadAudioInDownloadsFolder implements IDownloading {
-  final ReusableGlobalFunctions _reusableGlobalFunctions =
-      ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
   final Permissions _permissions;
 
   DownloadAudioInDownloadsFolder(this._permissions);
 
   @override
-  Future<void> download(
-    List<int>? downloadData,
-    YoutubeVideoStateModel stateModel,
-  ) async {
+  Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
     // Check for permission to access storage
 
-    final externalStoragePermission =
-        await _permissions.manageExternalStoragePermission();
+    final externalStoragePermission = await _permissions.manageExternalStoragePermission();
 
     final storagePermission = await _permissions.storagePermission();
 

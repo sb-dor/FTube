@@ -10,9 +10,7 @@ abstract class OpenLibraryDownloadsAudioListenerPopup {
     await showDialog(
       context: context,
       builder: (context) {
-        return LibraryDownloadsAudioListenerPopup(
-          baseDownloadedFileModel: downloadedFileModel,
-        );
+        return LibraryDownloadsAudioListenerPopup(baseDownloadedFileModel: downloadedFileModel);
       },
     );
   }

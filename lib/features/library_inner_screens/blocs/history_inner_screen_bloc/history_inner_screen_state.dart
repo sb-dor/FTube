@@ -7,19 +7,16 @@ sealed class HistoryInnerScreenState {
 }
 
 final class LoadingHistoryInnerScreen extends HistoryInnerScreenState {
-  LoadingHistoryInnerScreen(
-    HistoryInnerScreenStateModel historyInnerScreenStateModel,
-  ) : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
+  LoadingHistoryInnerScreen(HistoryInnerScreenStateModel historyInnerScreenStateModel)
+    : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
 }
 
 final class ErrorHistoryInnerScreen extends HistoryInnerScreenState {
-  ErrorHistoryInnerScreen(
-    HistoryInnerScreenStateModel historyInnerScreenStateModel,
-  ) : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
+  ErrorHistoryInnerScreen(HistoryInnerScreenStateModel historyInnerScreenStateModel)
+    : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
 }
 
 final class LoadedHistoryInnerScreen extends HistoryInnerScreenState {
-  LoadedHistoryInnerScreen(
-    HistoryInnerScreenStateModel historyInnerScreenStateModel,
-  ) : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
+  LoadedHistoryInnerScreen(HistoryInnerScreenStateModel historyInnerScreenStateModel)
+    : super(historyInnerScreenStateModel: historyInnerScreenStateModel);
 }

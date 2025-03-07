@@ -10,13 +10,11 @@ import 'global_context_helper.dart';
 class ReusableGlobalWidgets {
   static ReusableGlobalWidgets? _instance;
 
-  static ReusableGlobalWidgets get instance =>
-      _instance ??= ReusableGlobalWidgets._();
+  static ReusableGlobalWidgets get instance => _instance ??= ReusableGlobalWidgets._();
 
   ReusableGlobalWidgets._();
 
-  BuildContext context =
-      GlobalContextHelper.instance.globalNavigatorContext.currentState!.context;
+  BuildContext context = GlobalContextHelper.instance.globalNavigatorContext.currentState!.context;
 
   Future<void> showPlaylistAddingPopup({
     required BuildContext context,

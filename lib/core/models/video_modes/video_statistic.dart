@@ -4,12 +4,7 @@ class VideoStatistic {
   String? favoriteCount;
   String? commentCount;
 
-  VideoStatistic({
-    this.viewCount,
-    this.likeCount,
-    this.favoriteCount,
-    this.commentCount,
-  });
+  VideoStatistic({this.viewCount, this.likeCount, this.favoriteCount, this.commentCount});
 
   factory VideoStatistic.fromJson(Map<String, dynamic> json) {
     Map<String, dynamic> statistics = {};

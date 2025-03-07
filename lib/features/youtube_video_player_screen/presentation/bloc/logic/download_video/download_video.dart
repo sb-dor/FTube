@@ -23,10 +23,8 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {
-  static final ReusableGlobalFunctions _globalFunc =
-      ReusableGlobalFunctions.instance;
-  static final GlobalContextHelper _globalContextHelper =
-      GlobalContextHelper.instance;
+  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
 
   static Future<void> downloadVideo({
     required VideoStreamInfo video,
@@ -58,9 +56,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
         );
         return;
       }
-      videoDownloadingCubit
-          .state
-          .tempDownloadingVideoInfo = DownloadingVideoInfo(
+      videoDownloadingCubit.state.tempDownloadingVideoInfo = DownloadingVideoInfo(
         urlId: video.url.toString(),
         downloadingProgress: 0.0,
         mainVideoId: stateModel.tempVideoId,
@@ -74,18 +70,13 @@ abstract class DownloadVideo with SolvePercentageMixin {
       List<int>? audioList;
       Stream<dynamic>? broadcastRp;
       if (!_globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        stateModel.isolateForDownloadingAudio = Isolate.spawn(
-          _downloadAudio,
-          receivePort.sendPort,
-        );
+        stateModel.isolateForDownloadingAudio = Isolate.spawn(_downloadAudio, receivePort.sendPort);
 
         broadcastRp = receivePort.asBroadcastStream();
 
         final SendPort communicatorSendPort = await broadcastRp.first;
 
-        communicatorSendPort.send(
-          stateModel.tempMinAudioForVideo?.url.toString(),
-        );
+        communicatorSendPort.send(stateModel.tempMinAudioForVideo?.url.toString());
 
         // debugPrint"coming into here");
 
@@ -100,10 +91,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
         cancelToken: stateModel.cancelVideoToken,
         onReceiveProgress: (int receive, int total) {
           final solvePercentage = receive / total * 100;
-          videoDownloadingCubit
-              .state
-              .tempDownloadingVideoInfo
-              ?.downloadingProgress = solvePercentage / 100;
+          videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
+              solvePercentage / 100;
           videoDownloadingCubit.videoDownloadingLoadingState();
           // // debugPrint"still downloading");
         },
@@ -124,10 +113,11 @@ abstract class DownloadVideo with SolvePercentageMixin {
       // });
 
       if (_globalFunc.checkMp4FromURI(value: video.url.toString())) {
-        await DownloadingVideoUseCase(path, dbFloor, permissions).download(
-          downloadingVideo: downloadingVideo.data,
-          stateModel: stateModel,
-        );
+        await DownloadingVideoUseCase(
+          path,
+          dbFloor,
+          permissions,
+        ).download(downloadingVideo: downloadingVideo.data, stateModel: stateModel);
         stateModel.isolateForDownloadingAudio = null;
       } else {
         // debugPrint"then coming here");
@@ -184,8 +174,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
     final receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
 
-    final messages =
-        receivePort.takeWhile((element) => element is String).cast<String>();
+    final messages = receivePort.takeWhile((element) => element is String).cast<String>();
 
     Response<List<int>>? downloadingAudio;
 
@@ -276,17 +265,16 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
     await FFmpegKit.execute(command6).then((value) async {
       final returnCode = await value.getReturnCode();
-      log(
-        "result of audio and video logs: ${await value.getAllLogsAsString()}",
-      );
+      log("result of audio and video logs: ${await value.getAllLogsAsString()}");
       log("result of fail: ${await value.getFailStackTrace()}");
 
       if (ReturnCode.isSuccess(returnCode)) {
         // debugPrint"SUCCESS");
-        await DownloadingVideoUseCase(path, dbFloor, permissions).download(
-          downloadingVideo: File(outputPath).readAsBytesSync(),
-          stateModel: stateModel,
-        );
+        await DownloadingVideoUseCase(
+          path,
+          dbFloor,
+          permissions,
+        ).download(downloadingVideo: File(outputPath).readAsBytesSync(), stateModel: stateModel);
       } else if (ReturnCode.isCancel(returnCode)) {
         // debugPrint"CANCEL");
       } else {

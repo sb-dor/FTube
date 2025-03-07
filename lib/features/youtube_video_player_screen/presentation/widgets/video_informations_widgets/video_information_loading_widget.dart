@@ -31,11 +31,7 @@ class VideoInformationLoadingWidget extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ShimmerContainer(
-                width: 35,
-                height: 35,
-                borderRadius: BorderRadius.circular(50),
-              ),
+              ShimmerContainer(width: 35, height: 35, borderRadius: BorderRadius.circular(50)),
               const SizedBox(width: 10),
               Expanded(
                 child: ShimmerContainer(
@@ -45,11 +41,7 @@ class VideoInformationLoadingWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              ShimmerContainer(
-                width: 100,
-                height: 30,
-                borderRadius: BorderRadius.circular(15),
-              ),
+              ShimmerContainer(width: 100, height: 30, borderRadius: BorderRadius.circular(15)),
             ],
           ),
         ),

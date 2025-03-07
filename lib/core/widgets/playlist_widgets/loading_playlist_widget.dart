@@ -6,11 +6,7 @@ class LoadingPlaylistWidget extends StatelessWidget {
   final bool listView;
   final bool gridView;
 
-  const LoadingPlaylistWidget({
-    super.key,
-    this.listView = true,
-    this.gridView = false,
-  });
+  const LoadingPlaylistWidget({super.key, this.listView = true, this.gridView = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +17,10 @@ class LoadingPlaylistWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: ShimmerContainer(
-                  height: 20,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                child: ShimmerContainer(height: 20, borderRadius: BorderRadius.circular(10)),
               ),
               const SizedBox(width: 30),
-              ShimmerContainer(
-                width: 100,
-                height: 50,
-                borderRadius: BorderRadius.circular(10),
-              ),
+              ShimmerContainer(width: 100, height: 50, borderRadius: BorderRadius.circular(10)),
             ],
           ),
         if (!gridView) const SizedBox(height: 15),
@@ -40,9 +29,7 @@ class LoadingPlaylistWidget extends StatelessWidget {
             shrinkWrap: true,
             itemCount: Constants.kGridViewLength,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (context, index) => const _Widget(),
           )
         else
@@ -79,9 +66,7 @@ class _Widget extends StatelessWidget {
                 right: 15,
                 left: 15,
                 bottom: 0,
-                child: ShimmerContainer(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                child: ShimmerContainer(borderRadius: BorderRadius.circular(10)),
               ),
               Positioned(
                 top: 5,
@@ -100,9 +85,7 @@ class _Widget extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: ShimmerContainer(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                  child: ShimmerContainer(borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ],
@@ -110,11 +93,7 @@ class _Widget extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Center(
-          child: ShimmerContainer(
-            width: 110,
-            borderRadius: BorderRadius.circular(10),
-            height: 15,
-          ),
+          child: ShimmerContainer(width: 110, borderRadius: BorderRadius.circular(10), height: 15),
         ),
       ],
     );

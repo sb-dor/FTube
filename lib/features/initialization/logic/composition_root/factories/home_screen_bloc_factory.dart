@@ -13,13 +13,9 @@ final class HomeScreenBlocFactory implements Factory<MainHomeScreenBloc> {
 
   @override
   MainHomeScreenBloc create() {
-    final HomeScreenDatasource homeScreenDatasource = HomeScreenDatasourceImpl(
-      _youtubeDataApi,
-    );
+    final HomeScreenDatasource homeScreenDatasource = HomeScreenDatasourceImpl(_youtubeDataApi);
 
-    final HomeScreenRepo homeScreenRepoImpl = HomeScreenRepoImpl(
-      homeScreenDatasource,
-    );
+    final HomeScreenRepo homeScreenRepoImpl = HomeScreenRepoImpl(homeScreenDatasource);
 
     return MainHomeScreenBloc(homeScreenRepoImpl);
   }

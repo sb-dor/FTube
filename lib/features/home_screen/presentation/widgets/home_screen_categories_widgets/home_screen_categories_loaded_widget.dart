@@ -23,13 +23,12 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       builder: (context) {
         final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
 
-        final videoCategoriesStateModel =
-            context.watch<MainVideoCategoryCubit>();
-        final mainHomeScreenStateModel =
-            mainHomeScreenState.homeScreenStateModel;
+        final videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>();
+        final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
 
-        final listOfCategory = videoCategoriesStateModel.state.videoCategories
-            .limit<VideoCategory>(limit: 5);
+        final listOfCategory = videoCategoriesStateModel.state.videoCategories.limit<VideoCategory>(
+          limit: 5,
+        );
         return SizedBox(
           height: 40,
           child: ListView.separated(
@@ -57,8 +56,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   decoration: BoxDecoration(
                     color:
-                        mainHomeScreenStateModel.videoCategory?.id ==
-                                category.id
+                        mainHomeScreenStateModel.videoCategory?.id == category.id
                             ? Colors.red
                             : Colors.white,
                     borderRadius: BorderRadius.circular(15),
@@ -71,8 +69,7 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.9,
                       color:
-                          mainHomeScreenStateModel.videoCategory?.id ==
-                                  category.id
+                          mainHomeScreenStateModel.videoCategory?.id == category.id
                               ? Colors.white
                               : Colors.red,
                     ),

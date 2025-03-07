@@ -13,8 +13,7 @@ Map<String, dynamic>? extractJson(String s, [String separator = '']) {
 
   while (true) {
     try {
-      return json.decode(str.substring(startIdx, endIdx + 1))
-          as Map<String, dynamic>;
+      return json.decode(str.substring(startIdx, endIdx + 1)) as Map<String, dynamic>;
     } on FormatException {
       endIdx = str.lastIndexOf(str.substring(0, endIdx));
       if (endIdx == 0) {

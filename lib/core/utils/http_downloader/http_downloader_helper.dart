@@ -16,10 +16,7 @@ typedef DownloadingProgress =
     );
 
 abstract class HttpDownloaderHelper {
-  static Future<Uint8List> download(
-    String url,
-    DownloadingProgress downloadingProgress,
-  ) async {
+  static Future<Uint8List> download(String url, DownloadingProgress downloadingProgress) async {
     final completer = Completer<Uint8List>();
 
     try {

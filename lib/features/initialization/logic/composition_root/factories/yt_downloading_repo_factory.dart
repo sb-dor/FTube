@@ -30,11 +30,15 @@ final class YtDownloadingRepoFactory implements Factory<DownloadingRepository> {
     final audioPhoneStorage = DownloadAudioInDownloadsFolder(_permissions);
     final videoPhoneStorage = DownloadVideoInGallery();
 
-    final DownloadingRepository downloadingAppStorageImpl =
-        DownloadingVideoRepoImpl(audioAppStorage, videoAppStorage);
+    final DownloadingRepository downloadingAppStorageImpl = DownloadingVideoRepoImpl(
+      audioAppStorage,
+      videoAppStorage,
+    );
 
-    final DownloadingRepository downloadInPhoneStorage =
-        DownloadingVideoRepoImpl(audioPhoneStorage, videoPhoneStorage);
+    final DownloadingRepository downloadInPhoneStorage = DownloadingVideoRepoImpl(
+      audioPhoneStorage,
+      videoPhoneStorage,
+    );
 
     switch (_downloadingStoragePath) {
       case DownloadingStoragePath.appStorage:

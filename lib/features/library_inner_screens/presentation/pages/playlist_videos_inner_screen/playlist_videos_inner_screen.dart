@@ -15,8 +15,7 @@ class PlaylistVideosInnerScreen extends StatefulWidget {
   const PlaylistVideosInnerScreen({super.key, required this.playlistModelDb});
 
   @override
-  State<PlaylistVideosInnerScreen> createState() =>
-      _PlaylistVideosInnerScreenState();
+  State<PlaylistVideosInnerScreen> createState() => _PlaylistVideosInnerScreenState();
 }
 
 class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
@@ -27,17 +26,12 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
     // TODO: implement initState
     super.initState();
     context.read<PlaylistVideosInnerScreenBloc>().add(
-      RefreshPlaylistVideosInnerScreenEvent(
-        playlistModelDb: widget.playlistModelDb,
-      ),
+      RefreshPlaylistVideosInnerScreenEvent(playlistModelDb: widget.playlistModelDb),
     );
     _scrollController.addListener(() {
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         context.read<PlaylistVideosInnerScreenBloc>().add(
-          PaginatePlaylistVideosInnerScreenEvent(
-            playlistModelDb: widget.playlistModelDb,
-          ),
+          PaginatePlaylistVideosInnerScreenEvent(playlistModelDb: widget.playlistModelDb),
         );
       }
     });
@@ -47,14 +41,11 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final playlistVideosInnerScreenBloc =
-            context.watch<PlaylistVideosInnerScreenBloc>();
+        final playlistVideosInnerScreenBloc = context.watch<PlaylistVideosInnerScreenBloc>();
 
         // data
         final playlistVideosInnerScreenStateModel =
-            playlistVideosInnerScreenBloc
-                .state
-                .playlistVideosInnerScreenStateModel;
+            playlistVideosInnerScreenBloc.state.playlistVideosInnerScreenStateModel;
 
         return Scaffold(
           appBar: AppBar(
@@ -68,26 +59,21 @@ class _PlaylistVideosInnerScreenState extends State<PlaylistVideosInnerScreen> {
             color: Colors.red,
             onRefresh:
                 () async => context.read<PlaylistVideosInnerScreenBloc>().add(
-                  RefreshPlaylistVideosInnerScreenEvent(
-                    playlistModelDb: widget.playlistModelDb,
-                  ),
+                  RefreshPlaylistVideosInnerScreenEvent(playlistModelDb: widget.playlistModelDb),
                 ),
             child: ListView(
               padding: const EdgeInsets.only(left: 10, right: 10),
               physics: const AlwaysScrollableScrollPhysics(),
               controller: _scrollController,
               children: [
-                if (playlistVideosInnerScreenBloc.state
-                    is LoadingPlaylistVideosInnerScreenState)
+                if (playlistVideosInnerScreenBloc.state is LoadingPlaylistVideosInnerScreenState)
                   const HistoryInnerScreenLoadingWidget()
-                else if (playlistVideosInnerScreenBloc.state
-                    is ErrorPlaylistVideosInnerScreenState)
+                else if (playlistVideosInnerScreenBloc.state is ErrorPlaylistVideosInnerScreenState)
                   const HistoryInnerScreenErrorWidget()
                 else if (playlistVideosInnerScreenBloc.state
                     is LoadedPlaylistVideosInnerScreenState)
                   HistoryInnerScreenLoadedWidget(
-                    historyVideos:
-                        playlistVideosInnerScreenStateModel.playlistVideos,
+                    historyVideos: playlistVideosInnerScreenStateModel.playlistVideos,
                     parentContext: context,
                   ),
                 const SizedBox(height: 10),

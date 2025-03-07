@@ -17,21 +17,14 @@ class VideosLoadingWidget extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: ShimmerContainer(
-                height: 180,
-                width: MediaQuery.of(context).size.width,
-              ),
+              child: ShimmerContainer(height: 180, width: MediaQuery.of(context).size.width),
             ),
             const SizedBox(height: 5),
             IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ShimmerContainer(
-                    width: 50,
-                    height: 50,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
+                  ShimmerContainer(width: 50, height: 50, borderRadius: BorderRadius.circular(50)),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(

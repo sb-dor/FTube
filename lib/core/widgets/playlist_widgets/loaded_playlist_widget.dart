@@ -25,9 +25,7 @@ class LoadedPlaylistWidget extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: playlist.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
             itemBuilder: (context, index) {
               final playlist = this.playlist[index];
               return _Widget(playlist: playlist, gridView: gridView);
@@ -64,14 +62,11 @@ class _Widget extends StatelessWidget {
           () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder:
-                  (context) =>
-                      PlaylistVideosInnerScreen(playlistModelDb: playlist),
+              builder: (context) => PlaylistVideosInnerScreen(playlistModelDb: playlist),
             ),
           ),
       child: Column(
-        crossAxisAlignment:
-            gridView ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment: gridView ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 150,
@@ -115,14 +110,8 @@ class _Widget extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: ImageLoaderWidget(
-                                      url:
-                                          playlist
-                                              ?.videos
-                                              ?.first
-                                              .videoThumbnailUrl ??
-                                          '',
-                                      errorImageUrl:
-                                          'assets/custom_images/custom_user_image.png',
+                                      url: playlist?.videos?.first.videoThumbnailUrl ?? '',
+                                      errorImageUrl: 'assets/custom_images/custom_user_image.png',
                                       boxFit: BoxFit.cover,
                                     ),
                                   ),
@@ -130,24 +119,16 @@ class _Widget extends StatelessWidget {
                                 Positioned.fill(
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.3,
-                                      ),
+                                      color: Colors.black.withValues(alpha: 0.3),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        const Icon(
-                                          Icons.ondemand_video_sharp,
-                                          color: Colors.white,
-                                        ),
+                                        const Icon(Icons.ondemand_video_sharp, color: Colors.white),
                                         TextWidget(
-                                          text:
-                                              "${playlist?.videos?.length ?? 0}",
+                                          text: "${playlist?.videos?.length ?? 0}",
                                           color: Colors.white,
                                         ),
                                       ],
@@ -156,9 +137,7 @@ class _Widget extends StatelessWidget {
                                 ),
                               ],
                             )
-                            : Image.asset(
-                              'assets/custom_images/empty_data.png',
-                            ),
+                            : Image.asset('assets/custom_images/empty_data.png'),
                   ),
                 ),
               ],

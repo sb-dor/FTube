@@ -4,8 +4,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youtube/core/youtube_data_api/models/video.dart' as ytv;
-import 'package:youtube/core/youtube_data_api/models/video_data.dart'
-    as ytvdata;
+import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 import 'package:youtube/features/home_screen/domain/repo/home_screen_repo.dart';
 import 'cubits/video_category_cubit/video_category_cubit_states.dart';
@@ -21,8 +20,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
   // late final HsGetVideos _hsGetVideos;
   // late final HsGetCategories _hsGetCategories;
 
-  MainHomeScreenBloc(this._homeScreenRepo)
-    : super(InitialHomeScreenState(HomeScreenStateModel())) {
+  MainHomeScreenBloc(this._homeScreenRepo) : super(InitialHomeScreenState(HomeScreenStateModel())) {
     _currentState = state.homeScreenStateModel;
 
     // _hsGetVideos = HsGetVideos(_homeScreenRepo);
@@ -152,9 +150,7 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
     required List<ytv.Video> videos,
     required Emitter<HomeScreenStates> emit,
   }) async {
-    final Map<String, dynamic> toIsolateData = {
-      "list": videos.map((e) => e.toJson()).toList(),
-    };
+    final Map<String, dynamic> toIsolateData = {"list": videos.map((e) => e.toJson()).toList()};
 
     final toIsolateString = jsonEncode(toIsolateData);
 
@@ -197,14 +193,11 @@ class MainHomeScreenBloc extends Bloc<HomeScreenBlocEvents, HomeScreenStates> {
         list = data['list'];
       }
 
-      final List<ytv.Video> videoList =
-          list.map((e) => ytv.Video.fromIsolate(e)).toList();
+      final List<ytv.Video> videoList = list.map((e) => ytv.Video.fromIsolate(e)).toList();
 
       await Future.wait(
         videoList.map(
-          (e) => e
-              .getVideoData(YoutubeDataApi())
-              .then((_) => sp.send(e.videoData?.toJson())),
+          (e) => e.getVideoData(YoutubeDataApi()).then((_) => sp.send(e.videoData?.toJson())),
         ),
       );
     }

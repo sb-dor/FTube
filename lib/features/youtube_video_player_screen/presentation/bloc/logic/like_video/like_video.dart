@@ -29,8 +29,6 @@ class LikeVideo {
       );
       await _dbFloor.likeDao.insertLikedVideo(video);
     }
-    await CheckVideoInFavorites(
-      _dbFloor,
-    ).checkVideoInFavorites(stateModel: stateModel, emit: emit);
+    await CheckVideoInFavorites(_dbFloor).checkVideoInFavorites(stateModel: stateModel, emit: emit);
   }
 }

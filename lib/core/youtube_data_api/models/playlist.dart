@@ -16,13 +16,7 @@ class PlayList {
   ///Youtube playlist number of videos
   String? videoCount;
 
-  PlayList({
-    this.playListId,
-    this.thumbnails,
-    this.title,
-    this.channelName,
-    this.videoCount,
-  });
+  PlayList({this.playListId, this.thumbnails, this.title, this.channelName, this.videoCount});
 
   factory PlayList.fromMap(Map<String, dynamic>? map) {
     final List<Thumbnail> thumbnails = [];
@@ -40,8 +34,7 @@ class PlayList {
       thumbnails: thumbnails,
       title: map?['playlistRenderer']['title']['simpleText'],
       videoCount: map?['playlistRenderer']['videoCount'],
-      channelName:
-          map?['playlistRenderer']?['shortBylineText']?['runs'][0]?['text'],
+      channelName: map?['playlistRenderer']?['shortBylineText']?['runs'][0]?['text'],
     );
   }
 

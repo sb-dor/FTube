@@ -40,10 +40,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     on<GetLikedVideosEvent>(_getLikedVideosEvent);
   }
 
-  void _getPlaylistsEvent(
-    GetPlaylistsEvent event,
-    Emitter<PlaylistsStates> emit,
-  ) async {
+  void _getPlaylistsEvent(GetPlaylistsEvent event, Emitter<PlaylistsStates> emit) async {
     emit(LoadingPlaylistsState(_currentState));
 
     final data = await _libraryScreenRepository.getPlaylists();
@@ -56,10 +53,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
         PlaylistModelDb(
           id: 0,
           name: "Liked videos",
-          videos:
-              likedVideos
-                  .map((e) => PlaylistVideosModelDb.fromEntity(e)!)
-                  .toList(),
+          videos: likedVideos.map((e) => PlaylistVideosModelDb.fromEntity(e)!).toList(),
         ),
       );
     }
@@ -69,23 +63,14 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     emit(LoadedPlaylistsState(_currentState));
   }
 
-  void _deletePlaylistEvent(
-    DeletePlaylistEvent event,
-    Emitter<PlaylistsStates> emit,
-  ) async {}
+  void _deletePlaylistEvent(DeletePlaylistEvent event, Emitter<PlaylistsStates> emit) async {}
 
-  void _createPlaylistEvent(
-    CreatePlaylistEvent event,
-    Emitter<PlaylistsStates> emit,
-  ) async {
+  void _createPlaylistEvent(CreatePlaylistEvent event, Emitter<PlaylistsStates> emit) async {
     await _libraryScreenRepository.createPlayList(event.name);
     add(GetPlaylistsEvent());
   }
 
-  void _saveInPlaylistEvent(
-    SaveInPlaylistEvent event,
-    Emitter<PlaylistsStates> emit,
-  ) async {
+  void _saveInPlaylistEvent(SaveInPlaylistEvent event, Emitter<PlaylistsStates> emit) async {
     if (_currentState.tempSelectedPlaylist == null) return;
     await _libraryScreenRepository.saveInPlayList(
       event.videoModelDb,
@@ -94,18 +79,12 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     add(GetPlaylistsEvent());
   }
 
-  void _clearTempPlaylist(
-    ClearTempPlaylist event,
-    Emitter<PlaylistsStates> emit,
-  ) {
+  void _clearTempPlaylist(ClearTempPlaylist event, Emitter<PlaylistsStates> emit) {
     _currentState.tempSelectedPlaylist = null;
     _emitter(emit);
   }
 
-  void _selectTempPlaylist(
-    SelectTempPlaylist event,
-    Emitter<PlaylistsStates> emit,
-  ) {
+  void _selectTempPlaylist(SelectTempPlaylist event, Emitter<PlaylistsStates> emit) {
     if (_currentState.tempSelectedPlaylist?.id == event.playlistModelDb?.id) {
       _currentState.tempSelectedPlaylist = null;
     } else {
@@ -118,15 +97,13 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     CheckIsVideoInPlaylistEvent event,
     Emitter<PlaylistsStates> emit,
   ) async {
-    _currentState.tempSelectedPlaylist = await _libraryScreenRepository
-        .videoPlaylist(event.baseVideoModelDb);
+    _currentState.tempSelectedPlaylist = await _libraryScreenRepository.videoPlaylist(
+      event.baseVideoModelDb,
+    );
     _emitter(emit);
   }
 
-  void _getLikedVideosEvent(
-    GetLikedVideosEvent event,
-    Emitter<PlaylistsStates> emit,
-  ) async {}
+  void _getLikedVideosEvent(GetLikedVideosEvent event, Emitter<PlaylistsStates> emit) async {}
 
   void _emitter(Emitter<PlaylistsStates> emit) {
     if (state is LoadingPlaylistsState) {

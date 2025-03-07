@@ -17,17 +17,9 @@ class VideoInfoLikeButtonLoadingWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ShimmerContainer(
-                  width: 30,
-                  height: 30,
-                  borderRadius: BorderRadius.circular(50),
-                ),
+                ShimmerContainer(width: 30, height: 30, borderRadius: BorderRadius.circular(50)),
                 const SizedBox(height: 5),
-                ShimmerContainer(
-                  width: 40,
-                  height: 10,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                ShimmerContainer(width: 40, height: 10, borderRadius: BorderRadius.circular(10)),
               ],
             ),
             const SizedBox(width: 10),
@@ -35,17 +27,9 @@ class VideoInfoLikeButtonLoadingWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ShimmerContainer(
-                  width: 30,
-                  height: 30,
-                  borderRadius: BorderRadius.circular(50),
-                ),
+                ShimmerContainer(width: 30, height: 30, borderRadius: BorderRadius.circular(50)),
                 const SizedBox(height: 5),
-                ShimmerContainer(
-                  width: 40,
-                  height: 10,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                ShimmerContainer(width: 40, height: 10, borderRadius: BorderRadius.circular(10)),
               ],
             ),
             const SizedBox(width: 10),
@@ -53,17 +37,9 @@ class VideoInfoLikeButtonLoadingWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ShimmerContainer(
-                  width: 30,
-                  height: 30,
-                  borderRadius: BorderRadius.circular(50),
-                ),
+                ShimmerContainer(width: 30, height: 30, borderRadius: BorderRadius.circular(50)),
                 const SizedBox(height: 5),
-                ShimmerContainer(
-                  width: 40,
-                  height: 10,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                ShimmerContainer(width: 40, height: 10, borderRadius: BorderRadius.circular(10)),
               ],
             ),
             const SizedBox(width: 10),
@@ -71,17 +47,9 @@ class VideoInfoLikeButtonLoadingWidgets extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ShimmerContainer(
-                  width: 30,
-                  height: 30,
-                  borderRadius: BorderRadius.circular(50),
-                ),
+                ShimmerContainer(width: 30, height: 30, borderRadius: BorderRadius.circular(50)),
                 const SizedBox(height: 5),
-                ShimmerContainer(
-                  width: 40,
-                  height: 10,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                ShimmerContainer(width: 40, height: 10, borderRadius: BorderRadius.circular(10)),
               ],
             ),
           ],

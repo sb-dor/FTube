@@ -18,11 +18,7 @@ class LoadedHistoryWidget extends StatelessWidget {
   final List<BaseVideoModelDb> videos;
   final BuildContext parentContext;
 
-  const LoadedHistoryWidget({
-    super.key,
-    required this.videos,
-    required this.parentContext,
-  });
+  const LoadedHistoryWidget({super.key, required this.videos, required this.parentContext});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +29,7 @@ class LoadedHistoryWidget extends StatelessWidget {
           onButtonTap:
               () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const HistoryInnerScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const HistoryInnerScreen()),
               ),
           showAdd: false,
         ),
@@ -80,11 +74,7 @@ class _Widget extends StatelessWidget {
             if (context.mounted) {
               // debugPrint"calling on: after mounted");
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                final model =
-                    context
-                        .read<YoutubeVideoCubit>()
-                        .state
-                        .youtubeVideoStateModel;
+                final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
                 // debugPrint"setting overlay run id: ${model.videoUrlForOverlayRun ?? ''}");
                 // debugPrint
                 //     "setting overlay run duration: ${model.lastVideoDurationForMediaBackground ?? ''}");
@@ -119,8 +109,7 @@ class _Widget extends StatelessWidget {
                     Positioned.fill(
                       child: ImageLoaderWidget(
                         url: videoModelDb?.videoThumbnailUrl ?? '',
-                        errorImageUrl:
-                            'assets/custom_images/custom_user_image.png',
+                        errorImageUrl: 'assets/custom_images/custom_user_image.png',
                         boxFit: BoxFit.cover,
                       ),
                     ),
@@ -129,12 +118,7 @@ class _Widget extends StatelessWidget {
                         bottom: 5,
                         right: 5,
                         child: Container(
-                          padding: const EdgeInsets.only(
-                            top: 3,
-                            bottom: 3,
-                            right: 8,
-                            left: 8,
-                          ),
+                          padding: const EdgeInsets.only(top: 3, bottom: 3, right: 8, left: 8),
                           decoration: BoxDecoration(
                             color: Colors.black.withValues(alpha: 0.5),
                             borderRadius: BorderRadius.circular(5),
@@ -177,20 +161,15 @@ class _Widget extends StatelessWidget {
                             height: 20,
                             child: IconButton(
                               style: const ButtonStyle(
-                                padding: WidgetStatePropertyAll(
-                                  EdgeInsets.all(0),
-                                ),
+                                padding: WidgetStatePropertyAll(EdgeInsets.all(0)),
                               ),
                               onPressed: () {
-                                ReusableGlobalWidgets.instance
-                                    .showPlaylistAddingPopup(
-                                      context: context,
-                                      videoModelDb: videoModelDb,
-                                    );
+                                ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
+                                  context: context,
+                                  videoModelDb: videoModelDb,
+                                );
                               },
-                              icon: const Center(
-                                child: Icon(Icons.more_vert, size: 20),
-                              ),
+                              icon: const Center(child: Icon(Icons.more_vert, size: 20)),
                             ),
                           ),
                         ],
@@ -209,8 +188,7 @@ class _Widget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(50),
                               child: ImageLoaderWidget(
                                 url: videoModelDb?.channelThumb ?? '',
-                                errorImageUrl:
-                                    'assets/custom_images/custom_user_image.png',
+                                errorImageUrl: 'assets/custom_images/custom_user_image.png',
                                 boxFit: BoxFit.cover,
                               ),
                             ),

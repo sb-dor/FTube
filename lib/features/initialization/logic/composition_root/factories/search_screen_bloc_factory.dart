@@ -15,12 +15,9 @@ final class SearchScreenBlocFactory implements Factory<MainSearchScreenBloc> {
 
   @override
   MainSearchScreenBloc create() {
-    final SuggestionDatasource restApiGetSuggestionText =
-        SuggestionDatasourceImpl(_youtubeDataApi);
+    final SuggestionDatasource restApiGetSuggestionText = SuggestionDatasourceImpl(_youtubeDataApi);
 
-    final SearchScreenRepo searchScreenRepo = SearchScreenRepoImpl(
-      restApiGetSuggestionText,
-    );
+    final SearchScreenRepo searchScreenRepo = SearchScreenRepoImpl(restApiGetSuggestionText);
 
     return MainSearchScreenBloc(
       screenRepo: searchScreenRepo,

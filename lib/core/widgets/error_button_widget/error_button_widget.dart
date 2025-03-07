@@ -12,11 +12,7 @@ class ErrorButtonWidget extends StatelessWidget {
         backgroundColor: const WidgetStatePropertyAll(Colors.red),
         elevation: const WidgetStatePropertyAll(3),
         side: WidgetStatePropertyAll(
-          BorderSide(
-            color: Colors.grey.shade300,
-            width: 0.5,
-            style: BorderStyle.none,
-          ),
+          BorderSide(color: Colors.grey.shade300, width: 0.5, style: BorderStyle.none),
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

@@ -2,8 +2,7 @@ import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 
 class PlaylistInnerScreenStateModel {
-  final ReusableGlobalFunctions _globalFunctions =
-      ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _globalFunctions = ReusableGlobalFunctions.instance;
 
   List<PlaylistModelDb> playlists = [];
 
@@ -11,10 +10,7 @@ class PlaylistInnerScreenStateModel {
 
   bool hasMore = true;
 
-  void addPaginate({
-    required List<PlaylistModelDb> videos,
-    bool paginate = false,
-  }) {
+  void addPaginate({required List<PlaylistModelDb> videos, bool paginate = false}) {
     if (paginate) {
       playlists.addAll(videos);
     } else {

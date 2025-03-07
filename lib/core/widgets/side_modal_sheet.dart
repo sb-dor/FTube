@@ -109,8 +109,7 @@ class SideSheet {
       topLeft: rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
       bottomLeft: rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
       topRight: !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
-      bottomRight:
-          !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
+      bottomRight: !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
     );
 
     return showGeneralDialog(
@@ -127,10 +126,7 @@ class SideSheet {
             color: Colors.transparent,
             borderRadius: borderRadius,
             child: Container(
-              decoration: BoxDecoration(
-                color: sheetColor,
-                borderRadius: borderRadius,
-              ),
+              decoration: BoxDecoration(color: sheetColor, borderRadius: borderRadius),
               height: double.infinity,
               width: width ?? MediaQuery.of(context).size.width / 1.4,
               child: body,

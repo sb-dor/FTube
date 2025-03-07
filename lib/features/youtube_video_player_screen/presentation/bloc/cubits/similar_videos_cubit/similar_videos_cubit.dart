@@ -6,19 +6,15 @@ import 'similar_videos_states.dart';
 class SimilarVideosCubit extends Cubit<SimilarVideosStates> {
   late SimilarVideoStateModel _currentState;
 
-  SimilarVideosCubit()
-    : super(LoadingSimilarVideosState(SimilarVideoStateModel())) {
+  SimilarVideosCubit() : super(LoadingSimilarVideosState(SimilarVideoStateModel())) {
     _currentState = state.similarVideoStateModel;
   }
 
-  void loadingSimilarVideosState() =>
-      emit(LoadingSimilarVideosState(_currentState));
+  void loadingSimilarVideosState() => emit(LoadingSimilarVideosState(_currentState));
 
-  void errorSimilarVideosState() =>
-      emit(ErrorSimilarVideosState(_currentState));
+  void errorSimilarVideosState() => emit(ErrorSimilarVideosState(_currentState));
 
-  void loadedSimilarVideosState() =>
-      emit(LoadedSimilarVideosState(_currentState));
+  void loadedSimilarVideosState() => emit(LoadedSimilarVideosState(_currentState));
 
   void clearAndSetLoadingState() {
     _currentState.similarVideos.clear();

@@ -65,15 +65,13 @@ class Video {
     String? tempChannelThumbnail;
     String? tempPublishedDateTime;
 
-    final channelThumbnailRenderer =
-        map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
+    final channelThumbnailRenderer = map?['videoRenderer']?['channelThumbnailSupportedRenderers'];
     if (channelThumbnailRenderer != null) {
       tempChannelThumbnail =
           channelThumbnailRenderer['channelThumbnailWithLinkRenderer']['thumbnail']['thumbnails'][0]['url'];
     }
 
-    final publishedTimeText =
-        map?['videoRenderer']?['publishedTimeText']?['simpleText'];
+    final publishedTimeText = map?['videoRenderer']?['publishedTimeText']?['simpleText'];
 
     if (publishedTimeText != null) {
       tempPublishedDateTime = publishedTimeText;
@@ -82,16 +80,11 @@ class Video {
     if (map?.containsKey("videoRenderer") ?? false) {
       //Trending and search videos
       final lengthText = map?['videoRenderer']?['lengthText'];
-      final simpleText =
-          map?['videoRenderer']?['shortViewCountText']?['simpleText'];
+      final simpleText = map?['videoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
       map?['videoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
         thumbnails!.add(
-          Thumbnail(
-            url: thumbnail['url'],
-            width: thumbnail['width'],
-            height: thumbnail['height'],
-          ),
+          Thumbnail(url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']),
         );
       });
 
@@ -99,8 +92,7 @@ class Video {
         videoId: map?['videoRenderer']?['videoId'],
         duration: (lengthText == null) ? "LIVE" : lengthText?['simpleText'],
         title: map?['videoRenderer']?['title']?['runs']?[0]?['text'],
-        channelName:
-            map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
+        channelName: map?['videoRenderer']?['longBylineText']?['runs'][0]['text'],
         thumbnails: thumbnails,
         views: simpleText ?? "LIVE",
         channelThumbnailUrl: tempChannelThumbnail,
@@ -109,15 +101,9 @@ class Video {
     } else if (map?.containsKey("compactVideoRenderer") ?? false) {
       //Related videos
       thumbnails = [];
-      map?['compactVideoRenderer']['thumbnail']['thumbnails'].forEach((
-        thumbnail,
-      ) {
+      map?['compactVideoRenderer']['thumbnail']['thumbnails'].forEach((thumbnail) {
         thumbnails!.add(
-          Thumbnail(
-            url: thumbnail['url'],
-            width: thumbnail['width'],
-            height: thumbnail['height'],
-          ),
+          Thumbnail(url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']),
         );
       });
       return Video(
@@ -125,25 +111,17 @@ class Video {
         title: map?['compactVideoRenderer']?['title']?['simpleText'],
         duration: map?['compactVideoRenderer']?['lengthText']?['simpleText'],
         thumbnails: thumbnails,
-        channelName:
-            map?['compactVideoRenderer']?['shortBylineText']?['runs']?[0]?['text'],
+        channelName: map?['compactVideoRenderer']?['shortBylineText']?['runs']?[0]?['text'],
         views: map?['compactVideoRenderer']?['viewCountText']?['simpleText'],
         channelThumbnailUrl: tempChannelThumbnail,
         publishedDateTime: tempPublishedDateTime,
       );
     } else if (map?.containsKey("gridVideoRenderer") ?? false) {
-      final String? simpleText =
-          map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
+      final String? simpleText = map?['gridVideoRenderer']?['shortViewCountText']?['simpleText'];
       thumbnails = [];
-      map?['gridVideoRenderer']?['thumbnail']?['thumbnails'].forEach((
-        thumbnail,
-      ) {
+      map?['gridVideoRenderer']?['thumbnail']?['thumbnails'].forEach((thumbnail) {
         thumbnails!.add(
-          Thumbnail(
-            url: thumbnail['url'],
-            width: thumbnail['width'],
-            height: thumbnail['height'],
-          ),
+          Thumbnail(url: thumbnail['url'], width: thumbnail['width'], height: thumbnail['height']),
         );
       });
       return Video(
@@ -167,10 +145,7 @@ class Video {
       title: json['title'],
       channelName: json['channelName'],
       views: json['views'],
-      videoData:
-          json['videoData'] == null
-              ? null
-              : VideoData.fromJson(json['videoData']),
+      videoData: json['videoData'] == null ? null : VideoData.fromJson(json['videoData']),
     );
   }
 

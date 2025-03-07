@@ -22,23 +22,15 @@ class AppRunner {
 
         Future<void> initSettings() async {
           try {
-            await Firebase.initializeApp(
-              options: DefaultFirebaseOptions.currentPlatform,
-            );
+            await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
             FlutterError.onError = (errorDetails) {
-              FirebaseCrashlytics.instance.recordFlutterFatalError(
-                errorDetails,
-              );
+              FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
             };
 
             // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
             PlatformDispatcher.instance.onError = (error, stack) {
-              FirebaseCrashlytics.instance.recordError(
-                error,
-                stack,
-                fatal: true,
-              );
+              FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
               return true;
             };
 
@@ -49,8 +41,7 @@ class AppRunner {
                   logFilter: kDebugMode ? DevelopmentFilter() : NoOpLogFilter(),
                 ).create();
 
-            final compositionResults =
-                await CompositionRoot(logger: appLogger).create();
+            final compositionResults = await CompositionRoot(logger: appLogger).create();
 
             runApp(
               BlocDependencyContainer(

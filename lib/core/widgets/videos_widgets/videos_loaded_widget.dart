@@ -39,8 +39,7 @@ class VideosLoadedWidget extends StatelessWidget {
         final video = videoList[index];
         return _MainVideoWidget(
           video: video,
-          closeScreenBeforeOpeningAnotherOne:
-              closeScreenBeforeOpeningAnotherOne,
+          closeScreenBeforeOpeningAnotherOne: closeScreenBeforeOpeningAnotherOne,
           parentContext: parentContext,
         );
       },
@@ -71,8 +70,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
   final YoutubeExplode _youtubeExplode = YoutubeExplode();
 
   // reusable functions that use in app
-  final ReusableGlobalFunctions _globalFunctions =
-      ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _globalFunctions = ReusableGlobalFunctions.instance;
 
   // temp values for changing ui and "if" statements
   bool _initializingVideoBeforeShowing = false, _videoIsInitializing = false;
@@ -99,8 +97,9 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         _videoIsInitializing = true;
 
         // get information about video
-        final informationVideo = await _youtubeExplode.videos.streamsClient
-            .getManifest(widget.video.videoId);
+        final informationVideo = await _youtubeExplode.videos.streamsClient.getManifest(
+          widget.video.videoId,
+        );
 
         // get only those videos which are recommended and will not throw any error in the future
         final videosWithSound =
@@ -132,9 +131,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     } catch (e, stackTrace) {
       // debugPrint"_initEveryController error is: $e");
       await _clearController();
-      FirebaseCrashlytics.instance.log(
-        "_initEveryController error is: $e |||||| $stackTrace",
-      );
+      FirebaseCrashlytics.instance.log("_initEveryController error is: $e |||||| $stackTrace");
     }
   }
 
@@ -180,9 +177,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
     } catch (e, stackTrace) {
       // debugPrint"_onPointerDownEvent error is: $e");
       await _clearController();
-      FirebaseCrashlytics.instance.log(
-        "_onPointerDownEvent error is: $e |||||| $stackTrace",
-      );
+      FirebaseCrashlytics.instance.log("_onPointerDownEvent error is: $e |||||| $stackTrace");
     }
   }
 
@@ -222,16 +217,13 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
         }
         if (!context.mounted) return;
         context.read<HistoryBloc>().add(AddOnHistoryEvent(video: widget.video));
-        final model =
-            context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+        final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
         await OpenVideoScreen.openVideoScreen(
           parentContext: widget.parentContext,
           context: context,
           videoId: widget.video.videoId ?? '',
           videoThumb:
-              (widget.video.thumbnails ?? []).isEmpty
-                  ? null
-                  : widget.video.thumbnails?.first.url,
+              (widget.video.thumbnails ?? []).isEmpty ? null : widget.video.thumbnails?.first.url,
           showOverlay: () {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               TopOverlayLogic.instance.showOverlay(
@@ -279,8 +271,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                         borderRadius: BorderRadius.circular(10),
                         child: ImageLoaderWidget(
                           url: widget.video.thumbnails?.last.url ?? '',
-                          errorImageUrl:
-                              'assets/custom_images/custom_user_image.png',
+                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
                           boxFit: BoxFit.cover,
                         ),
                       ),
@@ -293,12 +284,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                            top: 5,
-                            bottom: 5,
-                          ),
+                          padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
                           decoration: BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.circular(15),
@@ -336,19 +322,13 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                             ),
                           ),
                           onPressed: () {
-                            final VideoModelDb model = VideoModelDb.fromVideo(
-                              widget.video,
+                            final VideoModelDb model = VideoModelDb.fromVideo(widget.video);
+                            ReusableGlobalWidgets.instance.showPlaylistAddingPopup(
+                              context: context,
+                              videoModelDb: model,
                             );
-                            ReusableGlobalWidgets.instance
-                                .showPlaylistAddingPopup(
-                                  context: context,
-                                  videoModelDb: model,
-                                );
                           },
-                          icon: const Icon(
-                            Icons.more_horiz,
-                            color: Colors.white,
-                          ),
+                          icon: const Icon(Icons.more_horiz, color: Colors.white),
                         ),
                       ],
                     ),
@@ -365,13 +345,9 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                           const SizedBox(
                             width: 15,
                             height: 15,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Colors.white,
-                            ),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                           )
-                        else if ((_videoPlayerController?.value.isInitialized ??
-                                false) &&
+                        else if ((_videoPlayerController?.value.isInitialized ?? false) &&
                             (_videoPlayerController?.value.isPlaying ?? false))
                           Column(
                             children: [
@@ -401,9 +377,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                 borderRadius: BorderRadius.circular(50),
                                 child: InkWell(
                                   onTap: () {
-                                    if ((_videoPlayerController?.value.volume ??
-                                            0.0) ==
-                                        1) {
+                                    if ((_videoPlayerController?.value.volume ?? 0.0) == 1) {
                                       _videoPlayerController?.setVolume(0.0);
                                     } else {
                                       _videoPlayerController?.setVolume(1.0);
@@ -415,8 +389,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                                     padding: const EdgeInsets.all(8),
                                     child: Center(
                                       child: Icon(
-                                        _videoPlayerController?.value.volume ==
-                                                1
+                                        _videoPlayerController?.value.volume == 1
                                             ? Icons.volume_down_sharp
                                             : Icons.volume_up_sharp,
                                         color: Colors.white,
@@ -432,12 +405,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                           const SizedBox(),
                         if (currentVideoGoingDuration != null)
                           Container(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              top: 1,
-                              bottom: 1,
-                            ),
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(3),
@@ -450,12 +418,7 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                           )
                         else if ((widget.video.duration ?? '').isNotEmpty)
                           Container(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                              top: 1,
-                              bottom: 1,
-                            ),
+                            padding: const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
                             decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(3),
@@ -503,18 +466,14 @@ class _MainVideoWidgetState extends State<_MainVideoWidget> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.shade400,
-                          width: 0.5,
-                        ),
+                        border: Border.all(color: Colors.grey.shade400, width: 0.5),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
                         child: ImageLoaderWidget(
                           url: widget.video.channelThumbnailUrl ?? '',
-                          errorImageUrl:
-                              'assets/custom_images/custom_user_image.png',
+                          errorImageUrl: 'assets/custom_images/custom_user_image.png',
                         ),
                       ),
                     ),

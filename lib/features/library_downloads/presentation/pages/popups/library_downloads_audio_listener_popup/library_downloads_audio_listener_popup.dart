@@ -14,18 +14,14 @@ import 'package:youtube/core/widgets/text_widget.dart';
 class LibraryDownloadsAudioListenerPopup extends StatefulWidget {
   final BaseDownloadedFileModel? baseDownloadedFileModel;
 
-  const LibraryDownloadsAudioListenerPopup({
-    super.key,
-    required this.baseDownloadedFileModel,
-  });
+  const LibraryDownloadsAudioListenerPopup({super.key, required this.baseDownloadedFileModel});
 
   @override
   State<LibraryDownloadsAudioListenerPopup> createState() =>
       _LibraryDownloadsAudioListenerPopupState();
 }
 
-class _LibraryDownloadsAudioListenerPopupState
-    extends State<LibraryDownloadsAudioListenerPopup>
+class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAudioListenerPopup>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final _durationHelper = DurationHelper();
   final _globalFunctions = ReusableGlobalFunctions.instance;
@@ -38,10 +34,7 @@ class _LibraryDownloadsAudioListenerPopupState
 
   Duration _positionDuration = const Duration(seconds: 0);
 
-  bool _paused = false,
-      _isVideo = false,
-      _isShowingVideo = false,
-      _backgroundAudioLoaded = false;
+  bool _paused = false, _isVideo = false, _isShowingVideo = false, _backgroundAudioLoaded = false;
 
   late MediaItem mediaItem;
 
@@ -49,9 +42,7 @@ class _LibraryDownloadsAudioListenerPopupState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _isVideo =
-        _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) ==
-        'mp4';
+    _isVideo = _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) == 'mp4';
     mediaItem = MediaItem(
       id: widget.baseDownloadedFileModel?.downloadedPath ?? '',
       title: widget.baseDownloadedFileModel?.name ?? '',
@@ -115,8 +106,7 @@ class _LibraryDownloadsAudioListenerPopupState
   }
 
   void _durationVideoListener() async {
-    _positionDuration =
-        await _videoController?.position ?? const Duration(seconds: 0);
+    _positionDuration = await _videoController?.position ?? const Duration(seconds: 0);
     setState(() {});
   }
 
@@ -184,19 +174,14 @@ class _LibraryDownloadsAudioListenerPopupState
 
         final audioService = JustAudioBackgroundHelper.instance;
 
-        audioService.setNewAudioSources(
-          localFilesPaths: [mediaItem],
-          duration: _positionDuration,
-        );
+        audioService.setNewAudioSources(localFilesPaths: [mediaItem], duration: _positionDuration);
       }
     } else if (state == AppLifecycleState.resumed) {
       //
 
       if (_isVideo) {
         final audioHandler = JustAudioBackgroundHelper.instance;
-        await _videoController?.seekTo(
-          audioHandler.lastSavedDuration ?? Duration.zero,
-        );
+        await _videoController?.seekTo(audioHandler.lastSavedDuration ?? Duration.zero);
         await audioHandler.stopPlayer();
         _backgroundAudioLoaded = false;
       }
@@ -226,27 +211,19 @@ class _LibraryDownloadsAudioListenerPopupState
                   ),
                   child: Column(
                     children: [
-                      if (_isVideo &&
-                          _videoController != null &&
-                          _isShowingVideo)
+                      if (_isVideo && _videoController != null && _isShowingVideo)
                         Column(
                           children: [
                             const SizedBox(height: 10),
 
                             Padding(
-                              padding: const EdgeInsets.only(
-                                left: 10,
-                                right: 10,
-                              ),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: FittedBox(
                                   fit:
                                       _videoController!.value.size.width >=
-                                              _videoController!
-                                                  .value
-                                                  .size
-                                                  .height
+                                              _videoController!.value.size.height
                                           ? BoxFit.cover
                                           : BoxFit.scaleDown,
                                   child: SizedBox(
@@ -300,11 +277,7 @@ class _LibraryDownloadsAudioListenerPopupState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TextWidget(
-                              text: _durationHelper.getFromDuration(
-                                _positionDuration,
-                              ),
-                            ),
+                            TextWidget(text: _durationHelper.getFromDuration(_positionDuration)),
                             IconButton(
                               constraints: const BoxConstraints(),
                               padding: const EdgeInsets.all(0),
@@ -315,16 +288,9 @@ class _LibraryDownloadsAudioListenerPopupState
                                   _stop();
                                 }
                               },
-                              icon: Icon(
-                                _paused ? Icons.play_arrow : Icons.stop,
-                                size: 35,
-                              ),
+                              icon: Icon(_paused ? Icons.play_arrow : Icons.stop, size: 35),
                             ),
-                            TextWidget(
-                              text: _durationHelper.getFromDuration(
-                                _totalDuration,
-                              ),
-                            ),
+                            TextWidget(text: _durationHelper.getFromDuration(_totalDuration)),
                           ],
                         ),
                       ),

@@ -17,10 +17,7 @@ class VideoSettingsButton extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: Colors.white,
-            ),
+            icon: const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.white),
           ),
           IconButton(
             onPressed: () {

@@ -37,8 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _refresh();
 
     _scrollController.addListener(() {
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         // debugPrint"last");
         context.read<MainHomeScreenBloc>().add(PaginateHomeScreenEvent());
       }
@@ -57,35 +56,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _refresh({VideoCategory? videoCategory, bool refresh = false}) {
     final isLoadedHomeScreenVideos =
-        BlocProvider.of<HomeScreenVideosCubit>(context).state
-            is LoadedHomeScreenVideosState;
+        BlocProvider.of<HomeScreenVideosCubit>(context).state is LoadedHomeScreenVideosState;
     final isErrorVideoCategoryState =
-        BlocProvider.of<MainVideoCategoryCubit>(context).state
-            is ErrorVideoCategoryState;
+        BlocProvider.of<MainVideoCategoryCubit>(context).state is ErrorVideoCategoryState;
     context.read<MainHomeScreenBloc>().add(
       RefreshHomeScreenEvent(
         videoCategory: videoCategory,
         refresh: refresh,
         scrollController: _scrollController,
-        showBottomNavbar:
-            () => context.read<HomePageBottomNavbarCubit>().showBottomNavbar(),
+        showBottomNavbar: () => context.read<HomePageBottomNavbarCubit>().showBottomNavbar(),
         loadingHomeScreenVideosState:
-            () =>
-                context
-                    .read<HomeScreenVideosCubit>()
-                    .loadingHomeScreenVideosState(),
+            () => context.read<HomeScreenVideosCubit>().loadingHomeScreenVideosState(),
         errorHomeScreenVideosState:
-            () =>
-                context
-                    .read<HomeScreenVideosCubit>()
-                    .errorHomeScreenVideosState(),
+            () => context.read<HomeScreenVideosCubit>().errorHomeScreenVideosState(),
         loadedHomeScreenVideosState:
-            () =>
-                context
-                    .read<HomeScreenVideosCubit>()
-                    .loadedHomeScreenVideosState(),
-        loadVideoCategory:
-            () => context.read<MainVideoCategoryCubit>().loadVideoCategory(),
+            () => context.read<HomeScreenVideosCubit>().loadedHomeScreenVideosState(),
+        loadVideoCategory: () => context.read<MainVideoCategoryCubit>().loadVideoCategory(),
         isLoadedHomeScreenVideos: isLoadedHomeScreenVideos,
         isErrorVideoCategoryState: isErrorVideoCategoryState,
       ),
@@ -97,18 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Builder(
       builder: (context) {
         final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
-        final videoCategoryState =
-            context.watch<MainVideoCategoryCubit>().state;
-        final homeScreenVideosState =
-            context.watch<HomeScreenVideosCubit>().state;
-        final mainScreenOverlayCubit =
-            context.watch<MainScreenOverlayInfoFeatureCubit>().state;
+        final videoCategoryState = context.watch<MainVideoCategoryCubit>().state;
+        final homeScreenVideosState = context.watch<HomeScreenVideosCubit>().state;
+        final mainScreenOverlayCubit = context.watch<MainScreenOverlayInfoFeatureCubit>().state;
 
         //data
-        final mainHomeScreenStateModel =
-            mainHomeScreenState.homeScreenStateModel;
-        final mainScreenOverlayStateModel =
-            mainScreenOverlayCubit.mainScreenOverlayStateModel;
+        final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
+        final mainScreenOverlayStateModel = mainScreenOverlayCubit.mainScreenOverlayStateModel;
         // debugPrint"is here working on scroll | $videoCategoryState");
         return PIPView(
           builder: (context, isFloating) {
@@ -130,14 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: NotificationListener<UserScrollNotification>(
                     onNotification: (notification) {
                       if (notification.direction == ScrollDirection.forward) {
-                        context
-                            .read<HomePageBottomNavbarCubit>()
-                            .showBottomNavbar();
-                      } else if (notification.direction ==
-                          ScrollDirection.reverse) {
-                        context
-                            .read<HomePageBottomNavbarCubit>()
-                            .hideBottomNavbar();
+                        context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
+                      } else if (notification.direction == ScrollDirection.reverse) {
+                        context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
                       }
                       return true;
                     },
@@ -145,9 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.red,
                       onRefresh: () async {
                         if (videoCategoryState is ErrorVideoCategoryState) {
-                          context
-                              .read<MainVideoCategoryCubit>()
-                              .loadVideoCategory();
+                          context.read<MainVideoCategoryCubit>().loadVideoCategory();
                         }
 
                         _refresh(refresh: true);
@@ -161,19 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         children: [
                           //
-                          if (homeScreenVideosState
-                              is LoadingHomeScreenVideosState)
+                          if (homeScreenVideosState is LoadingHomeScreenVideosState)
                             const VideosLoadingWidget()
-                          else if (homeScreenVideosState
-                                  is ErrorHomeScreenVideosState ||
+                          else if (homeScreenVideosState is ErrorHomeScreenVideosState ||
                               videoCategoryState is ErrorVideoCategoryState)
                             VideosErrorWidget(
                               onTap: () {
-                                if (videoCategoryState
-                                    is ErrorVideoCategoryState) {
-                                  context
-                                      .read<MainVideoCategoryCubit>()
-                                      .loadVideoCategory();
+                                if (videoCategoryState is ErrorVideoCategoryState) {
+                                  context.read<MainVideoCategoryCubit>().loadVideoCategory();
                                 }
 
                                 _refresh(refresh: true);
@@ -185,17 +154,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               parentContext: context,
                             ),
                           const SizedBox(height: 5),
-                          if (homeScreenVideosState
-                                  is LoadedHomeScreenVideosState &&
+                          if (homeScreenVideosState is LoadedHomeScreenVideosState &&
                               mainHomeScreenStateModel.hasMore)
                             const Center(
                               child: SizedBox(
                                 width: 20,
                                 height: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                  strokeWidth: 2,
-                                ),
+                                child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2),
                               ),
                             ),
                           const SizedBox(height: 15),

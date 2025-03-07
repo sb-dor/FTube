@@ -8,8 +8,7 @@ import 'package:youtube/core/utils/constants.dart';
 class ReusableGlobalFunctions {
   static ReusableGlobalFunctions? _instance;
 
-  static ReusableGlobalFunctions get instance =>
-      _instance ??= ReusableGlobalFunctions._();
+  static ReusableGlobalFunctions get instance => _instance ??= ReusableGlobalFunctions._();
 
   ReusableGlobalFunctions._();
 
@@ -49,22 +48,16 @@ class ReusableGlobalFunctions {
     final reg2 = RegExp("mime=audio%2F3gpp");
     final reg3 = RegExp("mime=audio%2Fwebm");
     final reg4 = RegExp('gir=yes');
-    return ((reg.hasMatch(value) ||
-            reg2.hasMatch(value) ||
-            reg3.hasMatch(value)) &&
+    return ((reg.hasMatch(value) || reg2.hasMatch(value) || reg3.hasMatch(value)) &&
         reg4.hasMatch(value));
   }
 
   String generateRandomString({int length = 10}) {
     final random = Random();
-    const characters =
-        '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     return String.fromCharCodes(
-      List.generate(
-        length,
-        (index) => characters.codeUnitAt(random.nextInt(characters.length)),
-      ),
+      List.generate(length, (index) => characters.codeUnitAt(random.nextInt(characters.length))),
     );
   }
 

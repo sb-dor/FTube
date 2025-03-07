@@ -29,11 +29,7 @@ class BlocDependencyContainer extends StatelessWidget {
   final CompositionResult compositionResult;
   final Widget child;
 
-  const BlocDependencyContainer({
-    super.key,
-    required this.compositionResult,
-    required this.child,
-  });
+  const BlocDependencyContainer({super.key, required this.compositionResult, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +64,8 @@ class BlocDependencyContainer extends StatelessWidget {
           create:
               (_) => YoutubeVideoCubit(
                 dbFloor: compositionResult.dependencyContainer.dbFloor,
-                youtubeDataApi:
-                    compositionResult.dependencyContainer.youtubeDataApi,
-                permission:
-                    compositionResult.dependencyContainer.storagePermissions,
+                youtubeDataApi: compositionResult.dependencyContainer.youtubeDataApi,
+                permission: compositionResult.dependencyContainer.storagePermissions,
               ),
         ),
         BlocProvider(create: (_) => VideoInformationCubit()),
@@ -93,18 +87,11 @@ class BlocDependencyContainer extends StatelessWidget {
 
         // library screen bloc
         BlocProvider(
-          create:
-              (_) =>
-                  HistoryBlocFactory(
-                    compositionResult.dependencyContainer.dbFloor,
-                  ).create(),
+          create: (_) => HistoryBlocFactory(compositionResult.dependencyContainer.dbFloor).create(),
         ),
         BlocProvider(
           create:
-              (_) =>
-                  PlaylistBlocFactory(
-                    compositionResult.dependencyContainer.dbFloor,
-                  ).create(),
+              (_) => PlaylistBlocFactory(compositionResult.dependencyContainer.dbFloor).create(),
         ),
         BlocProvider(
           create:
@@ -141,8 +128,7 @@ class BlocDependencyContainer extends StatelessWidget {
           create:
               (_) =>
                   TrendingScreenBlocFactory(
-                    youtubeDataApi:
-                        compositionResult.dependencyContainer.youtubeDataApi,
+                    youtubeDataApi: compositionResult.dependencyContainer.youtubeDataApi,
                   ).create(),
         ),
         //

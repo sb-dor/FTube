@@ -11,10 +11,7 @@ class MainScreenExplanationOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<
-      MainScreenOverlayInfoFeatureCubit,
-      MainScreenOverlayInfoFeatureState
-    >(
+    return BlocBuilder<MainScreenOverlayInfoFeatureCubit, MainScreenOverlayInfoFeatureState>(
       builder: (context, state) {
         final currentState = state.mainScreenOverlayStateModel;
         return DefaultTextStyle(
@@ -46,15 +43,9 @@ class _SquareWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:
-          () =>
-              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
-      onLongPressDown:
-          (_) =>
-              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
-      onVerticalDragDown:
-          (_) =>
-              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onTap: () => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onLongPressDown: (_) => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onVerticalDragDown: (_) => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
       child: Container(
         height: 180,
         width: (MediaQuery.of(context).size.width / 4.3) * 2,
@@ -110,10 +101,7 @@ class _SquareInfoWidget extends StatelessWidget {
                 duration: const Duration(seconds: 1),
                 child: ElevatedButton(
                   onPressed:
-                      () =>
-                          context
-                              .read<MainScreenOverlayInfoFeatureCubit>()
-                              .removeOverlay(),
+                      () => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
                   child: const Text("Close"),
                 ),
               ),

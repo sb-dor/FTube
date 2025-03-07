@@ -12,21 +12,11 @@ class ChannelData {
   factory ChannelData.fromMap(Map<String, dynamic> map) {
     final headers = map.get('header');
     final String? subscribers =
-        headers
-            ?.get('c4TabbedHeaderRenderer')
-            ?.get('subscriberCountText')?['simpleText'];
-    final thumbnails = headers
-        ?.get('c4TabbedHeaderRenderer')
-        ?.get('avatar')
-        ?.getList('thumbnails');
-    final String avatar =
-        thumbnails?.elementAtSafe(thumbnails.length - 1)?['url'];
+        headers?.get('c4TabbedHeaderRenderer')?.get('subscriberCountText')?['simpleText'];
+    final thumbnails = headers?.get('c4TabbedHeaderRenderer')?.get('avatar')?.getList('thumbnails');
+    final String avatar = thumbnails?.elementAtSafe(thumbnails.length - 1)?['url'];
     final String? banner =
-        headers
-            ?.get('c4TabbedHeaderRenderer')
-            ?.get('banner')
-            ?.getList('thumbnails')
-            ?.first['url'];
+        headers?.get('c4TabbedHeaderRenderer')?.get('banner')?.getList('thumbnails')?.first['url'];
     final contents = map
         .get('contents')
         ?.get('twoColumnBrowseResultsRenderer')

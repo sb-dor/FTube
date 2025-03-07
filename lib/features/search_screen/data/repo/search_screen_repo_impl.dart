@@ -16,18 +16,11 @@ class SearchScreenRepoImpl implements SearchScreenRepo {
     required String q,
     bool refresh = false,
     String? orderBy,
-  }) => _suggestionDatasource.getSearchVideo(
-    q: q,
-    refresh: refresh,
-    orderBy: orderBy,
-  );
+  }) => _suggestionDatasource.getSearchVideo(q: q, refresh: refresh, orderBy: orderBy);
 
   @override
   Future<Map<String, dynamic>> getVideoInfo({
     required TypeContent videoContent,
     required String? videoId,
-  }) => _suggestionDatasource.getVideoInfo(
-    videoContent: videoContent,
-    videoId: videoId,
-  );
+  }) => _suggestionDatasource.getVideoInfo(videoContent: videoContent, videoId: videoId);
 }

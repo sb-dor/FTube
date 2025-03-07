@@ -4,20 +4,14 @@ import 'package:youtube/core/widgets/side_modal_sheet.dart';
 import 'package:youtube/core/widgets/wrapped_popup_widget.dart';
 
 abstract class OpenChangeQualityVideoPopup {
-  static void openChangeQualityPopUp(
-    BuildContext context, {
-    bool fromFullScreen = false,
-  }) async {
+  static void openChangeQualityPopUp(BuildContext context, {bool fromFullScreen = false}) async {
     if (fromFullScreen) {
       await SideSheet.left(
         width: MediaQuery.of(context).size.width / 2.5,
         body: Container(
           color: Colors.transparent,
           padding: const EdgeInsets.symmetric(vertical: 50),
-          child: const RotatedBox(
-            quarterTurns: 1,
-            child: ChangeQualityVideoPopup(),
-          ),
+          child: const RotatedBox(quarterTurns: 1, child: ChangeQualityVideoPopup()),
         ),
         context: context,
       );

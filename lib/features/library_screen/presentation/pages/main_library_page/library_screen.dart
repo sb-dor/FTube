@@ -62,10 +62,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                     historyStateModel.videos.isEmpty)
                   const SizedBox()
                 else
-                  LoadedHistoryWidget(
-                    videos: historyStateModel.videos,
-                    parentContext: context,
-                  ),
+                  LoadedHistoryWidget(videos: historyStateModel.videos, parentContext: context),
 
                 //
                 if (playlistBloc.state is LoadedPlaylistsState)
@@ -77,9 +74,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                         onButtonTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const PlaylistInnerScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => const PlaylistInnerScreen()),
                           );
                         },
                         showAdd: true,
@@ -106,9 +101,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 else
                   Column(
                     children: [
-                      LoadedPlaylistWidget(
-                        playlist: playlistStateModel.playlist,
-                      ),
+                      LoadedPlaylistWidget(playlist: playlistStateModel.playlist),
                       const SizedBox(height: 30),
                     ],
                   ),

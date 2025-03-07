@@ -21,10 +21,7 @@ final class SaveInPlaylistEvent extends PlaylistsEvent {
   BaseVideoModelDb? videoModelDb;
   PlaylistModelDb? playlistModelDb;
 
-  SaveInPlaylistEvent({
-    required this.videoModelDb,
-    required this.playlistModelDb,
-  });
+  SaveInPlaylistEvent({required this.videoModelDb, required this.playlistModelDb});
 }
 
 final class SelectTempPlaylist extends PlaylistsEvent {

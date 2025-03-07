@@ -11,9 +11,7 @@ class CheckVideoInFavorites {
     required YoutubeVideoStateModel stateModel,
     required Function(YoutubeVideoStates) emit,
   }) async {
-    final data = await _dbFloor.likeDao.getLikedVideo(
-      stateModel.tempVideoId ?? '',
-    );
+    final data = await _dbFloor.likeDao.getLikedVideo(stateModel.tempVideoId ?? '');
     if (data != null) {
       stateModel.isVideoAddedToFavorites = true;
     } else {

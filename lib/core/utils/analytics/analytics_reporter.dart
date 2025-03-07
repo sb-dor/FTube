@@ -29,10 +29,8 @@ abstract base class AnalyticsReporter {
 final class FirebaseAnalyticsReporter extends AnalyticsReporter {
   final FirebaseAnalytics _analytics;
 
-  FirebaseAnalyticsReporter({
-    required FirebaseAnalytics analytics,
-    super.interceptors,
-  }) : _analytics = analytics;
+  FirebaseAnalyticsReporter({required FirebaseAnalytics analytics, super.interceptors})
+    : _analytics = analytics;
 
   @override
   Future<void> _report(String eventName, Map<String, Object> parameters) async {

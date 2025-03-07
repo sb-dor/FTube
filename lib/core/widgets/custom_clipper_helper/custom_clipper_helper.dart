@@ -5,10 +5,7 @@ class _CustomShadowPainterWithClipper extends CustomPainter {
   CustomClipper<Path> clipper;
   Shadow shadow;
 
-  _CustomShadowPainterWithClipper({
-    required this.shadow,
-    required this.clipper,
-  });
+  _CustomShadowPainterWithClipper({required this.shadow, required this.clipper});
 
   @override
   void paint(Canvas canvas, Size size) {

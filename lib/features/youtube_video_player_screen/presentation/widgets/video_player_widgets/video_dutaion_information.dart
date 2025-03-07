@@ -67,9 +67,7 @@ class VideoDurationInformation extends StatelessWidget {
                     ),
                     IconButton(
                       style: ButtonStyle(
-                        overlayColor: WidgetStatePropertyAll(
-                          Colors.white.withValues(alpha: 0.3),
-                        ),
+                        overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.3)),
                       ),
                       onPressed: () async {
                         if (fullScreen) {
@@ -84,8 +82,7 @@ class VideoDurationInformation extends StatelessWidget {
                             ),
                           );
 
-                          if ((currentState.playerController?.value.isPlaying ??
-                              false)) {
+                          if ((currentState.playerController?.value.isPlaying ?? false)) {
                             animationController.reset();
                           } else {
                             animationController.forward();
@@ -94,11 +91,7 @@ class VideoDurationInformation extends StatelessWidget {
                           Navigator.pop(context);
                         }
                       },
-                      icon: const Icon(
-                        Icons.fullscreen,
-                        size: 28,
-                        color: Colors.white,
-                      ),
+                      icon: const Icon(Icons.fullscreen, size: 28, color: Colors.white),
                     ),
                   ],
                 ),

@@ -20,13 +20,7 @@ abstract class Versions {
 
 @Database(
   version: Versions.currentVersion,
-  entities: [
-    VideoModelDb,
-    PlaylistModelDb,
-    PlaylistVideosModelDb,
-    LikeModelDb,
-    FileDownloadModel,
-  ],
+  entities: [VideoModelDb, PlaylistModelDb, PlaylistVideosModelDb, LikeModelDb, FileDownloadModel],
 )
 abstract class DbFloor extends FloorDatabase {
   VideoModelDbDao get videoDbDao;

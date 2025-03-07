@@ -22,11 +22,7 @@ class TopOverlayFeature extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => TopOverlayFeatureBloc(),
-      child: _TopOverlayFeatureUI(
-        overlayEntry: overlayEntry,
-        videoId: videoId,
-        position: position,
-      ),
+      child: _TopOverlayFeatureUI(overlayEntry: overlayEntry, videoId: videoId, position: position),
     );
   }
 }
@@ -133,11 +129,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                       ? SizedBox.expand(
                                         child: FittedBox(
                                           fit:
-                                              currentState
-                                                          .playerController!
-                                                          .value
-                                                          .size
-                                                          .width >=
+                                              currentState.playerController!.value.size.width >=
                                                       currentState
                                                           .playerController!
                                                           .value
@@ -146,21 +138,10 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                                   ? BoxFit.cover
                                                   : BoxFit.scaleDown,
                                           child: SizedBox(
-                                            width:
-                                                currentState
-                                                    .playerController!
-                                                    .value
-                                                    .size
-                                                    .width,
+                                            width: currentState.playerController!.value.size.width,
                                             height:
-                                                currentState
-                                                    .playerController!
-                                                    .value
-                                                    .size
-                                                    .height,
-                                            child: VideoPlayer(
-                                              currentState.playerController!,
-                                            ),
+                                                currentState.playerController!.value.size.height,
+                                            child: VideoPlayer(currentState.playerController!),
                                           ),
                                         ),
                                       )
@@ -194,9 +175,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                     width: 40,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.5,
-                                      ),
+                                      color: Colors.black.withValues(alpha: 0.5),
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     child: Padding(
@@ -204,15 +183,13 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                       child: InkWell(
                                         borderRadius: BorderRadius.circular(50),
                                         onTap: () {
-                                          context
-                                              .read<TopOverlayFeatureBloc>()
-                                              .add(PlayAndPauseVideoEvent());
+                                          context.read<TopOverlayFeatureBloc>().add(
+                                            PlayAndPauseVideoEvent(),
+                                          );
                                         },
                                         child: Center(
                                           child: Icon(
-                                            currentState.isPlaying
-                                                ? Icons.stop
-                                                : Icons.play_arrow,
+                                            currentState.isPlaying ? Icons.stop : Icons.play_arrow,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -235,9 +212,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                 color: Colors.black.withValues(alpha: 0.5),
                                 borderRadius: BorderRadius.circular(50),
                               ),
-                              child: const Center(
-                                child: Icon(Icons.close, color: Colors.white),
-                              ),
+                              child: const Center(child: Icon(Icons.close, color: Colors.white)),
                             ),
                           ),
                       ],

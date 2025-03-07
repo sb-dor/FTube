@@ -29,10 +29,7 @@ class SearchingBodyScreen extends StatelessWidget {
         return GestureDetector(
           onTap:
               () => context.read<MainSearchScreenBloc>().add(
-                ClickOnAlreadySearchedValueEvent(
-                  value: value,
-                  functionsHolder: functionsHolder,
-                ),
+                ClickOnAlreadySearchedValueEvent(value: value, functionsHolder: functionsHolder),
               ),
           child: Container(
             color: Colors.transparent,
@@ -49,13 +46,10 @@ class SearchingBodyScreen extends StatelessWidget {
                       constraints: const BoxConstraints(),
                       padding: const EdgeInsets.all(2),
                       onPressed: () {
-                        context.read<MainSearchScreenBloc>().add(
-                          DeleteSearchedItemEvent(value),
-                        );
+                        context.read<MainSearchScreenBloc>().add(DeleteSearchedItemEvent(value));
                       },
                       style: const ButtonStyle(
-                        tapTargetSize:
-                            MaterialTapTargetSize.shrinkWrap, // the '2023' part
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
                       ),
                       icon: const Icon(Icons.delete),
                     ),

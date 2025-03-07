@@ -25,10 +25,7 @@ class Video {
       snippet:
           json['snippet'] == null
               ? null
-              : VideoSnippet.fromJson(
-                json['snippet'],
-                videoId: tempId?.videoID,
-              ),
+              : VideoSnippet.fromJson(json['snippet'], videoId: tempId?.videoID),
     );
   }
 }

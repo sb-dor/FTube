@@ -8,11 +8,6 @@ class HistoryInnerScreenRepositoryImpl implements HistoryInnerScreenRepository {
   HistoryInnerScreenRepositoryImpl(this._historyInnerScreenDataSource);
 
   @override
-  Future<List<BaseVideoModelDb>> getHistory({
-    int page = 1,
-    int currentListLength = 0,
-  }) => _historyInnerScreenDataSource.getHistory(
-    page: page,
-    currentListLength: currentListLength,
-  );
+  Future<List<BaseVideoModelDb>> getHistory({int page = 1, int currentListLength = 0}) =>
+      _historyInnerScreenDataSource.getHistory(page: page, currentListLength: currentListLength);
 }

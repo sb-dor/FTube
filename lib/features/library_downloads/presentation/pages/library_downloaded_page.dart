@@ -28,21 +28,15 @@ class _LibraryDownloadedPageState extends State<LibraryDownloadedPage> {
 
         // data
 
-        final libraryDownloadsStateModel =
-            libraryDownloadsBloc.state.libraryDownloadsStateModel;
+        final libraryDownloadsStateModel = libraryDownloadsBloc.state.libraryDownloadsStateModel;
 
         return Scaffold(
-          appBar: AppBar(
-            scrolledUnderElevation: 0,
-            title: const Text("In-App downloads"),
-          ),
+          appBar: AppBar(scrolledUnderElevation: 0, title: const Text("In-App downloads")),
           body: ListView(
             padding: const EdgeInsets.only(left: 10, right: 10),
             children: [
               if (libraryDownloadsBloc.state is LibraryDownloadsLoadedState)
-                DownloadedFileLoadedWidget(
-                  downloadedFiles: libraryDownloadsStateModel.files,
-                ),
+                DownloadedFileLoadedWidget(downloadedFiles: libraryDownloadsStateModel.files),
               const SizedBox(height: 10),
             ],
           ),

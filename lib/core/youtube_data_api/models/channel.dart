@@ -13,19 +13,12 @@ class Channel {
 
   String? subsCount;
 
-  Channel({
-    this.channelId,
-    this.title,
-    this.thumbnail,
-    this.videoCount,
-    this.subsCount,
-  });
+  Channel({this.channelId, this.title, this.thumbnail, this.videoCount, this.subsCount});
 
   factory Channel.fromMap(Map<String, dynamic>? map) {
     String? videoCount;
     if (map?['channelRenderer']?['videoCountText']?['runs'] != null) {
-      videoCount =
-          map?['channelRenderer']?['videoCountText']?['runs']?[0]?['text'];
+      videoCount = map?['channelRenderer']?['videoCountText']?['runs']?[0]?['text'];
     }
     String? subCount;
     if (map?['channelRenderer']?['videoCountText']?['accessibility']?['accessibilityData']?['simpleText'] !=
@@ -35,8 +28,7 @@ class Channel {
     }
     return Channel(
       channelId: map?['channelRenderer']?['channelId'],
-      thumbnail:
-          map?['channelRenderer']?['thumbnail']?['thumbnails']?[0]?['url'],
+      thumbnail: map?['channelRenderer']?['thumbnail']?['thumbnails']?[0]?['url'],
       title: map?['channelRenderer']?['title']?['simpleText'],
       videoCount: videoCount,
       subsCount: subCount,

@@ -44,9 +44,7 @@ class GetDownloadedFilesSourceImpl
         }
       } else {
         // If not on iOS, check if the file exists in the external storage
-        if (!(dataFromStorage ?? []).any(
-          (el) => el.path == dataFromDb[i].downloadedPath,
-        )) {
+        if (!(dataFromStorage ?? []).any((el) => el.path == dataFromDb[i].downloadedPath)) {
           // If the file doesn't exist, remove it from the database list
           dataFromDb.removeAt(i);
 

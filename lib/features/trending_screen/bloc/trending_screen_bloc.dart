@@ -14,8 +14,7 @@ part 'trending_screen_event.dart';
 
 part 'trending_screen_state.dart';
 
-class TrendingScreenBloc
-    extends Bloc<TrendingScreenEvent, TrendingScreenState> {
+class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> {
   late final TrendingStateModel _currentState;
   final TrendsRepository _trendsRepository;
 
@@ -67,13 +66,8 @@ class TrendingScreenBloc
     }
   }
 
-  Future<void> _getInfoFromIsolate(
-    List<Video> videos,
-    Emitter<TrendingScreenState> emit,
-  ) async {
-    final Map<String, dynamic> toIsolateData = {
-      "list": videos.map((e) => e.toJson()).toList(),
-    };
+  Future<void> _getInfoFromIsolate(List<Video> videos, Emitter<TrendingScreenState> emit) async {
+    final Map<String, dynamic> toIsolateData = {"list": videos.map((e) => e.toJson()).toList()};
 
     final jsonToString = jsonEncode(toIsolateData);
 
@@ -105,8 +99,7 @@ class TrendingScreenBloc
     final isolateRp = ReceivePort();
     sendPort.send(isolateRp.sendPort);
 
-    final message =
-        isolateRp.takeWhile((element) => element is String).cast<String>();
+    final message = isolateRp.takeWhile((element) => element is String).cast<String>();
 
     await for (final each in message) {
       final Map<String, dynamic> json = jsonDecode(each);
@@ -115,16 +108,14 @@ class TrendingScreenBloc
 
       if (json.containsKey('list')) list = json['list'];
 
-      final List<Video> isolateVideos =
-          list.map((e) => Video.fromIsolate(e)).toList();
+      final List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
 
       final YoutubeDataApi youtubeDataApi = YoutubeDataApi();
 
       await Future.wait(
         isolateVideos.map(
-          (e) => e
-              .getVideoData(youtubeDataApi)
-              .then((value) => sendPort.send(e.videoData?.toJson())),
+          (e) =>
+              e.getVideoData(youtubeDataApi).then((value) => sendPort.send(e.videoData?.toJson())),
         ),
       );
     }

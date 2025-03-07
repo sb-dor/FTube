@@ -4,11 +4,9 @@ import 'package:youtube/features/library_inner_screens/data/data_source/playlist
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_videos_inner_screen_data_source/playlist_videos_inner_screen_data_source.dart';
 import 'package:youtube/features/library_inner_screens/domain/repository/playlist_inner_screen_repository.dart';
 
-class PlaylistInnerScreenRepositoryImpl
-    implements PlaylistInnerScreenRepository {
+class PlaylistInnerScreenRepositoryImpl implements PlaylistInnerScreenRepository {
   final PlaylistInnerScreenDataSource _playlistInnerScreenDataSource;
-  final PlaylistVideosInnerScreenDataSource
-  _playlistVideosInnerScreenDataSource;
+  final PlaylistVideosInnerScreenDataSource _playlistVideosInnerScreenDataSource;
 
   PlaylistInnerScreenRepositoryImpl(
     this._playlistInnerScreenDataSource,
@@ -16,13 +14,8 @@ class PlaylistInnerScreenRepositoryImpl
   );
 
   @override
-  Future<List<PlaylistModelDb>> getPlaylists({
-    int page = 1,
-    int currentListLength = 0,
-  }) => _playlistInnerScreenDataSource.getPlaylists(
-    page: page,
-    currentListLength: currentListLength,
-  );
+  Future<List<PlaylistModelDb>> getPlaylists({int page = 1, int currentListLength = 0}) =>
+      _playlistInnerScreenDataSource.getPlaylists(page: page, currentListLength: currentListLength);
 
   @override
   Future<List<BaseVideoModelDb>> getPlaylistVideos({
@@ -36,13 +29,11 @@ class PlaylistInnerScreenRepositoryImpl
   );
 
   @override
-  Future<List<BaseVideoModelDb>> getLikedVideos({
-    int page = 1,
-    int currentListLength = 0,
-  }) => _playlistVideosInnerScreenDataSource.getLikedVideos(
-    page: page,
-    currentListLength: currentListLength,
-  );
+  Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0}) =>
+      _playlistVideosInnerScreenDataSource.getLikedVideos(
+        page: page,
+        currentListLength: currentListLength,
+      );
 
   @override
   Future<List<BaseVideoModelDb>> getAllLikesLength() =>

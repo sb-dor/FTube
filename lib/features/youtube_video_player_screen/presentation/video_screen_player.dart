@@ -54,10 +54,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
 
   @override
   void initState() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [SystemUiOverlay.bottom],
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
     WidgetsBinding.instance.addObserver(this);
     super.initState();
     _scrollController = ScrollController();
@@ -72,15 +69,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       videoPicture: widget.videoThumb,
     );
 
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    );
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
 
     _scrollController.addListener(() {
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         _youtubeVideoCubit.getSimilarVideos(context: context, paginating: true);
       }
     });
@@ -90,10 +83,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
   void dispose() {
     widget.showOverlay();
     WidgetsBinding.instance.removeObserver(this);
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: SystemUiOverlay.values,
-    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     _youtubeVideoCubit.dispose();
     _videoInformationCubit.loadingVideoInformationState();
     _scrollController.dispose();
@@ -135,45 +125,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
       // 3) and video is playing
       //
       // otherwise we will not load audio for background
-      if (_youtubeVideoCubit
-                  .state
-                  .youtubeVideoStateModel
-                  .mediaItemForRunningInBackground !=
-              null &&
-          !_youtubeVideoCubit
-              .state
-              .youtubeVideoStateModel
-              .loadedMusicForBackground &&
-          (_youtubeVideoCubit
-                  .state
-                  .youtubeVideoStateModel
-                  .playerController
-                  ?.value
-                  .isPlaying ??
+      if (_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground != null &&
+          !_youtubeVideoCubit.state.youtubeVideoStateModel.loadedMusicForBackground &&
+          (_youtubeVideoCubit.state.youtubeVideoStateModel.playerController?.value.isPlaying ??
               false)) {
         _youtubeVideoCubit.loadedMusicForBackground(value: true);
 
         final audioService = JustAudioBackgroundHelper.instance;
 
         audioService.setNewAudioSources(
-          items: [
-            _youtubeVideoCubit
-                .state
-                .youtubeVideoStateModel
-                .mediaItemForRunningInBackground!,
-          ],
+          items: [_youtubeVideoCubit.state.youtubeVideoStateModel.mediaItemForRunningInBackground!],
           duration:
-              _youtubeVideoCubit
-                  .state
-                  .youtubeVideoStateModel
-                  .lastVideoDurationForMediaBackground!,
+              _youtubeVideoCubit.state.youtubeVideoStateModel.lastVideoDurationForMediaBackground!,
         );
       }
     } else if (state == AppLifecycleState.resumed) {
       final audioHandler = JustAudioBackgroundHelper.instance;
-      await _youtubeVideoCubit.seekToTheDurationPosition(
-        audioHandler.lastSavedDuration,
-      );
+      await _youtubeVideoCubit.seekToTheDurationPosition(audioHandler.lastSavedDuration);
       await audioHandler.stopPlayer();
       _youtubeVideoCubit.loadedMusicForBackground(value: false);
       // if (defaultTargetPlatform == TargetPlatform.android) {
@@ -187,8 +155,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
     return Builder(
       builder: (context) {
         final youtubeStates = context.watch<YoutubeVideoCubit>().state;
-        final videoInformationStates =
-            context.watch<VideoInformationCubit>().state;
+        final videoInformationStates = context.watch<VideoInformationCubit>().state;
         final similarVideoCubit = context.watch<SimilarVideosCubit>();
 
         final youtubeStateModel = youtubeStates.youtubeVideoStateModel;
@@ -216,18 +183,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                 child: SizedBox.expand(
                                   child: ImageLoaderWidget(
                                     url: youtubeStateModel.videoPicture ?? '',
-                                    errorImageUrl:
-                                        "assets/custom_images/error_image.png",
+                                    errorImageUrl: "assets/custom_images/error_image.png",
                                     boxFit: BoxFit.cover,
                                   ),
                                 ),
                               ),
                             const Positioned.fill(
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                ),
-                              ),
+                              child: Center(child: CircularProgressIndicator(color: Colors.red)),
                             ),
                           ],
                         ),
@@ -250,8 +212,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                 animationController: _animationController,
                                 animation: _animation,
                               ),
-                            if (youtubeStateModel.clickedUpOnVideo)
-                              const VideoSettingsButton(),
+                            if (youtubeStateModel.clickedUpOnVideo) const VideoSettingsButton(),
                           ],
                         ),
                       ),
@@ -275,22 +236,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                               children: [
                                 Stack(
                                   children: [
-                                    if (videoInformationStates
-                                        is! ErrorVideoInformationState)
+                                    if (videoInformationStates is! ErrorVideoInformationState)
                                       CustomerClipperWithShadow(
                                         clipper: _Clipper(),
                                         blurRadius: 1,
                                         child: Container(
                                           // change bottom to 80 if you want to show bottom subscription buttons
-                                          padding: const EdgeInsets.only(
-                                            bottom: 50,
-                                          ),
+                                          padding: const EdgeInsets.only(bottom: 50),
                                           color: Colors.white,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                            ),
+                                            padding: const EdgeInsets.only(left: 10, right: 10),
                                             child: Column(
                                               children: [
                                                 const SizedBox(height: 10),
@@ -328,44 +283,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                   ],
                                 ),
                                 // const SizedBox(height: 10),
-                                if (similarVideoCubit.state
-                                    is LoadingSimilarVideosState)
+                                if (similarVideoCubit.state is LoadingSimilarVideosState)
                                   const Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    padding: EdgeInsets.only(left: 10, right: 10),
                                     child: VideosLoadingWidget(),
                                   )
-                                else if (similarVideoCubit.state
-                                    is ErrorSimilarVideosState)
+                                else if (similarVideoCubit.state is ErrorSimilarVideosState)
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    padding: const EdgeInsets.only(left: 10, right: 10),
                                     child: VideosErrorWidget(
                                       onTap:
-                                          () => context
-                                              .read<YoutubeVideoCubit>()
-                                              .getSimilarVideos(
-                                                context: context,
-                                                paginating: false,
-                                              ),
+                                          () => context.read<YoutubeVideoCubit>().getSimilarVideos(
+                                            context: context,
+                                            paginating: false,
+                                          ),
                                     ),
                                   )
-                                else if (similarVideoCubit.state
-                                        is LoadedSimilarVideosState &&
+                                else if (similarVideoCubit.state is LoadedSimilarVideosState &&
                                     similarVideoCubit
                                         .state
                                         .similarVideoStateModel
                                         .similarVideos
                                         .isNotEmpty)
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 10,
-                                      right: 10,
-                                    ),
+                                    padding: const EdgeInsets.only(left: 10, right: 10),
                                     child: VideosLoadedWidget(
                                       closeScreenBeforeOpeningAnotherOne: true,
                                       videoList:
@@ -379,12 +320,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen>
                                 else
                                   const SizedBox(),
                                 const SizedBox(height: 10),
-                                if (similarVideoCubit
-                                        .state
-                                        .similarVideoStateModel
-                                        .hasMore &&
-                                    similarVideoCubit.state
-                                        is! ErrorSimilarVideosState)
+                                if (similarVideoCubit.state.similarVideoStateModel.hasMore &&
+                                    similarVideoCubit.state is! ErrorSimilarVideosState)
                                   const Column(
                                     children: [
                                       SizedBox(
@@ -425,12 +362,7 @@ class _Clipper extends CustomClipper<Path> {
 
     path.lineTo(0, size.height - 50);
 
-    path.quadraticBezierTo(
-      size.width / 2,
-      size.height,
-      size.width,
-      size.height - 50,
-    );
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 50);
 
     path.lineTo(size.width, 0);
 

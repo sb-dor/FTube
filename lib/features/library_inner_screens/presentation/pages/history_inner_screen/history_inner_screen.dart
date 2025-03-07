@@ -20,16 +20,11 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<HistoryInnerScreenBloc>().add(
-      RefreshHistoryInnerScreenEvent(),
-    );
+    context.read<HistoryInnerScreenBloc>().add(RefreshHistoryInnerScreenEvent());
 
     _scrollController.addListener(() {
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent) {
-        context.read<HistoryInnerScreenBloc>().add(
-          PaginateHistoryInnerScreenEvent(),
-        );
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
+        context.read<HistoryInnerScreenBloc>().add(PaginateHistoryInnerScreenEvent());
       }
     });
   }
@@ -46,16 +41,12 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
             historyInnerScreenBloc.state.historyInnerScreenStateModel;
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text("History"),
-            scrolledUnderElevation: 0,
-          ),
+          appBar: AppBar(title: const Text("History"), scrolledUnderElevation: 0),
           body: RefreshIndicator(
             color: Colors.red,
             onRefresh:
-                () async => context.read<HistoryInnerScreenBloc>().add(
-                  RefreshHistoryInnerScreenEvent(),
-                ),
+                () async =>
+                    context.read<HistoryInnerScreenBloc>().add(RefreshHistoryInnerScreenEvent()),
             child: ListView(
               padding: const EdgeInsets.only(left: 10, right: 10),
               controller: _scrollController,
@@ -63,11 +54,9 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
               children: [
                 if (historyInnerScreenBloc.state is LoadingHistoryInnerScreen)
                   const HistoryInnerScreenLoadingWidget()
-                else if (historyInnerScreenBloc.state
-                    is ErrorHistoryInnerScreen)
+                else if (historyInnerScreenBloc.state is ErrorHistoryInnerScreen)
                   const HistoryInnerScreenErrorWidget()
-                else if (historyInnerScreenBloc.state
-                        is LoadedHistoryInnerScreen &&
+                else if (historyInnerScreenBloc.state is LoadedHistoryInnerScreen &&
                     historyInnerScreenStateModel.historyVideos.isEmpty)
                   const SizedBox()
                 else
@@ -82,10 +71,7 @@ class _HistoryInnerScreenState extends State<HistoryInnerScreen> {
                       SizedBox(
                         width: 15,
                         height: 15,
-                        child: CircularProgressIndicator(
-                          color: Colors.red,
-                          strokeWidth: 2,
-                        ),
+                        child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2),
                       ),
                     ],
                   ),

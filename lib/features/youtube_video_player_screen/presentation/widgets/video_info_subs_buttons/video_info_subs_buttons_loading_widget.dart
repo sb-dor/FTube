@@ -13,17 +13,9 @@ class VideoInfoSubsButtonsLoadingWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ShimmerContainer(
-            width: 40,
-            height: 40,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          ShimmerContainer(width: 40, height: 40, borderRadius: BorderRadius.circular(10)),
           const SizedBox(width: 15),
-          ShimmerContainer(
-            width: 115,
-            height: 40,
-            borderRadius: BorderRadius.circular(10),
-          ),
+          ShimmerContainer(width: 115, height: 40, borderRadius: BorderRadius.circular(10)),
         ],
       ),
     );

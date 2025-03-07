@@ -4,8 +4,7 @@ import 'history_inner_screen_event.dart';
 import 'history_inner_screen_state.dart';
 import 'state_model/history_inner_screen_state_model.dart';
 
-class HistoryInnerScreenBloc
-    extends Bloc<HistoryInnerScreenEvent, HistoryInnerScreenState> {
+class HistoryInnerScreenBloc extends Bloc<HistoryInnerScreenEvent, HistoryInnerScreenState> {
   late HistoryInnerScreenStateModel _currentState;
   final HistoryInnerScreenRepository _historyInnerScreenRepository;
 

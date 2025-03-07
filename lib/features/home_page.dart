@@ -65,10 +65,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
-            preferredSize: Size(
-              MediaQuery.of(context).size.width,
-              kToolbarHeight + 40,
-            ),
+            preferredSize: Size(MediaQuery.of(context).size.width, kToolbarHeight + 40),
             child: const HomePageAppBar(),
           ),
           body: SafeArea(

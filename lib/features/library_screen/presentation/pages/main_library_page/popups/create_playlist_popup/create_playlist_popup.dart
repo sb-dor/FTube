@@ -11,9 +11,7 @@ class CreatePlayListPopup extends StatefulWidget {
 }
 
 class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
-  final TextEditingController _textEditingController = TextEditingController(
-    text: '',
-  );
+  final TextEditingController _textEditingController = TextEditingController(text: '');
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   bool valueIsEmpty = true;
 
@@ -53,9 +51,7 @@ class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
           },
           child: Text(
             "Create",
-            style: TextStyle(
-              color: valueIsEmpty ? Colors.red.shade200 : Colors.red,
-            ),
+            style: TextStyle(color: valueIsEmpty ? Colors.red.shade200 : Colors.red),
           ),
         ),
       ],

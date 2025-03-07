@@ -4,21 +4,16 @@ import 'package:youtube/features/library_downloads/bloc/library_downloads_bloc.d
 import 'package:youtube/features/library_downloads/data/repository/library_downloads_repository_impl.dart';
 import 'package:youtube/features/library_downloads/data/sources/get_downloaded_files_source_impl.dart';
 
-final class LibraryDownloadsBlocFactory
-    implements Factory<LibraryDownloadsBloc> {
+final class LibraryDownloadsBlocFactory implements Factory<LibraryDownloadsBloc> {
   final DbFloor _dbFloor;
 
   LibraryDownloadsBlocFactory(this._dbFloor);
 
   @override
   LibraryDownloadsBloc create() {
-    final downloadedFileSource = GetDownloadedFilesSourceImpl(
-      dbFloor: _dbFloor,
-    );
+    final downloadedFileSource = GetDownloadedFilesSourceImpl(dbFloor: _dbFloor);
 
-    final libraryDownloadsRepo = LibraryDownloadsRepositoryImpl(
-      downloadedFileSource,
-    );
+    final libraryDownloadsRepo = LibraryDownloadsRepositoryImpl(downloadedFileSource);
 
     return LibraryDownloadsBloc(libraryDownloadsRepo);
   }

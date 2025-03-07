@@ -13,17 +13,12 @@ class VideoCategory {
     kind: json['kind'],
     etag: json['etag'],
     videoCategorySnippet:
-        json['snippet'] == null
-            ? null
-            : VideoCategorySnippet.fromJson(json['snippet']),
+        json['snippet'] == null ? null : VideoCategorySnippet.fromJson(json['snippet']),
   );
 
   static List<VideoCategory> categories = [
     VideoCategory(id: "#all", kind: "All"),
-    VideoCategory(
-      id: "#films#animations#films#animations",
-      kind: "Films and animations",
-    ),
+    VideoCategory(id: "#films#animations#films#animations", kind: "Films and animations"),
     VideoCategory(id: "#musics", kind: "Music"),
     VideoCategory(
       id: "#videogames#computergames#games#shooters#rpgs#dota#cs16#csgo",

@@ -7,8 +7,7 @@ class HiveDatabaseHelper {
 
   // static HiveDatabaseHelper get instance => _instance ??= HiveDatabaseHelper._();
 
-  const HiveDatabaseHelper({required HiveDatabase database})
-    : _database = database;
+  const HiveDatabaseHelper({required HiveDatabase database}) : _database = database;
 
   final HiveDatabase _database;
 
@@ -32,9 +31,7 @@ class HiveDatabaseHelper {
   }
 
   Future<void> overlayShowedForMainScreen() async {
-    final Map<String, dynamic> dataForSave = {
-      "main_screen_overlay_value": true,
-    };
+    final Map<String, dynamic> dataForSave = {"main_screen_overlay_value": true};
     await _database.insert(boxName: "main_screen_overlay", value: dataForSave);
   }
 }

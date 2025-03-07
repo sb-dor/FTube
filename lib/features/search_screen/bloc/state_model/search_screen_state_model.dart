@@ -16,9 +16,7 @@ class SearchScreenStateModel {
 
   SpeechToText speechToText = SpeechToText();
 
-  Timer? timerForAutoClosingSpeech,
-      timerForMakingSuggestionRequest,
-      timerForCheckingPaginating;
+  Timer? timerForAutoClosingSpeech, timerForMakingSuggestionRequest, timerForCheckingPaginating;
 
   List<String> searchData = [], suggestData = [];
 
@@ -47,11 +45,7 @@ class SearchScreenStateModel {
     hasMore = true;
   }
 
-  void setOrderBy({
-    OrderByType? type,
-    OrderByTime? time,
-    OrderByArrange? arrange,
-  }) =>
+  void setOrderBy({OrderByType? type, OrderByTime? time, OrderByArrange? arrange}) =>
       orderBy = OrderBy.getOnCheck(
         type: type ?? orderBy?.orderByType,
         time: time ?? orderBy?.orderByTime,

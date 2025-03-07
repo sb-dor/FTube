@@ -31,16 +31,10 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
                     ),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                    bottom: 10,
-                    top: 10,
-                  ),
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
                   decoration: BoxDecoration(
                     color:
-                        trendsVideosState.trendingStateModel.category.id ==
-                                category.id
+                        trendsVideosState.trendingStateModel.category.id == category.id
                             ? Colors.red
                             : Colors.white,
                     borderRadius: BorderRadius.circular(15),
@@ -53,8 +47,7 @@ class TrendingScreenCategoriesLoadedWidget extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.9,
                       color:
-                          trendsVideosState.trendingStateModel.category.id ==
-                                  category.id
+                          trendsVideosState.trendingStateModel.category.id == category.id
                               ? Colors.white
                               : Colors.red,
                     ),

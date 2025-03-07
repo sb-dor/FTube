@@ -7,8 +7,7 @@ import 'video_category_cubit_states.dart';
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   final HomeScreenRepo _homeScreenRepo;
 
-  MainVideoCategoryCubit(this._homeScreenRepo)
-    : super(LoadingVideoCategoryState(List.empty())) {
+  MainVideoCategoryCubit(this._homeScreenRepo) : super(LoadingVideoCategoryState(List.empty())) {
     loadVideoCategory();
   }
 
@@ -24,10 +23,7 @@ class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
       if (list.isNotEmpty) {
         list.insert(
           0,
-          VideoCategory(
-            id: null,
-            videoCategorySnippet: VideoCategorySnippet(title: "All"),
-          ),
+          VideoCategory(id: null, videoCategorySnippet: VideoCategorySnippet(title: "All")),
         );
       }
       emit(LoadedVideoCategoryState(list));

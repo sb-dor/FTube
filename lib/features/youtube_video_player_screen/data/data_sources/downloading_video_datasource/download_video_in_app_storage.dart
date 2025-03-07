@@ -7,17 +7,13 @@ import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
 class DownloadVideoInAppStorage with StorageHelper implements IDownloading {
-  ReusableGlobalFunctions reusableGlobalFunctions =
-      ReusableGlobalFunctions.instance;
+  ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
   final DbFloor _dbFloor;
 
   DownloadVideoInAppStorage(this._dbFloor);
 
   @override
-  Future<void> download(
-    List<int>? downloadingVideo,
-    YoutubeVideoStateModel stateModel,
-  ) async {
+  Future<void> download(List<int>? downloadingVideo, YoutubeVideoStateModel stateModel) async {
     final getExternalStoragePath = await getStorage();
 
     final dateTimeForVideoName = DateTime.now();

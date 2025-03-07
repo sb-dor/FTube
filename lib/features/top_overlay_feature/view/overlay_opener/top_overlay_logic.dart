@@ -4,8 +4,7 @@ import 'package:youtube/features/top_overlay_feature/view/pages/top_overlay_feat
 class TopOverlayLogic {
   static TopOverlayLogic? _instance;
 
-  static TopOverlayLogic get instance =>
-      _instance ??= TopOverlayLogic._internal();
+  static TopOverlayLogic get instance => _instance ??= TopOverlayLogic._internal();
 
   TopOverlayLogic._internal();
 
@@ -19,11 +18,8 @@ class TopOverlayLogic {
 
     _overlayEntry = OverlayEntry(
       builder:
-          (context) => TopOverlayFeature(
-            overlayEntry: _overlayEntry!,
-            videoId: videoId,
-            position: position,
-          ),
+          (context) =>
+              TopOverlayFeature(overlayEntry: _overlayEntry!, videoId: videoId, position: position),
     );
 
     Overlay.of(context).insert(_overlayEntry!);

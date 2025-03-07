@@ -12,10 +12,7 @@ class HistoryStateModel {
 
   bool hasMore = false;
 
-  void addPaginate({
-    required List<BaseVideoModelDb> videos,
-    bool paginate = false,
-  }) {
+  void addPaginate({required List<BaseVideoModelDb> videos, bool paginate = false}) {
     if (paginate) {
       this.videos.addAll(videos);
     } else {

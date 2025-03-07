@@ -58,14 +58,9 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                             onPressed:
                                 () => showDialog(
                                   context: context,
-                                  builder:
-                                      (context) => const CreatePlayListPopup(),
+                                  builder: (context) => const CreatePlayListPopup(),
                                 ),
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.red,
-                              size: 20,
-                            ),
+                            icon: const Icon(Icons.add, color: Colors.red, size: 20),
                             label: const Text(
                               "New",
                               style: TextStyle(color: Colors.red, fontSize: 18),
@@ -79,8 +74,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                     const SizedBox(height: 5),
                     Expanded(
                       child: ListView.separated(
-                        separatorBuilder:
-                            (context, index) => const SizedBox(height: 10),
+                        separatorBuilder: (context, index) => const SizedBox(height: 10),
                         shrinkWrap: true,
                         itemCount: playlistStateModel.playlist.length,
                         itemBuilder: (context, index) {
@@ -96,16 +90,10 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                               children: [
                                 Checkbox(
                                   activeColor: Colors.red,
-                                  value:
-                                      playlistStateModel
-                                          .tempSelectedPlaylist
-                                          ?.id ==
-                                      playlist.id,
+                                  value: playlistStateModel.tempSelectedPlaylist?.id == playlist.id,
                                   onChanged: (v) {
                                     context.read<PlaylistsBloc>().add(
-                                      SelectTempPlaylist(
-                                        playlistModelDb: playlist,
-                                      ),
+                                      SelectTempPlaylist(playlistModelDb: playlist),
                                     );
                                   },
                                 ),
@@ -132,8 +120,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                             alignment: Alignment.centerLeft,
                             child: TextButton.icon(
                               onPressed: () {
-                                if (playlistStateModel.tempSelectedPlaylist ==
-                                    null) {
+                                if (playlistStateModel.tempSelectedPlaylist == null) {
                                   return;
                                 }
                                 context.read<PlaylistsBloc>().add(
@@ -148,8 +135,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                                 Icons.check,
                                 size: 20,
                                 color:
-                                    playlistStateModel.tempSelectedPlaylist ==
-                                            null
+                                    playlistStateModel.tempSelectedPlaylist == null
                                         ? Colors.red.shade200
                                         : Colors.red,
                               ),
@@ -158,8 +144,7 @@ class _SelectPlaylistPopupState extends State<SelectPlaylistPopup> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   color:
-                                      playlistStateModel.tempSelectedPlaylist ==
-                                              null
+                                      playlistStateModel.tempSelectedPlaylist == null
                                           ? Colors.red.shade200
                                           : Colors.red,
                                 ),

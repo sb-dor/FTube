@@ -12,14 +12,10 @@ class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
 
   DownloadAudioInAppStorage(this._dbFloor);
 
-  final ReusableGlobalFunctions _reusableGlobalFunctions =
-      ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
 
   @override
-  Future<void> download(
-    List<int>? downloadData,
-    YoutubeVideoStateModel stateModel,
-  ) async {
+  Future<void> download(List<int>? downloadData, YoutubeVideoStateModel stateModel) async {
     final getExternalStoragePath = await getStorage();
 
     final dateTimeForAudioName = DateTime.now();

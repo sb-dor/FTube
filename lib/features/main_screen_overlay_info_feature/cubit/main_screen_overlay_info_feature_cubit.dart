@@ -6,26 +6,21 @@ import 'package:youtube/features/main_screen_overlay_info_feature/presentation/m
 import 'main_screenoverlay_info_feature_state.dart';
 import 'state_model/main_screen_overlay_state_model.dart';
 
-class MainScreenOverlayInfoFeatureCubit
-    extends Cubit<MainScreenOverlayInfoFeatureState> {
+class MainScreenOverlayInfoFeatureCubit extends Cubit<MainScreenOverlayInfoFeatureState> {
   final HiveDatabaseHelper _hiveDatabaseHelper;
   late MainScreenOverlayStateModel _currentState;
 
   MainScreenOverlayInfoFeatureCubit(this._hiveDatabaseHelper)
-    : super(
-        InitialMainScreenOverlayInfoFeatureState(MainScreenOverlayStateModel()),
-      ) {
+    : super(InitialMainScreenOverlayInfoFeatureState(MainScreenOverlayStateModel())) {
     _currentState = state.mainScreenOverlayStateModel;
   }
 
   void checkCanUserScroll() async {
-    _currentState.canUserScroll =
-        await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
+    _currentState.canUserScroll = await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
   }
 
   void showOverlay(BuildContext context) async {
-    final valueForCheckingOverlay =
-        await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
+    final valueForCheckingOverlay = await _hiveDatabaseHelper.isOverlayShowedForMainScreen();
 
     if (valueForCheckingOverlay) return;
 
@@ -49,13 +44,10 @@ class MainScreenOverlayInfoFeatureCubit
 
     InitialMainScreenOverlayInfoFeatureState(_currentState);
 
-    _currentState.timerForShowingPopButton = Timer(
-      const Duration(seconds: 2),
-      () {
-        _currentState.showPopButton = true;
-        emit(InitialMainScreenOverlayInfoFeatureState(_currentState));
-      },
-    );
+    _currentState.timerForShowingPopButton = Timer(const Duration(seconds: 2), () {
+      _currentState.showPopButton = true;
+      emit(InitialMainScreenOverlayInfoFeatureState(_currentState));
+    });
   }
 
   void removeOverlay() async {

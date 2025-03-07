@@ -7,10 +7,7 @@ sealed class VideoDownloadingStates {
 
   bool get isDownloading => tempDownloadingVideoInfo != null;
 
-  VideoDownloadingStates({
-    this.tempDownloadingVideoInfo,
-    this.tempDownloadingAudioInfo,
-  });
+  VideoDownloadingStates({this.tempDownloadingVideoInfo, this.tempDownloadingAudioInfo});
 }
 
 final class VideoDownloadingGettingInfoState extends VideoDownloadingStates {
@@ -21,21 +18,14 @@ final class VideoDownloadingGettingInfoState extends VideoDownloadingStates {
 }
 
 final class VideoDownloadingLoadingState extends VideoDownloadingStates {
-  VideoDownloadingLoadingState({
-    super.tempDownloadingVideoInfo,
-    super.tempDownloadingAudioInfo,
-  });
+  VideoDownloadingLoadingState({super.tempDownloadingVideoInfo, super.tempDownloadingAudioInfo});
 }
 
 final class VideoDownloadingErrorState extends VideoDownloadingStates {
-  VideoDownloadingErrorState({
-    super.tempDownloadingVideoInfo,
-    super.tempDownloadingAudioInfo,
-  });
+  VideoDownloadingErrorState({super.tempDownloadingVideoInfo, super.tempDownloadingAudioInfo});
 }
 
-final class VideoDownloadingGettingAudioInformationState
-    extends VideoDownloadingStates {
+final class VideoDownloadingGettingAudioInformationState extends VideoDownloadingStates {
   VideoDownloadingGettingAudioInformationState({
     super.tempDownloadingVideoInfo,
     super.tempDownloadingAudioInfo,
@@ -43,14 +33,10 @@ final class VideoDownloadingGettingAudioInformationState
 }
 
 final class VideoDownloadingAudioState extends VideoDownloadingStates {
-  VideoDownloadingAudioState({
-    super.tempDownloadingVideoInfo,
-    super.tempDownloadingAudioInfo,
-  });
+  VideoDownloadingAudioState({super.tempDownloadingVideoInfo, super.tempDownloadingAudioInfo});
 }
 
-final class VideoDownloadingSavingOnStorageState
-    extends VideoDownloadingStates {
+final class VideoDownloadingSavingOnStorageState extends VideoDownloadingStates {
   VideoDownloadingSavingOnStorageState({
     super.tempDownloadingVideoInfo,
     super.tempDownloadingAudioInfo,
@@ -58,8 +44,5 @@ final class VideoDownloadingSavingOnStorageState
 }
 
 final class VideoDownloadingLoadedState extends VideoDownloadingStates {
-  VideoDownloadingLoadedState({
-    super.tempDownloadingVideoInfo,
-    super.tempDownloadingAudioInfo,
-  });
+  VideoDownloadingLoadedState({super.tempDownloadingVideoInfo, super.tempDownloadingAudioInfo});
 }

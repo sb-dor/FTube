@@ -21,50 +21,23 @@ class VideoPlayerWidget extends StatelessWidget {
               child:
                   state is InitialYoutubeVideoState
                       ? GestureDetector(
-                        onTap:
-                            () =>
-                                context
-                                    .read<YoutubeVideoCubit>()
-                                    .clickOnVideo(),
+                        onTap: () => context.read<YoutubeVideoCubit>().clickOnVideo(),
                         child: SizedBox.expand(
                           child: FittedBox(
                             fit:
-                                currentState
-                                            .playerController!
-                                            .value
-                                            .size
-                                            .width >=
-                                        currentState
-                                            .playerController!
-                                            .value
-                                            .size
-                                            .height
+                                currentState.playerController!.value.size.width >=
+                                        currentState.playerController!.value.size.height
                                     ? BoxFit.cover
                                     : BoxFit.scaleDown,
                             child: SizedBox(
-                              width:
-                                  currentState
-                                      .playerController!
-                                      .value
-                                      .size
-                                      .width,
-                              height:
-                                  currentState
-                                      .playerController!
-                                      .value
-                                      .size
-                                      .height,
-                              child: VideoPlayer(
-                                currentState.playerController!,
-                              ),
+                              width: currentState.playerController!.value.size.width,
+                              height: currentState.playerController!.value.size.height,
+                              child: VideoPlayer(currentState.playerController!),
                             ),
                           ),
                         ),
                       )
-                      : const Text(
-                        "Error occurred",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      : const Text("Error occurred", style: TextStyle(color: Colors.white)),
             ),
           ),
         );

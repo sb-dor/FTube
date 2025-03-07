@@ -14,12 +14,11 @@ final class TrendingScreenBlocFactory implements Factory<TrendingScreenBloc> {
 
   @override
   TrendingScreenBloc create() {
-    final ITrendsRemoteDatasource trendsRemoteDataSource =
-        TrendsRemoteDataSourceImpl(_youtubeDataApi);
-
-    final TrendsRepository trendsRepoImpl = TrendsRepositoryImpl(
-      trendsRemoteDataSource,
+    final ITrendsRemoteDatasource trendsRemoteDataSource = TrendsRemoteDataSourceImpl(
+      _youtubeDataApi,
     );
+
+    final TrendsRepository trendsRepoImpl = TrendsRepositoryImpl(trendsRemoteDataSource);
 
     return TrendingScreenBloc(trendsRepoImpl);
   }

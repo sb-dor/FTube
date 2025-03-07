@@ -42,9 +42,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(
-                      index: 0,
-                    );
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 0);
                     await Provider.of<DependencyContainer>(
                       context,
                       listen: false,
@@ -86,9 +84,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(
-                      index: 1,
-                    );
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 1);
                     await Provider.of<DependencyContainer>(
                       context,
                       listen: false,
@@ -196,9 +192,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(
-                      index: 2,
-                    );
+                    context.read<HomePageBottomNavbarCubit>().changePage(index: 2);
                     await Provider.of<DependencyContainer>(
                       context,
                       listen: false,

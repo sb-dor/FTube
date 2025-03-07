@@ -7,26 +7,17 @@ import 'playlist_videos_inner_screen_state.dart';
 import 'state_model/playlist_videos_inner_screen_state_model.dart';
 
 class PlaylistVideosInnerScreenBloc
-    extends
-        Bloc<PlaylistVideosInnerScreenEvent, PlaylistVideosInnerScreenState> {
+    extends Bloc<PlaylistVideosInnerScreenEvent, PlaylistVideosInnerScreenState> {
   final PlaylistInnerScreenRepository _playlistInnerScreenRepository;
   late PlaylistVideosInnerScreenStateModel _currentState;
 
   PlaylistVideosInnerScreenBloc(this._playlistInnerScreenRepository)
-    : super(
-        LoadingPlaylistVideosInnerScreenState(
-          PlaylistVideosInnerScreenStateModel(),
-        ),
-      ) {
+    : super(LoadingPlaylistVideosInnerScreenState(PlaylistVideosInnerScreenStateModel())) {
     _currentState = state.playlistVideosInnerScreenStateModel;
     //
-    on<RefreshPlaylistVideosInnerScreenEvent>(
-      _refreshPlaylistVideosInnerScreenEvent,
-    );
+    on<RefreshPlaylistVideosInnerScreenEvent>(_refreshPlaylistVideosInnerScreenEvent);
 
-    on<PaginatePlaylistVideosInnerScreenEvent>(
-      _paginatePlaylistVideosInnerScreenEvent,
-    );
+    on<PaginatePlaylistVideosInnerScreenEvent>(_paginatePlaylistVideosInnerScreenEvent);
   }
 
   void _refreshPlaylistVideosInnerScreenEvent(

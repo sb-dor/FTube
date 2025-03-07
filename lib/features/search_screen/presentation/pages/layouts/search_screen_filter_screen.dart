@@ -16,11 +16,9 @@ class SearchScreenFilterLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final mainSearchScreenBloc =
-            context.watch<MainSearchScreenBloc>().state;
+        final mainSearchScreenBloc = context.watch<MainSearchScreenBloc>().state;
 
-        final mainSearchScreenStateModel =
-            mainSearchScreenBloc.searchScreenStateModel;
+        final mainSearchScreenStateModel = mainSearchScreenBloc.searchScreenStateModel;
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.red,
@@ -69,16 +67,11 @@ class SearchScreenFilterLayout extends StatelessWidget {
                           CircleSelectedWidget(
                             onTap:
                                 () => context.read<MainSearchScreenBloc>().add(
-                                  SelectOrderByTimeEvent(
-                                    orderByTime: orderByTime,
-                                  ),
+                                  SelectOrderByTimeEvent(orderByTime: orderByTime),
                                 ),
                             selected:
                                 orderByTime.id ==
-                                mainSearchScreenStateModel
-                                    .orderBy
-                                    ?.orderByTime
-                                    ?.id,
+                                mainSearchScreenStateModel.orderBy?.orderByTime?.id,
                           ),
                           const SizedBox(width: 5),
                           Expanded(
@@ -123,16 +116,11 @@ class SearchScreenFilterLayout extends StatelessWidget {
                           CircleSelectedWidget(
                             onTap:
                                 () => context.read<MainSearchScreenBloc>().add(
-                                  SelectOrderByTypeEvent(
-                                    orderByType: orderByType,
-                                  ),
+                                  SelectOrderByTypeEvent(orderByType: orderByType),
                                 ),
                             selected:
                                 orderByType.id ==
-                                mainSearchScreenStateModel
-                                    .orderBy
-                                    ?.orderByType
-                                    ?.id,
+                                mainSearchScreenStateModel.orderBy?.orderByType?.id,
                           ),
                           const SizedBox(width: 5),
                           Expanded(

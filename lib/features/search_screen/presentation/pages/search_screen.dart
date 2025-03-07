@@ -18,26 +18,24 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen>
-    with SingleTickerProviderStateMixin {
-  SearchScreenEventFunctionsHolder searchFunc() =>
-      SearchScreenEventFunctionsHolder(
-        searchingBodyStateFunc: () {
-          context.read<SearchBodyCubit>().searchingBodyState();
-        },
-        errorSearchBodyStateFunc: () {
-          context.read<SearchBodyCubit>().errorSearchBodyState();
-        },
-        emitStateFunc: () {
-          context.read<SearchBodyCubit>().emitState();
-        },
-        loadedSearchBodyStateFunc: () {
-          context.read<SearchBodyCubit>().loadedSearchBodyState();
-        },
-        loadingSearchBodyStateFunc: () {
-          context.read<SearchBodyCubit>().loadingSearchBodyState();
-        },
-      );
+class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
+  SearchScreenEventFunctionsHolder searchFunc() => SearchScreenEventFunctionsHolder(
+    searchingBodyStateFunc: () {
+      context.read<SearchBodyCubit>().searchingBodyState();
+    },
+    errorSearchBodyStateFunc: () {
+      context.read<SearchBodyCubit>().errorSearchBodyState();
+    },
+    emitStateFunc: () {
+      context.read<SearchBodyCubit>().emitState();
+    },
+    loadedSearchBodyStateFunc: () {
+      context.read<SearchBodyCubit>().loadedSearchBodyState();
+    },
+    loadingSearchBodyStateFunc: () {
+      context.read<SearchBodyCubit>().loadingSearchBodyState();
+    },
+  );
 
   final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
   late AnimationController _searchBarAnimationController;
@@ -48,21 +46,17 @@ class _SearchScreenState extends State<SearchScreen>
   void initState() {
     super.initState();
     context.read<MainSearchScreenBloc>().add(
-      InitSearchScreenEvent(
-        searchingBodyStateFunc: () => searchFunc().searchingBodyStateFunc(),
-      ),
+      InitSearchScreenEvent(searchingBodyStateFunc: () => searchFunc().searchingBodyStateFunc()),
     );
     context.read<MainSearchScreenBloc>().add(StartCheckingPaginatingTimer());
     _searchBarAnimationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
     );
-    _searchBarAnimation = Tween<double>(begin: 0.200, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _searchBarAnimationController,
-        curve: Curves.easeInOutCubic,
-      ),
-    );
+    _searchBarAnimation = Tween<double>(
+      begin: 0.200,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _searchBarAnimationController, curve: Curves.easeInOutCubic));
     _searchBarAnimationController.forward();
     _searchBarAnimationController.addListener(() {
       if (_searchBarAnimationController.isCompleted) {
@@ -70,11 +64,9 @@ class _SearchScreenState extends State<SearchScreen>
       }
     });
     _scrollController.addListener(() {
-      if (_scrollController.position.maxScrollExtent ==
-          _scrollController.offset) {
+      if (_scrollController.position.maxScrollExtent == _scrollController.offset) {
         final isLoadedSearchBodyState =
-            BlocProvider.of<SearchBodyCubit>(context).state
-                is LoadedSearchBodyState;
+            BlocProvider.of<SearchBodyCubit>(context).state is LoadedSearchBodyState;
         context.read<MainSearchScreenBloc>().add(
           PaginateSearchScreenEvent(
             functionsHolder: searchFunc(),
@@ -88,9 +80,9 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   void dispose() {
     _searchBarAnimationController.dispose();
-    _globalContextHelper.globalNavigatorContext.currentContext!
-        .read<MainSearchScreenBloc>()
-        .add(StartCheckingPaginatingTimer(close: true));
+    _globalContextHelper.globalNavigatorContext.currentContext!.read<MainSearchScreenBloc>().add(
+      StartCheckingPaginatingTimer(close: true),
+    );
     super.dispose();
   }
 
@@ -99,12 +91,10 @@ class _SearchScreenState extends State<SearchScreen>
     return Builder(
       builder: (context) {
         final searchBodyCubit = context.watch<SearchBodyCubit>();
-        final mainSearchScreenCubit =
-            context.watch<MainSearchScreenBloc>().state;
+        final mainSearchScreenCubit = context.watch<MainSearchScreenBloc>().state;
 
         // data
-        final mainSearchScreenStateModel =
-            mainSearchScreenCubit.searchScreenStateModel;
+        final mainSearchScreenStateModel = mainSearchScreenCubit.searchScreenStateModel;
         return Scaffold(
           appBar: AppBar(
             scrolledUnderElevation: 0,
@@ -150,9 +140,7 @@ class _SearchScreenState extends State<SearchScreen>
                     VideosErrorWidget(
                       onTap:
                           () => context.read<MainSearchScreenBloc>().add(
-                            ClickSearchButtonEvent(
-                              functionsHolder: searchFunc(),
-                            ),
+                            ClickSearchButtonEvent(functionsHolder: searchFunc()),
                           ),
                     )
                   else
@@ -168,10 +156,7 @@ class _SearchScreenState extends State<SearchScreen>
                         SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.red,
-                            strokeWidth: 2,
-                          ),
+                          child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2),
                         ),
                       ],
                     ),
