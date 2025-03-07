@@ -7,16 +7,19 @@ sealed class LibraryDownloadsState {
 }
 
 final class LibraryDownloadsLoadingState extends LibraryDownloadsState {
-  LibraryDownloadsLoadingState(LibraryDownloadsStateModel libraryDownloadsStateModel)
-      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+  LibraryDownloadsLoadingState(
+    LibraryDownloadsStateModel libraryDownloadsStateModel,
+  ) : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
 }
 
 final class LibraryDownloadsErrorState extends LibraryDownloadsState {
-  LibraryDownloadsErrorState(LibraryDownloadsStateModel libraryDownloadsStateModel)
-      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+  LibraryDownloadsErrorState(
+    LibraryDownloadsStateModel libraryDownloadsStateModel,
+  ) : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
 }
 
 final class LibraryDownloadsLoadedState extends LibraryDownloadsState {
-  LibraryDownloadsLoadedState(LibraryDownloadsStateModel libraryDownloadsStateModel)
-      : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
+  LibraryDownloadsLoadedState(
+    LibraryDownloadsStateModel libraryDownloadsStateModel,
+  ) : super(libraryDownloadsStateModel: libraryDownloadsStateModel);
 }

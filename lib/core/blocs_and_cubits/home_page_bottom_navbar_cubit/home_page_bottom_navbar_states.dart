@@ -12,7 +12,9 @@ sealed class HomePageBottomNavbarStates {
   HomePageBottomNavbarStates({required this.homePageBottomNavbarCubit});
 }
 
-final class InitialHomePageBottomNavbarState extends HomePageBottomNavbarStates {
-  InitialHomePageBottomNavbarState(HomePageBottomNavbarStateModel homePageBottomNavbarStateModel)
-      : super(homePageBottomNavbarCubit: homePageBottomNavbarStateModel);
+final class InitialHomePageBottomNavbarState
+    extends HomePageBottomNavbarStates {
+  InitialHomePageBottomNavbarState(
+    HomePageBottomNavbarStateModel homePageBottomNavbarStateModel,
+  ) : super(homePageBottomNavbarCubit: homePageBottomNavbarStateModel);
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-Map<String, dynamic>? extractJson(String s,[String separator = '']) {
+Map<String, dynamic>? extractJson(String s, [String separator = '']) {
   final index = s.indexOf(separator) + separator.length;
   if (index > s.length) {
     return null;
@@ -14,7 +14,7 @@ Map<String, dynamic>? extractJson(String s,[String separator = '']) {
   while (true) {
     try {
       return json.decode(str.substring(startIdx, endIdx + 1))
-      as Map<String, dynamic>;
+          as Map<String, dynamic>;
     } on FormatException {
       endIdx = str.lastIndexOf(str.substring(0, endIdx));
       if (endIdx == 0) {

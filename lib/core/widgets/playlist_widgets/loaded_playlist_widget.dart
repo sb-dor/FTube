@@ -25,13 +25,12 @@ class LoadedPlaylistWidget extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: playlist.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+            ),
             itemBuilder: (context, index) {
               final playlist = this.playlist[index];
-              return _Widget(
-                playlist: playlist,
-                gridView: gridView,
-              );
+              return _Widget(playlist: playlist, gridView: gridView);
             },
           )
         else
@@ -56,24 +55,23 @@ class _Widget extends StatelessWidget {
   final PlaylistModelDb? playlist;
   final bool gridView;
 
-  const _Widget({
-    required this.playlist,
-    this.gridView = false,
-  });
+  const _Widget({required this.playlist, this.gridView = false});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PlaylistVideosInnerScreen(
-            playlistModelDb: playlist,
+      onTap:
+          () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder:
+                  (context) =>
+                      PlaylistVideosInnerScreen(playlistModelDb: playlist),
+            ),
           ),
-        ),
-      ),
       child: Column(
-        crossAxisAlignment: gridView ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            gridView ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 150,
@@ -109,46 +107,58 @@ class _Widget extends StatelessWidget {
                       ],
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: (playlist?.videos ?? []).isNotEmpty
-                        ? Stack(
-                            children: [
-                              Positioned.fill(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: ImageLoaderWidget(
-                                    url: playlist?.videos?.first.videoThumbnailUrl ?? '',
-                                    errorImageUrl: 'assets/custom_images/custom_user_image.png',
-                                    boxFit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withValues(alpha: 0.3),
+                    child:
+                        (playlist?.videos ?? []).isNotEmpty
+                            ? Stack(
+                              children: [
+                                Positioned.fill(
+                                  child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        Icons.ondemand_video_sharp,
-                                        color: Colors.white,
-                                      ),
-                                      TextWidget(
-                                        text: "${playlist?.videos?.length ?? 0}",
-                                        color: Colors.white,
-                                      ),
-                                    ],
+                                    child: ImageLoaderWidget(
+                                      url:
+                                          playlist
+                                              ?.videos
+                                              ?.first
+                                              .videoThumbnailUrl ??
+                                          '',
+                                      errorImageUrl:
+                                          'assets/custom_images/custom_user_image.png',
+                                      boxFit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        : Image.asset(
-                            'assets/custom_images/empty_data.png',
-                          ),
+                                Positioned.fill(
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.3,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.ondemand_video_sharp,
+                                          color: Colors.white,
+                                        ),
+                                        TextWidget(
+                                          text:
+                                              "${playlist?.videos?.length ?? 0}",
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                            : Image.asset(
+                              'assets/custom_images/empty_data.png',
+                            ),
                   ),
                 ),
               ],

@@ -11,16 +11,16 @@ final class SearchScreenBlocFactory implements Factory<MainSearchScreenBloc> {
   final YoutubeDataApi _youtubeDataApi;
   final HiveDatabaseHelper _hiveDatabaseHelper;
 
-  SearchScreenBlocFactory(
-    this._youtubeDataApi,
-    this._hiveDatabaseHelper,
-  );
+  SearchScreenBlocFactory(this._youtubeDataApi, this._hiveDatabaseHelper);
 
   @override
   MainSearchScreenBloc create() {
-    final SuggestionDatasource restApiGetSuggestionText = SuggestionDatasourceImpl(_youtubeDataApi);
+    final SuggestionDatasource restApiGetSuggestionText =
+        SuggestionDatasourceImpl(_youtubeDataApi);
 
-    final SearchScreenRepo searchScreenRepo = SearchScreenRepoImpl(restApiGetSuggestionText);
+    final SearchScreenRepo searchScreenRepo = SearchScreenRepoImpl(
+      restApiGetSuggestionText,
+    );
 
     return MainSearchScreenBloc(
       screenRepo: searchScreenRepo,

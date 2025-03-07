@@ -9,8 +9,9 @@ abstract class GetVideo {
   static Future getVideo({
     required String videoId, // The ID of the video to fetch
     required BuildContext
-        context, // The BuildContext used for checking if the widget is still mounted
-    required YoutubeVideoStateModel stateModel, // The state model that holds video data and state
+    context, // The BuildContext used for checking if the widget is still mounted
+    required YoutubeVideoStateModel
+    stateModel, // The state model that holds video data and state
     required Function(YoutubeVideoStates) emit, // A function to emit new states
   }) async {
     // Check if the context is still mounted; if not, exit the method
@@ -20,36 +21,41 @@ abstract class GetVideo {
     stateModel.tempVideoId = videoId;
 
     // Fetch video manifest using the provided video ID
-    final informationVideo =
-        await stateModel.youtubeExplode?.videos.streamsClient.getManifest(videoId);
+    final informationVideo = await stateModel
+        .youtubeExplode
+        ?.videos
+        .streamsClient
+        .getManifest(videoId);
 
     // Check if the context is still mounted after fetching the video manifest
     if (!context.mounted) return;
 
     // Filter video streams with sound, where size is at least 1 MB and is in MP4 format
-    stateModel.videosWithSound = (informationVideo?.video ?? <VideoStreamInfo>[])
-        .where(
-          (e) =>
-              e.size.totalMegaBytes >= 1 &&
-              stateModel.globalFunc.checkMp4FromURI(
-                value: e.url.toString(),
-              ),
-        )
-        .toList();
+    stateModel.videosWithSound =
+        (informationVideo?.video ?? <VideoStreamInfo>[])
+            .where(
+              (e) =>
+                  e.size.totalMegaBytes >= 1 &&
+                  stateModel.globalFunc.checkMp4FromURI(
+                    value: e.url.toString(),
+                  ),
+            )
+            .toList();
 
     // Filter audio streams, where size is at least 1 MB and is in MP3 format
-    stateModel.audios = (informationVideo?.audio ?? <AudioStreamInfo>[])
-        .where(
-          (el) =>
+    stateModel.audios =
+        (informationVideo?.audio ?? <AudioStreamInfo>[])
+            .where(
+              (el) =>
               // el.size.totalMegaBytes >= 1.5 &&
-              stateModel.globalFunc.checkMp3FromURI(
-            value: el.url.toString(),
-          ),
-        )
-        .toList();
+              stateModel.globalFunc.checkMp3FromURI(value: el.url.toString()),
+            )
+            .toList();
 
     // Sort audio streams by their size in ascending order
-    stateModel.audios.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+    stateModel.audios.sort(
+      (a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes),
+    );
 
     // for (var each in stateModel.audios) {
     //   // debugPrint"audio data media type: ${each.codec.subtype}");
@@ -58,9 +64,10 @@ abstract class GetVideo {
     // }
 
     // Filter out video streams with sound and without sound, keeping only those with size >= 1 MB
-    stateModel.allVideos = (informationVideo?.video ?? <VideoStreamInfo>[])
-        .where((el) => el.size.totalMegaBytes >= 1)
-        .toList();
+    stateModel.allVideos =
+        (informationVideo?.video ?? <VideoStreamInfo>[])
+            .where((el) => el.size.totalMegaBytes >= 1)
+            .toList();
 
     // stateModel.allVideos.removeWhere((el) {
     //   int numb = el.size.totalMegaBytes.toInt();
@@ -78,17 +85,22 @@ abstract class GetVideo {
     await stateModel.removeSameVideosWithLowerQuality();
 
     // Sort all videos by size in ascending order
-    stateModel.allVideos.sort((a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes));
+    stateModel.allVideos.sort(
+      (a, b) => a.size.totalMegaBytes.compareTo(b.size.totalMegaBytes),
+    );
 
     // Find the audio stream with the highest bitrate
-    stateModel.tempMinAudioForVideo = informationVideo?.audioOnly.withHighestBitrate();
+    stateModel.tempMinAudioForVideo =
+        informationVideo?.audioOnly.withHighestBitrate();
 
     // If a high-bitrate audio is found, update the list of audios
     if (stateModel.tempMinAudioForVideo != null) {
       stateModel.audios.removeWhere(
         (el) =>
-            el.url.toString() == stateModel.tempMinAudioForVideo?.url.toString() ||
-            el.size.totalMegaBytes == stateModel.tempMinAudioForVideo?.size.totalMegaBytes,
+            el.url.toString() ==
+                stateModel.tempMinAudioForVideo?.url.toString() ||
+            el.size.totalMegaBytes ==
+                stateModel.tempMinAudioForVideo?.size.totalMegaBytes,
       );
       stateModel.audios.add(stateModel.tempMinAudioForVideo!);
     } else if (stateModel.audios.isNotEmpty) {
@@ -99,12 +111,15 @@ abstract class GetVideo {
     // If a high-bitrate audio is available, update the list of audios and filter videos
     if (stateModel.tempMinAudioForVideo != null) {
       stateModel.audios.removeWhere(
-        (el) => el.url.toString().trim() == stateModel.tempMinAudioForVideo?.url.toString().trim(),
+        (el) =>
+            el.url.toString().trim() ==
+            stateModel.tempMinAudioForVideo?.url.toString().trim(),
       );
       stateModel.audios.insert(0, stateModel.tempMinAudioForVideo!);
       stateModel.allVideos.removeWhere(
         (el) =>
-            el.size.totalMegaBytes < (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0),
+            el.size.totalMegaBytes <
+            (stateModel.tempMinAudioForVideo?.size.totalMegaBytes ?? 0.0),
       );
     }
 
@@ -139,9 +154,7 @@ abstract class GetVideo {
 
     // Set up the video player controller with the minimum stream video URL
     stateModel.playerController = VideoPlayerController.networkUrl(
-      Uri.parse(
-        minStreamVideo.url.toString(),
-      ),
+      Uri.parse(minStreamVideo.url.toString()),
     );
 
     // debugPrint"video url: ${ minStreamVideo.url}");

@@ -21,7 +21,10 @@ class MainAuthBloc extends Bloc<AuthBlocEvents, AuthBlocStates> {
     );
   }
 
-  Future<void> checkAuth(CheckAuthEvent event, Emitter<AuthBlocStates> emit) async {
+  Future<void> checkAuth(
+    CheckAuthEvent event,
+    Emitter<AuthBlocStates> emit,
+  ) async {
     final data = await event.authorizationService.checkAuth();
     if (data.containsKey("auth_error")) {
       emit(ErrorAuthState(_currentState));

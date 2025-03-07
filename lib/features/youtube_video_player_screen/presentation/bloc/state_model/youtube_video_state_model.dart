@@ -6,7 +6,8 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 import 'package:youtube/features/youtube_video_player_screen/domain/entities/dowloading_type.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:youtube/core/youtube_data_api/models/video_data.dart' as ytvdata;
+import 'package:youtube/core/youtube_data_api/models/video_data.dart'
+    as ytvdata;
 
 class YoutubeVideoStateModel {
   var globalFunc = ReusableGlobalFunctions.instance;
@@ -40,7 +41,8 @@ class YoutubeVideoStateModel {
 
   DownloadingType? downloadingType;
 
-  CancelToken? cancelVideoToken = CancelToken(), cancelAudioToken = CancelToken();
+  CancelToken? cancelVideoToken = CancelToken(),
+      cancelAudioToken = CancelToken();
 
   Future<Isolate>? isolateForDownloadingAudio;
 
@@ -50,7 +52,10 @@ class YoutubeVideoStateModel {
     for (int i = 0; i < videosWithSound.length; i++) {
       for (int j = i; j < videosWithSound.length; j++) {
         if (j == i) continue;
-        if (videosWithSound[i].videoQuality.name != videosWithSound[j].videoQuality.name) continue;
+        if (videosWithSound[i].videoQuality.name !=
+            videosWithSound[j].videoQuality.name) {
+          continue;
+        }
         videosWithSound.removeAt(j);
         j--;
       }

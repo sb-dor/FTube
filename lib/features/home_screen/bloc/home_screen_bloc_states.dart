@@ -8,10 +8,10 @@ sealed class HomeScreenStates {
 
 final class InitialHomeScreenState extends HomeScreenStates {
   InitialHomeScreenState(HomeScreenStateModel homeScreenStateModel)
-      : super(homeScreenStateModel: homeScreenStateModel);
+    : super(homeScreenStateModel: homeScreenStateModel);
 }
 
 final class ErrorHomeScreenState extends HomeScreenStates {
   ErrorHomeScreenState(HomeScreenStateModel homeScreenStateModel)
-      : super(homeScreenStateModel: homeScreenStateModel);
+    : super(homeScreenStateModel: homeScreenStateModel);
 }

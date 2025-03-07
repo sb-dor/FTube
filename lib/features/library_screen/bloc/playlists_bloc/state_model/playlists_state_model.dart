@@ -12,7 +12,10 @@ class PlayListsStateModel {
 
   PlaylistModelDb? tempSelectedPlaylist;
 
-  void addPaginate({required List<PlaylistModelDb> list, bool paginate = false}) {
+  void addPaginate({
+    required List<PlaylistModelDb> list,
+    bool paginate = false,
+  }) {
     if (paginate) {
       playlist.addAll(list);
     } else {

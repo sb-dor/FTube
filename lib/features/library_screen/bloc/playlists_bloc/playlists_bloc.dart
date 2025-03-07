@@ -11,7 +11,7 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
   final LibraryScreenRepository _libraryScreenRepository;
 
   PlaylistsBloc(this._libraryScreenRepository)
-      : super(LoadingPlaylistsState(PlayListsStateModel())) {
+    : super(LoadingPlaylistsState(PlayListsStateModel())) {
     //
     _currentState = state.playListsStateModel;
 
@@ -56,7 +56,10 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
         PlaylistModelDb(
           id: 0,
           name: "Liked videos",
-          videos: likedVideos.map((e) => PlaylistVideosModelDb.fromEntity(e)!).toList(),
+          videos:
+              likedVideos
+                  .map((e) => PlaylistVideosModelDb.fromEntity(e)!)
+                  .toList(),
         ),
       );
     }
@@ -85,7 +88,9 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
   ) async {
     if (_currentState.tempSelectedPlaylist == null) return;
     await _libraryScreenRepository.saveInPlayList(
-        event.videoModelDb, _currentState.tempSelectedPlaylist,);
+      event.videoModelDb,
+      _currentState.tempSelectedPlaylist,
+    );
     add(GetPlaylistsEvent());
   }
 
@@ -113,8 +118,8 @@ class PlaylistsBloc extends Bloc<PlaylistsEvent, PlaylistsStates> {
     CheckIsVideoInPlaylistEvent event,
     Emitter<PlaylistsStates> emit,
   ) async {
-    _currentState.tempSelectedPlaylist =
-        await _libraryScreenRepository.videoPlaylist(event.baseVideoModelDb);
+    _currentState.tempSelectedPlaylist = await _libraryScreenRepository
+        .videoPlaylist(event.baseVideoModelDb);
     _emitter(emit);
   }
 

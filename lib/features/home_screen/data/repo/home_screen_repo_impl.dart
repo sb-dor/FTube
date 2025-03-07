@@ -7,12 +7,12 @@ class HomeScreenRepoImpl implements HomeScreenRepo {
   HomeScreenRepoImpl(this._restApiHomeScreen);
 
   @override
-  Future<Map<String, dynamic>> getCategories() => _restApiHomeScreen.getCategories();
+  Future<Map<String, dynamic>> getCategories() =>
+      _restApiHomeScreen.getCategories();
 
   @override
-  Future<Map<String, dynamic>> homeScreenGetVideo({String? q, bool clearSearch = false}) =>
-      _restApiHomeScreen.homeScreenGetVideo(
-        q: q,
-        clearSearch: clearSearch,
-      );
+  Future<Map<String, dynamic>> homeScreenGetVideo({
+    String? q,
+    bool clearSearch = false,
+  }) => _restApiHomeScreen.homeScreenGetVideo(q: q, clearSearch: clearSearch);
 }

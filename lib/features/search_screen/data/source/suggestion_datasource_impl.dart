@@ -34,11 +34,9 @@ class SuggestionDatasourceImpl implements SuggestionDatasource {
     bool refresh = false,
     String? orderBy,
   }) {
-    return RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getSearchVideo(
-      q: q,
-      refresh: true,
-      orderBy: orderBy,
-    );
+    return RestApiGetVideoData(
+      youtubeDataApi: _youtubeDataApi,
+    ).getSearchVideo(q: q, refresh: true, orderBy: orderBy);
   }
 
   @override
@@ -46,9 +44,8 @@ class SuggestionDatasourceImpl implements SuggestionDatasource {
     required TypeContent videoContent,
     required String? videoId,
   }) {
-    return RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
-      videoContent: TypeContent.snippet,
-      videoId: videoId,
-    );
+    return RestApiGetVideoData(
+      youtubeDataApi: _youtubeDataApi,
+    ).getVideoInfo(videoContent: TypeContent.snippet, videoId: videoId);
   }
 }

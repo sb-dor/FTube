@@ -14,12 +14,13 @@ abstract class APISettings {
   }
 
   static Future<void> initDio() async {
-    dio = Dio()
-      ..options = BaseOptions(
-        baseUrl: MAIN_URL,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
-        headers: await headers(),
-      );
+    dio =
+        Dio()
+          ..options = BaseOptions(
+            baseUrl: MAIN_URL,
+            connectTimeout: const Duration(seconds: 30),
+            receiveTimeout: const Duration(seconds: 30),
+            headers: await headers(),
+          );
   }
 }

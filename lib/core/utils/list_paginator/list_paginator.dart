@@ -47,9 +47,10 @@ class ListPaginator {
       if (!hasMore) return [];
     }
     //check in which list index we are at
-    final int check = (currentListLength + perPage) > wholeList.length
-        ? wholeList.length
-        : (currentListLength + perPage);
+    final int check =
+        (currentListLength + perPage) > wholeList.length
+            ? wholeList.length
+            : (currentListLength + perPage);
     final List<T> pagList = [];
     for (int i = currentListLength; i < check; i++) {
       pagList.add(wholeList[i]);

@@ -7,12 +7,7 @@ class Video {
   VideoID? id;
   VideoSnippet? snippet;
 
-  Video({
-    this.kind,
-    this.etag,
-    this.id,
-    this.snippet,
-  });
+  Video({this.kind, this.etag, this.id, this.snippet});
 
   factory Video.fromJson(Map<String, dynamic> json) {
     VideoID? tempId;
@@ -27,9 +22,13 @@ class Video {
       kind: json['kind'],
       etag: json['etag'],
       id: tempId,
-      snippet: json['snippet'] == null
-          ? null
-          : VideoSnippet.fromJson(json['snippet'], videoId: tempId?.videoID),
+      snippet:
+          json['snippet'] == null
+              ? null
+              : VideoSnippet.fromJson(
+                json['snippet'],
+                videoId: tempId?.videoID,
+              ),
     );
   }
 }

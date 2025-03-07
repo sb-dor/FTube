@@ -16,9 +16,8 @@ final class CompositionRoot extends AsyncFactory<CompositionResult> {
 
   @override
   Future<CompositionResult> create() async {
-    final depContainer = await DependencyContainerFactory(
-      logger: _logger,
-    ).create();
+    final depContainer =
+        await DependencyContainerFactory(logger: _logger).create();
 
     return CompositionResult(depContainer);
   }
@@ -30,7 +29,8 @@ final class CompositionResult {
   CompositionResult(this.dependencyContainer);
 }
 
-final class DependencyContainerFactory extends AsyncFactory<DependencyContainer> {
+final class DependencyContainerFactory
+    extends AsyncFactory<DependencyContainer> {
   DependencyContainerFactory({required Logger logger}) : _logger = logger;
 
   final Logger _logger;
@@ -39,7 +39,8 @@ final class DependencyContainerFactory extends AsyncFactory<DependencyContainer>
   Future<DependencyContainer> create() async {
     final dbFloor = await DbFloorFactory().create();
 
-    final AnalyticsReporter analyticsReporter = AnalyticsReporterFactory(logger: _logger).create();
+    final AnalyticsReporter analyticsReporter =
+        AnalyticsReporterFactory(logger: _logger).create();
 
     final sharedPreferencesHelper = SharedPreferencesHelper();
 

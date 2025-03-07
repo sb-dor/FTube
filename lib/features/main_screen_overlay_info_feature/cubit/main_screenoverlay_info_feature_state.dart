@@ -6,6 +6,7 @@ abstract class MainScreenOverlayInfoFeatureState {
   MainScreenOverlayInfoFeatureState(this.mainScreenOverlayStateModel);
 }
 
-class InitialMainScreenOverlayInfoFeatureState extends MainScreenOverlayInfoFeatureState {
+class InitialMainScreenOverlayInfoFeatureState
+    extends MainScreenOverlayInfoFeatureState {
   InitialMainScreenOverlayInfoFeatureState(super.overlay);
 }

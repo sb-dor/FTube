@@ -35,10 +35,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     required YoutubeDataApi youtubeDataApi,
     required Permissions permission,
     s,
-  })  : _dbFloor = dbFloor,
-        _youtubeDataApi = youtubeDataApi,
-        _permissions = permission,
-        super(InitialYoutubeVideoState(YoutubeVideoStateModel())) {
+  }) : _dbFloor = dbFloor,
+       _youtubeDataApi = youtubeDataApi,
+       _permissions = permission,
+       super(InitialYoutubeVideoState(YoutubeVideoStateModel())) {
     _currentState = state.youtubeVideoStateModel;
   }
 
@@ -71,12 +71,19 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     //get information about video
     if (context.mounted) await getVideo(videoId: url, context: context);
     await checkVideoInFavorites();
-    if (context.mounted) await getVideoInformation(videoId: url, context: context);
+    if (context.mounted) {
+      await getVideoInformation(videoId: url, context: context);
+    }
     await checkVideoInBookmarks(videoId: url);
-    if (context.mounted) await getSimilarVideos(context: context, paginating: paginating);
+    if (context.mounted) {
+      await getSimilarVideos(context: context, paginating: paginating);
+    }
   }
 
-  Future<void> getVideo({required String videoId, required BuildContext context}) async {
+  Future<void> getVideo({
+    required String videoId,
+    required BuildContext context,
+  }) async {
     try {
       // var getVideo = await _currentState.youtubeExplode.videos.get(videoId);
 
@@ -95,7 +102,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     }
   }
 
-  Future<void> getVideoInformation({required String videoId, required BuildContext context}) async {
+  Future<void> getVideoInformation({
+    required String videoId,
+    required BuildContext context,
+  }) async {
     await GetVideoInformation(_youtubeDataApi).getVideoInformation(
       videoId: videoId,
       context: context,
@@ -104,7 +114,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     );
   }
 
-  Future<void> getSimilarVideos({required BuildContext context, bool paginating = false}) async {
+  Future<void> getSimilarVideos({
+    required BuildContext context,
+    bool paginating = false,
+  }) async {
     await GetSimilarVideos(_youtubeDataApi).getSimilarVideos(
       videoTitle: _currentState.videoData?.video?.title ?? '',
       stateModel: _currentState,
@@ -142,13 +155,18 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void clickOnVideo({bool fromStopVideo = false}) {
-    if (!fromStopVideo) _currentState.clickedUpOnVideo = !_currentState.clickedUpOnVideo;
+    if (!fromStopVideo) {
+      _currentState.clickedUpOnVideo = !_currentState.clickedUpOnVideo;
+    }
     if (_currentState.clickedUpOnVideo) {
       _currentState.cancelTime();
-      _currentState.timerForClickedUpOnVideo = Timer(const Duration(seconds: 5), () {
-        _currentState.clickedUpOnVideo = false;
-        emit(InitialYoutubeVideoState(_currentState));
-      });
+      _currentState.timerForClickedUpOnVideo = Timer(
+        const Duration(seconds: 5),
+        () {
+          _currentState.clickedUpOnVideo = false;
+          emit(InitialYoutubeVideoState(_currentState));
+        },
+      );
     } else {
       _currentState.cancelTime();
     }
@@ -165,7 +183,9 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     }
   }
 
-  Future<void> pickQualityOfVideo({required VideoStreamInfo videoStreamInfo}) async {
+  Future<void> pickQualityOfVideo({
+    required VideoStreamInfo videoStreamInfo,
+  }) async {
     await PickQuality.pickQuality(
       stateModel: _currentState,
       videoStreamInfo: videoStreamInfo,
@@ -188,8 +208,12 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   void onDownloadingError(BuildContext context) async {
-    final downloadingVideoCubit = BlocProvider.of<VideoDownloadingCubit>(context);
-    final downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(context);
+    final downloadingVideoCubit = BlocProvider.of<VideoDownloadingCubit>(
+      context,
+    );
+    final downloadingAudioCubit = BlocProvider.of<AudioDownloadingCubit>(
+      context,
+    );
     downloadingVideoCubit.videoDownloadingLoadedState();
     downloadingAudioCubit.audioDownloadingLoadedState();
     clearTypeOfDownloadingVideoOnPopup();
@@ -235,7 +259,10 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     }
   }
 
-  Future<void> downloadVideo(VideoStreamInfo video, DownloadingStoragePath path) async {
+  Future<void> downloadVideo(
+    VideoStreamInfo video,
+    DownloadingStoragePath path,
+  ) async {
     await DownloadVideo.downloadVideo(
       video: video,
       path: path,
@@ -258,14 +285,22 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
     );
   }
 
-  bool showInformationInButtonIfTheSameVideoIsDownloading(BuildContext context) {
-    final videoDownloaderCubit = BlocProvider.of<VideoDownloadingCubit>(context).state;
-    return videoDownloaderCubit.tempDownloadingVideoInfo?.mainVideoId == _currentState.tempVideoId;
+  bool showInformationInButtonIfTheSameVideoIsDownloading(
+    BuildContext context,
+  ) {
+    final videoDownloaderCubit =
+        BlocProvider.of<VideoDownloadingCubit>(context).state;
+    return videoDownloaderCubit.tempDownloadingVideoInfo?.mainVideoId ==
+        _currentState.tempVideoId;
   }
 
-  bool showInformationInButtonIfTheSameVideosAudioIsDownloading(BuildContext context) {
-    final audioDownloadCubit = BlocProvider.of<AudioDownloadingCubit>(context).state;
-    return audioDownloadCubit.downloadingAudioInfo?.mainVideoId == _currentState.tempVideoId;
+  bool showInformationInButtonIfTheSameVideosAudioIsDownloading(
+    BuildContext context,
+  ) {
+    final audioDownloadCubit =
+        BlocProvider.of<AudioDownloadingCubit>(context).state;
+    return audioDownloadCubit.downloadingAudioInfo?.mainVideoId ==
+        _currentState.tempVideoId;
   }
 
   Future<void> checkVideoInBookmarks({required String videoId}) async {
@@ -276,17 +311,13 @@ class YoutubeVideoCubit extends Cubit<YoutubeVideoStates> {
   }
 
   Future<void> checkVideoInFavorites() async {
-    await CheckVideoInFavorites(_dbFloor).checkVideoInFavorites(
-      stateModel: _currentState,
-      emit: emit,
-    );
+    await CheckVideoInFavorites(
+      _dbFloor,
+    ).checkVideoInFavorites(stateModel: _currentState, emit: emit);
   }
 
   Future<void> likeVideo() async {
-    await LikeVideo(_dbFloor).likeVideo(
-      stateModel: _currentState,
-      emit: emit,
-    );
+    await LikeVideo(_dbFloor).likeVideo(stateModel: _currentState, emit: emit);
   }
 
   Future<void> seekToTheDurationPosition(Duration? duration) async {

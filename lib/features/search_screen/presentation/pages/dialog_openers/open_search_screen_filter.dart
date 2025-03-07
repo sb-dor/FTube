@@ -17,9 +17,7 @@ abstract class OpenSearchScreenFilter {
           initialChildSize: 0.96,
           // expand: false,
           builder: (context, scrollController) {
-            return SearchScreenFilterLayout(
-              functionsHolder: functionsHolder,
-            );
+            return SearchScreenFilterLayout(functionsHolder: functionsHolder);
           },
         );
       },

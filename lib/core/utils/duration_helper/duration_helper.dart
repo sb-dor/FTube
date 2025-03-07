@@ -17,14 +17,16 @@ class DurationHelper {
         res += '$hours:';
       }
     }
-    final int minutes = (duration?.inMinutes ?? 0) - (60 * (duration?.inHours ?? 0));
+    final int minutes =
+        (duration?.inMinutes ?? 0) - (60 * (duration?.inHours ?? 0));
     if (minutes >= 0 && minutes <= 9) {
       res += "0$minutes:";
     } else {
       res += '$minutes:';
     }
     //to get totalSeconds in 60 type second
-    final int seconds = (duration?.inSeconds ?? 0) - (60 * (duration?.inMinutes ?? 0));
+    final int seconds =
+        (duration?.inSeconds ?? 0) - (60 * (duration?.inMinutes ?? 0));
     if (seconds >= 0 && seconds <= 9) {
       res += "0$seconds";
     } else {

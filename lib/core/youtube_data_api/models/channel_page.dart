@@ -3,9 +3,5 @@ class ChannelPage {
   String? avatar;
   String? banner;
 
-  ChannelPage({
-    this.subscribers,
-    this.avatar,
-    this.banner,
-  });
+  ChannelPage({this.subscribers, this.avatar, this.banner});
 }

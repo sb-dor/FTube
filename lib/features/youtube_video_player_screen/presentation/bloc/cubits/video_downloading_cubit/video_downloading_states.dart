@@ -34,7 +34,8 @@ final class VideoDownloadingErrorState extends VideoDownloadingStates {
   });
 }
 
-final class VideoDownloadingGettingAudioInformationState extends VideoDownloadingStates {
+final class VideoDownloadingGettingAudioInformationState
+    extends VideoDownloadingStates {
   VideoDownloadingGettingAudioInformationState({
     super.tempDownloadingVideoInfo,
     super.tempDownloadingAudioInfo,
@@ -48,7 +49,8 @@ final class VideoDownloadingAudioState extends VideoDownloadingStates {
   });
 }
 
-final class VideoDownloadingSavingOnStorageState extends VideoDownloadingStates {
+final class VideoDownloadingSavingOnStorageState
+    extends VideoDownloadingStates {
   VideoDownloadingSavingOnStorageState({
     super.tempDownloadingVideoInfo,
     super.tempDownloadingAudioInfo,

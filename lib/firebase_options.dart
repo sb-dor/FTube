@@ -67,8 +67,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
     storageBucket: 'ftube-bd64a.appspot.com',
-    androidClientId: '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
-    iosClientId: '583795295936-3dfsq9r2ki146n1l4ibuv2jqut1s3i4j.apps.googleusercontent.com',
+    androidClientId:
+        '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
+    iosClientId:
+        '583795295936-3dfsq9r2ki146n1l4ibuv2jqut1s3i4j.apps.googleusercontent.com',
     iosBundleId: 'com.android.ftube',
   );
 
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '583795295936',
     projectId: 'ftube-bd64a',
     storageBucket: 'ftube-bd64a.appspot.com',
-    androidClientId: '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
-    iosClientId: '583795295936-024o5pg971kijq676qet5vlafg3vflqu.apps.googleusercontent.com',
+    androidClientId:
+        '583795295936-l8h1v18hrqvf7j2ingpfsuc4inojmerf.apps.googleusercontent.com',
+    iosClientId:
+        '583795295936-024o5pg971kijq676qet5vlafg3vflqu.apps.googleusercontent.com',
     iosBundleId: 'com.example.youtube.RunnerTests',
   );
 }

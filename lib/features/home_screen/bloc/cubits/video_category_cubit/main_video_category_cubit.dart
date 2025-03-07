@@ -7,7 +7,8 @@ import 'video_category_cubit_states.dart';
 class MainVideoCategoryCubit extends Cubit<VideoCategoryCubitStates> {
   final HomeScreenRepo _homeScreenRepo;
 
-  MainVideoCategoryCubit(this._homeScreenRepo) : super(LoadingVideoCategoryState(List.empty())) {
+  MainVideoCategoryCubit(this._homeScreenRepo)
+    : super(LoadingVideoCategoryState(List.empty())) {
     loadVideoCategory();
   }
 

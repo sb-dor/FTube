@@ -9,9 +9,7 @@ class LibraryCreatePlaylistLocally implements LibraryCreatePlaylistDataSource {
 
   @override
   Future<void> createPlayList(String name) async {
-    final PlaylistModelDb playlistModelDb = PlaylistModelDb(
-      name: name,
-    );
+    final PlaylistModelDb playlistModelDb = PlaylistModelDb(name: name);
 
     await _dbFloor.playListDao.createPlaylist(playlistModelDb);
   }

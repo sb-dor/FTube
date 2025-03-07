@@ -13,15 +13,15 @@ sealed class SimilarVideosStates {
 
 final class LoadingSimilarVideosState extends SimilarVideosStates {
   LoadingSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
-      : super(similarVideoStateModel: similarVideoStateModel);
+    : super(similarVideoStateModel: similarVideoStateModel);
 }
 
 final class ErrorSimilarVideosState extends SimilarVideosStates {
   ErrorSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
-      : super(similarVideoStateModel: similarVideoStateModel);
+    : super(similarVideoStateModel: similarVideoStateModel);
 }
 
 final class LoadedSimilarVideosState extends SimilarVideosStates {
   LoadedSimilarVideosState(SimilarVideoStateModel similarVideoStateModel)
-      : super(similarVideoStateModel: similarVideoStateModel);
+    : super(similarVideoStateModel: similarVideoStateModel);
 }

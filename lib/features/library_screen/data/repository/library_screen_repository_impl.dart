@@ -33,7 +33,8 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   );
 
   @override
-  Future<void> createPlayList(String name) => _createPlaylistDataSource.createPlayList(name);
+  Future<void> createPlayList(String name) =>
+      _createPlaylistDataSource.createPlayList(name);
 
   @override
   Future<List<PlaylistModelDb>> getPlaylists({int page = 1}) =>
@@ -50,14 +51,14 @@ class LibraryScreenRepositoryImpl implements LibraryScreenRepository {
   }
 
   @override
-  Future<void> saveInHistory(Video? video) => _saveInHistoryDataSource.saveInHistory(video);
+  Future<void> saveInHistory(Video? video) =>
+      _saveInHistoryDataSource.saveInHistory(video);
 
   @override
-  Future<void> saveInPlayList(BaseVideoModelDb? video, PlaylistModelDb? playlistModelDb) =>
-      _setVideoInPlaylistDataSource.setVideoInPlaylist(
-        video,
-        playlistModelDb,
-      );
+  Future<void> saveInPlayList(
+    BaseVideoModelDb? video,
+    PlaylistModelDb? playlistModelDb,
+  ) => _setVideoInPlaylistDataSource.setVideoInPlaylist(video, playlistModelDb);
 
   @override
   Future<PlaylistModelDb?> videoPlaylist(BaseVideoModelDb? baseVideoModelDb) =>

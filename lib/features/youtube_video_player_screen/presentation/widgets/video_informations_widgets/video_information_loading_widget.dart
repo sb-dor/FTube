@@ -45,7 +45,11 @@ class VideoInformationLoadingWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              ShimmerContainer(width: 100, height: 30, borderRadius: BorderRadius.circular(15)),
+              ShimmerContainer(
+                width: 100,
+                height: 30,
+                borderRadius: BorderRadius.circular(15),
+              ),
             ],
           ),
         ),

@@ -6,7 +6,8 @@ import 'package:youtube/core/youtube_data_api/models/channel.dart' as ytc;
 import 'package:youtube/core/youtube_data_api/youtube_data_api.dart';
 
 class RestApiGetVideoData {
-  RestApiGetVideoData({required YoutubeDataApi youtubeDataApi}) : _youtubeDataApi = youtubeDataApi;
+  RestApiGetVideoData({required YoutubeDataApi youtubeDataApi})
+    : _youtubeDataApi = youtubeDataApi;
 
   final YoutubeDataApi _youtubeDataApi;
 

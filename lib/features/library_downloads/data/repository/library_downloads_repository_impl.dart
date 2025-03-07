@@ -5,9 +5,7 @@ import 'package:youtube/features/library_downloads/domain/repository/library_dow
 class LibraryDownloadsRepositoryImpl implements LibraryDownloadsRepository {
   final GetDownloadedFilesSource _getDownloadedFilesSource;
 
-  LibraryDownloadsRepositoryImpl(
-    this._getDownloadedFilesSource,
-  );
+  LibraryDownloadsRepositoryImpl(this._getDownloadedFilesSource);
 
   @override
   Future<List<BaseDownloadedFileModel>> loadDownloadFiles() =>

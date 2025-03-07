@@ -12,7 +12,8 @@ class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
 
   DownloadAudioInAppStorage(this._dbFloor);
 
-  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _reusableGlobalFunctions =
+      ReusableGlobalFunctions.instance;
 
   @override
   Future<void> download(
@@ -23,9 +24,10 @@ class DownloadAudioInAppStorage with StorageHelper implements IDownloading {
 
     final dateTimeForAudioName = DateTime.now();
 
-    final pathOfAudio = '${getExternalStoragePath?.path}/'
+    final pathOfAudio =
+        '${getExternalStoragePath?.path}/'
         '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
-            "_${dateTimeForAudioName.toString()}")}'
+        "_${dateTimeForAudioName.toString()}")}'
         '_videoId_${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo(stateModel.tempVideoId ?? '')}.mp3';
 
     final File fileForSaving = File(pathOfAudio);

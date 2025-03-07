@@ -16,8 +16,9 @@ abstract class PickQuality {
     stateModel.loadingVideo = true;
     stateModel.videoUrlForOverlayRun = videoStreamInfo.url.toString();
     emit(InitialYoutubeVideoState(stateModel));
-    stateModel.playerController =
-        VideoPlayerController.networkUrl(Uri.parse(videoStreamInfo.url.toString()));
+    stateModel.playerController = VideoPlayerController.networkUrl(
+      Uri.parse(videoStreamInfo.url.toString()),
+    );
     await stateModel.playerController?.initialize();
     await stateModel.playerController?.seekTo(tempPositionOfTheVideo);
     await stateModel.playerController?.play();

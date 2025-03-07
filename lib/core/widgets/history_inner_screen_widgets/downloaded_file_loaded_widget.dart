@@ -12,10 +12,7 @@ import 'package:youtube/features/library_downloads/presentation/dialog_openers/o
 class DownloadedFileLoadedWidget extends StatelessWidget {
   final List<BaseDownloadedFileModel> downloadedFiles;
 
-  const DownloadedFileLoadedWidget({
-    super.key,
-    required this.downloadedFiles,
-  });
+  const DownloadedFileLoadedWidget({super.key, required this.downloadedFiles});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,8 @@ class DownloadedFileLoadedWidget extends StatelessWidget {
 
         // data
 
-        final libraryDownloadStateModel = libraryDownloadBloc.state.libraryDownloadsStateModel;
+        final libraryDownloadStateModel =
+            libraryDownloadBloc.state.libraryDownloadsStateModel;
 
         return ListView.separated(
           separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -78,7 +76,8 @@ class _Widget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       child: ImageLoaderWidget(
                         url: downloadedFile?.imagePath ?? '',
-                        errorImageUrl: 'assets/custom_images/custom_user_image.png',
+                        errorImageUrl:
+                            'assets/custom_images/custom_user_image.png',
                         boxFit: BoxFit.cover,
                       ),
                     ),
@@ -87,7 +86,12 @@ class _Widget extends StatelessWidget {
                     bottom: 5,
                     right: 5,
                     child: Container(
-                      padding: const EdgeInsets.only(left: 7, right: 7, top: 3, bottom: 3),
+                      padding: const EdgeInsets.only(
+                        left: 7,
+                        right: 7,
+                        top: 3,
+                        bottom: 3,
+                      ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         color: Colors.black.withValues(alpha: 0.4),
@@ -139,26 +143,29 @@ class _Widget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Tooltip(
-                      message: libraryDownloadsStateModel.toolTipMessage(downloadedFile),
+                      message: libraryDownloadsStateModel.toolTipMessage(
+                        downloadedFile,
+                      ),
                       child: IconButton(
-                        onPressed: () => context.read<LibraryDownloadsBloc>().add(
+                        onPressed:
+                            () => context.read<LibraryDownloadsBloc>().add(
                               SaveAppStorageFileInGalleryEvent(
                                 baseDownloadedFileModel: downloadedFile,
                               ),
                             ),
-                        icon: ReusableGlobalFunctions.instance.fileExtensionName(downloadedFile) ==
-                                "mp4"
-                            ? SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: Image.asset(
-                                  "assets/download_icons/gallery_save.png",
-                                ),
-                              )
-                            : const Icon(
-                                Icons.download,
-                                size: 20,
-                              ),
+                        icon:
+                            ReusableGlobalFunctions.instance.fileExtensionName(
+                                      downloadedFile,
+                                    ) ==
+                                    "mp4"
+                                ? SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: Image.asset(
+                                    "assets/download_icons/gallery_save.png",
+                                  ),
+                                )
+                                : const Icon(Icons.download, size: 20),
                       ),
                     ),
                   ),

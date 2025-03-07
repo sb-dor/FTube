@@ -8,7 +8,7 @@ abstract base class AnalyticsReporter {
   final List<AnalyticsInterceptor> _interceptors;
 
   AnalyticsReporter({List<AnalyticsInterceptor> interceptors = const []})
-      : _interceptors = interceptors;
+    : _interceptors = interceptors;
 
   //
   Future<void> report(AnalyticsEvent event) async {
@@ -36,9 +36,6 @@ final class FirebaseAnalyticsReporter extends AnalyticsReporter {
 
   @override
   Future<void> _report(String eventName, Map<String, Object> parameters) async {
-    await _analytics.logEvent(
-      name: eventName,
-      parameters: parameters,
-    );
+    await _analytics.logEvent(name: eventName, parameters: parameters);
   }
 }

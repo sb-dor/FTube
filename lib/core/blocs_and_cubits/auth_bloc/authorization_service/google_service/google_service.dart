@@ -10,9 +10,9 @@ class GoogleService implements AuthorizationService {
     required GoogleSignIn googleSignIn,
     required FirebaseAuth firebaseAuth,
     required SharedPreferencesHelper sharedPreferencesHelper,
-  })  : _googleSignIn = googleSignIn,
-        _firebaseAuth = firebaseAuth,
-        _sharedPreferencesHelper = sharedPreferencesHelper;
+  }) : _googleSignIn = googleSignIn,
+       _firebaseAuth = firebaseAuth,
+       _sharedPreferencesHelper = sharedPreferencesHelper;
 
   final GoogleSignIn _googleSignIn;
   final FirebaseAuth _firebaseAuth;
@@ -39,7 +39,9 @@ class GoogleService implements AuthorizationService {
         idToken: idToken,
       );
 
-      final signInWithCredentials = await _firebaseAuth.signInWithCredential(credential);
+      final signInWithCredentials = await _firebaseAuth.signInWithCredential(
+        credential,
+      );
 
       final u.User user = u.User(
         id: signInWithCredentials.user?.uid.toInt(),
@@ -65,21 +67,27 @@ class GoogleService implements AuthorizationService {
 
       if (googleUser == null) return {"user_popup_dialog": true};
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       await _sharedPreferencesHelper.saveString(
         key: "google_access_token",
         value: googleAuth.accessToken,
       );
 
-      await _sharedPreferencesHelper.saveString(key: "google_id_token", value: googleAuth.idToken);
+      await _sharedPreferencesHelper.saveString(
+        key: "google_id_token",
+        value: googleAuth.idToken,
+      );
 
       final OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      final signInWithCredentials = await _firebaseAuth.signInWithCredential(oAuthCredential);
+      final signInWithCredentials = await _firebaseAuth.signInWithCredential(
+        oAuthCredential,
+      );
 
       final u.User user = u.User(
         id: signInWithCredentials.user?.uid.toInt(),
@@ -113,10 +121,12 @@ class GoogleService implements AuthorizationService {
     if (_firebaseAuth.currentUser != null) {
       final Map<String, dynamic> res = {};
       try {
-        final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
+        final GoogleSignInAccount? googleUser =
+            await _googleSignIn.signInSilently();
         if (googleUser == null) return {"auth_error": true};
 
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
         await _sharedPreferencesHelper.saveString(
           key: "google_access_token",

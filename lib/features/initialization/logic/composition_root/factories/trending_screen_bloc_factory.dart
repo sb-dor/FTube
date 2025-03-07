@@ -8,7 +8,7 @@ import 'package:youtube/features/trending_screen/domain/repository/trends_reposi
 
 final class TrendingScreenBlocFactory implements Factory<TrendingScreenBloc> {
   TrendingScreenBlocFactory({required YoutubeDataApi youtubeDataApi})
-      : _youtubeDataApi = youtubeDataApi;
+    : _youtubeDataApi = youtubeDataApi;
 
   final YoutubeDataApi _youtubeDataApi;
 
@@ -17,7 +17,9 @@ final class TrendingScreenBlocFactory implements Factory<TrendingScreenBloc> {
     final ITrendsRemoteDatasource trendsRemoteDataSource =
         TrendsRemoteDataSourceImpl(_youtubeDataApi);
 
-    final TrendsRepository trendsRepoImpl = TrendsRepositoryImpl(trendsRemoteDataSource);
+    final TrendsRepository trendsRepoImpl = TrendsRepositoryImpl(
+      trendsRemoteDataSource,
+    );
 
     return TrendingScreenBloc(trendsRepoImpl);
   }

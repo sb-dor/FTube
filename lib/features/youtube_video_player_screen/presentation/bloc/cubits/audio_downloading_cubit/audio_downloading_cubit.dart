@@ -5,32 +5,28 @@ class AudioDownloadingCubit extends Cubit<AudioDownloadingStates> {
   AudioDownloadingCubit() : super(AudioDownloadingLoadedState());
 
   void audioGettingInformationState() => emit(
-        AudioGettingInformationState(
-          downloadingAudioInfo: state.downloadingAudioInfo,
-        ),
-      );
+    AudioGettingInformationState(
+      downloadingAudioInfo: state.downloadingAudioInfo,
+    ),
+  );
 
   void audioDownloadingState() => emit(
-        AudioDownloadingState(
-          downloadingAudioInfo: state.downloadingAudioInfo,
-        ),
-      );
+    AudioDownloadingState(downloadingAudioInfo: state.downloadingAudioInfo),
+  );
 
   void audioDownloadingErrorState() => emit(
-        AudioDownloadingErrorState(
-          downloadingAudioInfo: state.downloadingAudioInfo,
-        ),
-      );
+    AudioDownloadingErrorState(
+      downloadingAudioInfo: state.downloadingAudioInfo,
+    ),
+  );
 
   void audioSavingOnStorageState() => emit(
-        AudioSavingOnStorageState(
-          downloadingAudioInfo: state.downloadingAudioInfo,
-        ),
-      );
+    AudioSavingOnStorageState(downloadingAudioInfo: state.downloadingAudioInfo),
+  );
 
   void audioDownloadingLoadedState() => emit(
-        AudioDownloadingLoadedState(
-          downloadingAudioInfo: state.downloadingAudioInfo,
-        ),
-      );
+    AudioDownloadingLoadedState(
+      downloadingAudioInfo: state.downloadingAudioInfo,
+    ),
+  );
 }

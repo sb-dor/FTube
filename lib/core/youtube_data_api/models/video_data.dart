@@ -9,9 +9,9 @@ class VideoData {
   VideoData({this.video, required this.videosList});
 
   VideoData clone() => VideoData(
-        videosList: videosList.map((e) => e.clone()).toList(),
-        video: video?.clone(),
-      );
+    videosList: videosList.map((e) => e.clone()).toList(),
+    video: video?.clone(),
+  );
 
   factory VideoData.fromJson(Map<String, dynamic> json) {
     List<dynamic> list = [];
@@ -23,7 +23,10 @@ class VideoData {
 
     return VideoData(
       videosList: videos,
-      video: json['videoPage'] == null ? null : VideoPage.fromJson(json['videoPage']),
+      video:
+          json['videoPage'] == null
+              ? null
+              : VideoPage.fromJson(json['videoPage']),
     );
   }
 

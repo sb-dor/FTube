@@ -41,30 +41,38 @@ class BlocDependencyContainer extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => HomePageBottomNavbarCubit()),
         BlocProvider(
-          create: (_) => HomeScreenBlocFactory(
-            compositionResult.dependencyContainer.youtubeDataApi,
-          ).create(),
+          create:
+              (_) =>
+                  HomeScreenBlocFactory(
+                    compositionResult.dependencyContainer.youtubeDataApi,
+                  ).create(),
         ),
         BlocProvider(create: (_) => MainAuthBloc()),
         BlocProvider(
-          create: (_) => VideoCategoryCubitFactory(
-            compositionResult.dependencyContainer.youtubeDataApi,
-          ).create(),
+          create:
+              (_) =>
+                  VideoCategoryCubitFactory(
+                    compositionResult.dependencyContainer.youtubeDataApi,
+                  ).create(),
         ),
         BlocProvider(create: (_) => HomeScreenVideosCubit()),
         BlocProvider(
-          create: (_) => MainScreenOverlayInfoFeatureCubit(
-            compositionResult.dependencyContainer.hiveDatabaseHelper,
-          ),
+          create:
+              (_) => MainScreenOverlayInfoFeatureCubit(
+                compositionResult.dependencyContainer.hiveDatabaseHelper,
+              ),
         ),
 
         // showing video popup cubits:
         BlocProvider(
-          create: (_) => YoutubeVideoCubit(
-            dbFloor: compositionResult.dependencyContainer.dbFloor,
-            youtubeDataApi: compositionResult.dependencyContainer.youtubeDataApi,
-            permission: compositionResult.dependencyContainer.storagePermissions,
-          ),
+          create:
+              (_) => YoutubeVideoCubit(
+                dbFloor: compositionResult.dependencyContainer.dbFloor,
+                youtubeDataApi:
+                    compositionResult.dependencyContainer.youtubeDataApi,
+                permission:
+                    compositionResult.dependencyContainer.storagePermissions,
+              ),
         ),
         BlocProvider(create: (_) => VideoInformationCubit()),
         BlocProvider(create: (_) => VideoDownloadingCubit()),
@@ -73,52 +81,69 @@ class BlocDependencyContainer extends StatelessWidget {
 
         //search screen cubits:
         BlocProvider(
-          create: (_) => SearchScreenBlocFactory(
-            compositionResult.dependencyContainer.youtubeDataApi,
-            compositionResult.dependencyContainer.hiveDatabaseHelper,
-          ).create(),
+          create:
+              (_) =>
+                  SearchScreenBlocFactory(
+                    compositionResult.dependencyContainer.youtubeDataApi,
+                    compositionResult.dependencyContainer.hiveDatabaseHelper,
+                  ).create(),
         ),
         BlocProvider(create: (_) => SearchBodyCubit()),
         //
 
         // library screen bloc
         BlocProvider(
-          create: (_) => HistoryBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  HistoryBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
         BlocProvider(
-          create: (_) => PlaylistBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  PlaylistBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
         BlocProvider(
-          create: (_) => LibraryDownloadsBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  LibraryDownloadsBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
 
         // library inner screens bloc
         BlocProvider(
-          create: (_) => HistoryInnerScreenBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  HistoryInnerScreenBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
         BlocProvider(
-          create: (_) => PlaylistInnerScreenBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  PlaylistInnerScreenBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
         BlocProvider(
-          create: (_) => PlaylistVideosInnerScreenBlocFactory(
-            compositionResult.dependencyContainer.dbFloor,
-          ).create(),
+          create:
+              (_) =>
+                  PlaylistVideosInnerScreenBlocFactory(
+                    compositionResult.dependencyContainer.dbFloor,
+                  ).create(),
         ),
 
         BlocProvider<TrendingScreenBloc>(
-          create: (_) => TrendingScreenBlocFactory(
-            youtubeDataApi: compositionResult.dependencyContainer.youtubeDataApi,
-          ).create(),
+          create:
+              (_) =>
+                  TrendingScreenBlocFactory(
+                    youtubeDataApi:
+                        compositionResult.dependencyContainer.youtubeDataApi,
+                  ).create(),
         ),
         //
 

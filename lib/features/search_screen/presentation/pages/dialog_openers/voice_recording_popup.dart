@@ -7,12 +7,13 @@ abstract class VoiceRecordingPopup {
   static Future<void> voiceRecordingPopup(BuildContext context) async {
     await showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        content: const Text("Recording..."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.read<MainSearchScreenBloc>().add(
+      builder:
+          (_) => AlertDialog(
+            content: const Text("Recording..."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  context.read<MainSearchScreenBloc>().add(
                     StopListeningSpeechEvent(
                       popup: true,
                       popupFunc: () {
@@ -20,21 +21,21 @@ abstract class VoiceRecordingPopup {
                       },
                     ),
                   );
-            },
-            child: const Text("Finish"),
+                },
+                child: const Text("Finish"),
+              ),
+            ],
           ),
-        ],
-      ),
     );
     if (context.mounted) {
       context.read<MainSearchScreenBloc>().add(
-            StopListeningSpeechEvent(
-              popup: false,
-              popupFunc: () {
-                Navigator.pop(context);
-              },
-            ),
-          );
+        StopListeningSpeechEvent(
+          popup: false,
+          popupFunc: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
     }
   }
 }

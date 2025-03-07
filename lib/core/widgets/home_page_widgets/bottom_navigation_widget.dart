@@ -42,12 +42,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(index: 0);
-                    await Provider.of<DependencyContainer>(context, listen: false)
-                        .analyticsReporter
-                        .report(
-                          TabAnalyticEvent("home"),
-                        );
+                    context.read<HomePageBottomNavbarCubit>().changePage(
+                      index: 0,
+                    );
+                    await Provider.of<DependencyContainer>(
+                      context,
+                      listen: false,
+                    ).analyticsReporter.report(TabAnalyticEvent("home"));
                   },
                   child: ColoredBox(
                     color: Colors.transparent,
@@ -58,9 +59,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                         FaIcon(
                           FontAwesomeIcons.laptop,
                           size: 25,
-                          color: bottomNavBarState.page == 0
-                              ? Colors.red
-                              : Colors.black.withValues(alpha: 0.3),
+                          color:
+                              bottomNavBarState.page == 0
+                                  ? Colors.red
+                                  : Colors.black.withValues(alpha: 0.3),
                         ),
                         const SizedBox(height: 5),
                         AnimatedDefaultTextStyle(
@@ -69,14 +71,12 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 0
-                                ? Colors.red
-                                : Colors.black.withValues(alpha: 0.3),
+                            color:
+                                bottomNavBarState.page == 0
+                                    ? Colors.red
+                                    : Colors.black.withValues(alpha: 0.3),
                           ),
-                          child: const Text(
-                            "Home",
-                            maxLines: 1,
-                          ),
+                          child: const Text("Home", maxLines: 1),
                         ),
                       ],
                     ),
@@ -86,12 +86,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(index: 1);
-                    await Provider.of<DependencyContainer>(context, listen: false)
-                        .analyticsReporter
-                        .report(
-                          TabAnalyticEvent("trending"),
-                        );
+                    context.read<HomePageBottomNavbarCubit>().changePage(
+                      index: 1,
+                    );
+                    await Provider.of<DependencyContainer>(
+                      context,
+                      listen: false,
+                    ).analyticsReporter.report(TabAnalyticEvent("trending"));
                   },
                   child: ColoredBox(
                     color: Colors.transparent,
@@ -102,9 +103,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                         FaIcon(
                           FontAwesomeIcons.boltLightning,
                           size: 25,
-                          color: bottomNavBarState.page == 1
-                              ? Colors.red
-                              : Colors.black.withValues(alpha: 0.3),
+                          color:
+                              bottomNavBarState.page == 1
+                                  ? Colors.red
+                                  : Colors.black.withValues(alpha: 0.3),
                         ),
                         const SizedBox(height: 5),
                         AnimatedDefaultTextStyle(
@@ -113,14 +115,12 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 1
-                                ? Colors.red
-                                : Colors.black.withValues(alpha: 0.3),
+                            color:
+                                bottomNavBarState.page == 1
+                                    ? Colors.red
+                                    : Colors.black.withValues(alpha: 0.3),
                           ),
-                          child: const Text(
-                            "Trending",
-                            maxLines: 1,
-                          ),
+                          child: const Text("Trending", maxLines: 1),
                         ),
                       ],
                     ),
@@ -196,12 +196,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    context.read<HomePageBottomNavbarCubit>().changePage(index: 2);
-                    await Provider.of<DependencyContainer>(context, listen: false)
-                        .analyticsReporter
-                        .report(
-                          TabAnalyticEvent("library"),
-                        );
+                    context.read<HomePageBottomNavbarCubit>().changePage(
+                      index: 2,
+                    );
+                    await Provider.of<DependencyContainer>(
+                      context,
+                      listen: false,
+                    ).analyticsReporter.report(TabAnalyticEvent("library"));
                   },
                   child: ColoredBox(
                     color: Colors.transparent,
@@ -212,9 +213,10 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                         FaIcon(
                           FontAwesomeIcons.folder,
                           size: 25,
-                          color: bottomNavBarState.page == 2
-                              ? Colors.red
-                              : Colors.black.withValues(alpha: 0.3),
+                          color:
+                              bottomNavBarState.page == 2
+                                  ? Colors.red
+                                  : Colors.black.withValues(alpha: 0.3),
                         ),
                         const SizedBox(height: 5),
                         AnimatedDefaultTextStyle(
@@ -222,15 +224,13 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
-                            color: bottomNavBarState.page == 2
-                                ? Colors.red
-                                : Colors.black.withValues(alpha: 0.3),
+                            color:
+                                bottomNavBarState.page == 2
+                                    ? Colors.red
+                                    : Colors.black.withValues(alpha: 0.3),
                           ),
                           duration: const Duration(milliseconds: 375),
-                          child: const Text(
-                            "Library",
-                            maxLines: 1,
-                          ),
+                          child: const Text("Library", maxLines: 1),
                         ),
                       ],
                     ),

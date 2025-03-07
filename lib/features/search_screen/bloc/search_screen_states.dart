@@ -8,5 +8,5 @@ sealed class SearchScreenStates {
 
 final class InitialSearchScreenState extends SearchScreenStates {
   InitialSearchScreenState(SearchScreenStateModel searchScreenStateModel)
-      : super(searchScreenStateModel: searchScreenStateModel);
+    : super(searchScreenStateModel: searchScreenStateModel);
 }

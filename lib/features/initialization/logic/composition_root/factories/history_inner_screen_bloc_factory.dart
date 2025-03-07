@@ -6,22 +6,20 @@ import 'package:youtube/features/library_inner_screens/data/data_source/history_
 import 'package:youtube/features/library_inner_screens/data/repository/history_inner_screen_repository_impl.dart';
 import 'package:youtube/features/library_inner_screens/domain/repository/history_inner_screen_repository.dart';
 
-final class HistoryInnerScreenBlocFactory implements Factory<HistoryInnerScreenBloc> {
+final class HistoryInnerScreenBlocFactory
+    implements Factory<HistoryInnerScreenBloc> {
   final DbFloor _dbFloor;
 
   HistoryInnerScreenBlocFactory(this._dbFloor);
 
   @override
   HistoryInnerScreenBloc create() {
-    final HistoryInnerScreenDataSource dataSource = HistoryInnerScreenDataSourceLocally(_dbFloor);
+    final HistoryInnerScreenDataSource dataSource =
+        HistoryInnerScreenDataSourceLocally(_dbFloor);
 
     final HistoryInnerScreenRepository historyInnerScreenRepository =
-        HistoryInnerScreenRepositoryImpl(
-      dataSource,
-    );
+        HistoryInnerScreenRepositoryImpl(dataSource);
 
-    return HistoryInnerScreenBloc(
-      historyInnerScreenRepository,
-    );
+    return HistoryInnerScreenBloc(historyInnerScreenRepository);
   }
 }

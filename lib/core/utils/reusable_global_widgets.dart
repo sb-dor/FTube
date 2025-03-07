@@ -10,11 +10,13 @@ import 'global_context_helper.dart';
 class ReusableGlobalWidgets {
   static ReusableGlobalWidgets? _instance;
 
-  static ReusableGlobalWidgets get instance => _instance ??= ReusableGlobalWidgets._();
+  static ReusableGlobalWidgets get instance =>
+      _instance ??= ReusableGlobalWidgets._();
 
   ReusableGlobalWidgets._();
 
-  BuildContext context = GlobalContextHelper.instance.globalNavigatorContext.currentState!.context;
+  BuildContext context =
+      GlobalContextHelper.instance.globalNavigatorContext.currentState!.context;
 
   Future<void> showPlaylistAddingPopup({
     required BuildContext context,
@@ -26,15 +28,15 @@ class ReusableGlobalWidgets {
       isScrollControlled: true,
       context: context,
       builder: (context) {
-        return SelectPlaylistPopup(
-          videoModelDb: videoModelDb,
-        );
+        return SelectPlaylistPopup(videoModelDb: videoModelDb);
       },
     ).then((value) {
       if (onFunc != null) {
         onFunc();
       } else {
-        if (context.mounted) context.read<PlaylistsBloc>().add(ClearTempPlaylist());
+        if (context.mounted) {
+          context.read<PlaylistsBloc>().add(ClearTempPlaylist());
+        }
       }
     });
   }

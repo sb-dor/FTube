@@ -2,7 +2,8 @@ import 'package:youtube/core/db/base_video_model_db/base_video_model_db.dart';
 import 'package:youtube/core/utils/reusable_global_functions.dart';
 
 class HistoryInnerScreenStateModel {
-  final ReusableGlobalFunctions _globalFunctions = ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _globalFunctions =
+      ReusableGlobalFunctions.instance;
 
   List<BaseVideoModelDb> historyVideos = [];
 
@@ -10,7 +11,10 @@ class HistoryInnerScreenStateModel {
 
   bool hasMore = false;
 
-  void addPaginate({required List<BaseVideoModelDb> videos, bool paginate = false}) {
+  void addPaginate({
+    required List<BaseVideoModelDb> videos,
+    bool paginate = false,
+  }) {
     if (paginate) {
       historyVideos.addAll(videos);
     } else {

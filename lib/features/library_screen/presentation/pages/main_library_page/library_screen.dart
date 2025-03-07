@@ -83,12 +83,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
                           );
                         },
                         showAdd: true,
-                        showSeeAll: playlistBloc.state is LoadedPlaylistsState &&
+                        showSeeAll:
+                            playlistBloc.state is LoadedPlaylistsState &&
                             playlistStateModel.playlist.isNotEmpty,
-                        onAddTap: () => showDialog(
-                          context: context,
-                          builder: (context) => const CreatePlayListPopup(),
-                        ),
+                        onAddTap:
+                            () => showDialog(
+                              context: context,
+                              builder: (context) => const CreatePlayListPopup(),
+                            ),
                       ),
                       const SizedBox(height: 15),
                     ],

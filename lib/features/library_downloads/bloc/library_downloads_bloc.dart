@@ -6,12 +6,13 @@ import 'library_downloads_event.dart';
 import 'library_downloads_state.dart';
 import 'state_model/library_downloads_state_model.dart';
 
-class LibraryDownloadsBloc extends Bloc<LibraryDownloadsEvent, LibraryDownloadsState> {
+class LibraryDownloadsBloc
+    extends Bloc<LibraryDownloadsEvent, LibraryDownloadsState> {
   final LibraryDownloadsRepository _libraryDownloadsRepository;
   late LibraryDownloadsStateModel _currentState;
 
   LibraryDownloadsBloc(this._libraryDownloadsRepository)
-      : super(LibraryDownloadsLoadingState(LibraryDownloadsStateModel())) {
+    : super(LibraryDownloadsLoadingState(LibraryDownloadsStateModel())) {
     _currentState = state.libraryDownloadsStateModel;
     //
     //
@@ -35,9 +36,12 @@ class LibraryDownloadsBloc extends Bloc<LibraryDownloadsEvent, LibraryDownloadsS
     SaveAppStorageFileInGalleryEvent event,
     Emitter<LibraryDownloadsState> emit,
   ) async {
-    final type = _currentState.globalFunctions.fileExtensionName(event.baseDownloadedFileModel);
+    final type = _currentState.globalFunctions.fileExtensionName(
+      event.baseDownloadedFileModel,
+    );
     try {
-      if (type == 'mp4' && event.baseDownloadedFileModel?.downloadedPath != null) {
+      if (type == 'mp4' &&
+          event.baseDownloadedFileModel?.downloadedPath != null) {
         bool access = await Gal.hasAccess();
         if (!access) access = await Gal.requestAccess();
         if (!access) return;

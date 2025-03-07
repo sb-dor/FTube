@@ -43,7 +43,12 @@ class DownloadedButtonWidget extends StatelessWidget {
             child: AnimatedSize(
               duration: const Duration(milliseconds: 500),
               child: Container(
-                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 7, top: 7),
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
+                  bottom: 7,
+                  top: 7,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -162,33 +167,33 @@ class DownloadedButtonWidget extends StatelessWidget {
                     else
                       loading
                           ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            )
-                          : const FadeAnimation(
-                              beginInterval: 0.6,
-                              child: Row(
-                                children: [
-                                  TextWidget(
-                                    text: "Download",
-                                    color: Colors.white,
-                                    size: 12,
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 0.6,
-                                  ),
-                                  SizedBox(width: 7),
-                                  Icon(
-                                    Icons.download,
-                                    size: 12,
-                                    color: Colors.white,
-                                  ),
-                                ],
-                              ),
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
                             ),
+                          )
+                          : const FadeAnimation(
+                            beginInterval: 0.6,
+                            child: Row(
+                              children: [
+                                TextWidget(
+                                  text: "Download",
+                                  color: Colors.white,
+                                  size: 12,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.6,
+                                ),
+                                SizedBox(width: 7),
+                                Icon(
+                                  Icons.download,
+                                  size: 12,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
                   ],
                 ),
               ),

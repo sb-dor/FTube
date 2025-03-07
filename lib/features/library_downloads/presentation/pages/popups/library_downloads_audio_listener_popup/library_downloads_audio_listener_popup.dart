@@ -24,7 +24,8 @@ class LibraryDownloadsAudioListenerPopup extends StatefulWidget {
       _LibraryDownloadsAudioListenerPopupState();
 }
 
-class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAudioListenerPopup>
+class _LibraryDownloadsAudioListenerPopupState
+    extends State<LibraryDownloadsAudioListenerPopup>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   final _durationHelper = DurationHelper();
   final _globalFunctions = ReusableGlobalFunctions.instance;
@@ -37,7 +38,10 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
 
   Duration _positionDuration = const Duration(seconds: 0);
 
-  bool _paused = false, _isVideo = false, _isShowingVideo = false, _backgroundAudioLoaded = false;
+  bool _paused = false,
+      _isVideo = false,
+      _isShowingVideo = false,
+      _backgroundAudioLoaded = false;
 
   late MediaItem mediaItem;
 
@@ -45,7 +49,9 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _isVideo = _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) == 'mp4';
+    _isVideo =
+        _globalFunctions.fileExtensionName(widget.baseDownloadedFileModel) ==
+        'mp4';
     mediaItem = MediaItem(
       id: widget.baseDownloadedFileModel?.downloadedPath ?? '',
       title: widget.baseDownloadedFileModel?.name ?? '',
@@ -59,23 +65,20 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
         await _initAudio();
       }
 
-      Future.delayed(
-        const Duration(seconds: 1),
-        () {
-          if (_isVideo) {
-            _totalDuration = _videoController?.value.duration;
-          } else {
-            _totalDuration = _audioPlayer?.duration;
-          }
-          setState(() {});
-          // listening here
-          if (_isVideo) {
-            _videoController?.addListener(_durationVideoListener);
-          } else {
-            _audioPlayer?.positionStream.listen(_durationAudioListener);
-          }
-        },
-      );
+      Future.delayed(const Duration(seconds: 1), () {
+        if (_isVideo) {
+          _totalDuration = _videoController?.value.duration;
+        } else {
+          _totalDuration = _audioPlayer?.duration;
+        }
+        setState(() {});
+        // listening here
+        if (_isVideo) {
+          _videoController?.addListener(_durationVideoListener);
+        } else {
+          _audioPlayer?.positionStream.listen(_durationAudioListener);
+        }
+      });
     });
   }
 
@@ -112,7 +115,8 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
   }
 
   void _durationVideoListener() async {
-    _positionDuration = await _videoController?.position ?? const Duration(seconds: 0);
+    _positionDuration =
+        await _videoController?.position ?? const Duration(seconds: 0);
     setState(() {});
   }
 
@@ -181,9 +185,7 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
         final audioService = JustAudioBackgroundHelper.instance;
 
         audioService.setNewAudioSources(
-          localFilesPaths: [
-            mediaItem,
-          ],
+          localFilesPaths: [mediaItem],
           duration: _positionDuration,
         );
       }
@@ -192,7 +194,9 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
 
       if (_isVideo) {
         final audioHandler = JustAudioBackgroundHelper.instance;
-        await _videoController?.seekTo(audioHandler.lastSavedDuration ?? Duration.zero);
+        await _videoController?.seekTo(
+          audioHandler.lastSavedDuration ?? Duration.zero,
+        );
         await audioHandler.stopPlayer();
         _backgroundAudioLoaded = false;
       }
@@ -222,26 +226,33 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                   ),
                   child: Column(
                     children: [
-                      if (_isVideo && _videoController != null && _isShowingVideo)
+                      if (_isVideo &&
+                          _videoController != null &&
+                          _isShowingVideo)
                         Column(
                           children: [
                             const SizedBox(height: 10),
 
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: FittedBox(
-                                  fit: _videoController!.value.size.width >=
-                                          _videoController!.value.size.height
-                                      ? BoxFit.cover
-                                      : BoxFit.scaleDown,
+                                  fit:
+                                      _videoController!.value.size.width >=
+                                              _videoController!
+                                                  .value
+                                                  .size
+                                                  .height
+                                          ? BoxFit.cover
+                                          : BoxFit.scaleDown,
                                   child: SizedBox(
                                     width: _videoController!.value.size.width,
                                     height: _videoController!.value.size.height,
-                                    child: VideoPlayer(
-                                      _videoController!,
-                                    ),
+                                    child: VideoPlayer(_videoController!),
                                   ),
                                 ),
                               ),
@@ -290,7 +301,9 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             TextWidget(
-                              text: _durationHelper.getFromDuration(_positionDuration),
+                              text: _durationHelper.getFromDuration(
+                                _positionDuration,
+                              ),
                             ),
                             IconButton(
                               constraints: const BoxConstraints(),
@@ -308,7 +321,9 @@ class _LibraryDownloadsAudioListenerPopupState extends State<LibraryDownloadsAud
                               ),
                             ),
                             TextWidget(
-                              text: _durationHelper.getFromDuration(_totalDuration),
+                              text: _durationHelper.getFromDuration(
+                                _totalDuration,
+                              ),
                             ),
                           ],
                         ),

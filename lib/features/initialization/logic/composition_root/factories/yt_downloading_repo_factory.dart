@@ -14,9 +14,9 @@ final class YtDownloadingRepoFactory implements Factory<DownloadingRepository> {
     required DownloadingStoragePath downloadingStoragePath,
     required DbFloor dbFloor,
     required Permissions permission,
-  })  : _downloadingStoragePath = downloadingStoragePath,
-        _dbFloor = dbFloor,
-        _permissions = permission;
+  }) : _downloadingStoragePath = downloadingStoragePath,
+       _dbFloor = dbFloor,
+       _permissions = permission;
 
   final DownloadingStoragePath _downloadingStoragePath;
   final DbFloor _dbFloor;
@@ -30,15 +30,11 @@ final class YtDownloadingRepoFactory implements Factory<DownloadingRepository> {
     final audioPhoneStorage = DownloadAudioInDownloadsFolder(_permissions);
     final videoPhoneStorage = DownloadVideoInGallery();
 
-    final DownloadingRepository downloadingAppStorageImpl = DownloadingVideoRepoImpl(
-      audioAppStorage,
-      videoAppStorage,
-    );
+    final DownloadingRepository downloadingAppStorageImpl =
+        DownloadingVideoRepoImpl(audioAppStorage, videoAppStorage);
 
-    final DownloadingRepository downloadInPhoneStorage = DownloadingVideoRepoImpl(
-      audioPhoneStorage,
-      videoPhoneStorage,
-    );
+    final DownloadingRepository downloadInPhoneStorage =
+        DownloadingVideoRepoImpl(audioPhoneStorage, videoPhoneStorage);
 
     switch (_downloadingStoragePath) {
       case DownloadingStoragePath.appStorage:

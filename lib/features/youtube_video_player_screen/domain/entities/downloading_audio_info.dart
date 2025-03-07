@@ -17,8 +17,8 @@ class DownloadingAudioInfo implements DownloadingInfo {
   });
 
   DownloadingAudioInfo clone() => DownloadingAudioInfo(
-        urlId: urlId,
-        downloadingProgress: downloadingProgress,
-        mainVideoId: mainVideoId,
-      );
+    urlId: urlId,
+    downloadingProgress: downloadingProgress,
+    mainVideoId: mainVideoId,
+  );
 }

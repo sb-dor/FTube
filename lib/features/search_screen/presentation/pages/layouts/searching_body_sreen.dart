@@ -27,7 +27,8 @@ class SearchingBodyScreen extends StatelessWidget {
       itemBuilder: (context, index) {
         final String value = suggests[index];
         return GestureDetector(
-          onTap: () => context.read<MainSearchScreenBloc>().add(
+          onTap:
+              () => context.read<MainSearchScreenBloc>().add(
                 ClickOnAlreadySearchedValueEvent(
                   value: value,
                   functionsHolder: functionsHolder,
@@ -40,12 +41,7 @@ class SearchingBodyScreen extends StatelessWidget {
               children: [
                 const Icon(Icons.search),
                 const SizedBox(width: 10),
-                Expanded(
-                  child: TextWidget(
-                    text: value,
-                    size: 15,
-                  ),
-                ),
+                Expanded(child: TextWidget(text: value, size: 15)),
                 if (showDeleteButton)
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
@@ -54,15 +50,14 @@ class SearchingBodyScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(2),
                       onPressed: () {
                         context.read<MainSearchScreenBloc>().add(
-                              DeleteSearchedItemEvent(value),
-                            );
+                          DeleteSearchedItemEvent(value),
+                        );
                       },
                       style: const ButtonStyle(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // the '2023' part
+                        tapTargetSize:
+                            MaterialTapTargetSize.shrinkWrap, // the '2023' part
                       ),
-                      icon: const Icon(
-                        Icons.delete,
-                      ),
+                      icon: const Icon(Icons.delete),
                     ),
                   ),
               ],

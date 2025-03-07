@@ -33,7 +33,6 @@ extension GetOrNullMap on Map {
 
     return (v.toList()).cast<Map<String, dynamic>>();
   }
-
 }
 
 /// List Utility.

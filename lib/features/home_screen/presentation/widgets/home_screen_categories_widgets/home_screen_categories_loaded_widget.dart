@@ -23,11 +23,13 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
       builder: (context) {
         final mainHomeScreenState = context.watch<MainHomeScreenBloc>().state;
 
-        final videoCategoriesStateModel = context.watch<MainVideoCategoryCubit>();
-        final mainHomeScreenStateModel = mainHomeScreenState.homeScreenStateModel;
+        final videoCategoriesStateModel =
+            context.watch<MainVideoCategoryCubit>();
+        final mainHomeScreenStateModel =
+            mainHomeScreenState.homeScreenStateModel;
 
-        final listOfCategory =
-            videoCategoriesStateModel.state.videoCategories.limit<VideoCategory>(limit: 5);
+        final listOfCategory = videoCategoriesStateModel.state.videoCategories
+            .limit<VideoCategory>(limit: 5);
         return SizedBox(
           height: 40,
           child: ListView.separated(
@@ -40,7 +42,8 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
               final category = listOfCategory[index];
               return InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: () => context.read<MainHomeScreenBloc>().add(
+                onTap:
+                    () => context.read<MainHomeScreenBloc>().add(
                       SelectVideoCategoryEvent(
                         videoCategory: category,
                         scrollController: scrollController,
@@ -53,9 +56,11 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                   duration: const Duration(milliseconds: 350),
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   decoration: BoxDecoration(
-                    color: mainHomeScreenStateModel.videoCategory?.id == category.id
-                        ? Colors.red
-                        : Colors.white,
+                    color:
+                        mainHomeScreenStateModel.videoCategory?.id ==
+                                category.id
+                            ? Colors.red
+                            : Colors.white,
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: Colors.red),
                   ),
@@ -65,9 +70,11 @@ class HomeScreenSelectTypeContentLoadedWidget extends StatelessWidget {
                       size: 13,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.9,
-                      color: mainHomeScreenStateModel.videoCategory?.id == category.id
-                          ? Colors.white
-                          : Colors.red,
+                      color:
+                          mainHomeScreenStateModel.videoCategory?.id ==
+                                  category.id
+                              ? Colors.white
+                              : Colors.red,
                     ),
                   ),
                 ),

@@ -6,7 +6,8 @@ import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/s
 import 'package:downloadsfolder/downloadsfolder.dart';
 
 class DownloadAudioInDownloadsFolder implements IDownloading {
-  final ReusableGlobalFunctions _reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+  final ReusableGlobalFunctions _reusableGlobalFunctions =
+      ReusableGlobalFunctions.instance;
   final Permissions _permissions;
 
   DownloadAudioInDownloadsFolder(this._permissions);
@@ -18,7 +19,8 @@ class DownloadAudioInDownloadsFolder implements IDownloading {
   ) async {
     // Check for permission to access storage
 
-    final externalStoragePermission = await _permissions.manageExternalStoragePermission();
+    final externalStoragePermission =
+        await _permissions.manageExternalStoragePermission();
 
     final storagePermission = await _permissions.storagePermission();
 
@@ -30,9 +32,10 @@ class DownloadAudioInDownloadsFolder implements IDownloading {
 
     final dateTimeForAudioName = DateTime.now();
 
-    final pathOfAudio = '${directory.path}/'
+    final pathOfAudio =
+        '${directory.path}/'
         '${_reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
-            "_${dateTimeForAudioName.toString()}")}.mp3';
+        "_${dateTimeForAudioName.toString()}")}.mp3';
 
     final File fileForSaving = File(pathOfAudio);
 

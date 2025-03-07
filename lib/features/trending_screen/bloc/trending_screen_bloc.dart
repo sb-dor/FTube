@@ -14,12 +14,13 @@ part 'trending_screen_event.dart';
 
 part 'trending_screen_state.dart';
 
-class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> {
+class TrendingScreenBloc
+    extends Bloc<TrendingScreenEvent, TrendingScreenState> {
   late final TrendingStateModel _currentState;
   final TrendsRepository _trendsRepository;
 
   TrendingScreenBloc(this._trendsRepository)
-      : super(LoadingTrendingScreenState(TrendingStateModel())) {
+    : super(LoadingTrendingScreenState(TrendingStateModel())) {
     _currentState = state.trendingStateModel;
 
     //
@@ -29,7 +30,9 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
       if (state is LoadedTrendingScreenState && event.refresh == false) return;
 
       try {
-        if (event.category.id != _currentState.category.id) _currentState.category = event.category;
+        if (event.category.id != _currentState.category.id) {
+          _currentState.category = event.category;
+        }
 
         _currentState.videos.clear();
 
@@ -102,7 +105,8 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
     final isolateRp = ReceivePort();
     sendPort.send(isolateRp.sendPort);
 
-    final message = isolateRp.takeWhile((element) => element is String).cast<String>();
+    final message =
+        isolateRp.takeWhile((element) => element is String).cast<String>();
 
     await for (final each in message) {
       final Map<String, dynamic> json = jsonDecode(each);
@@ -111,14 +115,16 @@ class TrendingScreenBloc extends Bloc<TrendingScreenEvent, TrendingScreenState> 
 
       if (json.containsKey('list')) list = json['list'];
 
-      final List<Video> isolateVideos = list.map((e) => Video.fromIsolate(e)).toList();
+      final List<Video> isolateVideos =
+          list.map((e) => Video.fromIsolate(e)).toList();
 
       final YoutubeDataApi youtubeDataApi = YoutubeDataApi();
 
       await Future.wait(
         isolateVideos.map(
-          (e) =>
-              e.getVideoData(youtubeDataApi).then((value) => sendPort.send(e.videoData?.toJson())),
+          (e) => e
+              .getVideoData(youtubeDataApi)
+              .then((value) => sendPort.send(e.videoData?.toJson())),
         ),
       );
     }

@@ -16,7 +16,12 @@ class QuadraticBezierToClipper extends CustomClipper<Path> {
 
     path.lineTo(0, size.height - 40);
 
-    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 40);
+    path.quadraticBezierTo(
+      size.width / 2,
+      size.height,
+      size.width,
+      size.height - 40,
+    );
 
     path.lineTo(size.width, 0);
 
@@ -46,7 +51,10 @@ class HomePageAppBar extends StatelessWidget {
             scrolledUnderElevation: 0,
             backgroundColor: Colors.white,
             title: GestureDetector(
-              onTap: () => context.read<HomePageBottomNavbarCubit>().changePage(index: 0),
+              onTap:
+                  () => context.read<HomePageBottomNavbarCubit>().changePage(
+                    index: 0,
+                  ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -55,7 +63,9 @@ class HomePageAppBar extends StatelessWidget {
                     child: SizedBox(
                       width: 30,
                       height: 30,
-                      child: Image.asset('assets/app_icon/app_main_icon_1024.png'),
+                      child: Image.asset(
+                        'assets/app_icon/app_main_icon_1024.png',
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -70,16 +80,14 @@ class HomePageAppBar extends StatelessWidget {
             // ),
             actions: [
               IconButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchScreen(),
-                  ),
-                ),
-                icon: const Icon(
-                  CupertinoIcons.search,
-                  color: Colors.black,
-                ),
+                onPressed:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
+                      ),
+                    ),
+                icon: const Icon(CupertinoIcons.search, color: Colors.black),
               ),
               // uncomment here for further development
 

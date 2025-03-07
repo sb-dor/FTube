@@ -8,16 +8,16 @@ abstract class OpenVideoScreen {
     required String videoId,
     required void Function() showOverlay,
     String? videoThumb,
-  }) async =>
-      await showModalBottomSheet(
-        isScrollControlled: true,
-        useRootNavigator: true,
-        context: context,
-        builder: (context) => VideoPlayerScreen(
+  }) async => await showModalBottomSheet(
+    isScrollControlled: true,
+    useRootNavigator: true,
+    context: context,
+    builder:
+        (context) => VideoPlayerScreen(
           videoId: videoId,
           videoThumb: videoThumb,
           showOverlay: showOverlay,
           parentContext: parentContext,
         ),
-      );
+  );
 }

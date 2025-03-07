@@ -72,17 +72,16 @@ class VideoModelDb extends BaseVideoModelDb {
     String? channelThumb,
     String? videoDate,
     String? dateTime,
-  }) =>
-      VideoModelDb(
-        id: id ?? this.id,
-        videoId: videoId ?? this.videoId,
-        videoThumbnailUrl: videoThumbnailUrl ?? this.videoThumbnailUrl,
-        views: views ?? this.views,
-        duration: duration ?? this.duration,
-        title: title ?? this.title,
-        channelName: channelName ?? this.channelName,
-        channelThumb: channelThumb ?? this.channelThumb,
-        videoDate: videoDate ?? this.videoDate,
-        dateTime: dateTime ?? this.dateTime,
-      );
+  }) => VideoModelDb(
+    id: id ?? this.id,
+    videoId: videoId ?? this.videoId,
+    videoThumbnailUrl: videoThumbnailUrl ?? this.videoThumbnailUrl,
+    views: views ?? this.views,
+    duration: duration ?? this.duration,
+    title: title ?? this.title,
+    channelName: channelName ?? this.channelName,
+    channelThumb: channelThumb ?? this.channelThumb,
+    videoDate: videoDate ?? this.videoDate,
+    dateTime: dateTime ?? this.dateTime,
+  );
 }

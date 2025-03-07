@@ -14,9 +14,7 @@ final class AnalyticsReporterFactory implements Factory<AnalyticsReporter> {
   AnalyticsReporter create() {
     final AnalyticsReporter reporter = FirebaseAnalyticsReporter(
       analytics: FirebaseAnalytics.instance,
-      interceptors: [
-        LoggingAnalyticsInterceptor(_logger),
-      ],
+      interceptors: [LoggingAnalyticsInterceptor(_logger)],
     );
 
     return reporter;

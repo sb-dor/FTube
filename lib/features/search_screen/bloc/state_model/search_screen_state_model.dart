@@ -16,7 +16,9 @@ class SearchScreenStateModel {
 
   SpeechToText speechToText = SpeechToText();
 
-  Timer? timerForAutoClosingSpeech, timerForMakingSuggestionRequest, timerForCheckingPaginating;
+  Timer? timerForAutoClosingSpeech,
+      timerForMakingSuggestionRequest,
+      timerForCheckingPaginating;
 
   List<String> searchData = [], suggestData = [];
 

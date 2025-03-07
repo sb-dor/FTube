@@ -4,7 +4,8 @@ import 'package:youtube/core/db/playlists_db/playlist_model_db/playlist_model_db
 import 'package:youtube/core/utils/list_paginator/list_paginator.dart';
 import 'package:youtube/features/library_inner_screens/data/data_source/playlist_videos_inner_screen_data_source/playlist_videos_inner_screen_data_source.dart';
 
-class PlaylistVideosInnerScreenDataSourceImpl implements PlaylistVideosInnerScreenDataSource {
+class PlaylistVideosInnerScreenDataSourceImpl
+    implements PlaylistVideosInnerScreenDataSource {
   final DbFloor _dbFloor;
 
   PlaylistVideosInnerScreenDataSourceImpl(this._dbFloor);
@@ -32,7 +33,10 @@ class PlaylistVideosInnerScreenDataSourceImpl implements PlaylistVideosInnerScre
   }
 
   @override
-  Future<List<BaseVideoModelDb>> getLikedVideos({int page = 1, int currentListLength = 0}) async {
+  Future<List<BaseVideoModelDb>> getLikedVideos({
+    int page = 1,
+    int currentListLength = 0,
+  }) async {
     final data = await _dbFloor.likeDao.getAllLikes();
     final result = ListPaginator().paginateList(
       wholeList: data,

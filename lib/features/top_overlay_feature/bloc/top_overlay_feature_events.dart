@@ -9,10 +9,7 @@ class InitOverlayVideoController extends TopOverlayFeatureEvents {
   final String videoUrl;
   final Duration? position;
 
-  InitOverlayVideoController(
-    this.videoUrl,
-    this.position,
-  );
+  InitOverlayVideoController(this.videoUrl, this.position);
 }
 
 class ConvertToLoadingState extends TopOverlayFeatureEvents {}

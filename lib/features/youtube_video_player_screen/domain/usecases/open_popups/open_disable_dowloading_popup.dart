@@ -24,13 +24,18 @@ abstract class OpenDisableDownloadingPopup {
     );
   }
 
-  static List<Widget> _buttons(BuildContext context, {bool showOpenDownloadsPopup = false}) {
+  static List<Widget> _buttons(
+    BuildContext context, {
+    bool showOpenDownloadsPopup = false,
+  }) {
     return [
       if (showOpenDownloadsPopup)
         TextButton(
           onPressed: () {
             Navigator.pop(context);
-            OpenDownloadingVideoPopup.openDownloadingVideoPopup(context: context);
+            OpenDownloadingVideoPopup.openDownloadingVideoPopup(
+              context: context,
+            );
           },
           child: const Text("Open Downloads"),
         ),
@@ -41,7 +46,10 @@ abstract class OpenDisableDownloadingPopup {
         },
         child: const Text("Continue"),
       ),
-      TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+      TextButton(
+        onPressed: () => Navigator.pop(context),
+        child: const Text("Cancel"),
+      ),
     ];
   }
 }

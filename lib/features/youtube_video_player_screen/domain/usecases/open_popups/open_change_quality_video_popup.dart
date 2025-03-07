@@ -24,10 +24,11 @@ abstract class OpenChangeQualityVideoPopup {
     } else {
       return showModalBottomSheet(
         context: context,
-        builder: (context) => const WrappedPopupWidget(
-          backgroundColor: Colors.white,
-          child: ChangeQualityVideoPopup(),
-        ),
+        builder:
+            (context) => const WrappedPopupWidget(
+              backgroundColor: Colors.white,
+              child: ChangeQualityVideoPopup(),
+            ),
       );
     }
   }

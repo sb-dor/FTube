@@ -17,7 +17,9 @@ abstract class RestApiGetChannelData {
         queryParameters: {'id': channelId},
       );
 
-      if (response.statusCode != Constants.STATUS_SUCCESS) return {"server_error": true};
+      if (response.statusCode != Constants.STATUS_SUCCESS) {
+        return {"server_error": true};
+      }
 
       final Map<String, dynamic> json = response.data;
 
@@ -44,6 +46,6 @@ abstract class RestApiGetChannelData {
         return contentDetailsPart;
       case TypeContent.statistics:
         return statisticsPart;
-      }
+    }
   }
 }

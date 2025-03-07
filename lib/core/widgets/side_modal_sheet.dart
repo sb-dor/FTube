@@ -109,7 +109,8 @@ class SideSheet {
       topLeft: rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
       bottomLeft: rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
       topRight: !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
-      bottomRight: !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
+      bottomRight:
+          !rightSide ? Radius.circular(sheetBorderRadius) : Radius.zero,
     );
 
     return showGeneralDialog(
@@ -139,8 +140,10 @@ class SideSheet {
       },
       transitionBuilder: (context, animation1, animation2, child) {
         return SlideTransition(
-          position: Tween(begin: Offset((rightSide ? 1 : -1), 0), end: const Offset(0, 0))
-              .animate(animation1),
+          position: Tween(
+            begin: Offset((rightSide ? 1 : -1), 0),
+            end: const Offset(0, 0),
+          ).animate(animation1),
           child: child,
         );
       },

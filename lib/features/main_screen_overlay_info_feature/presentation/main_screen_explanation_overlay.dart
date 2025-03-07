@@ -11,13 +11,14 @@ class MainScreenExplanationOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainScreenOverlayInfoFeatureCubit, MainScreenOverlayInfoFeatureState>(
+    return BlocBuilder<
+      MainScreenOverlayInfoFeatureCubit,
+      MainScreenOverlayInfoFeatureState
+    >(
       builder: (context, state) {
         final currentState = state.mainScreenOverlayStateModel;
         return DefaultTextStyle(
-          style: const TextStyle(
-            color: Colors.black,
-          ),
+          style: const TextStyle(color: Colors.black),
           child: Container(
             color: Colors.black.withValues(alpha: 0.3),
             height: MediaQuery.of(context).size.height,
@@ -45,19 +46,22 @@ class _SquareWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
-      onLongPressDown: (_) => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
-      onVerticalDragDown: (_) => context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onTap:
+          () =>
+              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onLongPressDown:
+          (_) =>
+              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+      onVerticalDragDown:
+          (_) =>
+              context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
       child: Container(
         height: 180,
         width: (MediaQuery.of(context).size.width / 4.3) * 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: Colors.black.withValues(alpha: 0.5),
-          border: Border.all(
-            color: Colors.red,
-            width: 3.0,
-          ),
+          border: Border.all(color: Colors.red, width: 3.0),
         ),
       ),
     );
@@ -67,9 +71,7 @@ class _SquareWidget extends StatelessWidget {
 class _SquareInfoWidget extends StatelessWidget {
   final MainScreenOverlayStateModel currentState;
 
-  const _SquareInfoWidget({
-    required this.currentState,
-  });
+  const _SquareInfoWidget({required this.currentState});
 
   @override
   Widget build(BuildContext context) {
@@ -91,10 +93,7 @@ class _SquareInfoWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Icon(
-              Icons.arrow_upward,
-              color: Colors.white,
-            ),
+            const Icon(Icons.arrow_upward, color: Colors.white),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2.5,
               child: const TextWidget(
@@ -110,8 +109,11 @@ class _SquareInfoWidget extends StatelessWidget {
               FadeAnimation(
                 duration: const Duration(seconds: 1),
                 child: ElevatedButton(
-                  onPressed: () =>
-                      context.read<MainScreenOverlayInfoFeatureCubit>().removeOverlay(),
+                  onPressed:
+                      () =>
+                          context
+                              .read<MainScreenOverlayInfoFeatureCubit>()
+                              .removeOverlay(),
                   child: const Text("Close"),
                 ),
               ),

@@ -65,11 +65,8 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
     //   if (!convertToJson.containsKey("url_for_run") || convertToJson['url_for_run'] == null) return;
     //   final String videoUrl = convertToJson['url_for_run'];
     context.read<TopOverlayFeatureBloc>().add(
-          InitOverlayVideoController(
-            widget.videoId,
-            widget.position,
-          ),
-        );
+      InitOverlayVideoController(widget.videoId, widget.position),
+    );
     // });
 
     WidgetsBinding.instance.addPersistentFrameCallback((_) {
@@ -92,9 +89,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
       builder: (context, state) {
         final currentState = state.topOverlayFeatureStateModel;
         return DefaultTextStyle(
-          style: const TextStyle(
-            color: Colors.white,
-          ),
+          style: const TextStyle(color: Colors.white),
           child: GestureDetector(
             onTap: () {
               TopOverlayLogic.instance.removeOverlay();
@@ -123,42 +118,62 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                         GestureDetector(
                           onTap: () {
                             // TODO: show stop overlay
-                            context
-                                .read<TopOverlayFeatureBloc>()
-                                .add(ShowAndHideButtonsOnClickEvent());
+                            context.read<TopOverlayFeatureBloc>().add(
+                              ShowAndHideButtonsOnClickEvent(),
+                            );
                           },
                           child: Container(
                             width: _containerWidth,
                             height: _containerHeight,
                             color: Colors.black,
                             child: Center(
-                              child: state is LoadedOverlayFeatureState &&
-                                      currentState.playerController != null
-                                  ? SizedBox.expand(
-                                      child: FittedBox(
-                                        fit: currentState.playerController!.value.size.width >=
-                                                currentState.playerController!.value.size.height
-                                            ? BoxFit.cover
-                                            : BoxFit.scaleDown,
+                              child:
+                                  state is LoadedOverlayFeatureState &&
+                                          currentState.playerController != null
+                                      ? SizedBox.expand(
+                                        child: FittedBox(
+                                          fit:
+                                              currentState
+                                                          .playerController!
+                                                          .value
+                                                          .size
+                                                          .width >=
+                                                      currentState
+                                                          .playerController!
+                                                          .value
+                                                          .size
+                                                          .height
+                                                  ? BoxFit.cover
+                                                  : BoxFit.scaleDown,
+                                          child: SizedBox(
+                                            width:
+                                                currentState
+                                                    .playerController!
+                                                    .value
+                                                    .size
+                                                    .width,
+                                            height:
+                                                currentState
+                                                    .playerController!
+                                                    .value
+                                                    .size
+                                                    .height,
+                                            child: VideoPlayer(
+                                              currentState.playerController!,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      : const Center(
                                         child: SizedBox(
-                                          width: currentState.playerController!.value.size.width,
-                                          height: currentState.playerController!.value.size.height,
-                                          child: VideoPlayer(
-                                            currentState.playerController!,
+                                          width: 15,
+                                          height: 15,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 2,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  : const Center(
-                                      child: SizedBox(
-                                        width: 15,
-                                        height: 15,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 2,
-                                        ),
-                                      ),
-                                    ),
                             ),
                           ),
                         ),
@@ -168,9 +183,9 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                           Positioned.fill(
                             child: GestureDetector(
                               onTap: () {
-                                context
-                                    .read<TopOverlayFeatureBloc>()
-                                    .add(ShowAndHideButtonsOnClickEvent());
+                                context.read<TopOverlayFeatureBloc>().add(
+                                  ShowAndHideButtonsOnClickEvent(),
+                                );
                               },
                               child: Material(
                                 color: Colors.black.withValues(alpha: 0.5),
@@ -179,7 +194,9 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                     width: 40,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      color: Colors.black.withValues(alpha: 0.5),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.5,
+                                      ),
                                       borderRadius: BorderRadius.circular(50),
                                     ),
                                     child: Padding(
@@ -187,13 +204,15 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                       child: InkWell(
                                         borderRadius: BorderRadius.circular(50),
                                         onTap: () {
-                                          context.read<TopOverlayFeatureBloc>().add(
-                                                PlayAndPauseVideoEvent(),
-                                              );
+                                          context
+                                              .read<TopOverlayFeatureBloc>()
+                                              .add(PlayAndPauseVideoEvent());
                                         },
                                         child: Center(
                                           child: Icon(
-                                            currentState.isPlaying ? Icons.stop : Icons.play_arrow,
+                                            currentState.isPlaying
+                                                ? Icons.stop
+                                                : Icons.play_arrow,
                                             color: Colors.white,
                                           ),
                                         ),
@@ -217,10 +236,7 @@ class _TopOverlayFeatureState extends State<_TopOverlayFeatureUI> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               child: const Center(
-                                child: Icon(
-                                  Icons.close,
-                                  color: Colors.white,
-                                ),
+                                child: Icon(Icons.close, color: Colors.white),
                               ),
                             ),
                           ),

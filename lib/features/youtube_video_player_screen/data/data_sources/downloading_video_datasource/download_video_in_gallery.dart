@@ -6,7 +6,8 @@ import 'package:youtube/features/youtube_video_player_screen/data/data_sources/i
 import 'package:youtube/features/youtube_video_player_screen/presentation/bloc/state_model/youtube_video_state_model.dart';
 
 class DownloadVideoInGallery implements IDownloading {
-  ReusableGlobalFunctions reusableGlobalFunctions = ReusableGlobalFunctions.instance;
+  ReusableGlobalFunctions reusableGlobalFunctions =
+      ReusableGlobalFunctions.instance;
 
   @override
   Future<void> download(
@@ -17,9 +18,10 @@ class DownloadVideoInGallery implements IDownloading {
 
     final dateTimeForVideoName = DateTime.now();
 
-    final pathOfVideo = '${getTemporaryPath.path}/'
+    final pathOfVideo =
+        '${getTemporaryPath.path}/'
         '${reusableGlobalFunctions.removeSpaceFromStringForDownloadingVideo("${stateModel.videoData?.video?.title ?? '-'}"
-            "_${dateTimeForVideoName.toString()}")}.mp4';
+        "_${dateTimeForVideoName.toString()}")}.mp4';
 
     final File fileForSaving = File(pathOfVideo);
 

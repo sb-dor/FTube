@@ -6,25 +6,17 @@ class DownloadingVideoRepoImpl implements DownloadingRepository {
   final IDownloading _audioDownloading;
   final IDownloading _videoDownloading;
 
-  DownloadingVideoRepoImpl(
-    this._audioDownloading,
-    this._videoDownloading,
-  );
+  DownloadingVideoRepoImpl(this._audioDownloading, this._videoDownloading);
 
   @override
   Future<void> downloadVideo(
     List<int>? downloadingVideo,
     YoutubeVideoStateModel stateModel,
-  ) =>
-      _videoDownloading.download(
-        downloadingVideo,
-        stateModel,
-      );
+  ) => _videoDownloading.download(downloadingVideo, stateModel);
 
   @override
   Future<void> downloadAudio(
     List<int>? downloadData,
     YoutubeVideoStateModel stateModel,
-  ) =>
-      _audioDownloading.download(downloadData, stateModel);
+  ) => _audioDownloading.download(downloadData, stateModel);
 }

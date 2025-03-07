@@ -8,15 +8,15 @@ sealed class PlaylistsStates {
 
 final class LoadingPlaylistsState extends PlaylistsStates {
   LoadingPlaylistsState(PlayListsStateModel playListsStateModel)
-      : super(playListsStateModel: playListsStateModel);
+    : super(playListsStateModel: playListsStateModel);
 }
 
 final class ErrorPlaylistsState extends PlaylistsStates {
   ErrorPlaylistsState(PlayListsStateModel playListsStateModel)
-      : super(playListsStateModel: playListsStateModel);
+    : super(playListsStateModel: playListsStateModel);
 }
 
 final class LoadedPlaylistsState extends PlaylistsStates {
   LoadedPlaylistsState(PlayListsStateModel playListsStateModel)
-      : super(playListsStateModel: playListsStateModel);
+    : super(playListsStateModel: playListsStateModel);
 }

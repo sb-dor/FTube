@@ -6,15 +6,15 @@ import 'playlist_inner_screen_event.dart';
 import 'playlist_inner_screen_state.dart';
 import 'state_model/playlist_inner_screen_state_model.dart';
 
-class PlaylistInnerScreenBloc extends Bloc<PlaylistInnerScreenEvent, PlaylistInnerScreenState> {
+class PlaylistInnerScreenBloc
+    extends Bloc<PlaylistInnerScreenEvent, PlaylistInnerScreenState> {
   final PlaylistInnerScreenRepository _playlistInnerScreenRepository;
   late PlaylistInnerScreenStateModel _currentState;
 
   //
 
-  PlaylistInnerScreenBloc(
-    this._playlistInnerScreenRepository,
-  ) : super(LoadingPlaylistInnerState(PlaylistInnerScreenStateModel())) {
+  PlaylistInnerScreenBloc(this._playlistInnerScreenRepository)
+    : super(LoadingPlaylistInnerState(PlaylistInnerScreenStateModel())) {
     _currentState = state.playlistInnerScreenStateModel;
     //
     //
@@ -40,7 +40,10 @@ class PlaylistInnerScreenBloc extends Bloc<PlaylistInnerScreenEvent, PlaylistInn
         PlaylistModelDb(
           id: 0,
           name: "Liked Videos",
-          videos: checkForLikes.map((e) => PlaylistVideosModelDb.fromEntity(e)!).toList(),
+          videos:
+              checkForLikes
+                  .map((e) => PlaylistVideosModelDb.fromEntity(e)!)
+                  .toList(),
         ),
       );
     }

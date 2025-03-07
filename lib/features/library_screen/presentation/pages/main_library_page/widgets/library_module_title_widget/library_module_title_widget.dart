@@ -33,10 +33,7 @@ class LibraryModuleTitleWidget extends StatelessWidget {
               if (showAdd)
                 IconButton(
                   onPressed: onAddTap,
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.red,
-                  ),
+                  icon: const Icon(Icons.add, color: Colors.red),
                 ),
             ],
           ),
@@ -47,12 +44,7 @@ class LibraryModuleTitleWidget extends StatelessWidget {
               side: const BorderSide(color: Colors.red),
             ),
             onPressed: onButtonTap,
-            child: const Text(
-              "See all",
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
+            child: const Text("See all", style: TextStyle(color: Colors.red)),
           ),
       ],
     );

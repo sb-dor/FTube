@@ -23,8 +23,10 @@ import 'package:youtube/features/youtube_video_player_screen/domain/entities/dow
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 abstract class DownloadVideo with SolvePercentageMixin {
-  static final ReusableGlobalFunctions _globalFunc = ReusableGlobalFunctions.instance;
-  static final GlobalContextHelper _globalContextHelper = GlobalContextHelper.instance;
+  static final ReusableGlobalFunctions _globalFunc =
+      ReusableGlobalFunctions.instance;
+  static final GlobalContextHelper _globalContextHelper =
+      GlobalContextHelper.instance;
 
   static Future<void> downloadVideo({
     required VideoStreamInfo video,
@@ -56,7 +58,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
         );
         return;
       }
-      videoDownloadingCubit.state.tempDownloadingVideoInfo = DownloadingVideoInfo(
+      videoDownloadingCubit
+          .state
+          .tempDownloadingVideoInfo = DownloadingVideoInfo(
         urlId: video.url.toString(),
         downloadingProgress: 0.0,
         mainVideoId: stateModel.tempVideoId,
@@ -79,7 +83,9 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
         final SendPort communicatorSendPort = await broadcastRp.first;
 
-        communicatorSendPort.send(stateModel.tempMinAudioForVideo?.url.toString());
+        communicatorSendPort.send(
+          stateModel.tempMinAudioForVideo?.url.toString(),
+        );
 
         // debugPrint"coming into here");
 
@@ -94,8 +100,10 @@ abstract class DownloadVideo with SolvePercentageMixin {
         cancelToken: stateModel.cancelVideoToken,
         onReceiveProgress: (int receive, int total) {
           final solvePercentage = receive / total * 100;
-          videoDownloadingCubit.state.tempDownloadingVideoInfo?.downloadingProgress =
-              solvePercentage / 100;
+          videoDownloadingCubit
+              .state
+              .tempDownloadingVideoInfo
+              ?.downloadingProgress = solvePercentage / 100;
           videoDownloadingCubit.videoDownloadingLoadingState();
           // // debugPrint"still downloading");
         },
@@ -176,7 +184,8 @@ abstract class DownloadVideo with SolvePercentageMixin {
     final receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
 
-    final messages = receivePort.takeWhile((element) => element is String).cast<String>();
+    final messages =
+        receivePort.takeWhile((element) => element is String).cast<String>();
 
     Response<List<int>>? downloadingAudio;
 
@@ -231,8 +240,12 @@ abstract class DownloadVideo with SolvePercentageMixin {
     final File newVideoFile = File(newVideoPath);
     final File newAudioFile = File(newAudioPath);
 
-    if (!newVideoFile.existsSync()) newVideoFile.writeAsBytesSync(downloadingVideo);
-    if (!newAudioFile.existsSync()) newAudioFile.writeAsBytesSync(downloadingAudio);
+    if (!newVideoFile.existsSync()) {
+      newVideoFile.writeAsBytesSync(downloadingVideo);
+    }
+    if (!newAudioFile.existsSync()) {
+      newAudioFile.writeAsBytesSync(downloadingAudio);
+    }
 
     // create output path where file will be saved
 
@@ -240,7 +253,7 @@ abstract class DownloadVideo with SolvePercentageMixin {
 
     final String outputPath =
         "${tempPath.path}/${_globalFunc.removeSpaceFromStringForDownloadingVideo("$videoName"
-            "_${downloadingVideo.length + downloadingAudio.length}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
+        "_${downloadingVideo.length + downloadingAudio.length}_$dateTime")}.mp4"; // remember to rename file all the time, other way file will be replaced with another file
 
     // final command =
     //     '-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a aac -strict experimental $outputPath';
@@ -257,21 +270,20 @@ abstract class DownloadVideo with SolvePercentageMixin {
     // final command5 =
     //     "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -map 0:v -map 1:a -y $outputPath";
 
-    final command6 = "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a aac -map 0:v:0"
+    final command6 =
+        "-i ${newVideoFile.path} -i ${newAudioFile.path} -c:v copy -c:a aac -map 0:v:0"
         " -map 1:a:0 -shortest $outputPath";
 
     await FFmpegKit.execute(command6).then((value) async {
       final returnCode = await value.getReturnCode();
-      log("result of audio and video logs: ${await value.getAllLogsAsString()}");
+      log(
+        "result of audio and video logs: ${await value.getAllLogsAsString()}",
+      );
       log("result of fail: ${await value.getFailStackTrace()}");
 
       if (ReturnCode.isSuccess(returnCode)) {
         // debugPrint"SUCCESS");
-        await DownloadingVideoUseCase(
-          path,
-          dbFloor,
-          permissions,
-        ).download(
+        await DownloadingVideoUseCase(path, dbFloor, permissions).download(
           downloadingVideo: File(outputPath).readAsBytesSync(),
           stateModel: stateModel,
         );

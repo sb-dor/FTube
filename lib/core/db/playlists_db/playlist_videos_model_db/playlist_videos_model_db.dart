@@ -72,18 +72,17 @@ class PlaylistVideosModelDb extends BaseVideoModelDb {
     String? channelThumb,
     String? videoDate,
     String? dateTime,
-  }) =>
-      PlaylistVideosModelDb(
-        id: id ?? this.id,
-        playlistId: playlistId ?? this.playlistId,
-        videoId: videoId ?? this.videoId,
-        videoThumbnailUrl: videoThumbnailUrl ?? this.videoThumbnailUrl,
-        views: views ?? this.views,
-        duration: duration ?? this.duration,
-        title: title ?? this.title,
-        channelName: channelName ?? this.channelName,
-        channelThumb: channelThumb ?? this.channelThumb,
-        videoDate: videoDate ?? this.videoDate,
-        dateTime: dateTime ?? this.dateTime,
-      );
+  }) => PlaylistVideosModelDb(
+    id: id ?? this.id,
+    playlistId: playlistId ?? this.playlistId,
+    videoId: videoId ?? this.videoId,
+    videoThumbnailUrl: videoThumbnailUrl ?? this.videoThumbnailUrl,
+    views: views ?? this.views,
+    duration: duration ?? this.duration,
+    title: title ?? this.title,
+    channelName: channelName ?? this.channelName,
+    channelThumb: channelThumb ?? this.channelThumb,
+    videoDate: videoDate ?? this.videoDate,
+    dateTime: dateTime ?? this.dateTime,
+  );
 }

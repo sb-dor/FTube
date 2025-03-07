@@ -20,9 +20,10 @@ class WrappedPopupWidget extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.only(left: 10, right: 10),
-              width: fromFullScreen
-                  ? MediaQuery.of(context).size.height
-                  : MediaQuery.of(context).size.width,
+              width:
+                  fromFullScreen
+                      ? MediaQuery.of(context).size.height
+                      : MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 color: backgroundColor ?? Colors.white,
                 borderRadius: const BorderRadius.only(

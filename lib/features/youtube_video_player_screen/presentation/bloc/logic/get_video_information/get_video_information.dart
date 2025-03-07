@@ -18,8 +18,9 @@ class GetVideoInformation {
   Future<void> getVideoInformation({
     required String videoId, // The ID of the video to fetch information for
     required BuildContext
-        context, // The BuildContext used for checking if the widget is still mounted
-    required YoutubeVideoStateModel stateModel, // The state model that holds video data and state
+    context, // The BuildContext used for checking if the widget is still mounted
+    required YoutubeVideoStateModel
+    stateModel, // The state model that holds video data and state
     required Function(YoutubeVideoStates) emit, // A function to emit new states
   }) async {
     // Check if the context is still mounted; if not, exit the method
@@ -33,8 +34,11 @@ class GetVideoInformation {
 
     try {
       // Fetch video information using RestApiGetVideoData
-      final data = await RestApiGetVideoData(youtubeDataApi: _youtubeDataApi).getVideoInfo(
-        videoContent: TypeContent.snippet, // Specify the type of content to fetch
+      final data = await RestApiGetVideoData(
+        youtubeDataApi: _youtubeDataApi,
+      ).getVideoInfo(
+        videoContent:
+            TypeContent.snippet, // Specify the type of content to fetch
         videoId: videoId, // Provide the video ID
       );
 
@@ -51,10 +55,13 @@ class GetVideoInformation {
 
         // Create a MediaItem for background playback with the fetched video data
         stateModel.mediaItemForRunningInBackground = MediaItem(
-          id: (stateModel.audios.firstWhereOrNull((audio) => audio.codec.subtype == 'mp4') ??
-                  stateModel.audios.first)
-              .url
-              .toString(),
+          id:
+              (stateModel.audios.firstWhereOrNull(
+                        (audio) => audio.codec.subtype == 'mp4',
+                      ) ??
+                      stateModel.audios.first)
+                  .url
+                  .toString(),
           title: stateModel.videoData?.video?.title ?? '',
           artist: stateModel.videoData?.video?.channelName ?? '',
           album: stateModel.videoData?.video?.description ?? '',

@@ -27,8 +27,12 @@ abstract class Migration1to2 {
   static const updatingVersion = 2;
 
   ///                                   [versions]
-  static final migration1to2 = Migration(lastVersion, updatingVersion, (database) async {
-    await database.execute('alter table video_history add column if not exists date_time TEXT');
+  static final migration1to2 = Migration(lastVersion, updatingVersion, (
+    database,
+  ) async {
+    await database.execute(
+      'alter table video_history add column if not exists date_time TEXT',
+    );
   });
 }
 
@@ -36,22 +40,28 @@ abstract class Migration3to4 {
   static const lastVersion = 3;
   static const updatingVersion = 4;
 
-  static final migration3to4 = Migration(lastVersion, updatingVersion, (database) async {
-    await database
-        .execute('CREATE TABLE IF NOT EXISTS `likes_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,'
-            ' `videoId` TEXT, `videoThumbnailUrl` TEXT,'
-            ' `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT,'
-            ' `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT)');
+  static final migration3to4 = Migration(lastVersion, updatingVersion, (
+    database,
+  ) async {
+    await database.execute(
+      'CREATE TABLE IF NOT EXISTS `likes_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,'
+      ' `videoId` TEXT, `videoThumbnailUrl` TEXT,'
+      ' `views` TEXT, `duration` TEXT, `title` TEXT, `channelName` TEXT,'
+      ' `channelThumb` TEXT, `videoDate` TEXT, `date_time` TEXT)',
+    );
   });
 }
 
 abstract class Migration4to5 {
   static const lastVersion = 4;
   static const updatingVersion = 5;
-  static final migration4to5 = Migration(lastVersion, updatingVersion, (database) async {
+  static final migration4to5 = Migration(lastVersion, updatingVersion, (
+    database,
+  ) async {
     await database.execute(
-        'CREATE TABLE IF NOT EXISTS `file_downloads` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,'
-        ' `name` TEXT, `downloaded_path` TEXT, `image_path` TEXT, `views` TEXT,'
-        ' `created_at` TEXT, `channel_name` TEXT)');
+      'CREATE TABLE IF NOT EXISTS `file_downloads` (`id` INTEGER PRIMARY KEY AUTOINCREMENT,'
+      ' `name` TEXT, `downloaded_path` TEXT, `image_path` TEXT, `views` TEXT,'
+      ' `created_at` TEXT, `channel_name` TEXT)',
+    );
   });
 }

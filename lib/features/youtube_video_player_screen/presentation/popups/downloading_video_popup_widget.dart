@@ -18,10 +18,12 @@ class DownloadingVideoPopupWidget extends StatefulWidget {
   const DownloadingVideoPopupWidget({super.key});
 
   @override
-  State<DownloadingVideoPopupWidget> createState() => _DownloadingVideoPopupWidgetState();
+  State<DownloadingVideoPopupWidget> createState() =>
+      _DownloadingVideoPopupWidgetState();
 }
 
-class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidget> {
+class _DownloadingVideoPopupWidgetState
+    extends State<DownloadingVideoPopupWidget> {
   late List<Widget> _screens;
   late PageController _pageController;
   double _position = 130;
@@ -36,7 +38,9 @@ class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidge
       _SelectDownloadingTypeScreen(pageController: _pageController),
       _VideosDownloadingInformation(pageController: _pageController),
     ];
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) => setState(() {}),
+    );
   }
 
   @override
@@ -56,7 +60,8 @@ class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidge
                 return AnimatedBuilder(
                   animation: _pageController,
                   builder: (context, child) {
-                    _position = MediaQuery.of(context).size.height *
+                    _position =
+                        MediaQuery.of(context).size.height *
                         ((_pageController.page ?? 0.0) + 1) *
                         0.22;
                     return Column(
@@ -101,9 +106,7 @@ class _DownloadingVideoPopupWidgetState extends State<DownloadingVideoPopupWidge
 class _SelectDownloadingTypeScreen extends StatelessWidget {
   final PageController pageController;
 
-  const _SelectDownloadingTypeScreen({
-    required this.pageController,
-  });
+  const _SelectDownloadingTypeScreen({required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -117,61 +120,69 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
               height: 130,
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
               child: Row(
-                children: DownloadingType.types
-                    .map(
-                      (e) => Expanded(
-                        child: Center(
-                          child: GestureDetector(
-                            onTap: () async {
-                              context.read<YoutubeVideoCubit>().clickTypeOfDownloadingVideo(e);
-                              pageController.animateToPage(
-                                ((pageController.page ?? 0) + 1).toInt(),
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.fastOutSlowIn,
-                              );
+                children:
+                    DownloadingType.types
+                        .map(
+                          (e) => Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  context
+                                      .read<YoutubeVideoCubit>()
+                                      .clickTypeOfDownloadingVideo(e);
+                                  pageController.animateToPage(
+                                    ((pageController.page ?? 0) + 1).toInt(),
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.fastOutSlowIn,
+                                  );
 
-                              await Provider.of<DependencyContainer>(context, listen: false)
-                                  .analyticsReporter
-                                  .report(TypeDownloaderButtonEvent(e.eventName));
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 175),
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: currentState.downloadingType?.id == e.id
-                                    ? Border.all(color: Colors.red)
-                                    : null,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: currentState.downloadingType?.id == e.id
-                                    ? []
-                                    : const [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          blurRadius: 5,
-                                        ),
-                                      ],
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.music_note),
-                                  const SizedBox(height: 5),
-                                  TextWidget(
-                                    text: e.name,
-                                    textAlign: TextAlign.center,
-                                    size: 15,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: 0.9,
+                                  await Provider.of<DependencyContainer>(
+                                    context,
+                                    listen: false,
+                                  ).analyticsReporter.report(
+                                    TypeDownloaderButtonEvent(e.eventName),
+                                  );
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 175),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border:
+                                        currentState.downloadingType?.id == e.id
+                                            ? Border.all(color: Colors.red)
+                                            : null,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow:
+                                        currentState.downloadingType?.id == e.id
+                                            ? []
+                                            : const [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                blurRadius: 5,
+                                              ),
+                                            ],
                                   ),
-                                ],
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.music_note),
+                                      const SizedBox(height: 5),
+                                      TextWidget(
+                                        text: e.name,
+                                        textAlign: TextAlign.center,
+                                        size: 15,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.9,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                    .toList(),
+                        )
+                        .toList(),
               ),
             ),
           ],
@@ -184,20 +195,22 @@ class _SelectDownloadingTypeScreen extends StatelessWidget {
 class _VideosDownloadingInformation extends StatelessWidget {
   final PageController pageController;
 
-  const _VideosDownloadingInformation({
-    required this.pageController,
-  });
+  const _VideosDownloadingInformation({required this.pageController});
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final youtubeStateModel = context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
-        final downloadingVideoStateModel = context.watch<VideoDownloadingCubit>().state;
-        final downloadingAudiosState = context.watch<AudioDownloadingCubit>().state;
-        final arrayOfVideos = youtubeStateModel.tempMinAudioForVideo == null
-            ? youtubeStateModel.videosWithSound
-            : youtubeStateModel.allVideos;
+        final youtubeStateModel =
+            context.watch<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+        final downloadingVideoStateModel =
+            context.watch<VideoDownloadingCubit>().state;
+        final downloadingAudiosState =
+            context.watch<AudioDownloadingCubit>().state;
+        final arrayOfVideos =
+            youtubeStateModel.tempMinAudioForVideo == null
+                ? youtubeStateModel.videosWithSound
+                : youtubeStateModel.allVideos;
         return SizedBox(
           child: ListView(
             children: [
@@ -218,7 +231,8 @@ class _VideosDownloadingInformation extends StatelessWidget {
               if (youtubeStateModel.downloadingType?.id == 1)
                 ListView.separated(
                   padding: const EdgeInsets.only(left: 10),
-                  separatorBuilder: (context, index) => const Divider(height: 10),
+                  separatorBuilder:
+                      (context, index) => const Divider(height: 10),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: youtubeStateModel.audios.length,
@@ -251,7 +265,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                           "Size: ${audio.size.totalMegaBytes.toStringAsFixed(2)} МБ",
                                     ),
                                     if (!ReusableGlobalFunctions.instance
-                                        .checkMp4FromURI(value: audio.url.toString()))
+                                        .checkMp4FromURI(
+                                          value: audio.url.toString(),
+                                        ))
                                       TextSpan(
                                         text: " - ${audio.bitrate}",
                                         style: const TextStyle(
@@ -263,9 +279,12 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ),
                               ),
                               if (audio.url.toString().trim() ==
-                                  youtubeStateModel.tempMinAudioForVideo?.url.toString().trim())
+                                  youtubeStateModel.tempMinAudioForVideo?.url
+                                      .toString()
+                                      .trim())
                                 TextWidget(
-                                  text: "Recommended (Fast Download - ${audio.bitrate})",
+                                  text:
+                                      "Recommended (Fast Download - ${audio.bitrate})",
                                   color: Colors.red,
                                   size: 13,
                                   fontWeight: FontWeight.w500,
@@ -276,7 +295,8 @@ class _VideosDownloadingInformation extends StatelessWidget {
                         ),
                         if (audio.url.toString() ==
                             downloadingAudiosState.downloadingAudioInfo?.urlId)
-                          if (downloadingAudiosState is AudioGettingInformationState)
+                          if (downloadingAudiosState
+                              is AudioGettingInformationState)
                             const Padding(
                               padding: EdgeInsets.only(right: 10),
                               child: SizedBox(
@@ -288,14 +308,18 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ),
                               ),
                             )
-                          else if (downloadingAudiosState is AudioDownloadingState)
+                          else if (downloadingAudiosState
+                              is AudioDownloadingState)
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () async =>
-                                        await context.read<YoutubeVideoCubit>().cancelTheAudio(),
+                                    onPressed:
+                                        () async =>
+                                            await context
+                                                .read<YoutubeVideoCubit>()
+                                                .cancelTheAudio(),
                                     icon: const Icon(Icons.cancel_outlined),
                                   ),
                                   const SizedBox(width: 10),
@@ -304,15 +328,18 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 3,
-                                      value: downloadingAudiosState
-                                          .downloadingAudioInfo?.downloadingProgress,
+                                      value:
+                                          downloadingAudiosState
+                                              .downloadingAudioInfo
+                                              ?.downloadingProgress,
                                       color: Colors.red,
                                     ),
                                   ),
                                 ],
                               ),
                             )
-                          else if (downloadingAudiosState is AudioSavingOnStorageState)
+                          else if (downloadingAudiosState
+                              is AudioSavingOnStorageState)
                             const TextWidget(text: "Error downloading")
                           else
                             const SizedBox()
@@ -323,10 +350,14 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 message: "Download audio in Downloads folder",
                                 showDuration: const Duration(seconds: 10),
                                 child: IconButton(
-                                  onPressed: () async =>
-                                      await context.read<YoutubeVideoCubit>().downloadAudio(
+                                  onPressed:
+                                      () async => await context
+                                          .read<YoutubeVideoCubit>()
+                                          .downloadAudio(
                                             audioStreamInfo: audio,
-                                            path: DownloadingStoragePath.phoneStorage,
+                                            path:
+                                                DownloadingStoragePath
+                                                    .phoneStorage,
                                           ),
                                   icon: const Icon(Icons.download),
                                 ),
@@ -335,15 +366,21 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 message: "Download audio in App Storage folder",
                                 showDuration: const Duration(seconds: 10),
                                 child: IconButton(
-                                  onPressed: () async =>
-                                      await context.read<YoutubeVideoCubit>().downloadAudio(
+                                  onPressed:
+                                      () async => await context
+                                          .read<YoutubeVideoCubit>()
+                                          .downloadAudio(
                                             audioStreamInfo: audio,
-                                            path: DownloadingStoragePath.appStorage,
+                                            path:
+                                                DownloadingStoragePath
+                                                    .appStorage,
                                           ),
                                   icon: SizedBox(
                                     width: 35,
                                     height: 35,
-                                    child: Image.asset('assets/download_icons/in_app_download.png'),
+                                    child: Image.asset(
+                                      'assets/download_icons/in_app_download.png',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -357,10 +394,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  separatorBuilder: (context, index) => Divider(
-                    height: 10,
-                    color: Colors.grey.shade300,
-                  ),
+                  separatorBuilder:
+                      (context, index) =>
+                          Divider(height: 10, color: Colors.grey.shade300),
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   itemCount: arrayOfVideos.length,
                   itemBuilder: (context, index) {
@@ -393,7 +429,9 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                           "Size: ${video.size.totalMegaBytes.toStringAsFixed(2)} МБ",
                                     ),
                                     if (!ReusableGlobalFunctions.instance
-                                        .checkMp4FromURI(value: video.url.toString()))
+                                        .checkMp4FromURI(
+                                          value: video.url.toString(),
+                                        ))
                                       TextSpan(
                                         text: " - ${video.bitrate}",
                                         style: const TextStyle(
@@ -407,7 +445,8 @@ class _VideosDownloadingInformation extends StatelessWidget {
                               if (ReusableGlobalFunctions.instance
                                   .checkMp4FromURI(value: video.url.toString()))
                                 TextWidget(
-                                  text: "Recommended (Fast download - ${video.bitrate})",
+                                  text:
+                                      "Recommended (Fast download - ${video.bitrate})",
                                   color: Colors.red,
                                   size: 13,
                                   fontWeight: FontWeight.w500,
@@ -416,10 +455,15 @@ class _VideosDownloadingInformation extends StatelessWidget {
                             ],
                           ),
                         ),
-                        if (downloadingVideoStateModel.tempDownloadingVideoInfo != null &&
-                            downloadingVideoStateModel.tempDownloadingVideoInfo?.urlId ==
+                        if (downloadingVideoStateModel
+                                    .tempDownloadingVideoInfo !=
+                                null &&
+                            downloadingVideoStateModel
+                                    .tempDownloadingVideoInfo
+                                    ?.urlId ==
                                 video.url.toString())
-                          if (downloadingVideoStateModel is VideoDownloadingGettingInfoState)
+                          if (downloadingVideoStateModel
+                              is VideoDownloadingGettingInfoState)
                             const Padding(
                               padding: EdgeInsets.only(right: 10),
                               child: SizedBox(
@@ -431,14 +475,18 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ),
                               ),
                             )
-                          else if (downloadingVideoStateModel is VideoDownloadingLoadingState)
+                          else if (downloadingVideoStateModel
+                              is VideoDownloadingLoadingState)
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () async =>
-                                        await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                                    onPressed:
+                                        () async =>
+                                            await context
+                                                .read<YoutubeVideoCubit>()
+                                                .cancelTheVideo(),
                                     icon: const Icon(Icons.cancel_outlined),
                                   ),
                                   const SizedBox(width: 10),
@@ -447,8 +495,10 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 3,
-                                      value: downloadingVideoStateModel
-                                          .tempDownloadingVideoInfo?.downloadingProgress,
+                                      value:
+                                          downloadingVideoStateModel
+                                              .tempDownloadingVideoInfo
+                                              ?.downloadingProgress,
                                       color: Colors.red,
                                     ),
                                   ),
@@ -468,14 +518,18 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 ),
                               ),
                             )
-                          else if (downloadingVideoStateModel is VideoDownloadingAudioState)
+                          else if (downloadingVideoStateModel
+                              is VideoDownloadingAudioState)
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: Row(
                                 children: [
                                   IconButton(
-                                    onPressed: () async =>
-                                        await context.read<YoutubeVideoCubit>().cancelTheVideo(),
+                                    onPressed:
+                                        () async =>
+                                            await context
+                                                .read<YoutubeVideoCubit>()
+                                                .cancelTheVideo(),
                                     icon: const Icon(Icons.cancel_outlined),
                                   ),
                                   const SizedBox(width: 10),
@@ -484,15 +538,18 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 3,
-                                      value: downloadingVideoStateModel
-                                          .tempDownloadingAudioInfo?.downloadingProgress,
+                                      value:
+                                          downloadingVideoStateModel
+                                              .tempDownloadingAudioInfo
+                                              ?.downloadingProgress,
                                       color: Colors.blue,
                                     ),
                                   ),
                                 ],
                               ),
                             )
-                          else if (downloadingVideoStateModel is VideoDownloadingErrorState)
+                          else if (downloadingVideoStateModel
+                              is VideoDownloadingErrorState)
                             const TextWidget(text: "Error downloading")
                           else
                             const SizedBox()
@@ -503,10 +560,13 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 message: "Download video in Gallery",
                                 showDuration: const Duration(seconds: 10),
                                 child: IconButton(
-                                  onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
-                                        video,
-                                        DownloadingStoragePath.phoneStorage,
-                                      ),
+                                  onPressed:
+                                      () => context
+                                          .read<YoutubeVideoCubit>()
+                                          .downloadVideo(
+                                            video,
+                                            DownloadingStoragePath.phoneStorage,
+                                          ),
                                   icon: SizedBox(
                                     width: 40,
                                     height: 40,
@@ -520,14 +580,19 @@ class _VideosDownloadingInformation extends StatelessWidget {
                                 message: "Download video in App Storage",
                                 showDuration: const Duration(seconds: 10),
                                 child: IconButton(
-                                  onPressed: () => context.read<YoutubeVideoCubit>().downloadVideo(
-                                        video,
-                                        DownloadingStoragePath.appStorage,
-                                      ),
+                                  onPressed:
+                                      () => context
+                                          .read<YoutubeVideoCubit>()
+                                          .downloadVideo(
+                                            video,
+                                            DownloadingStoragePath.appStorage,
+                                          ),
                                   icon: SizedBox(
                                     width: 35,
                                     height: 35,
-                                    child: Image.asset('assets/download_icons/in_app_download.png'),
+                                    child: Image.asset(
+                                      'assets/download_icons/in_app_download.png',
+                                    ),
                                   ),
                                 ),
                               ),

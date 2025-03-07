@@ -11,12 +11,14 @@ part 'history_events.dart';
 
 part 'history_states.dart';
 
-class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper {
+class HistoryBloc extends Bloc<HistoryEvents, HistoryStates>
+    with StorageHelper {
   late HistoryStateModel _currentState;
 
   final LibraryScreenRepository _libraryScreenRepository;
 
-  HistoryBloc(this._libraryScreenRepository) : super(LoadingHistoryState(HistoryStateModel())) {
+  HistoryBloc(this._libraryScreenRepository)
+    : super(LoadingHistoryState(HistoryStateModel())) {
     // registrations
     _currentState = state.historyStateModel;
 
@@ -30,7 +32,10 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
     on<InitLengthOfDownloadedFiles>(_initLengthOfDownloadedFiles);
   }
 
-  void _getHistoryEvent(GetHistoryEvent event, Emitter<HistoryStates> emit) async {
+  void _getHistoryEvent(
+    GetHistoryEvent event,
+    Emitter<HistoryStates> emit,
+  ) async {
     emit(LoadingHistoryState(_currentState));
 
     final data = await _libraryScreenRepository.getHistory();
@@ -40,7 +45,10 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
     emit(LoadedHistoryState(_currentState));
   }
 
-  void _paginateHistoryEvent(PaginateHistoryEvent event, Emitter<HistoryStates> emit) async {
+  void _paginateHistoryEvent(
+    PaginateHistoryEvent event,
+    Emitter<HistoryStates> emit,
+  ) async {
     final data = await _libraryScreenRepository.getHistory();
 
     _currentState.addPaginate(videos: data, paginate: true);
@@ -48,15 +56,18 @@ class HistoryBloc extends Bloc<HistoryEvents, HistoryStates> with StorageHelper 
     _emitter(emit);
   }
 
-  void _addOnHistoryEvent(AddOnHistoryEvent event, Emitter<HistoryStates> emit) async =>
-      await _libraryScreenRepository.saveInHistory(event.video);
+  void _addOnHistoryEvent(
+    AddOnHistoryEvent event,
+    Emitter<HistoryStates> emit,
+  ) async => await _libraryScreenRepository.saveInHistory(event.video);
 
   void _initLengthOfDownloadedFiles(
     InitLengthOfDownloadedFiles event,
     Emitter<HistoryStates> emit,
   ) async {
     final Directory? path = await getStorage();
-    _currentState.lengthOfDownloadedFiles = ((await path?.list().toList()) ?? []).length;
+    _currentState.lengthOfDownloadedFiles =
+        ((await path?.list().toList()) ?? []).length;
     _emitter(emit);
   }
 

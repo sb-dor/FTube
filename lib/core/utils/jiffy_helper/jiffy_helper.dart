@@ -11,7 +11,9 @@ abstract class JiffyHelper {
   static String _removeLettersFromDateTime(String data) {
     String res = '';
     for (int i = 0; i < data.length; i++) {
-      if (data[i] != '-' || int.tryParse(data[i]) == null || data[i] == ' ') continue;
+      if (data[i] != '-' || int.tryParse(data[i]) == null || data[i] == ' ') {
+        continue;
+      }
       res += data[i];
     }
     // debugPrint"result of string is : $res");

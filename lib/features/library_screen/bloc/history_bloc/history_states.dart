@@ -8,17 +8,17 @@ sealed class HistoryStates {
 
 final class LoadingHistoryState extends HistoryStates {
   LoadingHistoryState(HistoryStateModel historyStateModel)
-      : super(historyStateModel: historyStateModel);
+    : super(historyStateModel: historyStateModel);
 }
 
 final class ErrorHistoryState extends HistoryStates {
   String message;
 
   ErrorHistoryState(this.message, HistoryStateModel historyStateModel)
-      : super(historyStateModel: historyStateModel);
+    : super(historyStateModel: historyStateModel);
 }
 
 final class LoadedHistoryState extends HistoryStates {
   LoadedHistoryState(HistoryStateModel historyStateModel)
-      : super(historyStateModel: historyStateModel);
+    : super(historyStateModel: historyStateModel);
 }

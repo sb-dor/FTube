@@ -7,16 +7,19 @@ sealed class PlaylistInnerScreenState {
 }
 
 final class LoadingPlaylistInnerState extends PlaylistInnerScreenState {
-  LoadingPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
-      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+  LoadingPlaylistInnerState(
+    PlaylistInnerScreenStateModel playlistInnerScreenStateModel,
+  ) : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
 }
 
 final class ErrorPlaylistInnerState extends PlaylistInnerScreenState {
-  ErrorPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
-      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+  ErrorPlaylistInnerState(
+    PlaylistInnerScreenStateModel playlistInnerScreenStateModel,
+  ) : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
 }
 
 final class LoadedPlaylistInnerState extends PlaylistInnerScreenState {
-  LoadedPlaylistInnerState(PlaylistInnerScreenStateModel playlistInnerScreenStateModel)
-      : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
+  LoadedPlaylistInnerState(
+    PlaylistInnerScreenStateModel playlistInnerScreenStateModel,
+  ) : super(playlistInnerScreenStateModel: playlistInnerScreenStateModel);
 }

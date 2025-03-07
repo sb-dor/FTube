@@ -24,18 +24,19 @@ class _TrendingScreenState extends State<TrendingScreen> {
     // TODO: implement initState
     super.initState();
     context.read<TrendingScreenBloc>().add(
-          RefreshTrendingScreen(
-            category: VideoCategory.trendsCategories.first,
-            refresh: false,
-          ),
-        );
+      RefreshTrendingScreen(
+        category: VideoCategory.trendsCategories.first,
+        refresh: false,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final videoCategoryState = context.watch<MainVideoCategoryCubit>().state;
+        final videoCategoryState =
+            context.watch<MainVideoCategoryCubit>().state;
         final trendsVideosState = context.watch<TrendingScreenBloc>().state;
         return Column(
           children: [
@@ -49,7 +50,8 @@ class _TrendingScreenState extends State<TrendingScreen> {
             Expanded(
               child: RefreshIndicator(
                 color: Colors.red,
-                onRefresh: () async => context.read<TrendingScreenBloc>().add(
+                onRefresh:
+                    () async => context.read<TrendingScreenBloc>().add(
                       RefreshTrendingScreen(
                         category: trendsVideosState.trendingStateModel.category,
                         refresh: true,
@@ -58,9 +60,14 @@ class _TrendingScreenState extends State<TrendingScreen> {
                 child: NotificationListener<UserScrollNotification>(
                   onNotification: (notification) {
                     if (notification.direction == ScrollDirection.reverse) {
-                      context.read<HomePageBottomNavbarCubit>().hideBottomNavbar();
-                    } else if (notification.direction == ScrollDirection.forward) {
-                      context.read<HomePageBottomNavbarCubit>().showBottomNavbar();
+                      context
+                          .read<HomePageBottomNavbarCubit>()
+                          .hideBottomNavbar();
+                    } else if (notification.direction ==
+                        ScrollDirection.forward) {
+                      context
+                          .read<HomePageBottomNavbarCubit>()
+                          .showBottomNavbar();
                     }
                     return true;
                   },
@@ -72,16 +79,21 @@ class _TrendingScreenState extends State<TrendingScreen> {
                       else if (trendsVideosState is ErrorTrendingScreenState ||
                           videoCategoryState is ErrorVideoCategoryState)
                         ErrorButtonWidget(
-                          onTap: () => context.read<TrendingScreenBloc>().add(
+                          onTap:
+                              () => context.read<TrendingScreenBloc>().add(
                                 RefreshTrendingScreen(
-                                  category: trendsVideosState.trendingStateModel.category,
+                                  category:
+                                      trendsVideosState
+                                          .trendingStateModel
+                                          .category,
                                   refresh: true,
                                 ),
                               ),
                         )
                       else
                         VideosLoadedWidget(
-                          videoList: trendsVideosState.trendingStateModel.videos,
+                          videoList:
+                              trendsVideosState.trendingStateModel.videos,
                           parentContext: context,
                         ),
                       const SizedBox(height: 15),

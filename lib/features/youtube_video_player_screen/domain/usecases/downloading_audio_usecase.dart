@@ -9,21 +9,18 @@ final class DownloadingAudioUseCase {
   final DbFloor dbFloor;
   final Permissions permission;
 
-  DownloadingAudioUseCase(
-    this.path,
-    this.dbFloor,
-    this.permission,
-  );
+  DownloadingAudioUseCase(this.path, this.dbFloor, this.permission);
 
   Future<void> download({
     required List<int>? downloadingVideo,
     required YoutubeVideoStateModel stateModel,
   }) async {
-    final downloadingRepo = YtDownloadingRepoFactory(
-      downloadingStoragePath: path,
-      dbFloor: dbFloor,
-      permission: permission,
-    ).create();
+    final downloadingRepo =
+        YtDownloadingRepoFactory(
+          downloadingStoragePath: path,
+          dbFloor: dbFloor,
+          permission: permission,
+        ).create();
 
     await downloadingRepo.downloadVideo(downloadingVideo, stateModel);
   }

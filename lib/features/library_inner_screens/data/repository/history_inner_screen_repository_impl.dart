@@ -5,14 +5,14 @@ import 'package:youtube/features/library_inner_screens/domain/repository/history
 class HistoryInnerScreenRepositoryImpl implements HistoryInnerScreenRepository {
   final HistoryInnerScreenDataSource _historyInnerScreenDataSource;
 
-  HistoryInnerScreenRepositoryImpl(
-    this._historyInnerScreenDataSource,
-  );
+  HistoryInnerScreenRepositoryImpl(this._historyInnerScreenDataSource);
 
   @override
-  Future<List<BaseVideoModelDb>> getHistory({int page = 1, int currentListLength = 0}) =>
-      _historyInnerScreenDataSource.getHistory(
-        page: page,
-        currentListLength: currentListLength,
-      );
+  Future<List<BaseVideoModelDb>> getHistory({
+    int page = 1,
+    int currentListLength = 0,
+  }) => _historyInnerScreenDataSource.getHistory(
+    page: page,
+    currentListLength: currentListLength,
+  );
 }

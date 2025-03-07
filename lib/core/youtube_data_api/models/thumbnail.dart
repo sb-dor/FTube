@@ -4,9 +4,5 @@ class Thumbnail {
 
   Thumbnail({this.url, this.width, this.height});
 
-  Thumbnail clone() => Thumbnail(
-        url: url,
-        width: width,
-        height: height,
-      );
+  Thumbnail clone() => Thumbnail(url: url, width: width, height: height);
 }

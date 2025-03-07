@@ -52,7 +52,11 @@ class YoutubeDataApi {
       // debugPrint"working first query");
       final body = {
         'context': const {
-          'client': {'hl': 'en', 'clientName': 'WEB', 'clientVersion': '2.20200911.04.00'},
+          'client': {
+            'hl': 'en',
+            'clientName': 'WEB',
+            'clientVersion': '2.20200911.04.00',
+          },
         },
         'continuation': _searchToken,
       };
@@ -111,14 +115,19 @@ class YoutubeDataApi {
   ///Get list of trending videos on youtube
   Future<List<Video>> fetchTrendingVideo() async {
     final List<Video> list = [];
-    final response = await Dio().get(
-      'https://www.youtube.com/feed/trending',
-    );
+    final response = await Dio().get('https://www.youtube.com/feed/trending');
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
       final contents = jsonMap
@@ -175,9 +184,16 @@ class YoutubeDataApi {
     );
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
       final contents = jsonMap
@@ -215,9 +231,16 @@ class YoutubeDataApi {
     );
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
       final contents = jsonMap
@@ -255,9 +278,16 @@ class YoutubeDataApi {
     );
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
       final contents = jsonMap
@@ -296,7 +326,8 @@ class YoutubeDataApi {
     final body = response.data;
     myTranformer.parse(body);
     final json = myTranformer.toGData();
-    final List suggestionsData = jsonDecode(json)['toplevel']['CompleteSuggestion'] ?? [];
+    final List suggestionsData =
+        jsonDecode(json)['toplevel']['CompleteSuggestion'] ?? [];
     for (var suggestion in suggestionsData) {
       suggestions.add(suggestion['suggestion']['data'].toString());
     }
@@ -306,7 +337,9 @@ class YoutubeDataApi {
   Future<String?> fetchRandomWord() async {
     String? res;
     try {
-      final response = await Dio().get('https://random-word-api.herokuapp.com/word');
+      final response = await Dio().get(
+        'https://random-word-api.herokuapp.com/word',
+      );
 
       if (response.statusCode != 200) return "random";
 
@@ -326,9 +359,16 @@ class YoutubeDataApi {
     );
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
       final ChannelData channelData = ChannelData.fromMap(jsonMap);
@@ -342,9 +382,7 @@ class YoutubeDataApi {
   Future<List<Video>> fetchPlayListVideos(String id, int loaded) async {
     final List<Video> videos = [];
     final url = 'https://www.youtube.com/playlist?list=$id&hl=en&persist_hl=1';
-    final response = await Dio().get(
-      url,
-    );
+    final response = await Dio().get(url);
     final jsonMap = _getJsonMap(response);
     if (jsonMap != null) {
       final contents = jsonMap
@@ -376,18 +414,33 @@ class YoutubeDataApi {
   /// channelId, subscribeCount ,Related videos)
   Future<VideoData?> fetchVideoData(String videoId) async {
     VideoData? videoData;
-    final response = await Dio().get('https://www.youtube.com/watch?v=$videoId');
+    final response = await Dio().get(
+      'https://www.youtube.com/watch?v=$videoId',
+    );
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     if (jsonMap != null) {
-      final contents = jsonMap.get('contents')?.get('twoColumnWatchNextResults');
+      final contents = jsonMap
+          .get('contents')
+          ?.get('twoColumnWatchNextResults');
 
       final contentList =
-          contents?.get('secondaryResults')?.get('secondaryResults')?.getList('results')?.toList();
+          contents
+              ?.get('secondaryResults')
+              ?.get('secondaryResults')
+              ?.getList('results')
+              ?.toList();
 
       final List<Video> videosList = [];
 
@@ -398,7 +451,10 @@ class YoutubeDataApi {
         }
       });
 
-      videoData = VideoData(video: VideoPage.fromMap(contents, videoId), videosList: videosList);
+      videoData = VideoData(
+        video: VideoPage.fromMap(contents, videoId),
+        videosList: videosList,
+      );
     }
     return videoData;
   }
@@ -410,7 +466,11 @@ class YoutubeDataApi {
     final url = 'https://www.youtube.com/youtubei/v1/browse?key=$apiKey';
     final body = {
       'context': const {
-        'client': {'hl': 'en', 'clientName': 'WEB', 'clientVersion': '2.20200911.04.00'},
+        'client': {
+          'hl': 'en',
+          'clientName': 'WEB',
+          'clientVersion': '2.20200911.04.00',
+        },
       },
       'continuation': _channelToken,
     };
@@ -439,7 +499,11 @@ class YoutubeDataApi {
     final url = 'https://www.youtube.com/youtubei/v1/browse?key=$apiKey';
     final body = {
       'context': const {
-        'client': {'hl': 'en', 'clientName': 'WEB', 'clientVersion': '2.20200911.04.00'},
+        'client': {
+          'hl': 'en',
+          'clientName': 'WEB',
+          'clientVersion': '2.20200911.04.00',
+        },
       },
       'continuation': _playListToken,
     };
@@ -556,9 +620,16 @@ class YoutubeDataApi {
   Map<String, dynamic>? _getJsonMap(Response response) {
     final raw = response.data;
     final root = parser.parse(raw);
-    final scriptText = root.querySelectorAll('script').map((e) => e.text).toList(growable: false);
-    var initialData = scriptText.firstWhereOrNull((e) => e.contains('var ytInitialData = '));
-    initialData ??= scriptText.firstWhereOrNull((e) => e.contains('window["ytInitialData"] ='));
+    final scriptText = root
+        .querySelectorAll('script')
+        .map((e) => e.text)
+        .toList(growable: false);
+    var initialData = scriptText.firstWhereOrNull(
+      (e) => e.contains('var ytInitialData = '),
+    );
+    initialData ??= scriptText.firstWhereOrNull(
+      (e) => e.contains('window["ytInitialData"] ='),
+    );
     final jsonMap = extractJson(initialData!);
     return jsonMap;
   }

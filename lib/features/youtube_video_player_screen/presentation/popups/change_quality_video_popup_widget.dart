@@ -26,7 +26,9 @@ class ChangeQualityVideoPopup extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    context.read<YoutubeVideoCubit>().pickQualityOfVideo(videoStreamInfo: video);
+                    context.read<YoutubeVideoCubit>().pickQualityOfVideo(
+                      videoStreamInfo: video,
+                    );
                     Navigator.pop(context);
                   },
                   child: Container(

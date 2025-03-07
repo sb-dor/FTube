@@ -11,7 +11,9 @@ class CreatePlayListPopup extends StatefulWidget {
 }
 
 class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
-  final TextEditingController _textEditingController = TextEditingController(text: '');
+  final TextEditingController _textEditingController = TextEditingController(
+    text: '',
+  );
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   bool valueIsEmpty = true;
 
@@ -33,27 +35,20 @@ class _CreatePlayListPopupState extends State<CreatePlayListPopup> {
             return null;
           },
           maxLength: 25,
-          decoration: const InputDecoration(
-            hintText: "Name of the playlist",
-          ),
+          decoration: const InputDecoration(hintText: "Name of the playlist"),
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text(
-            "Cancel",
-            style: TextStyle(
-              color: Colors.red,
-            ),
-          ),
+          child: const Text("Cancel", style: TextStyle(color: Colors.red)),
         ),
         TextButton(
           onPressed: () {
             if (!_formState.currentState!.validate()) return;
-            context
-                .read<PlaylistsBloc>()
-                .add(CreatePlaylistEvent(name: _textEditingController.text.trim()));
+            context.read<PlaylistsBloc>().add(
+              CreatePlaylistEvent(name: _textEditingController.text.trim()),
+            );
             Navigator.pop(context);
           },
           child: Text(

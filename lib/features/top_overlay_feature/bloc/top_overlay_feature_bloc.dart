@@ -5,10 +5,12 @@ import 'state_model/top_overlay_feature_state_model.dart';
 import 'top_overlay_feature_events.dart';
 import 'top_overlay_feature_states.dart';
 
-class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeatureStates> {
+class TopOverlayFeatureBloc
+    extends Bloc<TopOverlayFeatureEvents, TopOverlayFeatureStates> {
   late final TopOverlayFeatureStateModel _currentState;
 
-  TopOverlayFeatureBloc() : super(LoadingOverlayFeatureState(TopOverlayFeatureStateModel())) {
+  TopOverlayFeatureBloc()
+    : super(LoadingOverlayFeatureState(TopOverlayFeatureStateModel())) {
     //
     _currentState = state.topOverlayFeatureStateModel;
 
@@ -51,12 +53,12 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
       await _currentState.disposeController();
       LoadingOverlayFeatureState(_currentState);
       _currentState.initController(
-        VideoPlayerController.networkUrl(
-          Uri.parse(event.videoUrl),
-        ),
+        VideoPlayerController.networkUrl(Uri.parse(event.videoUrl)),
       );
       await _currentState.playerController?.initialize();
-      await _currentState.playerController?.seekTo(event.position ?? const Duration());
+      await _currentState.playerController?.seekTo(
+        event.position ?? const Duration(),
+      );
       await _currentState.playerController?.play();
       // debugPrint"loaded coming here 3");
       emit(LoadedOverlayFeatureState(_currentState));
@@ -100,12 +102,9 @@ class TopOverlayFeatureBloc extends Bloc<TopOverlayFeatureEvents, TopOverlayFeat
     ShowAndHideButtonsOnClickEvent event,
     Emitter<TopOverlayFeatureStates> emit,
   ) async {
-    await _currentState.changeShowButtons(
-      () {
-        if (!isClosed) add(TopOverlayEmitterEvent());
-      },
-      refreshShowButtonTime: event.refreshShowButtonTime,
-    );
+    await _currentState.changeShowButtons(() {
+      if (!isClosed) add(TopOverlayEmitterEvent());
+    }, refreshShowButtonTime: event.refreshShowButtonTime,);
   }
 
   @override

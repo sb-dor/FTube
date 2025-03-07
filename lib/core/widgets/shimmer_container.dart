@@ -35,7 +35,8 @@ class ShimmerContainer extends StatelessWidget {
       baseColor: Colors.grey[300]!,
       highlightColor: Colors.white,
       period: duration ?? const Duration(milliseconds: 1500),
-      child: child ??
+      child:
+          child ??
           Container(
             width: width,
             height: height,

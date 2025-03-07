@@ -10,33 +10,27 @@ import 'package:youtube/features/search_screen/bloc/search_screen_events.dart';
 class SearchScreenFilterLayout extends StatelessWidget {
   final SearchScreenEventFunctionsHolder functionsHolder;
 
-  const SearchScreenFilterLayout({
-    super.key,
-    required this.functionsHolder,
-  });
+  const SearchScreenFilterLayout({super.key, required this.functionsHolder});
 
   @override
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final mainSearchScreenBloc = context.watch<MainSearchScreenBloc>().state;
+        final mainSearchScreenBloc =
+            context.watch<MainSearchScreenBloc>().state;
 
-        final mainSearchScreenStateModel = mainSearchScreenBloc.searchScreenStateModel;
+        final mainSearchScreenStateModel =
+            mainSearchScreenBloc.searchScreenStateModel;
         return Scaffold(
           floatingActionButton: FloatingActionButton(
             backgroundColor: Colors.red,
             onPressed: () {
               Navigator.pop(context);
               context.read<MainSearchScreenBloc>().add(
-                    ClickSearchButtonEvent(
-                      functionsHolder: functionsHolder,
-                    ),
-                  );
+                ClickSearchButtonEvent(functionsHolder: functionsHolder),
+              );
             },
-            child: const Icon(
-              Icons.search,
-              color: Colors.white,
-            ),
+            child: const Icon(Icons.search, color: Colors.white),
           ),
           appBar: AppBar(
             title: const Text("Filter"),
@@ -64,19 +58,27 @@ class SearchScreenFilterLayout extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final orderByTime = OrderByTime.orderByTimes[index];
                   return GestureDetector(
-                    onTap: () => context
-                        .read<MainSearchScreenBloc>()
-                        .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
+                    onTap:
+                        () => context.read<MainSearchScreenBloc>().add(
+                          SelectOrderByTimeEvent(orderByTime: orderByTime),
+                        ),
                     child: ColoredBox(
                       color: Colors.transparent,
                       child: Row(
                         children: [
                           CircleSelectedWidget(
-                            onTap: () => context
-                                .read<MainSearchScreenBloc>()
-                                .add(SelectOrderByTimeEvent(orderByTime: orderByTime)),
-                            selected: orderByTime.id ==
-                                mainSearchScreenStateModel.orderBy?.orderByTime?.id,
+                            onTap:
+                                () => context.read<MainSearchScreenBloc>().add(
+                                  SelectOrderByTimeEvent(
+                                    orderByTime: orderByTime,
+                                  ),
+                                ),
+                            selected:
+                                orderByTime.id ==
+                                mainSearchScreenStateModel
+                                    .orderBy
+                                    ?.orderByTime
+                                    ?.id,
                           ),
                           const SizedBox(width: 5),
                           Expanded(
@@ -110,19 +112,27 @@ class SearchScreenFilterLayout extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final orderByType = OrderByType.orderByType[index];
                   return GestureDetector(
-                    onTap: () => context
-                        .read<MainSearchScreenBloc>()
-                        .add(SelectOrderByTypeEvent(orderByType: orderByType)),
+                    onTap:
+                        () => context.read<MainSearchScreenBloc>().add(
+                          SelectOrderByTypeEvent(orderByType: orderByType),
+                        ),
                     child: ColoredBox(
                       color: Colors.transparent,
                       child: Row(
                         children: [
                           CircleSelectedWidget(
-                            onTap: () => context
-                                .read<MainSearchScreenBloc>()
-                                .add(SelectOrderByTypeEvent(orderByType: orderByType)),
-                            selected: orderByType.id ==
-                                mainSearchScreenStateModel.orderBy?.orderByType?.id,
+                            onTap:
+                                () => context.read<MainSearchScreenBloc>().add(
+                                  SelectOrderByTypeEvent(
+                                    orderByType: orderByType,
+                                  ),
+                                ),
+                            selected:
+                                orderByType.id ==
+                                mainSearchScreenStateModel
+                                    .orderBy
+                                    ?.orderByType
+                                    ?.id,
                           ),
                           const SizedBox(width: 5),
                           Expanded(

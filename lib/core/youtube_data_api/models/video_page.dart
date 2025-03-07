@@ -72,53 +72,48 @@ class VideoPage {
     //
     String? videoThumb,
     String? videoDuration,
-  }) =>
-      VideoPage(
-        videoId: videoId ?? this.videoId,
-        title: title ?? this.title,
-        channelName: channelName ?? this.channelName,
-        viewCount: viewCount ?? this.viewCount,
-        subscribeCount: subscribeCount ?? this.subscribeCount,
-        likeCount: likeCount ?? this.likeCount,
-        unlikeCount: unlikeCount ?? this.unlikeCount,
-        date: date ?? this.date,
-        description: description ?? this.description,
-        channelThumb: channelThumb ?? this.channelThumb,
-        channelId: channelId ?? this.channelId,
-        videoThumb: videoThumb ?? this.videoThumb,
-        videoDuration: videoDuration ?? this.videoDuration,
-      );
+  }) => VideoPage(
+    videoId: videoId ?? this.videoId,
+    title: title ?? this.title,
+    channelName: channelName ?? this.channelName,
+    viewCount: viewCount ?? this.viewCount,
+    subscribeCount: subscribeCount ?? this.subscribeCount,
+    likeCount: likeCount ?? this.likeCount,
+    unlikeCount: unlikeCount ?? this.unlikeCount,
+    date: date ?? this.date,
+    description: description ?? this.description,
+    channelThumb: channelThumb ?? this.channelThumb,
+    channelId: channelId ?? this.channelId,
+    videoThumb: videoThumb ?? this.videoThumb,
+    videoDuration: videoDuration ?? this.videoDuration,
+  );
 
   factory VideoPage.fromMap(Map<String, dynamic>? map, String videoId) {
     return VideoPage(
       videoId: videoId,
-      title: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['title']
-          ?['runs']?[0]?['text'],
-      channelName: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
-          ?['owner']?['videoOwnerRenderer']?['title']?['runs']?[0]?['text'],
-      viewCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
-          ?['viewCount']?['videoViewCountRenderer']?['shortViewCount']?['simpleText'],
-      subscribeCount: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
-          ?['owner']?['videoOwnerRenderer']?['subscriberCountText']?['simpleText'],
-      likeCount: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']
-                      ?['videoActions']?['menuRenderer']?['topLevelButtons']?[0]
-                  ?['segmentedLikeDislikeButtonViewModel']?['likeButtonViewModel']
-              ?['likeButtonViewModel']?['toggleButtonViewModel']?['toggleButtonViewModel']
-          ?['defaultButtonViewModel']?['buttonViewModel']?['title'],
+      title:
+          map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['title']?['runs']?[0]?['text'],
+      channelName:
+          map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['title']?['runs']?[0]?['text'],
+      viewCount:
+          map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['viewCount']?['videoViewCountRenderer']?['shortViewCount']?['simpleText'],
+      subscribeCount:
+          map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['subscriberCountText']?['simpleText'],
+      likeCount:
+          map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['videoActions']?['menuRenderer']?['topLevelButtons']?[0]?['segmentedLikeDislikeButtonViewModel']?['likeButtonViewModel']?['likeButtonViewModel']?['toggleButtonViewModel']?['toggleButtonViewModel']?['defaultButtonViewModel']?['buttonViewModel']?['title'],
       unlikeCount: '',
       description: collectDescriptionString(
-        map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['description']
-            ?['runs'],
+        map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['description']?['runs'],
       ),
-      date: map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['dateText']
-          ?['simpleText'],
-      channelThumb: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
-          ?['owner']?['videoOwnerRenderer']?['thumbnail']?['thumbnails']?[1]?['url'],
-      channelId: map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']
-          ?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
+      date:
+          map?['results']?['results']?['contents']?[0]?['videoPrimaryInfoRenderer']?['dateText']?['simpleText'],
+      channelThumb:
+          map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['thumbnail']?['thumbnails']?[1]?['url'],
+      channelId:
+          map?['results']?['results']?['contents']?[1]?['videoSecondaryInfoRenderer']?['owner']?['videoOwnerRenderer']?['navigationEndpoint']?['browseEndpoint']?['browseId'],
       videoThumb: "https://i.ytimg.com/vi/$videoId/hqdefault.jpg",
-      videoDuration: map?['playlist']?['playlist']?['contents']?[0]?['playlistPanelVideoRenderer']
-          ?['lengthText']?['simpleText'],
+      videoDuration:
+          map?['playlist']?['playlist']?['contents']?[0]?['playlistPanelVideoRenderer']?['lengthText']?['simpleText'],
     );
   }
 

@@ -6,7 +6,9 @@ class HomePageBottomNavbarCubit extends Cubit<HomePageBottomNavbarStates> {
   late HomePageBottomNavbarStateModel _currentState;
 
   HomePageBottomNavbarCubit()
-      : super(InitialHomePageBottomNavbarState(HomePageBottomNavbarStateModel())) {
+    : super(
+        InitialHomePageBottomNavbarState(HomePageBottomNavbarStateModel()),
+      ) {
     _currentState = state.homePageBottomNavbarCubit;
   }
 
@@ -20,19 +22,25 @@ class HomePageBottomNavbarCubit extends Cubit<HomePageBottomNavbarStates> {
     if (_currentState.timeForChangingBottomNavBar?.isActive ?? false) {
       _currentState.timeForChangingBottomNavBar?.cancel();
     }
-    _currentState.timeForChangingBottomNavBar = Timer(const Duration(milliseconds: 500), () {
-      _currentState.showBottomNavbar = false;
-      emit(InitialHomePageBottomNavbarState(_currentState));
-    });
+    _currentState.timeForChangingBottomNavBar = Timer(
+      const Duration(milliseconds: 500),
+      () {
+        _currentState.showBottomNavbar = false;
+        emit(InitialHomePageBottomNavbarState(_currentState));
+      },
+    );
   }
 
   void showBottomNavbar() {
     if (_currentState.timeForChangingBottomNavBar?.isActive ?? false) {
       _currentState.timeForChangingBottomNavBar?.cancel();
     }
-    _currentState.timeForChangingBottomNavBar = Timer(const Duration(milliseconds: 500), () {
-      _currentState.showBottomNavbar = true;
-      emit(InitialHomePageBottomNavbarState(_currentState));
-    });
+    _currentState.timeForChangingBottomNavBar = Timer(
+      const Duration(milliseconds: 500),
+      () {
+        _currentState.showBottomNavbar = true;
+        emit(InitialHomePageBottomNavbarState(_currentState));
+      },
+    );
   }
 }

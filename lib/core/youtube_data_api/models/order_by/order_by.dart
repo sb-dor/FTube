@@ -52,31 +52,36 @@ class OrderBy {
     //
     OrderBy(
       id: "EgQIARAE",
-      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType:
+          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes.first,
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIAhAE",
-      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType:
+          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[1],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIAxAE",
-      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType:
+          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[2],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIBBAE",
-      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType:
+          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[3],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
     OrderBy(
       id: "EgQIBRAE",
-      orderByType: OrderByType.orderByType[1], // set 3 after re-commenting orderByType
+      orderByType:
+          OrderByType.orderByType[1], // set 3 after re-commenting orderByType
       orderByTime: OrderByTime.orderByTimes[4],
       orderByArrange: OrderByArrange.orderByArrange.first,
     ),
@@ -90,7 +95,8 @@ class OrderBy {
     // debugPrint"type herere: ${type?.id}");
     // debugPrint"time herere: ${time?.id}");
     return orderBy.firstWhereOrNull((element) {
-      return element.orderByType?.id == type?.id && element.orderByTime?.id == time?.id;
+      return element.orderByType?.id == type?.id &&
+          element.orderByTime?.id == time?.id;
     });
   }
 }

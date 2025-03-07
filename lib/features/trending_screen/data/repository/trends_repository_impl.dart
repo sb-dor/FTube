@@ -8,14 +8,18 @@ class TrendsRepositoryImpl implements TrendsRepository {
   TrendsRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<List<Video>> fetchTrendingGaming() async => _remoteDataSource.fetchTrendingGaming();
+  Future<List<Video>> fetchTrendingGaming() async =>
+      _remoteDataSource.fetchTrendingGaming();
 
   @override
-  Future<List<Video>> fetchTrendingMovies() async => _remoteDataSource.fetchTrendingMovies();
+  Future<List<Video>> fetchTrendingMovies() async =>
+      _remoteDataSource.fetchTrendingMovies();
 
   @override
-  Future<List<Video>> fetchTrendingMusic() async => _remoteDataSource.fetchTrendingMusic();
+  Future<List<Video>> fetchTrendingMusic() async =>
+      _remoteDataSource.fetchTrendingMusic();
 
   @override
-  Future<List<Video>> fetchTrendingVideo() async => _remoteDataSource.fetchTrendingVideo();
+  Future<List<Video>> fetchTrendingVideo() async =>
+      _remoteDataSource.fetchTrendingVideo();
 }

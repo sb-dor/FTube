@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 class ErrorButtonWidget extends StatelessWidget {
   final VoidCallback onTap;
 
-  const ErrorButtonWidget({
-    super.key,
-    required this.onTap,
-  });
+  const ErrorButtonWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +19,11 @@ class ErrorButtonWidget extends StatelessWidget {
           ),
         ),
         shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
       onPressed: onTap,
-      child: const Text(
-        "Refresh page",
-        style: TextStyle(color: Colors.white),
-      ),
+      child: const Text("Refresh page", style: TextStyle(color: Colors.white)),
     );
   }
 }

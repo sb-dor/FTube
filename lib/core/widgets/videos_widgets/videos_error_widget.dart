@@ -4,15 +4,10 @@ import 'package:youtube/core/widgets/error_button_widget/error_button_widget.dar
 class VideosErrorWidget extends StatelessWidget {
   final VoidCallback onTap;
 
-  const VideosErrorWidget({
-    super.key,
-    required this.onTap,
-  });
+  const VideosErrorWidget({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return ErrorButtonWidget(
-      onTap: onTap,
-    );
+    return ErrorButtonWidget(onTap: onTap);
   }
 }

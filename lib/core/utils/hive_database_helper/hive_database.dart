@@ -25,7 +25,9 @@ class HiveDatabase {
 
   // the reason that i created this box like List<Map<String, dynamic>> is that i wanted to make it
   // same to sqflite database
-  Future<List<Map<String, dynamic>>> getFromBox({required String boxName}) async {
+  Future<List<Map<String, dynamic>>> getFromBox({
+    required String boxName,
+  }) async {
     late Box box;
     if (Hive.isBoxOpen(boxName)) {
       box = Hive.box(boxName);
@@ -33,14 +35,19 @@ class HiveDatabase {
       box = await Hive.openBox(boxName);
     }
     // get by key (key name is "values")
-    final values = box.get('values'); // you can name this "values" what event you want;
+    final values = box.get(
+      'values',
+    ); // you can name this "values" what event you want;
 
     final List<dynamic> results = values ?? [];
 
     return results.map(_convertMap).toList();
   }
 
-  Future<void> insert({required String boxName, required Map<String, dynamic> value}) async {
+  Future<void> insert({
+    required String boxName,
+    required Map<String, dynamic> value,
+  }) async {
     late Box box;
     if (Hive.isBoxOpen(boxName)) {
       box = Hive.box(boxName);
@@ -55,7 +62,8 @@ class HiveDatabase {
 
     final List<dynamic> results = values ?? [];
 
-    final List<Map<String, dynamic>> boxValues = results.map(_convertMap).toList();
+    final List<Map<String, dynamic>> boxValues =
+        results.map(_convertMap).toList();
 
     boxValues.add(value);
 
@@ -79,11 +87,14 @@ class HiveDatabase {
 
     final List<dynamic> tempList = values ?? [];
 
-    final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
+    final List<Map<String, dynamic>> boxValues =
+        tempList.map(_convertMap).toList();
 
     if (boxValues.isEmpty) return;
 
-    boxValues.removeWhere((element) => element.containsKey(key) && element[key] == value);
+    boxValues.removeWhere(
+      (element) => element.containsKey(key) && element[key] == value,
+    );
 
     box.put('values', boxValues);
 
@@ -100,11 +111,12 @@ class HiveDatabase {
     box.put('values', <Map<String, dynamic>>[]);
   }
 
-  Future<void> update(
-      {required String boxName,
-      required String key,
-      required dynamic value,
-      required Map<String, dynamic> updatingValue,}) async {
+  Future<void> update({
+    required String boxName,
+    required String key,
+    required dynamic value,
+    required Map<String, dynamic> updatingValue,
+  }) async {
     late Box box;
 
     if (Hive.isBoxOpen(boxName)) {
@@ -119,14 +131,18 @@ class HiveDatabase {
 
     final List<dynamic> tempList = values ?? [];
 
-    final List<Map<String, dynamic>> boxValues = tempList.map(_convertMap).toList();
+    final List<Map<String, dynamic>> boxValues =
+        tempList.map(_convertMap).toList();
 
     if (boxValues.isEmpty) return;
 
-    final valueIndex =
-        boxValues.indexWhere((element) => element.containsKey(key) && element[key] == value);
+    final valueIndex = boxValues.indexWhere(
+      (element) => element.containsKey(key) && element[key] == value,
+    );
 
-    boxValues.removeWhere((element) => element.containsKey(key) && element[key] == value);
+    boxValues.removeWhere(
+      (element) => element.containsKey(key) && element[key] == value,
+    );
 
     boxValues.insert(valueIndex, updatingValue);
 

@@ -13,9 +13,10 @@ class Channel {
       id: json['id'],
       kind: json['kind'],
       etag: json['etag'],
-      channelSnippet: json['snippet'] == null
-          ? null
-          : ChannelSnippet.fromJson(json['snippet'], channelId: json['id']),
+      channelSnippet:
+          json['snippet'] == null
+              ? null
+              : ChannelSnippet.fromJson(json['snippet'], channelId: json['id']),
     );
   }
 }

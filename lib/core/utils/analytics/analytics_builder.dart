@@ -3,9 +3,8 @@ import 'analytics_property.dart';
 class AnalyticsBuilder {
   final List<AnalyticsProperty> _properties;
 
-  AnalyticsBuilder({
-    List<AnalyticsProperty>? properties,
-  }) : _properties = properties ?? <AnalyticsProperty>[];
+  AnalyticsBuilder({List<AnalyticsProperty>? properties})
+    : _properties = properties ?? <AnalyticsProperty>[];
 
   void add(AnalyticsProperty property) {
     _properties.add(property);

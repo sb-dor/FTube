@@ -18,8 +18,10 @@ class SearchScreen extends StatefulWidget {
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderStateMixin {
-  SearchScreenEventFunctionsHolder searchFunc() => SearchScreenEventFunctionsHolder(
+class _SearchScreenState extends State<SearchScreen>
+    with SingleTickerProviderStateMixin {
+  SearchScreenEventFunctionsHolder searchFunc() =>
+      SearchScreenEventFunctionsHolder(
         searchingBodyStateFunc: () {
           context.read<SearchBodyCubit>().searchingBodyState();
         },
@@ -46,15 +48,20 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     context.read<MainSearchScreenBloc>().add(
-          InitSearchScreenEvent(
-            searchingBodyStateFunc: () => searchFunc().searchingBodyStateFunc(),
-          ),
-        );
+      InitSearchScreenEvent(
+        searchingBodyStateFunc: () => searchFunc().searchingBodyStateFunc(),
+      ),
+    );
     context.read<MainSearchScreenBloc>().add(StartCheckingPaginatingTimer());
-    _searchBarAnimationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _searchBarAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
     _searchBarAnimation = Tween<double>(begin: 0.200, end: 1.0).animate(
-      CurvedAnimation(parent: _searchBarAnimationController, curve: Curves.easeInOutCubic),
+      CurvedAnimation(
+        parent: _searchBarAnimationController,
+        curve: Curves.easeInOutCubic,
+      ),
     );
     _searchBarAnimationController.forward();
     _searchBarAnimationController.addListener(() {
@@ -62,20 +69,20 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
         context.read<MainSearchScreenBloc>().add(RequestToTextField());
       }
     });
-    _scrollController.addListener(
-      () {
-        if (_scrollController.position.maxScrollExtent == _scrollController.offset) {
-          final isLoadedSearchBodyState =
-              BlocProvider.of<SearchBodyCubit>(context).state is LoadedSearchBodyState;
-          context.read<MainSearchScreenBloc>().add(
-                PaginateSearchScreenEvent(
-                  functionsHolder: searchFunc(),
-                  isLoadedSearchBodyState: isLoadedSearchBodyState,
-                ),
-              );
-        }
-      },
-    );
+    _scrollController.addListener(() {
+      if (_scrollController.position.maxScrollExtent ==
+          _scrollController.offset) {
+        final isLoadedSearchBodyState =
+            BlocProvider.of<SearchBodyCubit>(context).state
+                is LoadedSearchBodyState;
+        context.read<MainSearchScreenBloc>().add(
+          PaginateSearchScreenEvent(
+            functionsHolder: searchFunc(),
+            isLoadedSearchBodyState: isLoadedSearchBodyState,
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -92,10 +99,12 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
     return Builder(
       builder: (context) {
         final searchBodyCubit = context.watch<SearchBodyCubit>();
-        final mainSearchScreenCubit = context.watch<MainSearchScreenBloc>().state;
+        final mainSearchScreenCubit =
+            context.watch<MainSearchScreenBloc>().state;
 
         // data
-        final mainSearchScreenStateModel = mainSearchScreenCubit.searchScreenStateModel;
+        final mainSearchScreenStateModel =
+            mainSearchScreenCubit.searchScreenStateModel;
         return Scaffold(
           appBar: AppBar(
             scrolledUnderElevation: 0,
@@ -115,10 +124,9 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
             },
             child: RefreshIndicator(
               color: Colors.red,
-              onRefresh: () async => context.read<MainSearchScreenBloc>().add(
-                    ClickSearchButtonEvent(
-                      functionsHolder: searchFunc(),
-                    ),
+              onRefresh:
+                  () async => context.read<MainSearchScreenBloc>().add(
+                    ClickSearchButtonEvent(functionsHolder: searchFunc()),
                   ),
               child: ListView(
                 controller: _scrollController,
@@ -140,7 +148,8 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                     const VideosLoadingWidget()
                   else if (searchBodyCubit.state is ErrorSearchBodyState)
                     VideosErrorWidget(
-                      onTap: () => context.read<MainSearchScreenBloc>().add(
+                      onTap:
+                          () => context.read<MainSearchScreenBloc>().add(
                             ClickSearchButtonEvent(
                               functionsHolder: searchFunc(),
                             ),
@@ -159,7 +168,10 @@ class _SearchScreenState extends State<SearchScreen> with SingleTickerProviderSt
                         SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2),
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                            strokeWidth: 2,
+                          ),
                         ),
                       ],
                     ),

@@ -79,13 +79,16 @@ final class HomeScreenDatasourceImpl implements HomeScreenDatasource {
         videoCategories + key + snippetPart + regionCode + languageEn,
       );
 
-      if (response.statusCode != Constants.STATUS_SUCCESS) return {'server_error': true};
+      if (response.statusCode != Constants.STATUS_SUCCESS) {
+        return {'server_error': true};
+      }
 
       final Map<String, dynamic> json = response.data;
 
       final List<dynamic> listCat = json['items'];
 
-      final List<VideoCategory> categories = listCat.map((e) => VideoCategory.fromJson(e)).toList();
+      final List<VideoCategory> categories =
+          listCat.map((e) => VideoCategory.fromJson(e)).toList();
 
       res['categories'] = categories;
       res['success'] = true;

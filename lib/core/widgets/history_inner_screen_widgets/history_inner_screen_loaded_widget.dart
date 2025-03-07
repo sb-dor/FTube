@@ -30,10 +30,7 @@ class HistoryInnerScreenLoadedWidget extends StatelessWidget {
       itemCount: historyVideos.length,
       itemBuilder: (context, index) {
         final video = historyVideos[index];
-        return _Widget(
-          baseVideoModelDb: video,
-          parentContext: parentContext,
-        );
+        return _Widget(baseVideoModelDb: video, parentContext: parentContext);
       },
     );
   }
@@ -43,10 +40,7 @@ class _Widget extends StatelessWidget {
   final BaseVideoModelDb? baseVideoModelDb;
   final BuildContext parentContext;
 
-  const _Widget({
-    required this.baseVideoModelDb,
-    required this.parentContext,
-  });
+  const _Widget({required this.baseVideoModelDb, required this.parentContext});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +57,11 @@ class _Widget extends StatelessWidget {
           showOverlay: () {
             if (context.mounted) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                final model = context.read<YoutubeVideoCubit>().state.youtubeVideoStateModel;
+                final model =
+                    context
+                        .read<YoutubeVideoCubit>()
+                        .state
+                        .youtubeVideoStateModel;
                 TopOverlayLogic.instance.showOverlay(
                   context,
                   model.videoUrlForOverlayRun ?? '',
@@ -72,14 +70,12 @@ class _Widget extends StatelessWidget {
               });
             }
           },
-        ).then(
-          (value) {
-            if (context.mounted) {
-              context.read<HistoryBloc>().add(GetHistoryEvent());
-              context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
-            }
-          },
-        );
+        ).then((value) {
+          if (context.mounted) {
+            context.read<HistoryBloc>().add(GetHistoryEvent());
+            context.read<PlaylistsBloc>().add(GetPlaylistsEvent());
+          }
+        });
       },
       child: IntrinsicHeight(
         child: Row(

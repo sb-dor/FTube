@@ -66,11 +66,15 @@ class VideoSnippet extends Video {
       description: json['description'],
       channelID: json['channelId'],
       publishedAt: json['publishedAt'],
-      thumbnailDefault: thumbDefault == null ? null : Thumbnail.fromJson(thumbDefault),
-      thumbnailMedium: thumbMedium == null ? null : Thumbnail.fromJson(thumbMedium),
+      thumbnailDefault:
+          thumbDefault == null ? null : Thumbnail.fromJson(thumbDefault),
+      thumbnailMedium:
+          thumbMedium == null ? null : Thumbnail.fromJson(thumbMedium),
       thumbnailHigh: thumbHigh == null ? null : Thumbnail.fromJson(thumbHigh),
       channelTitle: json['channelTitle'],
-      liveBroadcastContent: EnumExtensions.liveBroadcastContentJson(json['liveBroadcastContent']),
+      liveBroadcastContent: EnumExtensions.liveBroadcastContentJson(
+        json['liveBroadcastContent'],
+      ),
       publishTime: json['publishTime'],
     );
   }
@@ -110,7 +114,9 @@ class VideoSnippet extends Video {
     loadingStatistics = false;
   }
 
-  Future<void> _loadContentDetails(RestApiGetVideoData restApiGetVideoData) async {
+  Future<void> _loadContentDetails(
+    RestApiGetVideoData restApiGetVideoData,
+  ) async {
     loadingContentDetails = true;
     final data = await restApiGetVideoData.getVideoInfo(
       videoContent: TypeContent.contentDetails,

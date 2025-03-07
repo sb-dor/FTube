@@ -67,21 +67,25 @@ class VideoDurationInformation extends StatelessWidget {
                     ),
                     IconButton(
                       style: ButtonStyle(
-                        overlayColor: WidgetStatePropertyAll(Colors.white.withValues(alpha: 0.3)),
+                        overlayColor: WidgetStatePropertyAll(
+                          Colors.white.withValues(alpha: 0.3),
+                        ),
                       ),
                       onPressed: () async {
                         if (fullScreen) {
                           await Navigator.push(
                             context,
                             PageRouteBuilder(
-                              pageBuilder: (context, animation1, animation2) =>
-                                  const VideoFullScreenWidget(),
+                              pageBuilder:
+                                  (context, animation1, animation2) =>
+                                      const VideoFullScreenWidget(),
                               transitionDuration: Duration.zero,
                               reverseTransitionDuration: Duration.zero,
                             ),
                           );
 
-                          if ((currentState.playerController?.value.isPlaying ?? false)) {
+                          if ((currentState.playerController?.value.isPlaying ??
+                              false)) {
                             animationController.reset();
                           } else {
                             animationController.forward();

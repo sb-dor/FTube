@@ -20,10 +20,7 @@ final class ClearTextField extends SearchScreenEvents {
   final ScrollController? scrollController;
   final VoidCallback searchingBodyStateFunc;
 
-  ClearTextField({
-    this.scrollController,
-    required this.searchingBodyStateFunc,
-  });
+  ClearTextField({this.scrollController, required this.searchingBodyStateFunc});
 }
 
 final class StartListeningSpeechEvent extends SearchScreenEvents {
@@ -40,10 +37,7 @@ final class StopListeningSpeechEvent extends SearchScreenEvents {
   final bool popup;
   final VoidCallback popupFunc;
 
-  StopListeningSpeechEvent({
-    required this.popup,
-    required this.popupFunc,
-  });
+  StopListeningSpeechEvent({required this.popup, required this.popupFunc});
 }
 
 final class ClickSearchButtonEvent extends SearchScreenEvents {
@@ -79,9 +73,7 @@ final class PaginateSearchScreenEvent extends SearchScreenEvents {
 final class GetSuggestionRequestEvent extends SearchScreenEvents {
   final SearchScreenEventFunctionsHolder functionsHolder;
 
-  GetSuggestionRequestEvent({
-    required this.functionsHolder,
-  });
+  GetSuggestionRequestEvent({required this.functionsHolder});
 }
 
 final class SelectOrderByTimeEvent extends SearchScreenEvents {

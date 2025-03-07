@@ -17,12 +17,13 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
         final historyStateModel = historyBloc.state.historyStateModel;
         return IntrinsicHeight(
           child: GestureDetector(
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LibraryDownloadedPage(),
-              ),
-            ),
+            onTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LibraryDownloadedPage(),
+                  ),
+                ),
             child: Container(
               padding: const EdgeInsets.only(top: 5, bottom: 5),
               color: Colors.transparent,
@@ -41,7 +42,8 @@ class LibraryDownloadedFilesWidget extends StatelessWidget {
                           letterSpacing: 0.9,
                         ),
                         TextWidget(
-                          text: "${historyStateModel.lengthOfDownloadedFiles} Files",
+                          text:
+                              "${historyStateModel.lengthOfDownloadedFiles} Files",
                           size: 13,
                           fontWeight: FontWeight.normal,
                           color: Colors.grey,
