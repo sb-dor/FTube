@@ -1,3 +1,7 @@
+> **Note**: This was one of the first projects I created while learning Flutter. As such, it may
+> contain bugs or areas that could be improved. Nonetheless, it was a great learning experience and
+> represents my early exploration of Flutter development.
+
 # FTube
 
 FTube is a versatile Flutter application that allows users to watch, download videos, and extract
