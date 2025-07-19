@@ -60,7 +60,7 @@ dependencies:
   jiffy: ^6.2.1
   fluttertoast: ^8.2.4
   gal: ^2.2.0
-  ffmpeg_kit_flutter: ^6.0.3
+  ffmpeg_kit_flutter_new: ^2.0.0
   hive: ^2.2.3
   speech_to_text: ^7.0.0
   xml2json: ^6.2.2

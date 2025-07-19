@@ -9,7 +9,7 @@ import audio_service
 import audio_session
 import connectivity_plus
 import downloadsfolder
-import ffmpeg_kit_flutter
+import ffmpeg_kit_flutter_new
 import firebase_analytics
 import firebase_auth
 import firebase_core
