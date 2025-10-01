@@ -134,6 +134,8 @@ abstract class GetVideo {
     // Get the minimum stream video from the list
     final minStreamVideo = await stateModel.minStreamFromArray();
 
+    if (minStreamVideo == null) return;
+
     // Check if the context is still mounted before proceeding
     if (!context.mounted) return;
 

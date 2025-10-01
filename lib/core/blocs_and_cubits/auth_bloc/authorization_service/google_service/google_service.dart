@@ -59,21 +59,19 @@ class GoogleService implements AuthorizationService {
   Future<Map<String, dynamic>> login() async {
     final Map<String, dynamic> res = {};
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-
-      if (googleUser == null) return {"user_popup_dialog": true};
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       await _sharedPreferencesHelper.saveString(
         key: "google_access_token",
-        value: googleAuth.accessToken,
+        value: googleAuth.idToken,
       );
 
       await _sharedPreferencesHelper.saveString(key: "google_id_token", value: googleAuth.idToken);
 
       final OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken: googleAuth.idToken,
         idToken: googleAuth.idToken,
       );
 
@@ -111,14 +109,13 @@ class GoogleService implements AuthorizationService {
     if (_firebaseAuth.currentUser != null) {
       final Map<String, dynamic> res = {};
       try {
-        final GoogleSignInAccount? googleUser = await _googleSignIn.signInSilently();
-        if (googleUser == null) return {"auth_error": true};
+        final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
         final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
         await _sharedPreferencesHelper.saveString(
           key: "google_access_token",
-          value: googleAuth.accessToken,
+          value: googleAuth.idToken,
         );
 
         await _sharedPreferencesHelper.saveString(

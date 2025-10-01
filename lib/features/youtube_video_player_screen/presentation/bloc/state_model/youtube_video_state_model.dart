@@ -80,10 +80,10 @@ class YoutubeVideoStateModel {
     }
   }
 
-  Future<VideoStreamInfo> minStreamFromArray() async {
-    VideoStreamInfo streamInfo = videosWithSound.first;
+  Future<VideoStreamInfo?> minStreamFromArray() async {
+    VideoStreamInfo? streamInfo = videosWithSound.firstOrNull;
     for (var each in videosWithSound) {
-      if (each.size.totalMegaBytes < streamInfo.size.totalMegaBytes) {
+      if (each.size.totalMegaBytes < (streamInfo?.size.totalMegaBytes ?? 0)) {
         streamInfo = each;
       }
     }

@@ -45,7 +45,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.example.youtube"
-    compileSdkVersion 35
+    compileSdkVersion 36
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -95,5 +95,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0"
     implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
     implementation 'com.google.firebase:firebase-messaging:23.3.1'
-    implementation("com.google.firebase:firebase-analytics-ktx")
 }
