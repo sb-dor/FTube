@@ -1728,10 +1728,11 @@ packages:
   youtube_explode_dart:
     dependency: "direct main"
     description:
-      name: youtube_explode_dart
-      sha256: "9ff345caf8351c59eb1b7560837f761e08d2beaea3b4187637942715a31a6f58"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: caa3023386dbc10e69c99f49f491148094874671
+      url: "https://github.com/Coronon/youtube_explode_dart"
+    source: git
     version: "2.5.2"
 sdks:
   dart: ">=3.9.0 <4.0.0"
