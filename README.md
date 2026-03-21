@@ -43,8 +43,3 @@ To get started with FTube, simply follow these steps:
   <img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114808.png" alt="Screenshot 6" width="200" />
   <img src="https://github.com/sb-dor/FTube/blob/dev/assets/github_images/Screenshot_20240317_114848.png" alt="Screenshot 7" width="200" />
 </p>
-
-## Contributing
-
-Contributions to FTube are welcome! Whether you're reporting a bug, adding a feature, or suggesting
-improvements, please feel free to open an issue or submit a pull request.
