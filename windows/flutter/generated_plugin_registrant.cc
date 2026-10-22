@@ -8,6 +8,7 @@
 
 #include <connectivity_plus/connectivity_plus_windows_plugin.h>
 #include <downloadsfolder/downloadsfolder_plugin_c_api.h>
+#include <ffmpeg_kit_flutter_new/f_fmpeg_kit_flutter_plugin.h>
 #include <firebase_auth/firebase_auth_plugin_c_api.h>
 #include <firebase_core/firebase_core_plugin_c_api.h>
 #include <gal/gal_plugin_c_api.h>
@@ -21,6 +22,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("ConnectivityPlusWindowsPlugin"));
   DownloadsfolderPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DownloadsfolderPluginCApi"));
+  FFmpegKitFlutterPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FFmpegKitFlutterPlugin"));
   FirebaseAuthPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FirebaseAuthPluginCApi"));
   FirebaseCorePluginCApiRegisterWithRegistrar(

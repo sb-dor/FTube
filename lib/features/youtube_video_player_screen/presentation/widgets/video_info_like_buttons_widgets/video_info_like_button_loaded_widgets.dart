@@ -36,7 +36,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         child: Center(
-                          child: Icon(
+                          child: FaIcon(
                             currentState.isVideoAddedToFavorites
                                 ? FontAwesomeIcons.solidThumbsUp
                                 : FontAwesomeIcons.thumbsUp,
@@ -73,7 +73,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(10),
                         child: const Center(
-                          child: Icon(
+                          child: FaIcon(
                             FontAwesomeIcons.thumbsDown,
                             weight: 0.5,
                             color: Colors.grey,
@@ -101,7 +101,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(10),
                         child: const Center(
-                          child: Icon(
+                          child: FaIcon(
                             FontAwesomeIcons.share,
                             weight: 0.5,
                             color: Colors.grey,
@@ -153,7 +153,7 @@ class VideoInfoLikeButtonLoadedWidget extends StatelessWidget {
                         color: Colors.transparent,
                         padding: const EdgeInsets.all(10),
                         child: Center(
-                          child: Icon(
+                          child: FaIcon(
                             currentState.isVideoAddedToBookMarks
                                 ? FontAwesomeIcons.solidBookmark
                                 : FontAwesomeIcons.bookmark,

@@ -1,4 +1,4 @@
-String? collectDescriptionString(var list) {
+String? collectDescriptionString(dynamic list) {
   String? description;
   if (list != null) {
     description = "";

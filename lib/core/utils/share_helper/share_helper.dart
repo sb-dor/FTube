@@ -4,6 +4,8 @@ import 'package:youtube/core/utils/constants.dart';
 class ShareHelper {
   Future<void> shareVideoPath(String? videoId) async {
     if (videoId == null) return;
-    await Share.shareUri(Uri.parse('${Constants.youtubeUrlVideo}$videoId'));
+    await SharePlus.instance.share(
+      ShareParams(uri: Uri.parse('${Constants.youtubeUrlVideo}$videoId')),
+    );
   }
 }

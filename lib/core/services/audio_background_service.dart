@@ -27,20 +27,18 @@ class JustAudioBackgroundHelper {
     List<MediaItem>? localFilesPaths,
   }) async {
     player ??= AudioPlayer();
-    final playlist = ConcatenatingAudioSource(
-      children: [
-        if (items != null)
-          ...items.map(
-            (e) => AudioSource.uri(
-              // I will put url of audio in id
-              Uri.parse(e.id),
-              tag: e,
-            ),
+    final playlist = <AudioSource>[
+      if (items != null)
+        ...items.map(
+          (e) => AudioSource.uri(
+            // I will put url of audio in id
+            Uri.parse(e.id),
+            tag: e,
           ),
-        if (localFilesPaths != null)
-          ...localFilesPaths.map((e) => AudioSource.uri(Uri.file(e.id), tag: e)),
-      ],
-    );
+        ),
+      if (localFilesPaths != null)
+        ...localFilesPaths.map((e) => AudioSource.uri(Uri.file(e.id), tag: e)),
+    ];
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
     player?.playbackEventStream.listen(
@@ -56,7 +54,7 @@ class JustAudioBackgroundHelper {
       lastSavedDuration = event;
     });
 
-    await player?.setAudioSource(playlist);
+    await player?.setAudioSources(playlist);
 
     await player?.seek(duration);
 

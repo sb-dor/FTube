@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE " />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- ALSO ADD THIS PERMISSION IF TARGETING SDK 34 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
@@ -105,9 +105,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="flutter.overlay.window.flutter_overlay_window.OverlayService"
-            android:exported="false" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
