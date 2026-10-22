@@ -53,11 +53,18 @@ class VideoConfigWidget extends StatefulWidget {
     VideoItem? opened,
     Duration? startAt,
   }) {
+    final navigator = Navigator.of(context, rootNavigator: true);
+    final current = _visible;
+    // A link to the video already on screen keeps it playing.
+    if (current != null && current.videoId == videoId && startAt == null) return Future.value();
     DependenciesScope.of(context).videoPreviewCoordinator.stopAll();
     final miniPlayer = MiniPlayerConfigWidget.close(context);
     final resumeAt = startAt ?? (miniPlayer?.video.id == videoId ? miniPlayer!.position : null);
+    // Only one video screen at a time: another one would leave its video playing underneath,
+    // and closing the new one would move it to the mini player over that screen.
+    current?._closeForReplacement();
     return showModalBottomSheet<void>(
-      context: context,
+      context: navigator.context,
       useRootNavigator: true,
       isScrollControlled: true,
       useSafeArea: false,
@@ -65,6 +72,9 @@ class VideoConfigWidget extends StatefulWidget {
       builder: (_) => VideoConfigWidget(videoId: videoId, opened: opened, startAt: resumeAt),
     );
   }
+
+  /// The video screen on display, if any.
+  static VideoConfigWidgetState? _visible;
 
   final String videoId;
 
@@ -118,6 +128,7 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
     final dependencies = DependenciesScope.of(context);
     _rootNavigator = Navigator.of(context, rootNavigator: true);
     _miniPlayer = MiniPlayerConfigWidget.maybeOfState(context);
+    VideoConfigWidget._visible = this;
     final repository = VideoRepositoryImpl(
       youtubeClient: dependencies.youtubeClient,
       youtubeExplode: dependencies.youtubeExplode,
@@ -153,6 +164,7 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
 
   @override
   void dispose() {
+    if (identical(VideoConfigWidget._visible, this)) VideoConfigWidget._visible = null;
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     _lifecycle.dispose();
     final url = videoPlaybackController.url;
@@ -219,11 +231,18 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
   void close() => Navigator.of(context).maybePop();
 
   /// Replaces this screen with [related].
-  void openRelated(VideoItem related) {
+  void openRelated(VideoItem related) =>
+      unawaited(VideoConfigWidget.open(_rootNavigator.context, video: related));
+
+  /// Closes this screen, and any sheet over it, without moving the video to the mini player.
+  void _closeForReplacement() {
     _replaced = true;
     videoPlaybackController.pause();
-    _rootNavigator.pop();
-    unawaited(VideoConfigWidget.open(_rootNavigator.context, video: related));
+    final route = ModalRoute.of(context);
+    if (route == null || !route.isActive) return;
+    _rootNavigator
+      ..popUntil((r) => r == route)
+      ..pop();
   }
 
   @override
