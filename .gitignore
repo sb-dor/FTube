@@ -50,3 +50,9 @@ app.*.map.json
 *.g.dart
 *.freezed.dart
 lib/src/common/localization/generated/
+
+# Firebase config (contains API keys); generate with `flutterfire configure`
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+lib/src/common/constant/firebase_options.dart

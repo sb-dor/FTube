@@ -29,8 +29,11 @@ To get started with FTube, simply follow these steps:
 1. Clone this repository to your local machine.
 2. Ensure you have Flutter installed on your system.
 3. Run `flutter pub get` to install dependencies.
-4. Connect your device or start an emulator.
-5. Run `flutter run` to launch the application.
+4. Generate the Firebase config (it is not committed because it contains API keys):
+   `flutterfire configure --out=lib/src/common/constant/firebase_options.dart`.
+   This also writes `android/app/google-services.json` and `ios/Runner/GoogleService-Info.plist`.
+5. Connect your device or start an emulator.
+6. Run `flutter run` to launch the application.
 
 ## Screenshots
 
