@@ -1,0 +1,667 @@
+{
+  "@@locale": "en",
+  "appTitle": "FTube",
+  "@appTitle": {
+    "description": "App name."
+  },
+  "tabHome": "Home",
+  "@tabHome": {
+    "description": "Bottom navigation: home tab."
+  },
+  "tabTrending": "Trending",
+  "@tabTrending": {
+    "description": "Bottom navigation: trending tab."
+  },
+  "tabLibrary": "Library",
+  "@tabLibrary": {
+    "description": "Bottom navigation: library tab."
+  },
+  "tryAgain": "Refresh page",
+  "@tryAgain": {
+    "description": "Button that retries a failed load."
+  },
+  "errorGeneric": "Something went wrong. Please try again",
+  "@errorGeneric": {
+    "description": "Fallback error message."
+  },
+  "errorNoInternet": "No internet connection",
+  "@errorNoInternet": {
+    "description": "Shown when a request fails because the device is offline."
+  },
+  "live": "LIVE",
+  "@live": {
+    "description": "Badge for live streams instead of a duration or view count."
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Generic cancel button."
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "Generic confirmation button."
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Generic close button."
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Generic done button."
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Generic delete button."
+  },
+  "seeAll": "See all",
+  "@seeAll": {
+    "description": "Opens the full list of a section."
+  },
+  "emptyList": "Nothing here yet",
+  "@emptyList": {
+    "description": "Empty state for lists."
+  },
+  "feedCategoryAll": "All",
+  "@feedCategoryAll": {
+    "description": "Home feed category chip: everything."
+  },
+  "feedCategoryMusic": "Music",
+  "@feedCategoryMusic": {
+    "description": "Home feed category chip."
+  },
+  "feedCategoryGaming": "Gaming",
+  "@feedCategoryGaming": {
+    "description": "Home feed category chip."
+  },
+  "feedCategoryMovies": "Movies",
+  "@feedCategoryMovies": {
+    "description": "Home feed category chip."
+  },
+  "feedCategoryNews": "News",
+  "@feedCategoryNews": {
+    "description": "Home feed category chip."
+  },
+  "feedCategorySports": "Sports",
+  "@feedCategorySports": {
+    "description": "Home feed category chip."
+  },
+  "feedCategoryEducation": "Education",
+  "@feedCategoryEducation": {
+    "description": "Home feed category chip."
+  },
+  "feedCategoryTechnology": "Technology",
+  "@feedCategoryTechnology": {
+    "description": "Home feed category chip."
+  },
+  "feedQueryAll": "popular videos",
+  "@feedQueryAll": {
+    "description": "YouTube search query behind the All home feed category; not shown in the UI."
+  },
+  "feedQueryMusic": "new music",
+  "@feedQueryMusic": {
+    "description": "YouTube search query behind the Music category; not shown."
+  },
+  "feedQueryGaming": "gaming",
+  "@feedQueryGaming": {
+    "description": "YouTube search query behind the Gaming category; not shown."
+  },
+  "feedQueryMovies": "movie trailer",
+  "@feedQueryMovies": {
+    "description": "YouTube search query behind the Movies category; not shown."
+  },
+  "feedQueryNews": "news",
+  "@feedQueryNews": {
+    "description": "YouTube search query behind the News category; not shown."
+  },
+  "feedQuerySports": "sports highlights",
+  "@feedQuerySports": {
+    "description": "YouTube search query behind the Sports category; not shown."
+  },
+  "feedQueryEducation": "learn",
+  "@feedQueryEducation": {
+    "description": "YouTube search query behind the Education category; not shown."
+  },
+  "feedQueryTechnology": "technology review",
+  "@feedQueryTechnology": {
+    "description": "YouTube search query behind the Technology category; not shown."
+  },
+  "trendingCategoryNow": "Now",
+  "@trendingCategoryNow": {
+    "description": "Trending tab chip: the most popular videos of the week."
+  },
+  "trendingCategoryMusic": "Music",
+  "@trendingCategoryMusic": {
+    "description": "Trending tab chip."
+  },
+  "trendingCategoryGaming": "Gaming",
+  "@trendingCategoryGaming": {
+    "description": "Trending tab chip."
+  },
+  "trendingCategoryFilms": "Films",
+  "@trendingCategoryFilms": {
+    "description": "Trending tab chip."
+  },
+  "trendingQueryNow": "popular videos",
+  "@trendingQueryNow": {
+    "description": "YouTube search query behind the Now trending chip; not shown in the UI."
+  },
+  "trendingQueryMusic": "official music video",
+  "@trendingQueryMusic": {
+    "description": "YouTube search query behind the Music trending chip; not shown."
+  },
+  "trendingQueryGaming": "video games",
+  "@trendingQueryGaming": {
+    "description": "YouTube search query behind the Gaming trending chip; not shown."
+  },
+  "trendingQueryFilms": "official trailer",
+  "@trendingQueryFilms": {
+    "description": "YouTube search query behind the Films trending chip; not shown."
+  },
+  "previewHintText": "Hold inside this square to start preview",
+  "@previewHintText": {
+    "description": "First-run hint over the first video card explaining hold-to-preview."
+  },
+  "searchHint": "Search",
+  "@searchHint": {
+    "description": "Hint in the search field."
+  },
+  "searchNoResults": "No results",
+  "@searchNoResults": {
+    "description": "Empty state when a search returns no videos."
+  },
+  "searchClear": "Clear",
+  "@searchClear": {
+    "description": "Tooltip of the button that clears the search field."
+  },
+  "searchVoice": "Search by voice",
+  "@searchVoice": {
+    "description": "Tooltip of the microphone button in the search field."
+  },
+  "searchFilterTitle": "Filter",
+  "@searchFilterTitle": {
+    "description": "Title of the search filter sheet and tooltip of its button."
+  },
+  "searchFilterApply": "Apply",
+  "@searchFilterApply": {
+    "description": "Tooltip of the button that applies the search filter."
+  },
+  "searchFilterOrderByTime": "Order by time",
+  "@searchFilterOrderByTime": {
+    "description": "Search filter section: upload date."
+  },
+  "searchFilterOrderByType": "Order by type",
+  "@searchFilterOrderByType": {
+    "description": "Search filter section: result type."
+  },
+  "searchFilterAnyTime": "Any time",
+  "@searchFilterAnyTime": {
+    "description": "Search filter: no upload date limit."
+  },
+  "searchFilterLastHour": "In the last hour",
+  "@searchFilterLastHour": {
+    "description": "Search filter: uploaded in the last hour."
+  },
+  "searchFilterToday": "Today",
+  "@searchFilterToday": {
+    "description": "Search filter: uploaded today."
+  },
+  "searchFilterThisWeek": "For this week",
+  "@searchFilterThisWeek": {
+    "description": "Search filter: uploaded this week."
+  },
+  "searchFilterThisMonth": "For this month",
+  "@searchFilterThisMonth": {
+    "description": "Search filter: uploaded this month."
+  },
+  "searchFilterThisYear": "For this year",
+  "@searchFilterThisYear": {
+    "description": "Search filter: uploaded this year."
+  },
+  "searchFilterVideos": "Videos",
+  "@searchFilterVideos": {
+    "description": "Search filter: only videos."
+  },
+  "searchFilterFilms": "Films",
+  "@searchFilterFilms": {
+    "description": "Search filter: only films."
+  },
+  "searchVoiceRecording": "Recording...",
+  "@searchVoiceRecording": {
+    "description": "Voice search dialog text while listening."
+  },
+  "searchVoiceFinish": "Finish",
+  "@searchVoiceFinish": {
+    "description": "Voice search dialog button that stops listening."
+  },
+  "searchVoicePermissionDenied": "Allow microphone access in Settings to search by voice",
+  "@searchVoicePermissionDenied": {
+    "description": "Shown when microphone or speech permission is denied."
+  },
+  "searchVoiceUnavailable": "Voice search is not available on this device",
+  "@searchVoiceUnavailable": {
+    "description": "Shown when the device has no speech recognizer."
+  },
+  "searchVoiceFailed": "Could not recognize speech. Please try again",
+  "@searchVoiceFailed": {
+    "description": "Shown when speech recognition fails."
+  },
+  "searchVoiceNothingHeard": "Didn't catch that. Please try again",
+  "@searchVoiceNothingHeard": {
+    "description": "Shown when voice search ends without recognized words."
+  },
+  "downloadsTitle": "In-App downloads",
+  "@downloadsTitle": {
+    "description": "Title of the screen listing files downloaded into the app."
+  },
+  "downloadsEmpty": "No downloads yet. Videos and audio you download will appear here.",
+  "@downloadsEmpty": {
+    "description": "Empty state of the in-app downloads screen."
+  },
+  "downloadsFileMissing": "File not found",
+  "@downloadsFileMissing": {
+    "description": "A downloaded file is no longer on the device."
+  },
+  "downloadsMore": "More",
+  "@downloadsMore": {
+    "description": "Tooltip of the menu button on a downloaded file row."
+  },
+  "downloadExportSaveInGallery": "Save in Gallery",
+  "@downloadExportSaveInGallery": {
+    "description": "Button that saves a downloaded video to the phone gallery."
+  },
+  "downloadExportSaveInDownloads": "Save in Downloads",
+  "@downloadExportSaveInDownloads": {
+    "description": "Button that saves a downloaded audio file to the phone Downloads folder."
+  },
+  "downloadExportSavedInGallery": "Successfully saved in gallery!",
+  "@downloadExportSavedInGallery": {
+    "description": "Shown after a video was saved to the gallery."
+  },
+  "downloadExportSavedInDownloads": "Successfully saved in Downloads!",
+  "@downloadExportSavedInDownloads": {
+    "description": "Shown after an audio file was saved to the Downloads folder."
+  },
+  "downloadExportPermissionDenied": "No permission to save files. Allow access in Settings",
+  "@downloadExportPermissionDenied": {
+    "description": "Shown when saving a file failed because the permission was denied."
+  },
+  "downloadDeletionTitle": "Delete download?",
+  "@downloadDeletionTitle": {
+    "description": "Title of the dialog confirming deletion of a downloaded file."
+  },
+  "downloadDeletionContent": "\"{title}\" will be removed from this device.",
+  "@downloadDeletionContent": {
+    "description": "Body of the dialog confirming deletion of a downloaded file.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadPlayerError": "Can't play this file",
+  "@downloadPlayerError": {
+    "description": "Shown in the downloaded file player when the file cannot be opened."
+  },
+  "downloadPlayerShowVideo": "Show video",
+  "@downloadPlayerShowVideo": {
+    "description": "Tooltip: show the picture in the downloaded file player."
+  },
+  "downloadPlayerHideVideo": "Hide video",
+  "@downloadPlayerHideVideo": {
+    "description": "Tooltip: hide the picture in the downloaded file player."
+  },
+  "downloadPlayerPlay": "Play",
+  "@downloadPlayerPlay": {
+    "description": "Tooltip of the play button."
+  },
+  "downloadPlayerPause": "Pause",
+  "@downloadPlayerPause": {
+    "description": "Tooltip of the pause button."
+  },
+  "libraryDownloads": "In-App downloads",
+  "@libraryDownloads": {
+    "description": "Library tab: row that opens the downloaded files page."
+  },
+  "libraryDownloadsCount": "{count, plural, =1{1 File} other{{count} Files}}",
+  "@libraryDownloadsCount": {
+    "description": "Library tab: number of downloaded files.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryEmpty": "Videos you watch and playlists you create will appear here",
+  "@libraryEmpty": {
+    "description": "Library tab: shown when there is no history and no playlists."
+  },
+  "historyTitle": "History",
+  "@historyTitle": {
+    "description": "Watch history: section and screen title."
+  },
+  "historyEmpty": "Videos you watch will appear here",
+  "@historyEmpty": {
+    "description": "Empty watch history."
+  },
+  "historyRemove": "Remove from history",
+  "@historyRemove": {
+    "description": "History row menu: removes the video from the watch history."
+  },
+  "historyClear": "Clear history",
+  "@historyClear": {
+    "description": "History screen action: removes all watched videos."
+  },
+  "historyDeletionRemoveTitle": "Remove from history?",
+  "@historyDeletionRemoveTitle": {
+    "description": "Confirmation dialog title for removing one video from the history."
+  },
+  "historyDeletionRemoveContent": "This video will be removed from your watch history.",
+  "@historyDeletionRemoveContent": {
+    "description": "Confirmation dialog text for removing one video from the history."
+  },
+  "historyDeletionClearTitle": "Clear history?",
+  "@historyDeletionClearTitle": {
+    "description": "Confirmation dialog title for clearing the whole history."
+  },
+  "historyDeletionClearContent": "All videos will be removed from your watch history.",
+  "@historyDeletionClearContent": {
+    "description": "Confirmation dialog text for clearing the whole history."
+  },
+  "historyDeletionClear": "Clear",
+  "@historyDeletionClear": {
+    "description": "Confirm button that clears the history."
+  },
+  "playlistsTitle": "Playlists",
+  "@playlistsTitle": {
+    "description": "Playlists: section and screen title."
+  },
+  "playlistsLikedVideos": "Liked videos",
+  "@playlistsLikedVideos": {
+    "description": "Name of the virtual playlist with liked videos."
+  },
+  "playlistsEmpty": "You have no playlists yet",
+  "@playlistsEmpty": {
+    "description": "Empty playlists screen."
+  },
+  "playlistVideosEmpty": "No videos in this playlist yet",
+  "@playlistVideosEmpty": {
+    "description": "Empty playlist videos screen."
+  },
+  "playlistCreationTitle": "New playlist",
+  "@playlistCreationTitle": {
+    "description": "Create playlist dialog title."
+  },
+  "playlistCreationHint": "Name of the playlist",
+  "@playlistCreationHint": {
+    "description": "Create playlist dialog: name field hint."
+  },
+  "playlistCreationEmptyError": "Field can't be empty",
+  "@playlistCreationEmptyError": {
+    "description": "Create playlist dialog: validation error for an empty name."
+  },
+  "playlistCreationCreate": "Create",
+  "@playlistCreationCreate": {
+    "description": "Create playlist dialog: confirm button."
+  },
+  "playlistDeletionAction": "Delete playlist",
+  "@playlistDeletionAction": {
+    "description": "Playlist menu item that deletes the playlist."
+  },
+  "playlistDeletionTitle": "Delete playlist?",
+  "@playlistDeletionTitle": {
+    "description": "Delete playlist confirmation title."
+  },
+  "playlistDeletionContent": "\"{name}\" and all its videos will be removed.",
+  "@playlistDeletionContent": {
+    "description": "Delete playlist confirmation text.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playlistVideoRemovalAction": "Remove from playlist",
+  "@playlistVideoRemovalAction": {
+    "description": "Playlist video menu item."
+  },
+  "playlistVideoRemovalUnlikeAction": "Remove from liked",
+  "@playlistVideoRemovalUnlikeAction": {
+    "description": "Liked videos menu item that unlikes the video."
+  },
+  "playlistVideoRemovalTitle": "Remove from playlist?",
+  "@playlistVideoRemovalTitle": {
+    "description": "Confirmation title for removing a video from a playlist."
+  },
+  "playlistVideoRemovalUnlikeTitle": "Remove from liked videos?",
+  "@playlistVideoRemovalUnlikeTitle": {
+    "description": "Confirmation title for unliking a video."
+  },
+  "playlistVideoRemovalContent": "\"{title}\" will be removed from this list.",
+  "@playlistVideoRemovalContent": {
+    "description": "Confirmation text for removing a video from a playlist or the liked list.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "playlistVideoRemovalConfirm": "Remove",
+  "@playlistVideoRemovalConfirm": {
+    "description": "Confirm button that removes a video from a list."
+  },
+  "playlistSelectionTitle": "Select playlist",
+  "@playlistSelectionTitle": {
+    "description": "Add-to-playlist sheet title."
+  },
+  "playlistSelectionNew": "New",
+  "@playlistSelectionNew": {
+    "description": "Add-to-playlist sheet: button that creates a playlist."
+  },
+  "playlistSelectionAction": "Add to playlist",
+  "@playlistSelectionAction": {
+    "description": "Video menu item that opens the add-to-playlist sheet."
+  },
+  "playlistSelectionEmpty": "Create a playlist to save this video",
+  "@playlistSelectionEmpty": {
+    "description": "Add-to-playlist sheet when there are no playlists."
+  },
+  "playlistSelectionSaved": "Saved to \"{name}\"",
+  "@playlistSelectionSaved": {
+    "description": "Snackbar after a video was saved into a playlist.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "playlistSelectionRemoved": "Removed from playlists",
+  "@playlistSelectionRemoved": {
+    "description": "Snackbar after a video was removed from all playlists."
+  },
+  "downloadButton": "Download",
+  "@downloadButton": {
+    "description": "Video screen: button that opens the download sheet."
+  },
+  "downloadPreparing": "Getting information",
+  "@downloadPreparing": {
+    "description": "Download button while the stream list loads or the download starts."
+  },
+  "downloadDownloading": "Downloading",
+  "@downloadDownloading": {
+    "description": "Download button while bytes are downloading."
+  },
+  "downloadProcessing": "Processing sound",
+  "@downloadProcessing": {
+    "description": "Download button while video and sound are combined."
+  },
+  "downloadSaving": "A little more",
+  "@downloadSaving": {
+    "description": "Download button while the file is being saved."
+  },
+  "downloadError": "Download error",
+  "@downloadError": {
+    "description": "Download button after a failed download."
+  },
+  "downloadSound": "Download sound",
+  "@downloadSound": {
+    "description": "Download sheet: choose audio."
+  },
+  "downloadVideo": "Download video",
+  "@downloadVideo": {
+    "description": "Download sheet: choose video."
+  },
+  "downloadQuality": "Quality: {quality}",
+  "@downloadQuality": {
+    "description": "Download sheet row title.",
+    "placeholders": {
+      "quality": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadSize": "Size: {size} MB",
+  "@downloadSize": {
+    "description": "Download sheet row: file size in megabytes.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadBitrate": "{kbps} kbit/s",
+  "@downloadBitrate": {
+    "description": "Bitrate label.",
+    "placeholders": {
+      "kbps": {
+        "type": "int"
+      }
+    }
+  },
+  "downloadRecommendedAudio": "Recommended (best quality)",
+  "@downloadRecommendedAudio": {
+    "description": "Marks the best audio option."
+  },
+  "downloadFastVideo": "Fast download (sound included, no processing)",
+  "@downloadFastVideo": {
+    "description": "Marks a muxed video option."
+  },
+  "downloadAudioToDevice": "Download audio in Downloads folder",
+  "@downloadAudioToDevice": {
+    "description": "Tooltip: save audio to the phone's Downloads folder."
+  },
+  "downloadAudioToApp": "Download audio in App Storage",
+  "@downloadAudioToApp": {
+    "description": "Tooltip: save audio inside the app."
+  },
+  "downloadVideoToGallery": "Download video in Gallery",
+  "@downloadVideoToGallery": {
+    "description": "Tooltip: save video to the gallery."
+  },
+  "downloadVideoToApp": "Download video in App Storage",
+  "@downloadVideoToApp": {
+    "description": "Tooltip: save video inside the app."
+  },
+  "downloadAnotherRunning": "Another video is still downloading. Please wait before downloading another one.",
+  "@downloadAnotherRunning": {
+    "description": "Shown when starting a second download."
+  },
+  "downloadSavedToApp": "Saved in App Storage: {title}",
+  "@downloadSavedToApp": {
+    "description": "Download finished into app storage.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadSavedToGallery": "Saved in Gallery: {title}",
+  "@downloadSavedToGallery": {
+    "description": "Video download finished into the gallery.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadSavedToDownloads": "Saved in Downloads: {title}",
+  "@downloadSavedToDownloads": {
+    "description": "Audio download finished into the Downloads folder.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "Could not download: {title}",
+  "@downloadFailed": {
+    "description": "Download failed message.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadPermissionDenied": "Allow access to save files on your phone",
+  "@downloadPermissionDenied": {
+    "description": "Download failed because the user denied storage/gallery access."
+  },
+  "downloadErrorTitle": "Something went wrong while downloading",
+  "@downloadErrorTitle": {
+    "description": "Error dialog title."
+  },
+  "downloadErrorContent": "Try again, or choose another quality.",
+  "@downloadErrorContent": {
+    "description": "Error dialog body."
+  },
+  "downloadCancelTitle": "Cancel download",
+  "@downloadCancelTitle": {
+    "description": "Dialog title when tapping a running download."
+  },
+  "downloadCancelContent": "Do you want to stop downloading this file?",
+  "@downloadCancelContent": {
+    "description": "Dialog body."
+  },
+  "downloadCancelConfirm": "Stop",
+  "@downloadCancelConfirm": {
+    "description": "Stops the running download."
+  },
+  "downloadContinue": "Continue",
+  "@downloadContinue": {
+    "description": "Keeps the download running."
+  },
+  "downloadNoOptions": "No downloadable formats for this video",
+  "@downloadNoOptions": {
+    "description": "Empty download options."
+  },
+  "videoPlaybackError": "Error occurred",
+  "@videoPlaybackError": {
+    "description": "Player area when the video cannot play."
+  },
+  "videoInfoError": "Could not load video information",
+  "@videoInfoError": {
+    "description": "Video info block error."
+  },
+  "videoShare": "Share",
+  "@videoShare": {
+    "description": "Video action: share link."
+  },
+  "videoToBookmarks": "To bookmarks",
+  "@videoToBookmarks": {
+    "description": "Video action: add to a playlist."
+  },
+  "videoQualityTitle": "Quality",
+  "@videoQualityTitle": {
+    "description": "Quality picker title."
+  },
+  "videoRelatedTitle": "Similar videos",
+  "@videoRelatedTitle": {
+    "description": "Header above related videos."
+  },
+  "videoRelatedError": "Could not load similar videos",
+  "@videoRelatedError": {
+    "description": "Related videos error."
+  },
+  "videoMoreInfo": "Description",
+  "@videoMoreInfo": {
+    "description": "Expands the video description."
+  }
+}

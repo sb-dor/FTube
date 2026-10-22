@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>UIFileSharingEnabled</key>
+    <true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
     <key>UISupportsDocumentBrowser</key>
     <true/>
     <key>UIBackgroundModes</key>
@@ -11,16 +15,16 @@
 
 
     <key>NSSpeechRecognitionUsageDescription</key>
-    <string>speech</string>
+    <string>FTube turns your voice into a search query.</string>
 
     <key>NSMicrophoneUsageDescription</key>
-    <string>microphone</string>
+    <string>FTube listens to your voice when you search by voice.</string>
 
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>We need add only access to save medias</string>
+    <string>FTube saves downloaded videos to your photo library.</string>
 
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to save medias</string>
+    <string>FTube saves downloaded videos to your photo library.</string>
 
     <key>NSAppTransportSecurity</key>
     <dict>

@@ -44,3 +44,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/lib/src/common/localization/.arb.lock
+
+# Generated code (dart run build_runner build --delete-conflicting-outputs && dart run intl_utils:generate)
+*.g.dart
+*.freezed.dart
+lib/src/common/localization/generated/

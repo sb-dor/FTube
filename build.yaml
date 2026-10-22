@@ -1,0 +1,21 @@
+targets:
+  $default:
+    sources:
+      - $package$
+      - pubspec.yaml
+      - lib/**
+      - test/**
+    builders:
+      drift_dev:
+        generate_for:
+          include:
+            - lib/src/common/database/**
+        options:
+          databases:
+            app_database: lib/src/common/database/database.dart
+          data_class_to_companions: true
+          mutable_classes: false
+      freezed:
+        generate_for:
+          - lib/src/feature/**/controller/*.dart
+          - lib/src/common/**/models/*.dart
