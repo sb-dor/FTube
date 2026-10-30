@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/widget/network_image_widget.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 /// A playlist card: a stacked cover with the newest video's thumbnail, the video count and the
 /// name underneath. Used by the library tab and the playlists grid.

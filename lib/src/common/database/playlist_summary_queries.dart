@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:youtube/src/common/database/database.dart';
-import 'package:youtube/src/common/model/video_item.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
+import 'package:youtube/src/common/utils/youtube_link.dart';
 
 /// Playlist summary queries shared by the playlists screen and the library tab.
 extension PlaylistSummaryQueries on AppDatabase {
@@ -110,5 +110,5 @@ extension PlaylistSummaryQueries on AppDatabase {
 String? _thumbnail(String? url, String? videoId) {
   if (url != null && url.isNotEmpty) return url;
   if (videoId == null || videoId.isEmpty) return null;
-  return VideoItem(id: videoId, title: '').thumbnail;
+  return videoThumbnailUrl(videoId);
 }

@@ -23,8 +23,10 @@ class _PlaylistSelectionMobileWidgetState extends State<PlaylistSelectionMobileW
   late final _saveController = _scope.playlistSelectionSaveController;
   late final _dataController = _scope.playlistSelectionDataController;
 
+  /// [sheetContext] sees the sheet's own messenger, so errors show inside the open sheet. The
+  /// success message uses this widget's context instead: it outlives the sheet on the screen behind.
   void _onSaveState(
-    BuildContext context,
+    BuildContext sheetContext,
     PlaylistSelectionSaveController controller,
     PlaylistSelectionSaveState previous,
     PlaylistSelectionSaveState current,
@@ -45,7 +47,7 @@ class _PlaylistSelectionMobileWidgetState extends State<PlaylistSelectionMobileW
         );
         Navigator.pop(context);
       case PlaylistSelectionSave$ErrorState():
-        showMessage(context, message: l10n.errorGeneric, isError: true);
+        showMessage(sheetContext, message: l10n.errorGeneric, isError: true);
       case PlaylistSelectionSave$InitialState() || PlaylistSelectionSave$InProgressState():
         break;
     }
@@ -58,122 +60,141 @@ class _PlaylistSelectionMobileWidgetState extends State<PlaylistSelectionMobileW
   @override
   Widget build(BuildContext context) {
     final l10n = Localization.of(context);
-    return StateConsumer<PlaylistSelectionSaveController, PlaylistSelectionSaveState>(
-      controller: _saveController,
-      listener: _onSaveState,
-      builder: (context, saveState, _) {
-        final saving = saveState is PlaylistSelectionSave$InProgressState;
-        return PopScope(
-          canPop: !saving,
-          child: DraggableScrollableSheet(
-            initialChildSize: 0.6,
-            expand: false,
-            builder: (context, scrollController) => ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-              child: ColoredBox(
-                color: Colors.white,
-                child: SafeArea(
-                  top: false,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16, right: 6, top: 6),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                l10n.playlistSelectionTitle,
-                                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                            TextButton.icon(
-                              onPressed: saving
-                                  ? null
-                                  : () => PlaylistCreationConfigWidget.show(
-                                      context,
-                                      onCreated: _dataController.select,
-                                    ),
-                              icon: const Icon(Icons.add, color: AppColors.accent, size: 20),
-                              label: Text(
-                                l10n.playlistSelectionNew,
-                                style: const TextStyle(color: AppColors.accent, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Divider(height: 10, color: Colors.grey.shade300),
-                      Expanded(
-                        child: StateConsumer<PlaylistSelectionController, PlaylistSelectionState>(
-                          controller: _controller,
-                          builder: (context, state, _) => switch (state) {
-                            PlaylistSelection$InitialState() ||
-                            PlaylistSelection$InProgressState() => const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            PlaylistSelection$ErrorState() => Center(
-                              child: TryAgainButton(onPressed: _scope.load),
-                            ),
-                            PlaylistSelection$CompletedState(:final playlists)
-                                when playlists.isEmpty =>
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(24),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      expand: false,
+      builder: (context, scrollController) => ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: ColoredBox(
+          color: Colors.white,
+          // The sheet's own messenger, so save errors show inside the sheet, not under it.
+          child: ScaffoldMessenger(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: StateConsumer<PlaylistSelectionSaveController, PlaylistSelectionSaveState>(
+                controller: _saveController,
+                listener: _onSaveState,
+                builder: (context, saveState, _) {
+                  final saving = saveState is PlaylistSelectionSave$InProgressState;
+                  return PopScope(
+                    canPop: !saving,
+                    child: SafeArea(
+                      top: false,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16, right: 6, top: 6),
+                            child: Row(
+                              children: [
+                                Expanded(
                                   child: Text(
-                                    l10n.playlistSelectionEmpty,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.grey),
+                                    l10n.playlistSelectionTitle,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            PlaylistSelection$CompletedState(:final playlists) => ListenableBuilder(
-                              listenable: _dataController,
-                              builder: (context, _) => ListView.builder(
-                                controller: scrollController,
-                                itemCount: playlists.length,
-                                itemBuilder: (context, index) => _PlaylistOptionRow(
-                                  playlist: playlists[index],
-                                  selected: _dataController.selectedId == playlists[index].id,
-                                  onTap: saving
+                                TextButton.icon(
+                                  onPressed: saving
                                       ? null
-                                      : () => _dataController.toggle(playlists[index].id),
-                                ),
-                              ),
-                            ),
-                          },
-                        ),
-                      ),
-                      Divider(height: 10, color: Colors.grey.shade300),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 6, bottom: 6),
-                          child: saving
-                              ? const Padding(
-                                  padding: EdgeInsets.all(14),
-                                  child: SizedBox.square(
-                                    dimension: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
-                                  ),
-                                )
-                              : TextButton.icon(
-                                  onPressed: _done,
-                                  icon: const Icon(Icons.check, size: 20, color: AppColors.accent),
+                                      : () => PlaylistCreationConfigWidget.showCreationDialog(
+                                          context,
+                                          onCreated: _dataController.select,
+                                        ),
+                                  icon: const Icon(Icons.add, color: AppColors.accent, size: 20),
                                   label: Text(
-                                    l10n.done,
-                                    style: const TextStyle(fontSize: 18, color: AppColors.accent),
+                                    l10n.playlistSelectionNew,
+                                    style: const TextStyle(color: AppColors.accent, fontSize: 18),
                                   ),
                                 ),
-                        ),
+                              ],
+                            ),
+                          ),
+                          Divider(height: 10, color: Colors.grey.shade300),
+                          Expanded(
+                            child:
+                                StateConsumer<PlaylistSelectionController, PlaylistSelectionState>(
+                                  controller: _controller,
+                                  builder: (context, state, _) => switch (state) {
+                                    PlaylistSelection$InitialState() ||
+                                    PlaylistSelection$InProgressState() => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                    PlaylistSelection$ErrorState() => Center(
+                                      child: TryAgainButton(onPressed: _scope.load),
+                                    ),
+                                    PlaylistSelection$CompletedState(:final playlists)
+                                        when playlists.isEmpty =>
+                                      Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(24),
+                                          child: Text(
+                                            l10n.playlistSelectionEmpty,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(color: Colors.grey),
+                                          ),
+                                        ),
+                                      ),
+                                    PlaylistSelection$CompletedState(:final playlists) =>
+                                      ListenableBuilder(
+                                        listenable: _dataController,
+                                        builder: (context, _) => ListView.builder(
+                                          controller: scrollController,
+                                          itemCount: playlists.length,
+                                          itemBuilder: (context, index) => _PlaylistOptionRow(
+                                            playlist: playlists[index],
+                                            selected:
+                                                _dataController.selectedId == playlists[index].id,
+                                            onTap: saving
+                                                ? null
+                                                : () => _dataController.toggle(playlists[index].id),
+                                          ),
+                                        ),
+                                      ),
+                                  },
+                                ),
+                          ),
+                          Divider(height: 10, color: Colors.grey.shade300),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 6, bottom: 6),
+                              child: saving
+                                  ? const Padding(
+                                      padding: EdgeInsets.all(14),
+                                      child: SizedBox.square(
+                                        dimension: 20,
+                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                      ),
+                                    )
+                                  : TextButton.icon(
+                                      onPressed: _done,
+                                      icon: const Icon(
+                                        Icons.check,
+                                        size: 20,
+                                        color: AppColors.accent,
+                                      ),
+                                      label: Text(
+                                        l10n.done,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: AppColors.accent,
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

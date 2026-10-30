@@ -112,7 +112,7 @@ class SearchConfigWidgetState extends State<SearchConfigWidget> {
     if (query.isEmpty) return;
     _setText(query);
     focusNode.unfocus();
-    final videoId = _videoIdInText(query);
+    final videoId = videoIdInText(query);
     if (videoId != null) {
       VideoConfigWidget.openById(context, videoId: videoId).ignore();
       return;
@@ -201,17 +201,6 @@ class SearchConfigWidgetState extends State<SearchConfigWidget> {
       text: text,
       selection: TextSelection.collapsed(offset: text.length),
     );
-  }
-
-  /// The id of a YouTube video linked in [text]. Only link-like words count, so an ordinary
-  /// 11-letter query such as "programming" is never mistaken for a bare video id.
-  static String? _videoIdInText(String text) {
-    for (final word in text.split(RegExp(r'\s+'))) {
-      if (!word.toLowerCase().contains('youtu')) continue;
-      final id = videoIdFromLink(word);
-      if (id != null) return id;
-    }
-    return null;
   }
 
   @override

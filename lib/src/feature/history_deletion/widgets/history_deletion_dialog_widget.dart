@@ -17,6 +17,14 @@ class _HistoryDeletionDialogWidgetState extends State<HistoryDeletionDialogWidge
   late final _scope = HistoryDeletionConfigInhWidget.of(context);
   late final _controller = _scope.historyDeletionController;
 
+  /// The dialog's own context, so an error snackbar shows above the dialog, not under it.
+  BuildContext? _dialogContext;
+
+  void _confirm(BuildContext dialogContext) {
+    _dialogContext = dialogContext;
+    _scope.confirm();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = Localization.of(context);
@@ -28,7 +36,7 @@ class _HistoryDeletionDialogWidgetState extends State<HistoryDeletionDialogWidge
           _scope.onSuccessfullyDelete?.call();
           Navigator.pop(context);
         } else if (current is HistoryDeletion$ErrorState) {
-          showMessage(context, message: l10n.errorGeneric, isError: true);
+          showMessage(_dialogContext ?? context, message: l10n.errorGeneric, isError: true);
         }
       },
       builder: (context, state, _) => ConfirmationDialogWidget(
@@ -36,7 +44,7 @@ class _HistoryDeletionDialogWidgetState extends State<HistoryDeletionDialogWidge
         content: clearsAll ? l10n.historyDeletionClearContent : l10n.historyDeletionRemoveContent,
         confirmLabel: clearsAll ? l10n.historyDeletionClear : l10n.delete,
         inProgress: state is HistoryDeletion$InProgressState,
-        onConfirm: _scope.confirm,
+        onConfirm: _confirm,
       ),
     );
   }

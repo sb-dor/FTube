@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/playlist_video_removal/controller/playlist_video_removal_controller.dart';
 import 'package:youtube/src/feature/playlist_video_removal/data/playlist_video_removal_repository.dart';
 import 'package:youtube/src/feature/playlist_video_removal/widgets/playlist_video_removal_dialog_widget.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 /// Provides [PlaylistVideoRemovalConfigWidgetState] to the removal dialog.
 class PlaylistVideoRemovalConfigInhWidget extends InheritedWidget {

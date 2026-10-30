@@ -3,7 +3,6 @@ import 'package:youtube/src/feature/feed/widgets/feed_config_widget.dart';
 import 'package:youtube/src/feature/home/widgets/home_config_widget.dart';
 import 'package:youtube/src/feature/home/widgets/mobile/home_app_bar.dart';
 import 'package:youtube/src/feature/home/widgets/mobile/home_bottom_bar.dart';
-import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/library/widgets/library_config_widget.dart';
 import 'package:youtube/src/feature/trending/widgets/trending_config_widget.dart';
 
@@ -15,7 +14,8 @@ class HomeMobileWidget extends StatefulWidget {
 }
 
 class _HomeMobileWidgetState extends State<HomeMobileWidget> {
-  late final _controller = HomeConfigInhWidget.of(context).homeDataController;
+  late final _scope = HomeConfigInhWidget.of(context);
+  late final _controller = _scope.homeDataController;
 
   bool _onScroll(UserScrollNotification notification) {
     if (notification.metrics.axis == Axis.vertical) {
@@ -51,13 +51,7 @@ class _HomeMobileWidgetState extends State<HomeMobileWidget> {
               bottom: _controller.bottomBarVisible ? 15 : -200,
               left: 15,
               right: 15,
-              child: HomeBottomBar(
-                tab: _controller.tab,
-                onSelected: (tab) {
-                  _controller.selectTab(tab);
-                  DependenciesScope.of(context).analytics.screenTab(tab.analyticsName);
-                },
-              ),
+              child: HomeBottomBar(tab: _controller.tab, onSelected: _scope.selectTab),
             ),
           ],
         ),

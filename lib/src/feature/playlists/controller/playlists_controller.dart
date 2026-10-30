@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:control/control.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/feature/playlists/data/playlists_repository.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 part 'playlists_controller.freezed.dart';
 

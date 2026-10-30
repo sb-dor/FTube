@@ -4,11 +4,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youtube/src/common/database/database.dart';
 import 'package:youtube/src/common/database/video_row_mapping.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/utils/controller_extensions.dart';
 import 'package:youtube/src/feature/playlist_video_removal/controller/playlist_video_removal_controller.dart';
 import 'package:youtube/src/feature/playlist_video_removal/data/playlist_video_removal_repository.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 class _MockPlaylistVideoRemovalRepository extends Mock implements IPlaylistVideoRemovalRepository {}
 

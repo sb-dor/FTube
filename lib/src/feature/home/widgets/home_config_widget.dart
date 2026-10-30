@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/utils/analytics.dart';
+import 'package:youtube/src/feature/home/models/home_tab.dart';
 import 'package:youtube/src/feature/home/widgets/controllers/home_data_controller.dart';
 import 'package:youtube/src/feature/home/widgets/mobile/home_mobile_widget.dart';
+import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 
 /// Provides [HomeConfigWidgetState] to the home screen.
 class HomeConfigInhWidget extends InheritedWidget {
@@ -28,10 +31,12 @@ class HomeConfigWidget extends StatefulWidget {
 
 class HomeConfigWidgetState extends State<HomeConfigWidget> {
   late final HomeDataController homeDataController;
+  late final IAnalytics _analytics;
 
   @override
   void initState() {
     super.initState();
+    _analytics = DependenciesScope.of(context).analytics;
     homeDataController = HomeDataController();
   }
 
@@ -39,6 +44,12 @@ class HomeConfigWidgetState extends State<HomeConfigWidget> {
   void dispose() {
     homeDataController.dispose();
     super.dispose();
+  }
+
+  /// Switches to [tab] and reports it to analytics.
+  void selectTab(HomeTab tab) {
+    homeDataController.selectTab(tab);
+    _analytics.screenTab(tab.analyticsName);
   }
 
   @override

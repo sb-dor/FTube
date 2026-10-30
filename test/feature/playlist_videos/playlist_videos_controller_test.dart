@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/utils/controller_extensions.dart';
 import 'package:youtube/src/feature/playlist_videos/controller/playlist_videos_controller.dart';
 import 'package:youtube/src/feature/playlist_videos/data/playlist_videos_repository.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 class _MockPlaylistVideosRepository extends Mock implements IPlaylistVideosRepository {}
 

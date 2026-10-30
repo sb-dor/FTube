@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/playlist_videos/controller/playlist_videos_controller.dart';
 import 'package:youtube/src/feature/playlist_videos/data/playlist_videos_repository.dart';
 import 'package:youtube/src/feature/playlist_videos/widgets/mobile/playlist_videos_mobile_widget.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 /// Provides [PlaylistVideosConfigWidgetState] to the playlist videos screen.
 class PlaylistVideosConfigInhWidget extends InheritedWidget {

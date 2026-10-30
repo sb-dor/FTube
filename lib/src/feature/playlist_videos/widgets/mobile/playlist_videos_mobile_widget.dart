@@ -1,17 +1,17 @@
 import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/widget/empty_state_widget.dart';
 import 'package:youtube/src/common/widget/list_footer_widget.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
+import 'package:youtube/src/common/widget/video_row_loading_widget.dart';
 import 'package:youtube/src/common/widget/video_row_widget.dart';
-import 'package:youtube/src/feature/history/widgets/mobile/video_row_loading_widget.dart';
 import 'package:youtube/src/feature/playlist_selection/widgets/playlist_selection_config_widget.dart';
 import 'package:youtube/src/feature/playlist_video_removal/widgets/playlist_video_removal_config_widget.dart';
 import 'package:youtube/src/feature/playlist_videos/controller/playlist_videos_controller.dart';
 import 'package:youtube/src/feature/playlist_videos/widgets/playlist_videos_config_widget.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
 
 class PlaylistVideosMobileWidget extends StatefulWidget {

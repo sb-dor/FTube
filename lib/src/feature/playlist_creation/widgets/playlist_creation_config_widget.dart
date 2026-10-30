@@ -29,7 +29,7 @@ class PlaylistCreationConfigWidget extends StatefulWidget {
 
   /// Shows the dialog; [onCreated] receives the new playlist's id before it closes.
   /// Completes when the dialog closes.
-  static Future<void> show(BuildContext context, {ValueChanged<int>? onCreated}) =>
+  static Future<void> showCreationDialog(BuildContext context, {ValueChanged<int>? onCreated}) =>
       showDialog<void>(
         context: context,
         builder: (context) => PlaylistCreationConfigWidget(
@@ -71,7 +71,7 @@ class PlaylistCreationConfigWidgetState extends State<PlaylistCreationConfigWidg
   /// Validates the name and creates the playlist.
   void save() {
     if (!playlistCreationDataController.submit()) return;
-    playlistCreationController.create(playlistCreationDataController.name);
+    playlistCreationController.create(playlistCreationDataController.draft.name);
   }
 
   @override

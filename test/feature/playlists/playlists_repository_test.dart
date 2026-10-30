@@ -4,11 +4,11 @@ import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/database/playlist_summary_queries.dart';
 import 'package:youtube/src/common/database/video_row_mapping.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
-import 'package:youtube/src/feature/playlists/data/playlist_summary_queries.dart';
 import 'package:youtube/src/feature/playlists/data/playlists_repository.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 VideoItem _video(String id, {String? thumbnail}) =>
     VideoItem(id: id, title: 'Video $id', thumbnailUrl: thumbnail);

@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/database/playlist_summary_queries.dart';
 import 'package:youtube/src/common/database/video_row_mapping.dart';
 import 'package:youtube/src/feature/library/models/library_overview.dart';
-import 'package:youtube/src/feature/playlists/data/playlist_summary_queries.dart';
 
 abstract interface class ILibraryRepository {
   /// The library overview; emits again whenever history, playlists, likes or downloads change.
