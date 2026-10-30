@@ -3,7 +3,7 @@ import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
 import 'package:youtube/src/common/widget/dialog_messenger_widget.dart';
 
-/// Confirmation dialog for destructive actions (history, playlists, playlist videos).
+/// Confirmation dialog for destructive actions (history, playlists, playlist videos, downloads).
 ///
 /// Can't be dismissed and shows a spinner instead of the buttons while [inProgress]. It has its
 /// own messenger, so error snackbars shown with the context passed to [onConfirm] appear above it.

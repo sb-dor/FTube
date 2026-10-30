@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/widget/channel_avatar_widget.dart';
+import 'package:youtube/src/common/widget/duration_badge.dart';
 import 'package:youtube/src/common/widget/network_image_widget.dart';
-import 'package:youtube/src/common/widget/video_card_widget.dart';
 
 /// A narrow card of a recently watched video for the library's horizontal history row.
 class LibraryHistoryCardWidget extends StatelessWidget {

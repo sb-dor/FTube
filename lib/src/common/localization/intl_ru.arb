@@ -150,5 +150,6 @@
   "videoQualityTitle": "Качество",
   "videoRelatedTitle": "Похожие видео",
   "videoRelatedError": "Не удалось загрузить похожие видео",
-  "videoMoreInfo": "Описание"
+  "videoMoreInfo": "Описание",
+  "audioNotificationChannel": "Воспроизведение аудио"
 }

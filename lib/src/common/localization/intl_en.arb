@@ -663,5 +663,9 @@
   "videoMoreInfo": "Description",
   "@videoMoreInfo": {
     "description": "Expands the video description."
+  },
+  "audioNotificationChannel": "Audio playback",
+  "@audioNotificationChannel": {
+    "description": "Android notification channel name for background audio playback, shown in system settings."
   }
 }

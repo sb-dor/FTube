@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/src/common/utils/duration_format.dart';
-import 'package:youtube/src/common/widget/video_card_widget.dart';
+import 'package:youtube/src/common/widget/duration_badge.dart';
 
 /// Stop and sound buttons over a playing preview, with its position.
 class VideoPreviewControlsWidget extends StatelessWidget {

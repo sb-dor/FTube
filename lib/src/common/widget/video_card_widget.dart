@@ -3,6 +3,7 @@ import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
 import 'package:youtube/src/common/widget/channel_avatar_widget.dart';
+import 'package:youtube/src/common/widget/duration_badge.dart';
 import 'package:youtube/src/common/widget/network_image_widget.dart';
 
 /// Wraps a card's thumbnail layer, e.g. to play a preview over it.
@@ -151,22 +152,6 @@ class _ViewsBadge extends StatelessWidget {
           ],
         ],
       ),
-    ),
-  );
-}
-
-/// Black rounded badge with a duration or playback position.
-class DurationBadge extends StatelessWidget {
-  const DurationBadge({required this.text, super.key});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(3)),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-      child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 10)),
     ),
   );
 }

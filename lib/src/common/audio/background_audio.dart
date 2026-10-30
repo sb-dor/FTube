@@ -11,10 +11,11 @@ export 'package:just_audio_background/just_audio_background.dart' show MediaItem
 final class BackgroundAudio {
   BackgroundAudio({required this.player});
 
-  /// Registers the media notification channel; call once before creating the player.
-  static Future<void> initialize() => JustAudioBackground.init(
+  /// Registers the media notification channel, named [channelName] in the system settings;
+  /// call once before creating the player.
+  static Future<void> initialize({required String channelName}) => JustAudioBackground.init(
     androidNotificationChannelId: 'com.bdaynabday.ftube.channel.audio',
-    androidNotificationChannelName: 'Audio playback',
+    androidNotificationChannelName: channelName,
     androidNotificationOngoing: true,
   );
 

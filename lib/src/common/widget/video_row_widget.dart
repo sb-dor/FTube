@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/widget/duration_badge.dart';
 import 'package:youtube/src/common/widget/network_image_widget.dart';
-import 'package:youtube/src/common/widget/video_card_widget.dart';
 
 /// Compact video row: thumbnail on the left, title, channel and views on the right.
 /// Used by history, playlists and downloads.

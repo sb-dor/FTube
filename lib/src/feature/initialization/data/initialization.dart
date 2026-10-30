@@ -14,6 +14,7 @@ import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
 import 'package:youtube/src/common/download/ranged_downloader.dart';
 import 'package:youtube/src/common/js/js_runtime.dart';
+import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/utils/analytics.dart';
 import 'package:youtube/src/common/utils/app_language.dart';
 import 'package:youtube/src/common/utils/error_util/error_util.dart';
@@ -36,7 +37,9 @@ Future<void> $initializeApp({
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     ErrorUtil.init();
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    await BackgroundAudio.initialize();
+    // No widget tree yet: the channel name comes straight from the device-language strings.
+    final localization = await Localization.delegate.load(Locale(appLanguage()));
+    await BackgroundAudio.initialize(channelName: localization.audioNotificationChannel);
     final sharedPreferences = await SharedPreferences.getInstance();
     final httpClient = createPlatformHttpClient();
     final database = AppDatabase.defaults();
