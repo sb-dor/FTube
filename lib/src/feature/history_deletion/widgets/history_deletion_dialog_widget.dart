@@ -2,9 +2,9 @@ import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/utils/show_message.dart';
+import 'package:youtube/src/common/widget/confirmation_dialog_widget.dart';
 import 'package:youtube/src/feature/history_deletion/controller/history_deletion_controller.dart';
 import 'package:youtube/src/feature/history_deletion/widgets/history_deletion_config_widget.dart';
-import 'package:youtube/src/feature/library/widgets/confirmation_dialog_widget.dart';
 
 class HistoryDeletionDialogWidget extends StatefulWidget {
   const HistoryDeletionDialogWidget({super.key});

@@ -2,7 +2,7 @@ import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/utils/show_message.dart';
-import 'package:youtube/src/feature/library/widgets/confirmation_dialog_widget.dart';
+import 'package:youtube/src/common/widget/confirmation_dialog_widget.dart';
 import 'package:youtube/src/feature/playlist_deletion/controller/playlist_deletion_controller.dart';
 import 'package:youtube/src/feature/playlist_deletion/widgets/playlist_deletion_config_widget.dart';
 
