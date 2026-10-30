@@ -76,9 +76,9 @@ final class PoTokenGenerator {
     );
     final integrity = JsonNode(await _post('GenerateIT', [_requestKey, botguardResponse]));
     final token = integrity[0].string;
-    final lifetime = switch (integrity[1].value) {
-      final int seconds => Duration(seconds: seconds),
-      _ => const Duration(hours: 1),
+    final lifetime = switch (integrity[1].integer) {
+      final seconds? => Duration(seconds: seconds),
+      null => const Duration(hours: 1),
     };
     if (token == null) throw const PoTokenException('No integrity token');
     await _runtime.evaluate('ftubeBotGuard.setIntegrityToken(${jsonEncode(token)})');

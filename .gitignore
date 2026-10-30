@@ -49,6 +49,7 @@ app.*.map.json
 # Generated code (dart run build_runner build --delete-conflicting-outputs && dart run intl_utils:generate)
 *.g.dart
 *.freezed.dart
+*.gen.dart
 lib/src/common/localization/generated/
 
 # Firebase config (contains API keys); generate with `flutterfire configure`

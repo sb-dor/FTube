@@ -8,6 +8,7 @@ import 'package:youtube/src/common/model/media_stream.dart';
 import 'package:youtube/src/common/youtube/challenge_solver.dart';
 import 'package:youtube/src/common/youtube/json_node.dart';
 import 'package:youtube/src/common/youtube/po_token/po_token_generator.dart';
+import 'package:youtube/src/common/youtube/stream_converters.dart';
 import 'package:youtube_explode_dart/js_challenge.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -53,6 +54,7 @@ final class YoutubeStreamsClient {
   static const _browserUserAgent =
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
       'Chrome/96.0.4664.18 Safari/537.36';
+  static const _streamInfoConverter = StreamInfoConverter(userAgent: _browserUserAgent);
 
   /// Recent catalogs: playback, preview and download of one video share the same URLs, and
   /// YouTube sees one player request instead of several.
@@ -234,7 +236,7 @@ final class YoutubeStreamsClient {
       if (signatures.isNotEmpty) JSChallengeType.sig: signatures.toList(),
       if (ns.isNotEmpty) JSChallengeType.n: ns.toList(),
     });
-    final durationMs = int.tryParse(streaming['formats'][0]['approxDurationMs'].string ?? '');
+    final durationMs = streaming['formats'][0]['approxDurationMs'].integer;
     final streams = <MediaStream>[];
     var unsolved = 0;
     for (final (format, muxed, url, signature, signatureParam) in pending) {
@@ -257,8 +259,7 @@ final class YoutubeStreamsClient {
       }
       if (poToken != null) parameters['pot'] = poToken;
       final finalUrl = url.replace(queryParameters: parameters);
-      final stream = _parseFormat(
-        format,
+      final stream = FormatConverter(
         muxed: muxed,
         durationMs: durationMs,
         url: finalUrl,
@@ -273,7 +274,7 @@ final class YoutubeStreamsClient {
           chunkSize: 10 * 1024 * 1024,
           maxConnections: 1,
         ),
-      );
+      ).convert(format);
       if (stream != null) streams.add(stream);
     }
     l.i(
@@ -328,7 +329,7 @@ final class YoutubeStreamsClient {
       if (response['playabilityStatus']['status'].string != 'OK') return const [];
     }
     final data = response['streamingData'];
-    final durationMs = int.tryParse(data['formats'][0]['approxDurationMs'].string ?? '');
+    final durationMs = data['formats'][0]['approxDurationMs'].integer;
     StreamSource source(Uri url) => StreamSource(
       url: url,
       client: 'ANDROID_VR',
@@ -336,11 +337,11 @@ final class YoutubeStreamsClient {
       useRangeHeader: true,
       chunkSize: 10 * 1024 * 1024,
     );
+    final muxed = FormatConverter(muxed: true, durationMs: durationMs, source: source);
+    final adaptive = FormatConverter(muxed: false, durationMs: durationMs, source: source);
     return [
-      for (final format in data['formats'].list)
-        ?_parseFormat(format, muxed: true, durationMs: durationMs, source: source),
-      for (final format in data['adaptiveFormats'].list)
-        ?_parseFormat(format, muxed: false, durationMs: durationMs, source: source),
+      for (final format in data['formats'].list) ?muxed.convert(format),
+      for (final format in data['adaptiveFormats'].list) ?adaptive.convert(format),
     ];
   }
 
@@ -383,57 +384,6 @@ final class YoutubeStreamsClient {
     return JsonNode(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
-  MediaStream? _parseFormat(
-    JsonNode format, {
-    required bool muxed,
-    required int? durationMs,
-    required StreamSource Function(Uri url) source,
-    Uri? url,
-  }) {
-    url ??= Uri.tryParse(format['url'].string ?? '');
-    final itag = switch (format['itag'].value) {
-      final int value => value,
-      _ => null,
-    };
-    final mime = format['mimeType'].string;
-    if (url == null || itag == null || mime == null) return null;
-    final match = RegExp(r'^(\w+)/(\w+);\s*codecs="([^"]*)"').firstMatch(mime);
-    if (match == null) return null;
-    final bitrate = switch (format['bitrate'].value) {
-      final int value => value,
-      _ => 0,
-    };
-    final size =
-        int.tryParse(format['contentLength'].string ?? '') ??
-        (durationMs == null ? null : bitrate * durationMs ~/ 8000);
-    if (size == null || size == 0) return null;
-    final tags = _xtags(url);
-    return MediaStream(
-      itag: itag,
-      kind: muxed
-          ? MediaStreamKind.muxed
-          : match.group(1) == 'audio'
-          ? MediaStreamKind.audio
-          : MediaStreamKind.video,
-      container: match.group(2)!,
-      codecs: match.group(3)!,
-      sizeBytes: size,
-      bitrate: bitrate,
-      qualityLabel: format['qualityLabel'].string,
-      height: switch (format['height'].value) {
-        final int value => value,
-        _ => 0,
-      },
-      fps: switch (format['fps'].value) {
-        final int value => value,
-        _ => 0,
-      },
-      isOriginalAudio: (tags['acont'] ?? 'original') == 'original',
-      isDrcAudio: tags['drc'] == '1',
-      sources: [source(url)],
-    );
-  }
-
   // ---- youtube_explode (Android client) ---------------------------------------------------------
 
   Future<List<MediaStream>> _explodeStreams(String videoId) async {
@@ -441,57 +391,9 @@ final class YoutubeStreamsClient {
     return [
       for (final stream in manifest.streams)
         if (stream.fragments.isEmpty && stream.container != StreamContainer.m3u8)
-          _fromStreamInfo(stream),
+          _streamInfoConverter.convert(stream),
     ];
   }
-
-  MediaStream _fromStreamInfo(StreamInfo stream) {
-    final client = stream.url.queryParameters['c'] ?? '';
-    // Android client URLs refuse the range query parameter and large ranges.
-    final android = client == 'ANDROID';
-    final tags = _xtags(stream.url);
-    return MediaStream(
-      itag: stream.tag,
-      kind: switch (stream) {
-        MuxedStreamInfo() => MediaStreamKind.muxed,
-        AudioOnlyStreamInfo() => MediaStreamKind.audio,
-        _ => MediaStreamKind.video,
-      },
-      container: stream.container.name,
-      codecs: switch (stream) {
-        final VideoStreamInfo video => video.videoCodec,
-        final AudioStreamInfo audio => audio.audioCodec,
-        _ => '',
-      },
-      sizeBytes: stream.size.totalBytes,
-      bitrate: stream.bitrate.bitsPerSecond,
-      qualityLabel: stream is VideoStreamInfo ? stream.qualityLabel : null,
-      height: stream is VideoStreamInfo ? stream.videoResolution.height : 0,
-      fps: stream is VideoStreamInfo ? stream.framerate.framesPerSecond.round() : 0,
-      isOriginalAudio:
-          (tags['acont'] ?? 'original') == 'original' &&
-          switch (stream) {
-            final AudioOnlyStreamInfo audio => audio.audioTrack?.audioIsDefault ?? true,
-            _ => true,
-          },
-      isDrcAudio: tags['drc'] == '1',
-      sources: [
-        StreamSource(
-          url: stream.url,
-          client: client,
-          headers: const {'user-agent': _browserUserAgent},
-          useRangeHeader: android,
-          chunkSize: android ? 1024 * 1024 : 4 * 1024 * 1024,
-        ),
-      ],
-    );
-  }
-
-  /// `xtags=acont=original:drc=1:lang=en` → `{acont: original, drc: 1, lang: en}`.
-  Map<String, String> _xtags(Uri url) => {
-    for (final part in (url.queryParameters['xtags'] ?? '').split(':'))
-      if (part.split('=') case [final key, final value]) key: value,
-  };
 }
 
 extension StreamCatalogX on StreamCatalog {

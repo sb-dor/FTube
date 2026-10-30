@@ -18,4 +18,3 @@ targets:
       freezed:
         generate_for:
           - lib/src/feature/**/controller/*.dart
-          - lib/src/common/**/models/*.dart

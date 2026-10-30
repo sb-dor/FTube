@@ -21,6 +21,16 @@ extension type const JsonNode(Object? value) {
     _ => null,
   };
 
+  /// Whole number from an `int`, a `double` or a numeric string: YouTube sends `itag` as a number
+  /// but `contentLength` and `approxDurationMs` as strings. Fractions are truncated.
+  int? get integer => switch (value) {
+    final int number => number,
+    final double number when number.isFinite => number.toInt(),
+    final String text =>
+      int.tryParse(text.trim()) ?? JsonNode(double.tryParse(text.trim())).integer,
+    _ => null,
+  };
+
   List<JsonNode> get list => switch (value) {
     final List<Object?> items => [for (final item in items) JsonNode(item)],
     _ => const [],

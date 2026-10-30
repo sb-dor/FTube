@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   ffmpeg_kit_flutter_new
-  firebase_auth
   firebase_core
   gal
   permission_handler_windows
