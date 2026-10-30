@@ -33,15 +33,17 @@ class PreviewHintConfigInhWidget extends InheritedWidget {
 class PreviewHintConfigWidget extends StatefulWidget {
   const PreviewHintConfigWidget({required this.target, required this.onFinished, super.key});
 
-  static bool _isActive = false;
+  /// Root overlays that host a hint right now. The callers (feed screens) share no scope but the
+  /// root overlay, so a second request while a hint is up is detected there: the [Expando]
+  /// keeps the mark with that overlay rather than in a global flag, and it goes with the overlay.
+  static final Expando<bool> _activeOverlays = Expando('preview hint');
 
   /// Shows the hint over [target] (global coordinates, e.g. the first card's preview zone) unless
   /// the user has already seen it. Completes when the hint is closed or was not needed.
   static Future<void> showIfNeeded(BuildContext context, {required Rect target}) async {
-    if (_isActive) return;
     final overlay = Overlay.maybeOf(context, rootOverlay: true);
-    if (overlay == null) return;
-    _isActive = true;
+    if (overlay == null || (_activeOverlays[overlay] ?? false)) return;
+    _activeOverlays[overlay] = true;
     final finished = Completer<void>();
     late final OverlayEntry entry;
     entry = OverlayEntry(
@@ -60,7 +62,7 @@ class PreviewHintConfigWidget extends StatefulWidget {
     try {
       await finished.future;
     } finally {
-      _isActive = false;
+      _activeOverlays[overlay] = null;
     }
   }
 
@@ -102,13 +104,13 @@ class PreviewHintConfigWidgetState extends State<PreviewHintConfigWidget> {
   /// Runs inside the controller's handler zone, so UI work is deferred to the next frame.
   void _onStateChanged() {
     switch (previewHintController.state) {
-      case PreviewHint$PendingState():
+      case PreviewHint$CompletedState(isShown: false):
         if (_isHintOpen) return;
         _isHintOpen = true;
         SchedulerBinding.instance
           ..addPostFrameCallback((_) => _openHint())
           ..ensureVisualUpdate();
-      case PreviewHint$ShownState() || PreviewHint$ErrorState():
+      case PreviewHint$CompletedState(isShown: true) || PreviewHint$ErrorState():
         if (_isHintOpen) return;
         SchedulerBinding.instance
           ..addPostFrameCallback((_) => widget.onFinished())

@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube/src/common/audio/background_audio.dart';
 import 'package:youtube/src/common/constant/firebase_options.dart';
 import 'package:youtube/src/common/controller/controller_observer.dart';
+import 'package:youtube/src/common/controller/video_preview_coordinator.dart';
 import 'package:youtube/src/common/database/database.dart';
 import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
@@ -69,7 +70,8 @@ Future<void> $initializeApp({
       ..youtubeStreamsClient = streamsClient
       ..downloader = RangedDownloader(createClient: createPlatformHttpClient)
       ..mediaMuxer = const FfmpegMediaMuxer()
-      ..deviceMediaStore = DeviceMediaStoreImpl();
+      ..deviceMediaStore = DeviceMediaStoreImpl()
+      ..videoPreviewCoordinator = VideoPreviewCoordinator();
     await onSuccess(dependencies);
   } on Object catch (error, stackTrace) {
     await onError(error, stackTrace);

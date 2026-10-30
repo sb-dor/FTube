@@ -10,13 +10,11 @@ sealed class PreviewHintState with _$PreviewHintState {
 
   const factory PreviewHintState.initial() = PreviewHint$InitialState;
 
-  /// The user has not seen the hint yet: it should be shown.
-  const factory PreviewHintState.pending() = PreviewHint$PendingState;
-
-  /// The hint was shown and dismissed, now or on an earlier run.
-  const factory PreviewHintState.shown() = PreviewHint$ShownState;
-
   const factory PreviewHintState.error({Object? error}) = PreviewHint$ErrorState;
+
+  /// The persisted flag is known. [isShown]: the hint was shown and dismissed, now or on an
+  /// earlier run; otherwise the user has not seen it yet and it should be shown.
+  const factory PreviewHintState.completed({required bool isShown}) = PreviewHint$CompletedState;
 }
 
 /// Decides whether the first-run hold-to-preview hint is shown and remembers its dismissal.
@@ -33,20 +31,16 @@ final class PreviewHintController extends StateController<PreviewHintState>
   final IPreviewHintRepository _previewHintRepository;
 
   void check() => handle(
-    () async => setState(
-      _previewHintRepository.isShown()
-          ? const PreviewHintState.shown()
-          : const PreviewHintState.pending(),
-    ),
+    () async => setState(PreviewHintState.completed(isShown: _previewHintRepository.isShown())),
     error: (error, stackTrace) async => setState(PreviewHintState.error(error: error)),
     name: 'check',
   );
 
   void markShown() => handle(
     () async {
-      if (state is PreviewHint$ShownState) return;
+      if (state case PreviewHint$CompletedState(isShown: true)) return;
       await _previewHintRepository.markShown();
-      setState(const PreviewHintState.shown());
+      setState(const PreviewHintState.completed(isShown: true));
     },
     error: (error, stackTrace) async => setState(PreviewHintState.error(error: error)),
     name: 'markShown',

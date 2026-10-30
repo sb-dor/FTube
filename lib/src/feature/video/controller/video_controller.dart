@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:youtube/src/common/model/video_details.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/feature/video/data/video_repository.dart';
+import 'package:youtube/src/feature/video/models/video_item_converter.dart';
 
 part 'video_controller.freezed.dart';
 
@@ -32,17 +33,7 @@ final class VideoController extends StateController<VideoState> with SequentialC
       final details = await _repository.details(videoId);
       setState(VideoState.completed(details: details));
       if (opened == null) {
-        await _repository.addToHistory(
-          VideoItem(
-            id: details.id,
-            title: details.title,
-            channelName: details.channelName,
-            channelId: details.channelId,
-            channelAvatarUrl: details.channelAvatarUrl,
-            viewsText: details.viewsText,
-            publishedText: details.publishedText,
-          ),
-        );
+        await _repository.addToHistory(const VideoItemConverter().convert(details));
       }
     },
     error: (error, stackTrace) async => setState(VideoState.error(error: error)),

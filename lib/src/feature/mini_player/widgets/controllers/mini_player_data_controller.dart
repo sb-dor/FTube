@@ -2,9 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:youtube/src/feature/mini_player/models/mini_player_session.dart';
 
-/// The session shown in the mini player, if any.
+/// The session shown in the mini player, if any, and where its playback got to.
 class MiniPlayerDataController with ChangeNotifier {
   MiniPlayerSession? _session;
+  ValueGetter<Duration>? _positionReader;
   bool _disposed = false;
 
   MiniPlayerSession? get session => _session;
@@ -23,18 +24,29 @@ class MiniPlayerDataController with ChangeNotifier {
     }
   }
 
-  /// Closes the mini player and returns its session with the latest [position].
-  MiniPlayerSession? close({Duration? position}) {
+  /// The visible mini player reports its playing position through [positionReader]. It calls
+  /// the returned function once it is gone; a newer player may have attached already (the old
+  /// one is disposed after the new one starts), and its reader is kept.
+  VoidCallback attachPlayer(ValueGetter<Duration> positionReader) {
+    _positionReader = positionReader;
+    return () {
+      if (identical(_positionReader, positionReader)) _positionReader = null;
+    };
+  }
+
+  /// Closes the mini player and returns its session with the position the player reached.
+  MiniPlayerSession? close() {
     final session = _session;
     if (session == null) return null;
     _session = null;
     notifyListeners();
-    return session.copyWith(position: position);
+    return session.copyWith(position: _positionReader?.call());
   }
 
   @override
   void dispose() {
     _disposed = true;
+    _positionReader = null;
     super.dispose();
   }
 }
