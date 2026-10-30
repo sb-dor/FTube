@@ -3,11 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
 import 'package:youtube/src/common/utils/controller_extensions.dart';
-import 'package:youtube/src/common/widget/empty_state_widget.dart';
-import 'package:youtube/src/common/widget/list_footer_widget.dart';
-import 'package:youtube/src/common/widget/try_again_button.dart';
-import 'package:youtube/src/common/widget/video_card_loading_widget.dart';
-import 'package:youtube/src/common/widget/video_card_widget.dart';
+import 'package:youtube/src/common/widget/video_sliver_list_widget.dart';
 import 'package:youtube/src/feature/playlist_selection/widgets/playlist_selection_config_widget.dart';
 import 'package:youtube/src/feature/search/controller/search_results_controller.dart';
 import 'package:youtube/src/feature/search/widgets/search_config_widget.dart';
@@ -68,41 +64,22 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
               _scrollController.jumpTo(0);
             }
           },
-          builder: (context, state, _) => switch (state) {
-            SearchResults$InitialState() || SearchResults$InProgressState() => const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              sliver: SliverToBoxAdapter(child: VideoListLoadingWidget()),
-            ),
-            SearchResults$ErrorState() => SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(child: TryAgainButton(onPressed: _scope.load)),
-            ),
-            SearchResults$CompletedState(:final videos) when videos.isEmpty => SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(
-                child: EmptyStateWidget(message: Localization.of(context).searchNoResults),
-              ),
-            ),
-            SearchResults$CompletedState(:final videos) => SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              sliver: SliverList.separated(
-                itemCount: videos.length + (state.hasMore ? 1 : 0),
-                separatorBuilder: (_, _) => const SizedBox(height: 30),
-                itemBuilder: (context, index) {
-                  if (index == videos.length) return const ListFooterWidget();
-                  final video = videos[index];
-                  return VideoCardWidget(
-                    key: ValueKey(video.id),
-                    video: video,
-                    onTap: () => VideoConfigWidget.open(context, video: video),
-                    onMore: () => PlaylistSelectionConfigWidget.show(context, video: video),
-                    thumbnailWrapper: (context, thumbnail) =>
-                        VideoPreviewConfigWidget(video: video, child: thumbnail),
-                  );
-                },
-              ),
-            ),
-          },
+          builder: (context, state, _) => VideoSliverListWidget(
+            videos: switch (state) {
+              SearchResults$CompletedState(:final videos) => videos,
+              _ => const [],
+            },
+            inProgress:
+                state is SearchResults$InitialState || state is SearchResults$InProgressState,
+            hasError: state is SearchResults$ErrorState,
+            hasMore: state.hasMore,
+            emptyMessage: Localization.of(context).searchNoResults,
+            onRetry: _scope.load,
+            onVideoTap: (video) => VideoConfigWidget.open(context, video: video),
+            onVideoMore: (video) => PlaylistSelectionConfigWidget.show(context, video: video),
+            thumbnailWrapper: (context, video, thumbnail) =>
+                VideoPreviewConfigWidget(video: video, child: thumbnail),
+          ),
         ),
         SliverToBoxAdapter(child: SizedBox(height: 10 + MediaQuery.paddingOf(context).bottom)),
       ],

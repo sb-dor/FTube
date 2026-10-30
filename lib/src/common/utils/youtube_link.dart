@@ -26,6 +26,17 @@ String? videoIdFromLink(String text) {
 /// YouTube's standard high-quality thumbnail for a video.
 String videoThumbnailUrl(String videoId) => 'https://i.ytimg.com/vi/$videoId/hqdefault.jpg';
 
+/// The id of a YouTube video linked in free [text], e.g. a search query. Only link-like words
+/// count, so an ordinary 11-letter word such as "programming" is never mistaken for a bare id.
+String? videoIdInText(String text) {
+  for (final word in text.split(RegExp(r'\s+'))) {
+    if (!word.toLowerCase().contains('youtu')) continue;
+    final id = videoIdFromLink(word);
+    if (id != null) return id;
+  }
+  return null;
+}
+
 /// Short share link for a video.
 Uri videoShareLink(String videoId) => Uri.https('youtu.be', '/$videoId');
 

@@ -5,6 +5,7 @@ import 'package:youtube/src/common/database/database.dart';
 import 'package:youtube/src/common/utils/controller_extensions.dart';
 import 'package:youtube/src/feature/playlist_creation/controller/playlist_creation_controller.dart';
 import 'package:youtube/src/feature/playlist_creation/data/playlist_creation_repository.dart';
+import 'package:youtube/src/feature/playlist_creation/models/playlist_creation_draft.dart';
 import 'package:youtube/src/feature/playlist_creation/widgets/controllers/playlist_creation_data_controller.dart';
 
 class _MockPlaylistCreationRepository extends Mock implements IPlaylistCreationRepository {}
@@ -45,13 +46,6 @@ void main() {
       expect(controller.state, const PlaylistCreationState.completed(playlistId: 7));
     });
 
-    test('ignores a blank name', () async {
-      controller.create('   ');
-      await Future<void>.delayed(Duration.zero);
-      expect(controller.state, const PlaylistCreationState.initial());
-      verifyZeroInteractions(repository);
-    });
-
     test('a failure moves to error', () async {
       when(() => repository.create(any())).thenThrow(StateError('db'));
       controller.create('Music');
@@ -72,6 +66,29 @@ void main() {
       data.setName(' Mix ');
       expect(data.showEmptyError, isFalse);
       expect(data.submit(), isTrue);
+    });
+
+    test('keeps the typed name in an immutable draft', () {
+      final data = PlaylistCreationDataController();
+      addTearDown(data.dispose);
+      final initial = data.draft;
+
+      data.setName('Mix');
+
+      expect(initial, const PlaylistCreationDraft());
+      expect(data.draft, const PlaylistCreationDraft(name: 'Mix'));
+      data.submit();
+      expect(data.draft, const PlaylistCreationDraft(name: 'Mix', submitted: true));
+    });
+
+    test('a blank name is invalid', () {
+      final data = PlaylistCreationDataController();
+      addTearDown(data.dispose);
+
+      data.setName('   ');
+      expect(data.isEmpty, isTrue);
+      expect(data.submit(), isFalse);
+      expect(data.showEmptyError, isTrue);
     });
   });
 }

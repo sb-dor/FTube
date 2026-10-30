@@ -1,6 +1,6 @@
 import 'package:youtube/src/common/database/database.dart';
-import 'package:youtube/src/feature/playlists/data/playlist_summary_queries.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
+import 'package:youtube/src/common/database/playlist_summary_queries.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 
 abstract interface class IPlaylistsRepository {
   /// All playlists ("Liked videos" first when something is liked, then the newest user

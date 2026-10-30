@@ -2,7 +2,7 @@ import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/utils/show_message.dart';
-import 'package:youtube/src/feature/library/widgets/confirmation_dialog_widget.dart';
+import 'package:youtube/src/common/widget/confirmation_dialog_widget.dart';
 import 'package:youtube/src/feature/playlist_deletion/controller/playlist_deletion_controller.dart';
 import 'package:youtube/src/feature/playlist_deletion/widgets/playlist_deletion_config_widget.dart';
 
@@ -17,6 +17,14 @@ class _PlaylistDeletionDialogWidgetState extends State<PlaylistDeletionDialogWid
   late final _scope = PlaylistDeletionConfigInhWidget.of(context);
   late final _controller = _scope.playlistDeletionController;
 
+  /// The dialog's own context, so an error snackbar shows above the dialog, not under it.
+  BuildContext? _dialogContext;
+
+  void _confirm(BuildContext dialogContext) {
+    _dialogContext = dialogContext;
+    _scope.delete();
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = Localization.of(context);
@@ -27,7 +35,7 @@ class _PlaylistDeletionDialogWidgetState extends State<PlaylistDeletionDialogWid
           _scope.onSuccessfullyDelete?.call();
           Navigator.pop(context);
         } else if (current is PlaylistDeletion$ErrorState) {
-          showMessage(context, message: l10n.errorGeneric, isError: true);
+          showMessage(_dialogContext ?? context, message: l10n.errorGeneric, isError: true);
         }
       },
       builder: (context, state, _) => ConfirmationDialogWidget(
@@ -35,7 +43,7 @@ class _PlaylistDeletionDialogWidgetState extends State<PlaylistDeletionDialogWid
         content: l10n.playlistDeletionContent(_scope.name),
         confirmLabel: l10n.delete,
         inProgress: state is PlaylistDeletion$InProgressState,
-        onConfirm: _scope.delete,
+        onConfirm: _confirm,
       ),
     );
   }

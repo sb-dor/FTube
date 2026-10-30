@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 /// Everything the library tab shows.
 @immutable

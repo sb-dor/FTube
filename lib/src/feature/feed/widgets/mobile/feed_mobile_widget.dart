@@ -1,16 +1,14 @@
 import 'package:control/control.dart';
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
 import 'package:youtube/src/common/utils/controller_extensions.dart';
-import 'package:youtube/src/common/widget/empty_state_widget.dart';
-import 'package:youtube/src/common/widget/list_footer_widget.dart';
-import 'package:youtube/src/common/widget/try_again_button.dart';
-import 'package:youtube/src/common/widget/video_card_loading_widget.dart';
+import 'package:youtube/src/common/widget/category_chips_widget.dart';
 import 'package:youtube/src/common/widget/video_card_widget.dart';
+import 'package:youtube/src/common/widget/video_sliver_list_widget.dart';
 import 'package:youtube/src/feature/feed/controller/feed_controller.dart';
 import 'package:youtube/src/feature/feed/models/feed_category.dart';
 import 'package:youtube/src/feature/feed/widgets/feed_config_widget.dart';
-import 'package:youtube/src/feature/feed/widgets/mobile/feed_categories_widget.dart';
 import 'package:youtube/src/feature/playlist_selection/widgets/playlist_selection_config_widget.dart';
 import 'package:youtube/src/feature/preview_hint/widgets/preview_hint_config_widget.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
@@ -102,8 +100,10 @@ class _FeedMobileWidgetState extends State<FeedMobileWidget> {
           sliver: SliverToBoxAdapter(
             child: ListenableBuilder(
               listenable: _dataController,
-              builder: (context, _) => FeedCategoriesWidget(
+              builder: (context, _) => CategoryChipsWidget<FeedCategory>(
+                values: FeedCategory.values,
                 selected: _dataController.category,
+                label: (category) => category.label(Localization.of(context)),
                 onSelected: _selectCategory,
               ),
             ),
@@ -111,39 +111,21 @@ class _FeedMobileWidgetState extends State<FeedMobileWidget> {
         ),
         StateConsumer<FeedController, FeedState>(
           controller: _controller,
-          builder: (context, state, _) => switch (state) {
-            Feed$InitialState() || Feed$InProgressState() => const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              sliver: SliverToBoxAdapter(child: VideoListLoadingWidget()),
-            ),
-            Feed$ErrorState() => SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(child: TryAgainButton(onPressed: _scope.load)),
-            ),
-            Feed$CompletedState(:final videos) when videos.isEmpty => const SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(child: EmptyStateWidget()),
-            ),
-            Feed$CompletedState(:final videos) => SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              sliver: SliverList.separated(
-                itemCount: videos.length + (state.hasMore ? 1 : 0),
-                separatorBuilder: (_, _) => const SizedBox(height: 30),
-                itemBuilder: (context, index) {
-                  if (index == videos.length) return const ListFooterWidget();
-                  final video = videos[index];
-                  return VideoCardWidget(
-                    key: index == 0 ? _firstCardKey : ValueKey(video.id),
-                    video: video,
-                    onTap: () => VideoConfigWidget.open(context, video: video),
-                    onMore: () => PlaylistSelectionConfigWidget.show(context, video: video),
-                    thumbnailWrapper: (context, thumbnail) =>
-                        VideoPreviewConfigWidget(video: video, child: thumbnail),
-                  );
-                },
-              ),
-            ),
-          },
+          builder: (context, state, _) => VideoSliverListWidget(
+            videos: switch (state) {
+              Feed$CompletedState(:final videos) => videos,
+              _ => const [],
+            },
+            inProgress: state is Feed$InitialState || state is Feed$InProgressState,
+            hasError: state is Feed$ErrorState,
+            hasMore: state.hasMore,
+            firstCardKey: _firstCardKey,
+            onRetry: _scope.load,
+            onVideoTap: (video) => VideoConfigWidget.open(context, video: video),
+            onVideoMore: (video) => PlaylistSelectionConfigWidget.show(context, video: video),
+            thumbnailWrapper: (context, video, thumbnail) =>
+                VideoPreviewConfigWidget(video: video, child: thumbnail),
+          ),
         ),
         // Room for the floating bottom bar.
         const SliverToBoxAdapter(child: SizedBox(height: 100)),

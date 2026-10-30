@@ -2,6 +2,7 @@ import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/widget/empty_state_widget.dart';
+import 'package:youtube/src/common/widget/playlist_card_widget.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
 import 'package:youtube/src/feature/downloads/widgets/downloads_config_widget.dart';
 import 'package:youtube/src/feature/history/widgets/history_config_widget.dart';
@@ -15,7 +16,6 @@ import 'package:youtube/src/feature/library/widgets/mobile/library_section_heade
 import 'package:youtube/src/feature/playlist_creation/widgets/playlist_creation_config_widget.dart';
 import 'package:youtube/src/feature/playlist_selection/widgets/playlist_selection_config_widget.dart';
 import 'package:youtube/src/feature/playlist_videos/widgets/playlist_videos_config_widget.dart';
-import 'package:youtube/src/feature/playlists/widgets/playlist_card_widget.dart';
 import 'package:youtube/src/feature/playlists/widgets/playlists_config_widget.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
 
@@ -81,7 +81,7 @@ class _LibraryContent extends StatelessWidget {
         ],
         LibrarySectionHeaderWidget(
           title: l10n.playlistsTitle,
-          onAdd: () => PlaylistCreationConfigWidget.show(context),
+          onAdd: () => PlaylistCreationConfigWidget.showCreationDialog(context),
           addTooltip: l10n.playlistCreationTitle,
           onSeeAll: playlists.isEmpty ? null : () => PlaylistsConfigWidget.open(context),
         ),

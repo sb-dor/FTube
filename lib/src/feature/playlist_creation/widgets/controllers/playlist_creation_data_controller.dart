@@ -1,30 +1,30 @@
 import 'package:flutter/foundation.dart';
+import 'package:youtube/src/feature/playlist_creation/models/playlist_creation_draft.dart';
 
-/// The new playlist's name as typed, and whether the user already tried to submit it.
+/// Holds the [PlaylistCreationDraft] until it is saved and validates it.
 class PlaylistCreationDataController with ChangeNotifier {
   /// Longest allowed playlist name.
   static const int maxLength = 25;
 
-  String _name = '';
-  bool _submitted = false;
+  PlaylistCreationDraft _draft = const PlaylistCreationDraft();
 
-  String get name => _name;
+  PlaylistCreationDraft get draft => _draft;
 
   /// Whether the trimmed name is empty.
-  bool get isEmpty => _name.trim().isEmpty;
+  bool get isEmpty => _draft.name.trim().isEmpty;
 
   /// Whether the empty-name error should be shown.
-  bool get showEmptyError => _submitted && isEmpty;
+  bool get showEmptyError => _draft.submitted && isEmpty;
 
   void setName(String value) {
-    if (_name == value) return;
-    _name = value;
+    if (_draft.name == value) return;
+    _draft = _draft.copyWith(name: value);
     notifyListeners();
   }
 
   /// Marks a submit attempt; returns whether the name is valid.
   bool submit() {
-    _submitted = true;
+    _draft = _draft.copyWith(submitted: true);
     notifyListeners();
     return !isEmpty;
   }

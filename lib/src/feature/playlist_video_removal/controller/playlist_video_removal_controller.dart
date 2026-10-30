@@ -1,7 +1,7 @@
 import 'package:control/control.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/feature/playlist_video_removal/data/playlist_video_removal_repository.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 part 'playlist_video_removal_controller.freezed.dart';
 

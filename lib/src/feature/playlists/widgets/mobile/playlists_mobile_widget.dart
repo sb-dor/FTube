@@ -1,15 +1,15 @@
 import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
 import 'package:youtube/src/common/widget/empty_state_widget.dart';
+import 'package:youtube/src/common/widget/playlist_card_widget.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
 import 'package:youtube/src/feature/playlist_creation/widgets/playlist_creation_config_widget.dart';
 import 'package:youtube/src/feature/playlist_deletion/widgets/playlist_deletion_config_widget.dart';
 import 'package:youtube/src/feature/playlist_videos/widgets/playlist_videos_config_widget.dart';
 import 'package:youtube/src/feature/playlists/controller/playlists_controller.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
-import 'package:youtube/src/feature/playlists/widgets/playlist_card_widget.dart';
 import 'package:youtube/src/feature/playlists/widgets/playlists_config_widget.dart';
 
 class PlaylistsMobileWidget extends StatefulWidget {
@@ -33,7 +33,7 @@ class _PlaylistsMobileWidgetState extends State<PlaylistsMobileWidget> {
         actions: [
           IconButton(
             tooltip: l10n.playlistCreationTitle,
-            onPressed: () => PlaylistCreationConfigWidget.show(context),
+            onPressed: () => PlaylistCreationConfigWidget.showCreationDialog(context),
             icon: const Icon(Icons.add, color: AppColors.accent),
           ),
         ],

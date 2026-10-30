@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/widget/playlist_card_widget.dart';
 import 'package:youtube/src/common/widget/shimmer_box.dart';
 import 'package:youtube/src/feature/library/widgets/mobile/library_history_card_widget.dart';
-import 'package:youtube/src/feature/playlists/widgets/playlist_card_widget.dart';
 
 /// Shimmering placeholders for the history and playlists rows.
 class LibraryLoadingWidget extends StatelessWidget {

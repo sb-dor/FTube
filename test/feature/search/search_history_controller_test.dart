@@ -110,7 +110,52 @@ void main() {
       when(() => repository.write(any())).thenAnswer((_) async => throw Exception('disk'));
       controller.add('cats');
       await _settle();
-      expect(controller.state.items, ['dogs']);
+      expect(controller.state, const SearchHistoryState.completed(queries: ['dogs']));
+    });
+
+    test('a failed remove keeps the shown history', () async {
+      stored = ['dogs', 'cats'];
+      controller.load();
+      await _settle();
+      when(() => repository.write(any())).thenAnswer((_) async => throw Exception('disk'));
+      controller.remove('cats');
+      await _settle();
+      expect(controller.state, const SearchHistoryState.completed(queries: ['dogs', 'cats']));
+    });
+
+    test('a failed add before any history was shown ends in the error state', () async {
+      when(() => repository.read()).thenAnswer((_) async => throw Exception('disk'));
+      controller.add('cats');
+      await _settle();
+      expect(controller.state, isA<SearchHistory$ErrorState>());
+      expect(controller.state.items, isEmpty);
+    });
+
+    test('a failed remove before any history was shown ends in the error state', () async {
+      when(() => repository.read()).thenAnswer((_) async => throw Exception('disk'));
+      controller.remove('cats');
+      await _settle();
+      expect(controller.state, isA<SearchHistory$ErrorState>());
+    });
+
+    test('changes after a failed one still apply', () async {
+      stored = ['dogs'];
+      controller.load();
+      await _settle();
+      var failNext = true;
+      when(() => repository.write(any())).thenAnswer((invocation) async {
+        if (failNext) {
+          failNext = false;
+          throw Exception('disk');
+        }
+        stored = List.of(invocation.positionalArguments.first as List<String>);
+      });
+      controller
+        ..add('cats')
+        ..add('birds');
+      await _settle();
+      expect(stored, ['birds', 'dogs']);
+      expect(controller.state.items, ['birds', 'dogs']);
     });
   });
 

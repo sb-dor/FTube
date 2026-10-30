@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:youtube/src/common/database/database.dart';
 import 'package:youtube/src/common/database/video_row_mapping.dart';
+import 'package:youtube/src/common/model/playlist_summary.dart';
 import 'package:youtube/src/common/model/video_item.dart';
-import 'package:youtube/src/feature/playlists/models/playlist_summary.dart';
 
 /// The newest [videos] of a playlist and whether older ones exist.
 typedef PlaylistVideosPage = ({List<VideoItem> videos, bool hasMore});

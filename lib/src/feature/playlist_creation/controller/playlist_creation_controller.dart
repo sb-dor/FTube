@@ -29,13 +29,11 @@ final class PlaylistCreationController extends StateController<PlaylistCreationS
 
   final IPlaylistCreationRepository _playlistCreationRepository;
 
-  /// Creates a playlist named [name] (trimmed). Blank names are ignored.
+  /// Creates a playlist named [name] (trimmed). The form validates the name before saving.
   void create(String name) => handle(
     () async {
-      final trimmed = name.trim();
-      if (trimmed.isEmpty) return;
       setState(const PlaylistCreationState.inProgress());
-      final id = await _playlistCreationRepository.create(trimmed);
+      final id = await _playlistCreationRepository.create(name.trim());
       setState(PlaylistCreationState.completed(playlistId: id));
     },
     error: (error, stackTrace) async => setState(PlaylistCreationState.error(error: error)),

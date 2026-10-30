@@ -48,26 +48,42 @@ final class SearchHistoryController extends StateController<SearchHistoryState>
   );
 
   /// Moves [query] to the top, replacing an entry that differs only in case.
-  void add(String query) => handle(() async {
-    final text = query.trim();
-    if (text.isEmpty) return;
-    final key = text.toLowerCase();
-    final current = await _historyRepository.read();
-    final queries = [
-      text,
-      ...current.where((entry) => entry.toLowerCase() != key),
-    ].take(maxEntries).toList();
-    await _historyRepository.write(queries);
-    setState(SearchHistoryState.completed(queries: queries));
-  }, name: 'add');
+  void add(String query) => handle(
+    () async {
+      final text = query.trim();
+      if (text.isEmpty) return;
+      final key = text.toLowerCase();
+      final current = await _historyRepository.read();
+      final queries = [
+        text,
+        ...current.where((entry) => entry.toLowerCase() != key),
+      ].take(maxEntries).toList();
+      await _historyRepository.write(queries);
+      setState(SearchHistoryState.completed(queries: queries));
+    },
+    error: _onChangeError,
+    name: 'add',
+  );
 
   /// Deletes [query] (ignoring case).
-  void remove(String query) => handle(() async {
-    final key = query.trim().toLowerCase();
-    final current = await _historyRepository.read();
-    final queries = current.where((entry) => entry.toLowerCase() != key).toList();
-    if (queries.length == current.length) return;
-    await _historyRepository.write(queries);
-    setState(SearchHistoryState.completed(queries: queries));
-  }, name: 'remove');
+  void remove(String query) => handle(
+    () async {
+      final key = query.trim().toLowerCase();
+      final current = await _historyRepository.read();
+      final queries = current.where((entry) => entry.toLowerCase() != key).toList();
+      if (queries.length == current.length) return;
+      await _historyRepository.write(queries);
+      setState(SearchHistoryState.completed(queries: queries));
+    },
+    error: _onChangeError,
+    name: 'remove',
+  );
+
+  /// A failed add or remove keeps the shown history: nothing was saved, so the list on screen
+  /// still matches storage. Without a shown history the failure becomes the error state. Either
+  /// way the error is also reported to the controller observer by the handler.
+  Future<void> _onChangeError(Object error, StackTrace stackTrace) async {
+    if (state is SearchHistory$CompletedState) return;
+    setState(SearchHistoryState.error(error: error));
+  }
 }
