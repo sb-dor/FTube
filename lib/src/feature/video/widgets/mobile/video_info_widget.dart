@@ -48,11 +48,13 @@ class _VideoInfoWidgetState extends State<VideoInfoWidget> {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  ChannelAvatarWidget(url: details.channelAvatarUrl, size: 35),
+                  // The list item's channel fills in when the watch page names none (e.g.
+                  // collaborations).
+                  ChannelAvatarWidget(url: _scope.video.channelAvatarUrl, size: 35),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      [?details.channelName, ?details.subscribersText].join(' • '),
+                      [?_scope.video.channelName, ?details.subscribersText].join(' • '),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w500),
