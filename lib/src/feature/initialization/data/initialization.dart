@@ -4,12 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube/src/common/audio/background_audio.dart';
 import 'package:youtube/src/common/constant/firebase_options.dart';
 import 'package:youtube/src/common/controller/controller_observer.dart';
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
 import 'package:youtube/src/common/download/ranged_downloader.dart';
 import 'package:youtube/src/common/js/js_runtime.dart';
@@ -22,9 +22,6 @@ import 'package:youtube/src/common/youtube/po_token/po_token_generator.dart';
 import 'package:youtube/src/common/youtube/youtube_client.dart';
 import 'package:youtube/src/common/youtube/youtube_streams_client.dart';
 import 'package:youtube/src/feature/initialization/models/dependencies.dart';
-import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
-import 'package:youtube/src/feature/video_download/data/device_media_store.dart';
-import 'package:youtube/src/feature/video_download/data/video_download_repository.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 /// Initializes the app and its [Dependencies].
@@ -57,14 +54,6 @@ Future<void> $initializeApp({
       poTokens: poTokenGenerator,
       solver: challengeSolver,
     );
-    final videoDownloadRepository = VideoDownloadRepositoryImpl(
-      streamsClient: streamsClient,
-      downloader: RangedDownloader(createClient: createPlatformHttpClient),
-      muxer: const FfmpegMediaMuxer(),
-      mediaStore: const DeviceMediaStoreImpl(),
-      database: database,
-      temporaryDirectory: getTemporaryDirectory,
-    );
     final dependencies = Dependencies()
       ..sharedPreferences = sharedPreferences
       ..database = database
@@ -78,8 +67,9 @@ Future<void> $initializeApp({
       ..poTokenGenerator = poTokenGenerator
       ..challengeSolver = challengeSolver
       ..youtubeStreamsClient = streamsClient
-      ..videoDownloadRepository = videoDownloadRepository
-      ..videoDownloadController = VideoDownloadController(repository: videoDownloadRepository);
+      ..downloader = RangedDownloader(createClient: createPlatformHttpClient)
+      ..mediaMuxer = const FfmpegMediaMuxer()
+      ..deviceMediaStore = DeviceMediaStoreImpl();
     await onSuccess(dependencies);
   } on Object catch (error, stackTrace) {
     await onError(error, stackTrace);

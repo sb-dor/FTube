@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:youtube/src/feature/download_player/controller/download_player_controller.dart';
 import 'package:youtube/src/feature/download_player/data/download_player_repository.dart';
+import 'package:youtube/src/feature/download_player/models/download_playback.dart';
 import 'package:youtube/src/feature/downloads/models/downloaded_file.dart';
 
 class _MockDownloadPlayerRepository extends Mock implements IDownloadPlayerRepository {}

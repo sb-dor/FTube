@@ -17,45 +17,90 @@ sealed class DownloadsState with _$DownloadsState {
 
   const factory DownloadsState.error({Object? error}) = Downloads$ErrorState;
 
-  /// [downloads] newest first.
-  const factory DownloadsState.completed({required List<DownloadedFile> downloads}) =
-      Downloads$CompletedState;
+  /// [downloads] newest first. [limit] is how many of the newest files are watched; the next
+  /// page watches `limit + pageSize`.
+  const factory DownloadsState.completed({
+    required List<DownloadedFile> downloads,
+    required int limit,
+    required bool hasMore,
+  }) = Downloads$CompletedState;
+
+  /// Whether another page can be requested.
+  bool get canLoadMore => switch (this) {
+    Downloads$CompletedState(:final hasMore) => hasMore,
+    _ => false,
+  };
 }
 
-/// Watches the downloaded files; the list updates whenever a download is added or deleted.
+/// Watches the downloaded files page by page, newest first.
+///
+/// Each page widens the watched window, so added and deleted downloads show up without a
+/// reload.
 final class DownloadsController extends StateController<DownloadsState>
     with SequentialControllerHandler {
   DownloadsController({
     required this._downloadsRepository,
+    this._pageSize = 20,
     super.initialState = const DownloadsState.initial(),
   });
 
   final IDownloadsRepository _downloadsRepository;
-  StreamSubscription<List<DownloadedFile>>? _subscription;
+  final int _pageSize;
+  StreamSubscription<DownloadsPage>? _subscription;
+  Completer<void>? _firstPage;
 
-  /// Starts (or restarts) watching the downloads table.
-  void watch() => handle(
+  /// Watches the first page.
+  void load() => handle(
     () async {
-      await _subscription?.cancel();
-      _subscription = null;
       setState(const DownloadsState.inProgress());
-      _subscription = _downloadsRepository.watchDownloads().listen(
-        (downloads) {
-          if (!isDisposed) setState(DownloadsState.completed(downloads: downloads));
-        },
-        onError: (Object error, StackTrace stackTrace) {
-          if (!isDisposed) setState(DownloadsState.error(error: error));
-        },
-      );
+      await _watch(_pageSize);
     },
     error: (error, stackTrace) async => setState(DownloadsState.error(error: error)),
-    name: 'watch',
+    name: 'load',
   );
+
+  /// Widens the watched window by one page.
+  void paginate() => handle(
+    () async {
+      final current = state;
+      if (current is! Downloads$CompletedState || !current.hasMore) return;
+      await _watch(current.limit + _pageSize);
+    },
+    error: (error, stackTrace) async => setState(DownloadsState.error(error: error)),
+    name: 'paginate',
+  );
+
+  /// Replaces the subscription and waits for its first value, so the handler stays busy until
+  /// the page is on screen.
+  Future<void> _watch(int limit) async {
+    await _subscription?.cancel();
+    final firstPage = _firstPage = Completer<void>();
+    _subscription = _downloadsRepository
+        .watchDownloads(limit: limit)
+        .listen(
+          (page) {
+            setState(
+              DownloadsState.completed(
+                downloads: page.downloads,
+                limit: limit,
+                hasMore: page.hasMore,
+              ),
+            );
+            if (!firstPage.isCompleted) firstPage.complete();
+          },
+          onError: (Object error, StackTrace stackTrace) {
+            setState(DownloadsState.error(error: error));
+            if (!firstPage.isCompleted) firstPage.complete();
+          },
+        );
+    await firstPage.future;
+  }
 
   @override
   void dispose() {
     _subscription?.cancel().ignore();
     _subscription = null;
+    if (_firstPage case final firstPage? when !firstPage.isCompleted) firstPage.complete();
     super.dispose();
   }
 }

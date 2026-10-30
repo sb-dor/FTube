@@ -23,7 +23,8 @@ class DownloadsConfigInhWidget extends InheritedWidget {
   bool updateShouldNotify(covariant DownloadsConfigInhWidget oldWidget) => false;
 }
 
-/// "In-App downloads": files downloaded into the app, newest first, updated live.
+/// "In-App downloads": files downloaded into the app, newest first, loaded page by page and
+/// updated live.
 class DownloadsConfigWidget extends StatefulWidget {
   const DownloadsConfigWidget({super.key});
 
@@ -48,7 +49,7 @@ class DownloadsConfigWidgetState extends State<DownloadsConfigWidget> {
         database: DependenciesScope.of(context).database,
       ),
     );
-    watch();
+    load();
   }
 
   @override
@@ -57,7 +58,9 @@ class DownloadsConfigWidgetState extends State<DownloadsConfigWidget> {
     super.dispose();
   }
 
-  void watch() => downloadsController.watch();
+  void load() => downloadsController.load();
+
+  void paginate() => downloadsController.paginate();
 
   @override
   Widget build(BuildContext context) => DownloadsConfigInhWidget(

@@ -4,6 +4,7 @@ import 'package:control/control.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube/src/feature/download_player/data/download_player_repository.dart';
+import 'package:youtube/src/feature/download_player/models/download_playback.dart';
 import 'package:youtube/src/feature/downloads/models/downloaded_file.dart';
 
 part 'download_player_controller.freezed.dart';
@@ -19,6 +20,9 @@ sealed class DownloadPlayerState with _$DownloadPlayerState {
   const factory DownloadPlayerState.error({Object? error}) = DownloadPlayer$ErrorState;
 
   /// The file is open. [video] is the picture of a video file; null for audio.
+  ///
+  /// [video] stays in the state: it is a texture handle that is valid only while the file is
+  /// open, and the repository owns it, so the widget can reach it only through this state.
   const factory DownloadPlayerState.completed({
     required Duration position,
     required Duration duration,
@@ -29,6 +33,10 @@ sealed class DownloadPlayerState with _$DownloadPlayerState {
 
 /// Plays one downloaded file in a loop; for video files, hands the sound over to the background
 /// audio player while the app is in the background.
+///
+/// Playback commands are [SequentialControllerHandler] rather than droppable: each tap must
+/// reach the player in order (a pause dropped while a play is in flight would leave the player
+/// running with a paused button).
 final class DownloadPlayerController extends StateController<DownloadPlayerState>
     with SequentialControllerHandler {
   DownloadPlayerController({

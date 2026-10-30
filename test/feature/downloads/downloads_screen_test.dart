@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:path/path.dart' as p;
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/feature/downloads/widgets/downloads_config_widget.dart';
 import 'package:youtube/src/feature/initialization/models/dependencies.dart';
@@ -25,7 +26,9 @@ void main() {
   });
 
   Future<void> pumpScreen(WidgetTester tester) async {
-    final dependencies = Dependencies()..database = db;
+    final dependencies = Dependencies()
+      ..database = db
+      ..deviceMediaStore = DeviceMediaStoreImpl();
     await tester.pumpWidget(
       dependencies.inject(
         child: MaterialApp(

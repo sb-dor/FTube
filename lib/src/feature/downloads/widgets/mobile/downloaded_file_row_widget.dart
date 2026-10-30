@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/widget/video_row_widget.dart';
-import 'package:youtube/src/feature/download_export/widgets/download_export_config_widget.dart';
+import 'package:youtube/src/feature/download_export/widgets/mobile/download_export_button_widget.dart';
 import 'package:youtube/src/feature/downloads/models/downloaded_file.dart';
 
 /// One downloaded file: thumbnail with the file type, title, channel, views, a menu with

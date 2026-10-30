@@ -1,12 +1,11 @@
 import 'package:control/control.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:youtube/src/feature/download_export/data/download_export_repository.dart';
+import 'package:youtube/src/feature/download_export/models/download_export_destination.dart';
+import 'package:youtube/src/feature/download_export/models/download_export_failure.dart';
 import 'package:youtube/src/feature/downloads/models/downloaded_file.dart';
 
 part 'download_export_controller.freezed.dart';
-
-/// Where a downloaded file was saved.
-enum DownloadExportDestination { gallery, downloads }
 
 @freezed
 sealed class DownloadExportState with _$DownloadExportState {

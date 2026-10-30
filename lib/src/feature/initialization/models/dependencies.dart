@@ -3,6 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube/src/common/audio/background_audio.dart';
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
+import 'package:youtube/src/common/download/media_muxer.dart';
+import 'package:youtube/src/common/download/ranged_downloader.dart';
 import 'package:youtube/src/common/js/js_runtime.dart';
 import 'package:youtube/src/common/utils/analytics.dart';
 import 'package:youtube/src/common/youtube/challenge_solver.dart';
@@ -10,8 +13,6 @@ import 'package:youtube/src/common/youtube/po_token/po_token_generator.dart';
 import 'package:youtube/src/common/youtube/youtube_client.dart';
 import 'package:youtube/src/common/youtube/youtube_streams_client.dart';
 import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
-import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
-import 'package:youtube/src/feature/video_download/data/video_download_repository.dart';
 import 'package:youtube/src/feature/video_preview/widgets/controllers/video_preview_coordinator.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -54,11 +55,14 @@ class Dependencies {
   /// The single background audio player.
   late final BackgroundAudio backgroundAudio;
 
-  /// Stream downloads (options and the pipeline).
-  late final IVideoDownloadRepository videoDownloadRepository;
+  /// Downloads stream files in ranges, resuming and retrying across sources.
+  late final RangedDownloader downloader;
 
-  /// The app-wide running download.
-  late final VideoDownloadController videoDownloadController;
+  /// Combines downloaded video and audio streams.
+  late final IMediaMuxer mediaMuxer;
+
+  /// The Gallery, the public Downloads folder and the app's downloads directory.
+  late final IDeviceMediaStore deviceMediaStore;
 
   /// Lets only one list card preview at a time.
   final VideoPreviewCoordinator videoPreviewCoordinator = VideoPreviewCoordinator();
