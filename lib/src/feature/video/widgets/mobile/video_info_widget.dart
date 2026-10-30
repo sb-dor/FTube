@@ -6,7 +6,7 @@ import 'package:youtube/src/common/widget/shimmer_box.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
 import 'package:youtube/src/feature/video/controller/video_controller.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
-import 'package:youtube/src/feature/video_download/widgets/video_download_button.dart';
+import 'package:youtube/src/feature/video_download/widgets/mobile/video_download_button.dart';
 
 /// Title, views and date, channel, description and the download button.
 class VideoInfoWidget extends StatelessWidget {

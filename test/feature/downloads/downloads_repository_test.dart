@@ -67,7 +67,7 @@ void main() {
       durationSeconds: 61,
     );
 
-    final downloads = await repository.watchDownloads().first;
+    final (:downloads, hasMore: _) = await repository.watchDownloads(limit: 10).first;
 
     expect(downloads.map((file) => file.title), ['Song', 'Video']);
     final song = downloads.first;
@@ -87,7 +87,7 @@ void main() {
     await insert(name: 'Old audio', path: createFile(p.join(dir.path, 'a.mp3')));
     await insert(name: 'Old video', path: createFile(p.join(dir.path, 'v.mp4')));
 
-    final downloads = await repository.watchDownloads().first;
+    final (:downloads, hasMore: _) = await repository.watchDownloads(limit: 10).first;
 
     expect(downloads.map((file) => file.mediaType), [
       DownloadMediaType.video,
@@ -99,7 +99,7 @@ void main() {
     await insert(name: 'Gone', path: p.join(dir.path, 'gone.mp4'));
     await insert(name: 'No path');
 
-    final downloads = await repository.watchDownloads().first;
+    final (:downloads, hasMore: _) = await repository.watchDownloads(limit: 10).first;
 
     expect(downloads, hasLength(2));
     expect(downloads.every((file) => !file.exists), isTrue);
@@ -113,7 +113,7 @@ void main() {
     await insert(name: 'Direct', path: '$oldRoot/direct.mp4');
     await insert(name: 'Nested', path: '$oldRoot/downloads/nested.m4a');
 
-    final downloads = await repository.watchDownloads().first;
+    final (:downloads, hasMore: _) = await repository.watchDownloads(limit: 10).first;
 
     expect(downloads.map((file) => file.path), [nested, direct]);
     expect(downloads.every((file) => file.exists), isTrue);
@@ -122,7 +122,9 @@ void main() {
 
   test('emits again when a download is added or deleted', () async {
     final emissions = <List<DownloadedFile>>[];
-    final subscription = repository.watchDownloads().listen(emissions.add);
+    final subscription = repository
+        .watchDownloads(limit: 10)
+        .listen((page) => emissions.add(page.downloads));
     addTearDown(subscription.cancel);
     await pumpEventQueue();
     expect(emissions.last, isEmpty);
@@ -134,6 +136,20 @@ void main() {
     await (db.delete(db.fileDownloads)..where((table) => table.id.equals(id))).go();
     await pumpEventQueue();
     expect(emissions.last, isEmpty);
+  });
+
+  test('watches the newest [limit] files and tells whether older ones exist', () async {
+    for (var i = 1; i <= 3; i++) {
+      await insert(name: 'File $i', path: createFile(p.join(dir.path, 'f$i.mp4')));
+    }
+
+    final first = await repository.watchDownloads(limit: 2).first;
+    expect(first.downloads.map((file) => file.title), ['File 3', 'File 2']);
+    expect(first.hasMore, isTrue);
+
+    final all = await repository.watchDownloads(limit: 4).first;
+    expect(all.downloads, hasLength(3));
+    expect(all.hasMore, isFalse);
   });
 
   test('DownloadMediaType.resolve prefers the stored type', () {

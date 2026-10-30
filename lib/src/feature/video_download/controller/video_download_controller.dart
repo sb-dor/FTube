@@ -11,7 +11,7 @@ part 'video_download_controller.freezed.dart';
 sealed class VideoDownloadState with _$VideoDownloadState {
   const VideoDownloadState._();
 
-  const factory VideoDownloadState.idle() = VideoDownload$IdleState;
+  const factory VideoDownloadState.initial() = VideoDownload$InitialState;
 
   const factory VideoDownloadState.inProgress({
     required DownloadRequest request,
@@ -24,9 +24,9 @@ sealed class VideoDownloadState with _$VideoDownloadState {
   const factory VideoDownloadState.error({required DownloadRequest request, Object? error}) =
       VideoDownload$ErrorState;
 
-  /// The request this state is about; null when idle.
+  /// The request this state is about; null in the initial state.
   DownloadRequest? get activeRequest => switch (this) {
-    VideoDownload$IdleState() => null,
+    VideoDownload$InitialState() => null,
     VideoDownload$InProgressState(:final request) ||
     VideoDownload$CompletedState(:final request) ||
     VideoDownload$ErrorState(:final request) => request,
@@ -41,7 +41,7 @@ final class VideoDownloadController extends StateController<VideoDownloadState>
     with DroppableControllerHandler {
   VideoDownloadController({
     required this._repository,
-    super.initialState = const VideoDownloadState.idle(),
+    super.initialState = const VideoDownloadState.initial(),
   });
 
   final IVideoDownloadRepository _repository;
@@ -87,20 +87,20 @@ final class VideoDownloadController extends StateController<VideoDownloadState>
     return true;
   }
 
-  /// Stops the running download and deletes its partial files.
+  /// Stops the running download and deletes its partial files; back to the initial state.
   void cancel() {
     final subscription = _subscription;
     final finished = _finished;
     if (subscription == null || finished == null) return;
     subscription.cancel().ignore();
     if (!finished.isCompleted) finished.complete(false);
-    setState(const VideoDownloadState.idle());
+    setState(const VideoDownloadState.initial());
   }
 
   /// Clears a finished or failed download.
   void reset() {
     if (state.isDownloading) return;
-    setState(const VideoDownloadState.idle());
+    setState(const VideoDownloadState.initial());
   }
 
   @override

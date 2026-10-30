@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
+import 'package:youtube/src/common/utils/duration_format.dart';
 import 'package:youtube/src/feature/download_player/controller/download_player_controller.dart';
 
 /// Seek bar, current / total time and the play-pause button.
@@ -26,14 +27,6 @@ class DownloadPlayerControlsWidget extends StatelessWidget {
   final ValueChanged<Duration> onDrag;
   final ValueChanged<Duration> onDragEnd;
   final VoidCallback onTogglePlay;
-
-  static String _format(Duration duration) {
-    String two(int value) => value.toString().padLeft(2, '0');
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inSeconds.remainder(60);
-    return hours > 0 ? '$hours:${two(minutes)}:${two(seconds)}' : '${two(minutes)}:${two(seconds)}';
-  }
 
   static Duration _toDuration(Object? value) =>
       Duration(milliseconds: ((value as num? ?? 0) * 1000).round());
@@ -61,7 +54,7 @@ class DownloadPlayerControlsWidget extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(_format(position)),
+              Text(formatDuration(position)),
               IconButton(
                 constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
@@ -71,7 +64,7 @@ class DownloadPlayerControlsWidget extends StatelessWidget {
                 onPressed: onTogglePlay,
                 icon: Icon(state.isPlaying ? Icons.pause : Icons.play_arrow, size: 35),
               ),
-              Text(_format(state.duration)),
+              Text(formatDuration(state.duration)),
             ],
           ),
         ),

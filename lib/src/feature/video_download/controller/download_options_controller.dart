@@ -35,4 +35,7 @@ final class DownloadOptionsController extends StateController<DownloadOptionsSta
     error: (error, stackTrace) async => setState(DownloadOptionsState.error(error: error)),
     name: 'load',
   );
+
+  /// The user picked sound or video; recorded for analytics.
+  void chooseKind(DownloadKind kind) => _repository.trackKindChosen(kind);
 }

@@ -5,12 +5,13 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
 import 'package:youtube/src/common/download/ranged_downloader.dart';
 import 'package:youtube/src/common/model/media_stream.dart';
 import 'package:youtube/src/common/model/video_item.dart';
+import 'package:youtube/src/common/utils/analytics.dart';
 import 'package:youtube/src/common/youtube/youtube_streams_client.dart';
-import 'package:youtube/src/feature/video_download/data/device_media_store.dart';
 import 'package:youtube/src/feature/video_download/data/video_download_repository.dart';
 import 'package:youtube/src/feature/video_download/models/download_option.dart';
 import 'package:youtube/src/feature/video_download/models/download_request.dart';
@@ -66,6 +67,16 @@ class _FakeMediaStore implements IDeviceMediaStore {
   Future<void> saveVideoToGallery(File file) async {}
 }
 
+class _FakeAnalytics implements IAnalytics {
+  final downloadTypes = <String>[];
+
+  @override
+  void downloadType(String type) => downloadTypes.add(type);
+
+  @override
+  void screenTab(String tab) {}
+}
+
 void main() {
   late Directory dir;
   late HttpServer server;
@@ -101,17 +112,19 @@ void main() {
     dir.deleteSync(recursive: true);
   });
 
-  VideoDownloadRepositoryImpl repository(_FakeMuxer muxer) => VideoDownloadRepositoryImpl(
-    streamsClient: YoutubeStreamsClient(
-      httpClient: http.Client(),
-      youtubeExplode: YoutubeExplode(),
-    ),
-    downloader: RangedDownloader(createClient: http.Client.new, chunkSize: 100000),
-    muxer: muxer,
-    mediaStore: _FakeMediaStore(Directory('${dir.path}/saved')..createSync()),
-    database: database,
-    temporaryDirectory: () async => dir,
-  );
+  VideoDownloadRepositoryImpl repository(_FakeMuxer muxer, {IAnalytics? analytics}) =>
+      VideoDownloadRepositoryImpl(
+        streamsClient: YoutubeStreamsClient(
+          httpClient: http.Client(),
+          youtubeExplode: YoutubeExplode(),
+        ),
+        downloader: RangedDownloader(createClient: http.Client.new, chunkSize: 100000),
+        muxer: muxer,
+        mediaStore: _FakeMediaStore(Directory('${dir.path}/saved')..createSync()),
+        database: database,
+        analytics: analytics ?? _FakeAnalytics(),
+        temporaryDirectory: () async => dir,
+      );
 
   DownloadRequest audioRequest() {
     final base = 'http://${server.address.host}:${server.port}';
@@ -172,5 +185,13 @@ void main() {
       throwsA(isA<StreamForbiddenException>()),
     );
     expect(await database.select(database.fileDownloads).get(), isEmpty);
+  });
+
+  test('records the chosen download kind', () {
+    final analytics = _FakeAnalytics();
+    repository(_FakeMuxer(), analytics: analytics)
+      ..trackKindChosen(DownloadKind.audio)
+      ..trackKindChosen(DownloadKind.video);
+    expect(analytics.downloadTypes, ['sound', 'video']);
   });
 }

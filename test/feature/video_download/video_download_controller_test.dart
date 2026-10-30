@@ -74,25 +74,28 @@ void main() {
     await pumpEventQueue();
     expect(controller.state, isA<VideoDownload$ErrorState>());
     controller.reset();
-    expect(controller.state, isA<VideoDownload$IdleState>());
+    expect(controller.state, isA<VideoDownload$InitialState>());
   });
 
-  test('cancel stops the stream and returns to idle; a new download can start', () async {
-    var cancelled = false;
-    final progress = StreamController<DownloadProgress>(onCancel: () => cancelled = true);
-    addTearDown(progress.close);
-    when(() => repository.download(any())).thenAnswer((_) => progress.stream);
-    controller.start(request);
-    await pumpEventQueue();
+  test(
+    'cancel stops the stream and returns to the initial state; a new download can start',
+    () async {
+      var cancelled = false;
+      final progress = StreamController<DownloadProgress>(onCancel: () => cancelled = true);
+      addTearDown(progress.close);
+      when(() => repository.download(any())).thenAnswer((_) => progress.stream);
+      controller.start(request);
+      await pumpEventQueue();
 
-    controller.cancel();
-    await pumpEventQueue();
-    expect(cancelled, isTrue);
-    expect(controller.state, isA<VideoDownload$IdleState>());
+      controller.cancel();
+      await pumpEventQueue();
+      expect(cancelled, isTrue);
+      expect(controller.state, isA<VideoDownload$InitialState>());
 
-    when(() => repository.download(any())).thenAnswer((_) => const Stream.empty());
-    expect(controller.start(request), isTrue);
-    await pumpEventQueue();
-    expect(controller.state, isA<VideoDownload$CompletedState>());
-  });
+      when(() => repository.download(any())).thenAnswer((_) => const Stream.empty());
+      expect(controller.start(request), isTrue);
+      await pumpEventQueue();
+      expect(controller.state, isA<VideoDownload$CompletedState>());
+    },
+  );
 }

@@ -1,11 +1,12 @@
+import 'package:control/control.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
-import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
 import 'package:youtube/src/feature/video_download/models/download_request.dart';
 import 'package:youtube/src/feature/video_download/widgets/video_download_config_widget.dart';
+import 'package:youtube/src/feature/video_download/widgets/video_download_host_config_widget.dart';
 
 /// Black "Download" pill on the video screen. Shows the running download of this video, or a
 /// small cancellable chip when another video is downloading.
@@ -19,7 +20,7 @@ class VideoDownloadButton extends StatefulWidget {
 }
 
 class _VideoDownloadButtonState extends State<VideoDownloadButton> {
-  late final _controller = DependenciesScope.of(context).videoDownloadController;
+  late final _controller = VideoDownloadHostConfigInhWidget.of(context).videoDownloadController;
 
   Future<void> _confirmCancel() async {
     final l10n = Localization.of(context);
@@ -44,11 +45,10 @@ class _VideoDownloadButtonState extends State<VideoDownloadButton> {
   }
 
   @override
-  Widget build(BuildContext context) => ListenableBuilder(
-    listenable: _controller,
-    builder: (context, _) {
+  Widget build(BuildContext context) => StateConsumer<VideoDownloadController, VideoDownloadState>(
+    controller: _controller,
+    builder: (context, state, _) {
       final l10n = Localization.of(context);
-      final state = _controller.state;
       final running = state is VideoDownload$InProgressState ? state : null;
       final isThisVideo = running?.request.video.id == widget.video.id;
       final label = switch (running?.progress.phase) {

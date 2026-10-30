@@ -4,15 +4,18 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:l/l.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:youtube/src/common/database/database.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
 import 'package:youtube/src/common/download/ranged_downloader.dart';
 import 'package:youtube/src/common/model/media_stream.dart';
+import 'package:youtube/src/common/utils/analytics.dart';
 import 'package:youtube/src/common/utils/duration_format.dart';
 import 'package:youtube/src/common/utils/file_name.dart';
 import 'package:youtube/src/common/youtube/youtube_streams_client.dart';
-import 'package:youtube/src/feature/video_download/data/device_media_store.dart';
 import 'package:youtube/src/feature/video_download/models/download_option.dart';
+import 'package:youtube/src/feature/video_download/models/download_options_converter.dart';
 import 'package:youtube/src/feature/video_download/models/download_request.dart';
 
 abstract interface class IVideoDownloadRepository {
@@ -22,6 +25,9 @@ abstract interface class IVideoDownloadRepository {
   /// Runs [request]; emits progress and completes when the file is saved. Cancelling the
   /// subscription stops the download and removes temporary files.
   Stream<DownloadProgress> download(DownloadRequest request);
+
+  /// Records that the user chose to download [kind].
+  void trackKindChosen(DownloadKind kind);
 }
 
 final class VideoDownloadRepositoryImpl implements IVideoDownloadRepository {
@@ -31,7 +37,9 @@ final class VideoDownloadRepositoryImpl implements IVideoDownloadRepository {
     required this._muxer,
     required this._mediaStore,
     required this._database,
-    required this._temporaryDirectory,
+    required this._analytics,
+    this._temporaryDirectory = getTemporaryDirectory,
+    this._optionsConverter = const DownloadOptionsConverter(),
   });
 
   final YoutubeStreamsClient _streamsClient;
@@ -39,12 +47,17 @@ final class VideoDownloadRepositoryImpl implements IVideoDownloadRepository {
   final IMediaMuxer _muxer;
   final IDeviceMediaStore _mediaStore;
   final AppDatabase _database;
+  final IAnalytics _analytics;
   final Future<Directory> Function() _temporaryDirectory;
+  final DownloadOptionsConverter _optionsConverter;
 
   @override
   Future<DownloadOptions> options(String videoId) async {
-    return buildDownloadOptions(await _streamsClient.catalog(videoId));
+    return _optionsConverter.convert(await _streamsClient.catalog(videoId));
   }
+
+  @override
+  void trackKindChosen(DownloadKind kind) => _analytics.downloadType(kind.analyticsName);
 
   @override
   Stream<DownloadProgress> download(DownloadRequest request) {
@@ -232,83 +245,4 @@ final class VideoDownloadRepositoryImpl implements IVideoDownloadRepository {
     }
     return candidate;
   }
-}
-
-/// Builds the quality lists offered for a video.
-///
-/// Audio: original-language tracks (the non-compressed copy before the DRC one), M4A (AAC)
-/// preferred, best bitrate first.
-/// Video: muxed streams first (fast, no processing), then one video-only stream per quality —
-/// H.264 MP4 preferred — paired with the best M4A audio, highest resolution first.
-DownloadOptions buildDownloadOptions(StreamCatalog catalog) {
-  final audioStreams = catalog
-      .of(MediaStreamKind.audio)
-      .where((s) => s.isOriginalAudio)
-      .sorted((a, b) {
-        if (a.isDrcAudio != b.isDrcAudio) return a.isDrcAudio ? 1 : -1;
-        return b.bitrate.compareTo(a.bitrate);
-      })
-      // One entry per bitrate class: the DRC copy only when there is no plain one.
-      .fold<List<MediaStream>>([], (list, s) {
-        final duplicate = list.any(
-          (known) => known.container == s.container && (known.bitrate - s.bitrate).abs() < 16000,
-        );
-        return duplicate ? list : [...list, s];
-      });
-  final m4a = audioStreams.where((s) => s.container == 'mp4').toList();
-  final offeredAudio = m4a.isNotEmpty ? m4a : audioStreams;
-  final bestAudio = offeredAudio.firstOrNull;
-  final soundFallback = catalog.bestMuxed;
-
-  final muxed = catalog
-      .of(MediaStreamKind.muxed)
-      .where((s) => s.container == 'mp4')
-      .sorted((a, b) => b.height.compareTo(a.height))
-      .groupFoldBy<String, MediaStream>(
-        (s) => s.qualityLabel ?? '${s.itag}',
-        (previous, s) => previous ?? s,
-      )
-      .values;
-
-  // Per quality: the most compatible stream, plus the other codecs as alternatives.
-  final videoOnly = bestAudio == null && soundFallback == null
-      ? const <(MediaStream, List<MediaStream>)>[]
-      : catalog
-            .of(MediaStreamKind.video)
-            .groupListsBy((s) => s.qualityLabel ?? '${s.itag}')
-            .values
-            .map((group) {
-              final best =
-                  group.firstWhereOrNull((s) => s.container == 'mp4' && s.isH264) ??
-                  group.firstWhereOrNull((s) => s.container == 'mp4') ??
-                  group.first;
-              return (
-                best,
-                [
-                  for (final s in group)
-                    if (s != best) s,
-                ],
-              );
-            })
-            .sorted((a, b) {
-              final byHeight = b.$1.height.compareTo(a.$1.height);
-              return byHeight != 0 ? byHeight : b.$1.fps.compareTo(a.$1.fps);
-            });
-
-  return DownloadOptions(
-    audio: [
-      for (final stream in offeredAudio)
-        DownloadOption.audio(audio: stream, soundFallback: soundFallback),
-    ],
-    video: [
-      for (final stream in muxed) DownloadOption.muxed(muxed: stream),
-      for (final (stream, alternatives) in videoOnly)
-        DownloadOption.video(
-          video: stream,
-          audio: bestAudio ?? soundFallback,
-          soundFallback: soundFallback,
-          videoAlternatives: alternatives,
-        ),
-    ],
-  );
 }

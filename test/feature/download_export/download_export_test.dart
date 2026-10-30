@@ -1,16 +1,38 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gal/gal.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:path/path.dart' as p;
-import 'package:youtube/src/common/utils/public_downloads.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/feature/download_export/controller/download_export_controller.dart';
 import 'package:youtube/src/feature/download_export/data/download_export_repository.dart';
+import 'package:youtube/src/feature/download_export/models/download_export_destination.dart';
+import 'package:youtube/src/feature/download_export/models/download_export_failure.dart';
 import 'package:youtube/src/feature/downloads/models/downloaded_file.dart';
 
 class _MockDownloadExportRepository extends Mock implements IDownloadExportRepository {}
+
+/// Records saved files; throws [error] when it is set.
+class _FakeMediaStore implements IDeviceMediaStore {
+  final gallery = <String>[];
+  final downloads = <(String, String)>[];
+  Exception? error;
+
+  @override
+  Future<void> saveVideoToGallery(File file) async {
+    if (error case final error?) throw error;
+    gallery.add(file.path);
+  }
+
+  @override
+  Future<void> saveToDownloads(File file, String fileName) async {
+    if (error case final error?) throw error;
+    downloads.add((file.path, fileName));
+  }
+
+  @override
+  Future<Directory> appDownloadsDirectory() => throw UnimplementedError();
+}
 
 Matcher _fails(DownloadExportFailure failure) =>
     throwsA(isA<DownloadExportException>().having((e) => e.failure, 'failure', failure));
@@ -20,20 +42,10 @@ void main() {
     late Directory dir;
     late String video;
     late String audio;
-    final putVideo = <String>[];
-    final copies = <(String, String)>[];
-    var galleryAccess = true;
-    Exception? copyError;
+    late _FakeMediaStore mediaStore;
 
-    DownloadExportRepositoryImpl repository({Future<void> Function(String)? put}) =>
-        DownloadExportRepositoryImpl(
-          requestGalleryAccess: () async => galleryAccess,
-          putVideo: put ?? (path) async => putVideo.add(path),
-          copyIntoDownloads: (path, name) async {
-            if (copyError case final error?) throw error;
-            copies.add((path, name));
-          },
-        );
+    DownloadExportRepositoryImpl repository() =>
+        DownloadExportRepositoryImpl(mediaStore: mediaStore);
 
     setUp(() {
       dir = Directory.systemTemp.createTempSync('ftube_export_test');
@@ -41,21 +53,17 @@ void main() {
       audio = p.join(dir.path, 'song.m4a');
       File(video).writeAsStringSync('v');
       File(audio).writeAsStringSync('a');
-      putVideo.clear();
-      copies.clear();
-      galleryAccess = true;
-      copyError = null;
+      mediaStore = _FakeMediaStore();
     });
 
     tearDown(() => dir.deleteSync(recursive: true));
 
     test('saves a video to the gallery', () async {
       await repository().saveToGallery(video);
-      expect(putVideo, [video]);
+      expect(mediaStore.gallery, [video]);
     });
 
-    test('a missing file is reported before asking for access', () async {
-      galleryAccess = false;
+    test('a missing file is reported before touching the media store', () async {
       await expectLater(
         repository().saveToGallery(p.join(dir.path, 'gone.mp4')),
         _fails(DownloadExportFailure.fileMissing),
@@ -64,53 +72,34 @@ void main() {
         repository().saveToDownloads(p.join(dir.path, 'gone.m4a'), title: 'x'),
         _fails(DownloadExportFailure.fileMissing),
       );
+      expect(mediaStore.gallery, isEmpty);
+      expect(mediaStore.downloads, isEmpty);
     });
 
-    test('denied gallery access', () async {
-      galleryAccess = false;
+    test('a denied permission is reported', () async {
+      mediaStore.error = const MediaPermissionDeniedException();
       await expectLater(
         repository().saveToGallery(video),
         _fails(DownloadExportFailure.permissionDenied),
       );
-      expect(putVideo, isEmpty);
-    });
-
-    test('maps gallery errors', () async {
       await expectLater(
-        repository(
-          put: (_) => throw GalException(
-            type: GalExceptionType.accessDenied,
-            platformException: PlatformException(code: 'ACCESS_DENIED'),
-            stackTrace: StackTrace.empty,
-          ),
-        ).saveToGallery(video),
+        repository().saveToDownloads(audio, title: 'Song'),
         _fails(DownloadExportFailure.permissionDenied),
       );
+    });
+
+    test('any other error is a generic failure', () async {
+      mediaStore.error = const FileSystemException('disk full');
+      await expectLater(repository().saveToGallery(video), _fails(DownloadExportFailure.failed));
       await expectLater(
-        repository(put: (_) => throw StateError('boom')).saveToGallery(video),
+        repository().saveToDownloads(audio, title: 'Song'),
         _fails(DownloadExportFailure.failed),
       );
     });
 
     test('copies audio into Downloads named after the title', () async {
       await repository().saveToDownloads(audio, title: 'My: song?');
-      expect(copies, [(audio, 'My_ song_.m4a')]);
-    });
-
-    test('a denied storage permission is reported', () async {
-      copyError = const StoragePermissionDeniedException();
-      await expectLater(
-        repository().saveToDownloads(audio, title: 'Song'),
-        _fails(DownloadExportFailure.permissionDenied),
-      );
-    });
-
-    test('a failed copy is reported', () async {
-      copyError = const FileSystemException('disk full');
-      await expectLater(
-        repository().saveToDownloads(audio, title: 'Song'),
-        _fails(DownloadExportFailure.failed),
-      );
+      expect(mediaStore.downloads, [(audio, 'My_ song_.m4a')]);
     });
   });
 

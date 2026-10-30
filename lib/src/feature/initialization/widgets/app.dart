@@ -7,6 +7,7 @@ import 'package:youtube/src/feature/home/widgets/home_config_widget.dart';
 import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/mini_player/widgets/mini_player_config_widget.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
+import 'package:youtube/src/feature/video_download/widgets/video_download_host_config_widget.dart';
 import 'package:youtube/src/feature/video_download/widgets/video_download_status_listener.dart';
 
 /// Root widget. Opens YouTube links the app is launched with or receives while running.
@@ -84,18 +85,20 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         DependenciesScope.of(context).botGuardRuntime,
         DependenciesScope.of(context).solverRuntime,
       ],
-      child: VideoDownloadStatusListener(
-        messengerKey: _messengerKey,
-        child: MediaQuery(
-          // Layouts are sized for the default text scale, as before the rewrite.
-          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
-          child: MiniPlayerConfigWidget(
-            onOpen: (session) {
-              final context = _navigatorKey.currentContext;
-              if (context == null) return;
-              VideoConfigWidget.open(context, video: session.video, startAt: session.position);
-            },
-            child: child ?? const SizedBox.shrink(),
+      child: VideoDownloadHostConfigWidget(
+        child: VideoDownloadStatusListener(
+          messengerKey: _messengerKey,
+          child: MediaQuery(
+            // Layouts are sized for the default text scale, as before the rewrite.
+            data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+            child: MiniPlayerConfigWidget(
+              onOpen: (session) {
+                final context = _navigatorKey.currentContext;
+                if (context == null) return;
+                VideoConfigWidget.open(context, video: session.video, startAt: session.position);
+              },
+              child: child ?? const SizedBox.shrink(),
+            ),
           ),
         ),
       ),

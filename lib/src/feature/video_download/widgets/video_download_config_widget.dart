@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/utils/show_message.dart';
-import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/video_download/controller/download_options_controller.dart';
 import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
 import 'package:youtube/src/feature/video_download/models/download_option.dart';
 import 'package:youtube/src/feature/video_download/models/download_request.dart';
 import 'package:youtube/src/feature/video_download/widgets/mobile/video_download_sheet_widget.dart';
+import 'package:youtube/src/feature/video_download/widgets/video_download_host_config_widget.dart';
 
 /// Provides [VideoDownloadConfigWidgetState] to the download sheet.
 class VideoDownloadConfigInhWidget extends InheritedWidget {
@@ -58,11 +58,9 @@ class VideoDownloadConfigWidgetState extends State<VideoDownloadConfigWidget> {
   @override
   void initState() {
     super.initState();
-    final dependencies = DependenciesScope.of(context);
-    videoDownloadController = dependencies.videoDownloadController;
-    downloadOptionsController = DownloadOptionsController(
-      repository: dependencies.videoDownloadRepository,
-    )..load(video.id);
+    final host = VideoDownloadHostConfigInhWidget.of(context);
+    videoDownloadController = host.videoDownloadController;
+    downloadOptionsController = host.createDownloadOptionsController()..load(video.id);
   }
 
   @override
@@ -73,8 +71,7 @@ class VideoDownloadConfigWidgetState extends State<VideoDownloadConfigWidget> {
 
   void reload() => downloadOptionsController.load(video.id);
 
-  void chooseKind(DownloadKind kind) =>
-      DependenciesScope.of(context).analytics.downloadType(kind.analyticsName);
+  void chooseKind(DownloadKind kind) => downloadOptionsController.chooseKind(kind);
 
   /// Starts downloading [option] to [target]; tells the user when another download is running.
   void start(DownloadOption option, DownloadTarget target) {

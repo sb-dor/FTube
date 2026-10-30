@@ -4,6 +4,7 @@ import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/widget/empty_state_widget.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
 import 'package:youtube/src/feature/video_download/controller/download_options_controller.dart';
+import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
 import 'package:youtube/src/feature/video_download/models/download_option.dart';
 import 'package:youtube/src/feature/video_download/widgets/mobile/download_kind_card.dart';
 import 'package:youtube/src/feature/video_download/widgets/mobile/download_option_row.dart';
@@ -93,26 +94,27 @@ class _OptionsList extends StatelessWidget {
         DownloadOptions$CompletedState(:final options) when options.of(kind).isEmpty => Center(
           child: EmptyStateWidget(message: Localization.of(context).downloadNoOptions),
         ),
-        DownloadOptions$CompletedState(:final options) => ListenableBuilder(
-          listenable: scope.videoDownloadController,
-          builder: (context, _) {
-            final items = options.of(kind);
-            return ListView.separated(
-              shrinkWrap: true,
-              padding: const EdgeInsets.only(bottom: 16),
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const Divider(height: 1),
-              itemBuilder: (context, index) => DownloadOptionRow(
-                option: items[index],
-                recommended: index == 0,
-                downloadState: scope.videoDownloadController.state,
-                videoId: scope.video.id,
-                onDownload: scope.start,
-                onCancel: scope.videoDownloadController.cancel,
-              ),
-            );
-          },
-        ),
+        DownloadOptions$CompletedState(:final options) =>
+          StateConsumer<VideoDownloadController, VideoDownloadState>(
+            controller: scope.videoDownloadController,
+            builder: (context, downloadState, _) {
+              final items = options.of(kind);
+              return ListView.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.only(bottom: 16),
+                itemCount: items.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
+                itemBuilder: (context, index) => DownloadOptionRow(
+                  option: items[index],
+                  recommended: index == 0,
+                  downloadState: downloadState,
+                  videoId: scope.video.id,
+                  onDownload: scope.start,
+                  onCancel: scope.videoDownloadController.cancel,
+                ),
+              );
+            },
+          ),
       },
     );
   }

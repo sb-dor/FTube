@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/src/common/download/device_media_store.dart';
 import 'package:youtube/src/common/localization/localization.dart';
-import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/video_download/controller/video_download_controller.dart';
-import 'package:youtube/src/feature/video_download/data/device_media_store.dart';
 import 'package:youtube/src/feature/video_download/models/download_option.dart';
+import 'package:youtube/src/feature/video_download/widgets/video_download_host_config_widget.dart';
 
 /// Announces finished and failed downloads wherever the user is in the app, then clears them.
+/// Needs a [VideoDownloadHostConfigWidget] above it.
 class VideoDownloadStatusListener extends StatefulWidget {
   const VideoDownloadStatusListener({required this.messengerKey, required this.child, super.key});
 
@@ -17,7 +18,7 @@ class VideoDownloadStatusListener extends StatefulWidget {
 }
 
 class _VideoDownloadStatusListenerState extends State<VideoDownloadStatusListener> {
-  late final _controller = DependenciesScope.of(context).videoDownloadController;
+  late final _controller = VideoDownloadHostConfigInhWidget.of(context).videoDownloadController;
 
   @override
   void initState() {

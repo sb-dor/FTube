@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/utils/show_message.dart';
 import 'package:youtube/src/common/widget/empty_state_widget.dart';
+import 'package:youtube/src/common/widget/list_footer_widget.dart';
 import 'package:youtube/src/common/widget/try_again_button.dart';
 import 'package:youtube/src/feature/download_deletion/widgets/download_deletion_config_widget.dart';
 import 'package:youtube/src/feature/download_player/widgets/download_player_config_widget.dart';
@@ -21,6 +22,26 @@ class DownloadsMobileWidget extends StatefulWidget {
 class _DownloadsMobileWidgetState extends State<DownloadsMobileWidget> {
   late final _scope = DownloadsConfigInhWidget.of(context);
   late final _controller = _scope.downloadsController;
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final position = _scrollController.position;
+    if (position.pixels < position.maxScrollExtent - 400) return;
+    if (_controller.isProcessing || !_controller.state.canLoadMore) return;
+    _scope.paginate();
+  }
 
   void _open(DownloadedFile file) {
     if (!file.exists) {
@@ -38,15 +59,17 @@ class _DownloadsMobileWidgetState extends State<DownloadsMobileWidget> {
       builder: (context, state, _) => switch (state) {
         Downloads$InitialState() ||
         Downloads$InProgressState() => const Center(child: CircularProgressIndicator()),
-        Downloads$ErrorState() => Center(child: TryAgainButton(onPressed: _scope.watch)),
+        Downloads$ErrorState() => Center(child: TryAgainButton(onPressed: _scope.load)),
         Downloads$CompletedState(:final downloads) when downloads.isEmpty => Center(
           child: EmptyStateWidget(message: Localization.of(context).downloadsEmpty),
         ),
-        Downloads$CompletedState(:final downloads) => ListView.separated(
+        Downloads$CompletedState(:final downloads, :final hasMore) => ListView.separated(
+          controller: _scrollController,
           padding: const EdgeInsets.only(top: 4, bottom: 10),
-          itemCount: downloads.length,
+          itemCount: downloads.length + (hasMore ? 1 : 0),
           separatorBuilder: (_, _) => const SizedBox(height: 10),
           itemBuilder: (context, index) {
+            if (index == downloads.length) return const ListFooterWidget();
             final file = downloads[index];
             return DownloadedFileRowWidget(
               key: ValueKey(file.id),

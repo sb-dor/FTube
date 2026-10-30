@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:youtube/src/common/model/media_stream.dart';
-import 'package:youtube/src/feature/video_download/data/video_download_repository.dart';
+import 'package:youtube/src/feature/video_download/models/download_options_converter.dart';
 
 MediaStream _s(
   int itag,
@@ -28,7 +28,7 @@ MediaStream _s(
 
 void main() {
   test('offers original, non-compressed M4A audio first and skips dubbed tracks', () {
-    final options = buildDownloadOptions(
+    final options = const DownloadOptionsConverter().convert(
       StreamCatalog(
         videoId: 'abcdefghijk',
         streams: [
@@ -45,7 +45,7 @@ void main() {
 
   test('lists muxed first, then one H.264 stream per quality, highest first', () {
     final muxed = _s(18, MediaStreamKind.muxed, quality: '360p', height: 360);
-    final options = buildDownloadOptions(
+    final options = const DownloadOptionsConverter().convert(
       StreamCatalog(
         videoId: 'abcdefghijk',
         streams: [
