@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:youtube/src/common/utils/youtube_link.dart';
 
 /// A video as shown in lists: search results, related videos, history, playlists.
 ///
@@ -38,7 +39,7 @@ class VideoItem {
   final bool isLive;
 
   /// Thumbnail to show: the scraped one, or YouTube's standard high-quality thumbnail.
-  String get thumbnail => thumbnailUrl ?? 'https://i.ytimg.com/vi/$id/hqdefault.jpg';
+  String get thumbnail => thumbnailUrl ?? videoThumbnailUrl(id);
 
   VideoItem copyWith({
     String? id,

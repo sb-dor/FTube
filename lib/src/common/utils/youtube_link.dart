@@ -23,6 +23,9 @@ String? videoIdFromLink(String text) {
   return candidate != null && _idPattern.hasMatch(candidate) ? candidate : null;
 }
 
+/// YouTube's standard high-quality thumbnail for a video.
+String videoThumbnailUrl(String videoId) => 'https://i.ytimg.com/vi/$videoId/hqdefault.jpg';
+
 /// Short share link for a video.
 Uri videoShareLink(String videoId) => Uri.https('youtu.be', '/$videoId');
 

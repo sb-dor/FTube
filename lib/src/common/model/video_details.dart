@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:youtube/src/common/model/video_page.dart';
+import 'package:youtube/src/common/utils/youtube_link.dart';
 
 /// Watch-page information about one video, plus the first page of related videos.
 @immutable
@@ -38,5 +39,5 @@ class VideoDetails {
   final String? description;
   final VideoPage related;
 
-  String get thumbnailUrl => 'https://i.ytimg.com/vi/$id/hqdefault.jpg';
+  String get thumbnailUrl => videoThumbnailUrl(id);
 }
