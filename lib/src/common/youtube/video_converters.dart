@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:youtube/src/common/model/video_details.dart';
 import 'package:youtube/src/common/model/video_item.dart';
+import 'package:youtube/src/common/model/video_page.dart';
 import 'package:youtube/src/common/youtube/json_node.dart';
 
 /// Converts a search-results `videoRenderer` into a [VideoItem]; null for anything else.
@@ -71,6 +73,47 @@ final class LockupViewModelConverter extends Converter<JsonNode, VideoItem?> {
       publishedText: secondRow.length < 2 ? null : secondRow[1]['text'].text,
       durationText: duration,
       isLive: duration == null || duration.toUpperCase() == 'LIVE',
+    );
+  }
+}
+
+/// Converts a watch page's `ytInitialData` into the [VideoDetails] of [videoId].
+final class WatchPageConverter extends Converter<JsonNode, VideoDetails> {
+  const WatchPageConverter({required this.videoId, required this.relatedPage});
+
+  final String videoId;
+
+  /// Builds the related-videos page from the watch page's secondary results.
+  final VideoPage Function(List<JsonNode> items) relatedPage;
+
+  @override
+  VideoDetails convert(JsonNode input) {
+    final watch = input['contents']['twoColumnWatchNextResults'];
+    final contents = watch['results']['results']['contents'].list;
+    final primary = contents.firstWhere(
+      (c) => c.has('videoPrimaryInfoRenderer'),
+      orElse: () => const JsonNode(null),
+    )['videoPrimaryInfoRenderer'];
+    final secondary = contents.firstWhere(
+      (c) => c.has('videoSecondaryInfoRenderer'),
+      orElse: () => const JsonNode(null),
+    )['videoSecondaryInfoRenderer'];
+    final owner = secondary['owner']['videoOwnerRenderer'];
+    final likes = primary.find('likeButtonViewModel').find('buttonViewModel')['title'].string;
+    return VideoDetails(
+      id: videoId,
+      title: primary['title'].text ?? '',
+      viewsText:
+          primary['viewCount']['videoViewCountRenderer']['shortViewCount'].text ??
+          primary['viewCount']['videoViewCountRenderer']['viewCount'].text,
+      publishedText: primary['dateText'].text,
+      channelName: owner['title'].text,
+      channelId: owner['navigationEndpoint']['browseEndpoint']['browseId'].string,
+      channelAvatarUrl: owner['thumbnail'].largestImageUrl,
+      subscribersText: owner['subscriberCountText'].text,
+      likesText: likes,
+      description: secondary['attributedDescription'].text ?? secondary['description'].text,
+      related: relatedPage(watch['secondaryResults']['secondaryResults']['results'].list),
     );
   }
 }

@@ -86,33 +86,7 @@ final class YoutubeClient {
     final uri = Uri.parse('$_base/watch')
         .replace(queryParameters: {'v': videoId, 'hl': _language()});
     final data = extractInitialData(await _get(uri));
-    final watch = data['contents']['twoColumnWatchNextResults'];
-    final contents = watch['results']['results']['contents'].list;
-    final primary = contents.firstWhere(
-      (c) => c.has('videoPrimaryInfoRenderer'),
-      orElse: () => const JsonNode(null),
-    )['videoPrimaryInfoRenderer'];
-    final secondary = contents.firstWhere(
-      (c) => c.has('videoSecondaryInfoRenderer'),
-      orElse: () => const JsonNode(null),
-    )['videoSecondaryInfoRenderer'];
-    final owner = secondary['owner']['videoOwnerRenderer'];
-    final likes = primary.find('likeButtonViewModel').find('buttonViewModel')['title'].string;
-    return VideoDetails(
-      id: videoId,
-      title: primary['title'].text ?? '',
-      viewsText:
-          primary['viewCount']['videoViewCountRenderer']['shortViewCount'].text ??
-          primary['viewCount']['videoViewCountRenderer']['viewCount'].text,
-      publishedText: primary['dateText'].text,
-      channelName: owner['title'].text,
-      channelId: owner['navigationEndpoint']['browseEndpoint']['browseId'].string,
-      channelAvatarUrl: owner['thumbnail'].largestImageUrl,
-      subscribersText: owner['subscriberCountText'].text,
-      likesText: likes,
-      description: secondary['attributedDescription'].text ?? secondary['description'].text,
-      related: _relatedPage(watch['secondaryResults']['secondaryResults']['results'].list),
-    );
+    return WatchPageConverter(videoId: videoId, relatedPage: _relatedPage).convert(data);
   }
 
   /// The next page of related videos for a [continuation] from [videoDetails] or a previous

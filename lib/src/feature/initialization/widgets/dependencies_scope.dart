@@ -7,12 +7,21 @@ class DependenciesScope extends InheritedWidget {
 
   final Dependencies dependencies;
 
+  /// The closest [Dependencies], or null when there is none.
+  static Dependencies? maybeOf(BuildContext context) =>
+      (context.getElementForInheritedWidgetOfExactType<DependenciesScope>()?.widget
+              as DependenciesScope?)
+          ?.dependencies;
+
   /// The closest [Dependencies]; throws when there is none.
-  static Dependencies of(BuildContext context) {
-    final widget = context.getElementForInheritedWidgetOfExactType<DependenciesScope>()?.widget;
-    assert(widget != null, 'DependenciesScope was not found in the widget tree');
-    return (widget! as DependenciesScope).dependencies;
-  }
+  static Dependencies of(BuildContext context) =>
+      maybeOf(context) ?? _notFoundInheritedWidgetOfExactType();
+
+  static Never _notFoundInheritedWidgetOfExactType() => throw ArgumentError(
+    'DependenciesScope was not found in the widget tree; '
+        'wrap the app with Dependencies.inject(child: ...)',
+    'context',
+  );
 
   @override
   bool updateShouldNotify(covariant DependenciesScope oldWidget) => false;
