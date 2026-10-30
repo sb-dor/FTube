@@ -7,15 +7,21 @@ import 'package:youtube/src/common/model/video_item.dart';
 import 'package:youtube/src/common/utils/duration_format.dart';
 import 'package:youtube/src/feature/initialization/widgets/dependencies_scope.dart';
 import 'package:youtube/src/feature/mini_player/models/mini_player_session.dart';
+import 'package:youtube/src/feature/mini_player/models/visible_video_screen.dart';
 import 'package:youtube/src/feature/mini_player/widgets/mini_player_config_widget.dart';
 import 'package:youtube/src/feature/video/controller/related_videos_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_bookmark_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_like_controller.dart';
+import 'package:youtube/src/feature/video/controller/video_like_toggle_controller.dart';
+import 'package:youtube/src/feature/video/controller/video_playback_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_streams_controller.dart';
 import 'package:youtube/src/feature/video/data/video_library_repository.dart';
+import 'package:youtube/src/feature/video/data/video_playback_repository.dart';
 import 'package:youtube/src/feature/video/data/video_repository.dart';
-import 'package:youtube/src/feature/video/widgets/controllers/video_playback_controller.dart';
+import 'package:youtube/src/feature/video/models/video_item_converter.dart';
+import 'package:youtube/src/feature/video/models/video_streams.dart';
+import 'package:youtube/src/feature/video/widgets/controllers/video_playback_data_controller.dart';
 import 'package:youtube/src/feature/video/widgets/mobile/video_mobile_widget.dart';
 
 /// Provides [VideoConfigWidgetState] to the video screen.
@@ -54,15 +60,16 @@ class VideoConfigWidget extends StatefulWidget {
     Duration? startAt,
   }) {
     final navigator = Navigator.of(context, rootNavigator: true);
-    final current = _visible;
+    final miniPlayer = MiniPlayerConfigWidget.maybeOfState(context);
+    final current = miniPlayer?.videoScreen;
     // A link to the video already on screen keeps it playing.
     if (current != null && current.videoId == videoId && startAt == null) return Future.value();
     DependenciesScope.of(context).videoPreviewCoordinator.stopAll();
-    final miniPlayer = MiniPlayerConfigWidget.close(context);
-    final resumeAt = startAt ?? (miniPlayer?.video.id == videoId ? miniPlayer!.position : null);
+    final session = miniPlayer?.close();
+    final resumeAt = startAt ?? (session?.video.id == videoId ? session!.position : null);
     // Only one video screen at a time: another one would leave its video playing underneath,
     // and closing the new one would move it to the mini player over that screen.
-    current?._closeForReplacement();
+    current?.closeForReplacement();
     return showModalBottomSheet<void>(
       context: navigator.context,
       useRootNavigator: true,
@@ -72,9 +79,6 @@ class VideoConfigWidget extends StatefulWidget {
       builder: (_) => VideoConfigWidget(videoId: videoId, opened: opened, startAt: resumeAt),
     );
   }
-
-  /// The video screen on display, if any.
-  static VideoConfigWidgetState? _visible;
 
   final String videoId;
 
@@ -91,11 +95,16 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
   late final VideoStreamsController videoStreamsController;
   late final RelatedVideosController relatedVideosController;
   late final VideoLikeController videoLikeController;
+  late final VideoLikeToggleController videoLikeToggleController;
   late final VideoBookmarkController videoBookmarkController;
   late final VideoPlaybackController videoPlaybackController;
+  late final VideoPlaybackDataController videoPlaybackDataController;
   late final AppLifecycleListener _lifecycle;
   late final NavigatorState _rootNavigator;
   MiniPlayerConfigWidgetState? _miniPlayer;
+
+  /// Removes this screen from the mini player scope as the video screen on display.
+  VoidCallback? _unregisterScreen;
 
   /// Set when another video replaces this sheet; the mini player is not shown then.
   bool _replaced = false;
@@ -103,24 +112,18 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
   String get videoId => widget.videoId;
 
   /// The video with everything known about it so far (list item merged with details).
-  VideoItem get video {
-    final opened = widget.opened;
-    final state = videoController.state;
-    if (state is! Video$CompletedState) return opened ?? VideoItem(id: videoId, title: '');
-    final details = state.details;
-    return VideoItem(
-      id: videoId,
-      title: details.title.isNotEmpty ? details.title : opened?.title ?? '',
-      channelName: details.channelName ?? opened?.channelName,
-      channelId: details.channelId ?? opened?.channelId,
-      channelAvatarUrl: details.channelAvatarUrl ?? opened?.channelAvatarUrl,
-      thumbnailUrl: opened?.thumbnailUrl,
-      viewsText: opened?.viewsText ?? details.viewsText,
-      durationText: opened?.durationText,
-      publishedText: opened?.publishedText ?? details.publishedText,
-      isLive: opened?.isLive ?? false,
-    );
-  }
+  VideoItem get video => switch (videoController.state) {
+    Video$CompletedState(:final details) => VideoItemConverter(
+      opened: widget.opened,
+    ).convert(details),
+    _ => widget.opened ?? VideoItem(id: videoId, title: ''),
+  };
+
+  /// Qualities the video can be played in, lowest first.
+  List<PlayableStream> get qualities => switch (videoStreamsController.state) {
+    VideoStreams$CompletedState(:final streams) => streams.playable,
+    _ => const [],
+  };
 
   @override
   void initState() {
@@ -128,7 +131,9 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
     final dependencies = DependenciesScope.of(context);
     _rootNavigator = Navigator.of(context, rootNavigator: true);
     _miniPlayer = MiniPlayerConfigWidget.maybeOfState(context);
-    VideoConfigWidget._visible = this;
+    _unregisterScreen = _miniPlayer?.registerVideoScreen(
+      VisibleVideoScreen(videoId: videoId, closeForReplacement: _closeForReplacement),
+    );
     final repository = VideoRepositoryImpl(
       youtubeClient: dependencies.youtubeClient,
       youtubeExplode: dependencies.youtubeExplode,
@@ -137,15 +142,22 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
     );
     final libraryRepository = VideoLibraryRepositoryImpl(database: dependencies.database);
     videoPlaybackController = VideoPlaybackController(
-      backgroundAudio: dependencies.backgroundAudio,
+      videoPlaybackRepository: VideoPlaybackRepositoryImpl(
+        backgroundAudio: dependencies.backgroundAudio,
+      ),
     );
+    videoPlaybackDataController = VideoPlaybackDataController();
     videoController = VideoController(repository: repository);
     videoStreamsController = VideoStreamsController(repository: repository);
     relatedVideosController = RelatedVideosController(repository: repository);
-    videoLikeController = VideoLikeController(repository: libraryRepository);
-    videoBookmarkController = VideoBookmarkController(repository: libraryRepository);
+    videoLikeController = VideoLikeController(videoLibraryRepository: libraryRepository);
+    videoLikeToggleController = VideoLikeToggleController(
+      videoLibraryRepository: libraryRepository,
+    );
+    videoBookmarkController = VideoBookmarkController(videoLibraryRepository: libraryRepository);
     // Listeners and loads start only once every controller exists: a state change can be
     // delivered synchronously.
+    videoPlaybackController.addListener(_onPlayback);
     videoController
       ..addListener(_onVideo)
       ..load(videoId, opened: widget.opened);
@@ -154,27 +166,24 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
       ..load(videoId);
     videoLikeController.watch(videoId);
     videoBookmarkController.watch(videoId);
-    _lifecycle = AppLifecycleListener(
-      onPause: () => videoPlaybackController.moveToBackground(_mediaItem()),
-      onResume: videoPlaybackController.returnFromBackground,
-    );
+    _lifecycle = AppLifecycleListener(onPause: _onAppPaused, onResume: _onAppResumed);
     // Full-screen look: the status bar is hidden while the video screen is open.
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
   }
 
   @override
   void dispose() {
-    if (identical(VideoConfigWidget._visible, this)) VideoConfigWidget._visible = null;
+    _unregisterScreen?.call();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     _lifecycle.dispose();
-    final url = videoPlaybackController.url;
-    if (!_replaced && url != null && videoPlaybackController.isReady) {
+    if (videoPlaybackController.state
+        case VideoPlayback$CompletedState(video: final player, :final source) when !_replaced) {
       _miniPlayer?.miniPlayerDataController.show(
         MiniPlayerSession(
           video: video,
-          url: url,
-          headers: videoPlaybackController.headers,
-          position: videoPlaybackController.position,
+          url: source.url,
+          headers: source.headers,
+          position: player.value.position,
         ),
       );
     }
@@ -184,10 +193,14 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
     videoStreamsController
       ..removeListener(_onStreams)
       ..dispose();
+    videoPlaybackController
+      ..removeListener(_onPlayback)
+      ..dispose();
     relatedVideosController.dispose();
     videoLikeController.dispose();
+    videoLikeToggleController.dispose();
     videoBookmarkController.dispose();
-    videoPlaybackController.dispose();
+    videoPlaybackDataController.dispose();
     super.dispose();
   }
 
@@ -203,9 +216,29 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
 
   void _onStreams() {
     if (videoStreamsController.state case VideoStreams$CompletedState(:final streams)) {
-      videoPlaybackController.open(streams, startAt: widget.startAt ?? Duration.zero);
+      videoPlaybackDataController.selectQuality(streams.initial);
+      videoPlaybackController.open(
+        streams.initialSources,
+        startAt: widget.startAt ?? Duration.zero,
+      );
     }
   }
+
+  void _onPlayback() {
+    if (videoPlaybackController.state case VideoPlayback$CompletedState(:final isPlaying)) {
+      videoPlaybackDataController.setPlaying(isPlaying);
+    }
+  }
+
+  void _onAppPaused() => videoPlaybackController.appPaused(
+    item: _mediaItem(),
+    audio: switch (videoStreamsController.state) {
+      VideoStreams$CompletedState(:final streams) => streams.audio,
+      _ => null,
+    },
+  );
+
+  void _onAppResumed() => videoPlaybackController.appResumed();
 
   MediaItem _mediaItem() {
     final video = this.video;
@@ -216,7 +249,10 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
       artUri: Uri.parse(video.thumbnail),
       duration: switch (secondsFromDurationText(video.durationText)) {
         final seconds? => Duration(seconds: seconds),
-        null => videoPlaybackController.player?.value.duration,
+        null => switch (videoPlaybackController.state) {
+          VideoPlayback$CompletedState(:final video) => video.value.duration,
+          _ => null,
+        },
       },
     );
   }
@@ -225,6 +261,26 @@ class VideoConfigWidgetState extends State<VideoConfigWidget> {
     videoController.load(videoId, opened: widget.opened);
     if (videoStreamsController.state is VideoStreams$ErrorState)
       videoStreamsController.load(videoId);
+  }
+
+  /// Plays or pauses the video and shows the controls.
+  void togglePlay() {
+    videoPlaybackController.togglePlay();
+    videoPlaybackDataController.showControls();
+  }
+
+  /// Switches to [quality] and continues from the current position.
+  void changeQuality(PlayableStream quality) {
+    if (quality.url == videoPlaybackDataController.quality?.url) return;
+    videoPlaybackDataController.selectQuality(quality);
+    videoPlaybackController.switchSources(quality.sources);
+  }
+
+  /// Likes or unlikes the video, once whether it is liked is known.
+  void toggleLike() {
+    if (videoLikeController.state case VideoLike$CompletedState(:final liked)) {
+      videoLikeToggleController.setLiked(video, liked: !liked);
+    }
   }
 
   /// Closes the screen (the video continues in the mini player).

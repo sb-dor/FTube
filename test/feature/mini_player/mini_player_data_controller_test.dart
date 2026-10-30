@@ -73,11 +73,32 @@ void main() {
       ..addListener(() => notified++)
       ..show(_session);
     expect(notified, 1);
-    expect(
-      controller.close(position: const Duration(seconds: 9))?.position,
-      const Duration(seconds: 9),
-    );
+    expect(controller.close()?.position, const Duration(seconds: 5));
     expect(controller.session, isNull);
     controller.dispose();
+  });
+
+  test('close returns the position the attached player reached', () {
+    final controller = MiniPlayerDataController();
+    addTearDown(controller.dispose);
+    controller
+      ..show(_session)
+      ..attachPlayer(() => const Duration(seconds: 9));
+    expect(controller.close()?.position, const Duration(seconds: 9));
+  });
+
+  test('a player that is gone does not detach its replacement', () {
+    final controller = MiniPlayerDataController();
+    addTearDown(controller.dispose);
+    controller.show(_session);
+    final detachOld = controller.attachPlayer(() => const Duration(seconds: 7));
+    // The new player starts before the old one is disposed.
+    final detachNew = controller.attachPlayer(() => const Duration(seconds: 12));
+    detachOld();
+    expect(controller.close()?.position, const Duration(seconds: 12));
+
+    controller.show(_session);
+    detachNew();
+    expect(controller.close()?.position, const Duration(seconds: 5));
   });
 }

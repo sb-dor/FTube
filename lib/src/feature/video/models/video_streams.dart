@@ -35,4 +35,8 @@ final class VideoStreams {
     if (playable.isEmpty) return null;
     return playable.lastWhere((s) => s.height <= 360, orElse: () => playable.first);
   }
+
+  /// Sources to start playback with: those of [initial], else the live manifest.
+  List<StreamSource> get initialSources =>
+      initial?.sources ?? [if (hlsUrl case final hls?) StreamSource(url: hls, client: 'HLS')];
 }

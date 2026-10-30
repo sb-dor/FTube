@@ -4,45 +4,59 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:youtube/src/common/localization/localization.dart';
 import 'package:youtube/src/common/theme/app_theme.dart';
+import 'package:youtube/src/common/utils/show_message.dart';
 import 'package:youtube/src/common/utils/youtube_link.dart';
 import 'package:youtube/src/feature/playlist_selection/widgets/playlist_selection_config_widget.dart';
 import 'package:youtube/src/feature/video/controller/video_bookmark_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_controller.dart';
 import 'package:youtube/src/feature/video/controller/video_like_controller.dart';
+import 'package:youtube/src/feature/video/controller/video_like_toggle_controller.dart';
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
 
 /// Like, dislike, share and bookmark buttons above a curved divider.
-class VideoActionsWidget extends StatelessWidget {
+class VideoActionsWidget extends StatefulWidget {
   const VideoActionsWidget({super.key});
 
   @override
+  State<VideoActionsWidget> createState() => _VideoActionsWidgetState();
+}
+
+class _VideoActionsWidgetState extends State<VideoActionsWidget> {
+  late final _scope = VideoConfigInhWidget.of(context);
+
+  @override
   Widget build(BuildContext context) {
-    final scope = VideoConfigInhWidget.of(context);
     final l10n = Localization.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
         children: [
           Expanded(
-            child: StateConsumer<VideoLikeController, VideoLikeState>(
-              controller: scope.videoLikeController,
-              builder: (context, likeState, _) {
-                final liked = likeState is VideoLike$ReadyState && likeState.liked;
-                return StateConsumer<VideoController, VideoState>(
-                  controller: scope.videoController,
-                  builder: (context, videoState, _) => _ActionButton(
-                    icon: liked ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
-                    color: liked ? AppColors.accent : Colors.grey,
-                    label: switch (videoState) {
-                      Video$CompletedState(:final details) => details.likesText ?? '',
-                      _ => '',
-                    },
-                    onTap: videoState is Video$CompletedState
-                        ? () => scope.videoLikeController.toggle(scope.video)
-                        : null,
-                  ),
-                );
+            child: StateConsumer<VideoLikeToggleController, VideoLikeToggleState>(
+              controller: _scope.videoLikeToggleController,
+              listener: (context, controller, oldState, newState) {
+                if (newState is VideoLikeToggle$ErrorState) {
+                  showMessage(context, message: l10n.errorGeneric, isError: true);
+                }
               },
+              child: StateConsumer<VideoLikeController, VideoLikeState>(
+                controller: _scope.videoLikeController,
+                builder: (context, likeState, _) {
+                  final liked = likeState.isLiked;
+                  return StateConsumer<VideoController, VideoState>(
+                    controller: _scope.videoController,
+                    builder: (context, videoState, _) => _ActionButton(
+                      icon: liked ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
+                      color: liked ? AppColors.accent : Colors.grey,
+                      label: switch (videoState) {
+                        Video$CompletedState(:final details) => details.likesText ?? '',
+                        _ => '',
+                      },
+                      onTap: videoState is Video$CompletedState ? _scope.toggleLike : null,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
           const Expanded(
@@ -54,17 +68,17 @@ class VideoActionsWidget extends StatelessWidget {
               color: Colors.grey,
               label: l10n.videoShare,
               onTap: () =>
-                  SharePlus.instance.share(ShareParams(uri: videoShareLink(scope.videoId))),
+                  SharePlus.instance.share(ShareParams(uri: videoShareLink(_scope.videoId))),
             ),
           ),
           Expanded(
-            child: StateConsumer<VideoBookmarkController, bool>(
-              controller: scope.videoBookmarkController,
-              builder: (context, saved, _) => _ActionButton(
-                icon: saved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
-                color: saved ? AppColors.accent : Colors.grey,
+            child: StateConsumer<VideoBookmarkController, VideoBookmarkState>(
+              controller: _scope.videoBookmarkController,
+              builder: (context, state, _) => _ActionButton(
+                icon: state.isSaved ? FontAwesomeIcons.solidBookmark : FontAwesomeIcons.bookmark,
+                color: state.isSaved ? AppColors.accent : Colors.grey,
                 label: l10n.videoToBookmarks,
-                onTap: () => PlaylistSelectionConfigWidget.show(context, video: scope.video),
+                onTap: () => PlaylistSelectionConfigWidget.show(context, video: _scope.video),
               ),
             ),
           ),

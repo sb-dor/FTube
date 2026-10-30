@@ -9,19 +9,25 @@ import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
 import 'package:youtube/src/feature/video_download/widgets/video_download_button.dart';
 
 /// Title, views and date, channel, description and the download button.
-class VideoInfoWidget extends StatelessWidget {
+class VideoInfoWidget extends StatefulWidget {
   const VideoInfoWidget({super.key});
 
   @override
+  State<VideoInfoWidget> createState() => _VideoInfoWidgetState();
+}
+
+class _VideoInfoWidgetState extends State<VideoInfoWidget> {
+  late final _scope = VideoConfigInhWidget.of(context);
+
+  @override
   Widget build(BuildContext context) {
-    final scope = VideoConfigInhWidget.of(context);
     return StateConsumer<VideoController, VideoState>(
-      controller: scope.videoController,
+      controller: _scope.videoController,
       builder: (context, state, _) => switch (state) {
         Video$InitialState() || Video$InProgressState() => const _InfoLoading(),
         Video$ErrorState() => TryAgainButton(
           message: Localization.of(context).videoInfoError,
-          onPressed: scope.retry,
+          onPressed: _scope.retry,
         ),
         Video$CompletedState(:final details) => Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -53,7 +59,7 @@ class VideoInfoWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  VideoDownloadButton(video: scope.video),
+                  VideoDownloadButton(video: _scope.video),
                 ],
               ),
               if (details.description case final description? when description.isNotEmpty)

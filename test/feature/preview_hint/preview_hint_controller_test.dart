@@ -24,20 +24,20 @@ void main() {
     } while (controller.isProcessing);
   }
 
-  test('check is pending when the hint was never shown', () async {
+  test('check completes as not shown when the hint was never shown', () async {
     when(() => repository.isShown()).thenReturn(false);
     controller.check();
     await idle();
 
-    expect(controller.state, isA<PreviewHint$PendingState>());
+    expect(controller.state, const PreviewHintState.completed(isShown: false));
   });
 
-  test('check is shown when the flag is already set', () async {
+  test('check completes as shown when the flag is already set', () async {
     when(() => repository.isShown()).thenReturn(true);
     controller.check();
     await idle();
 
-    expect(controller.state, isA<PreviewHint$ShownState>());
+    expect(controller.state, const PreviewHintState.completed(isShown: true));
   });
 
   test('check error sets the error state', () async {
@@ -48,7 +48,7 @@ void main() {
     expect(controller.state, isA<PreviewHint$ErrorState>());
   });
 
-  test('markShown persists the flag once and becomes shown', () async {
+  test('markShown persists the flag once and completes as shown', () async {
     when(() => repository.isShown()).thenReturn(false);
     controller
       ..check()
@@ -56,7 +56,7 @@ void main() {
       ..markShown();
     await idle();
 
-    expect(controller.state, isA<PreviewHint$ShownState>());
+    expect(controller.state, const PreviewHintState.completed(isShown: true));
     verify(() => repository.markShown()).called(1);
   });
 

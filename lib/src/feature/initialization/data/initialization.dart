@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube/src/common/audio/background_audio.dart';
 import 'package:youtube/src/common/constant/firebase_options.dart';
 import 'package:youtube/src/common/controller/controller_observer.dart';
+import 'package:youtube/src/common/controller/video_preview_coordinator.dart';
 import 'package:youtube/src/common/database/database.dart';
 import 'package:youtube/src/common/download/media_muxer.dart';
 import 'package:youtube/src/common/download/ranged_downloader.dart';
@@ -79,7 +80,8 @@ Future<void> $initializeApp({
       ..challengeSolver = challengeSolver
       ..youtubeStreamsClient = streamsClient
       ..videoDownloadRepository = videoDownloadRepository
-      ..videoDownloadController = VideoDownloadController(repository: videoDownloadRepository);
+      ..videoDownloadController = VideoDownloadController(repository: videoDownloadRepository)
+      ..videoPreviewCoordinator = VideoPreviewCoordinator();
     await onSuccess(dependencies);
   } on Object catch (error, stackTrace) {
     await onError(error, stackTrace);

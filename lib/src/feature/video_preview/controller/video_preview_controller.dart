@@ -7,21 +7,22 @@ part 'video_preview_controller.freezed.dart';
 
 @freezed
 sealed class VideoPreviewState with _$VideoPreviewState {
-  const factory VideoPreviewState.idle() = VideoPreview$IdleState;
+  const factory VideoPreviewState.initial() = VideoPreview$InitialState;
 
   const factory VideoPreviewState.inProgress() = VideoPreview$InProgressState;
 
   const factory VideoPreviewState.error({Object? error}) = VideoPreview$ErrorState;
 
-  const factory VideoPreviewState.ready({required StreamSource source}) = VideoPreview$ReadyState;
+  const factory VideoPreviewState.completed({required StreamSource source}) =
+      VideoPreview$CompletedState;
 }
 
 /// Resolves the stream for a card's hold-to-preview.
 final class VideoPreviewController extends StateController<VideoPreviewState>
-    with DroppableControllerHandler {
+    with SequentialControllerHandler {
   VideoPreviewController({
     required this._repository,
-    super.initialState = const VideoPreviewState.idle(),
+    super.initialState = const VideoPreviewState.initial(),
   });
 
   final IVideoPreviewRepository _repository;
@@ -31,12 +32,14 @@ final class VideoPreviewController extends StateController<VideoPreviewState>
       setState(const VideoPreviewState.inProgress());
       final source = await _repository.previewSource(videoId);
       setState(
-        source == null ? const VideoPreviewState.error() : VideoPreviewState.ready(source: source),
+        source == null
+            ? const VideoPreviewState.error()
+            : VideoPreviewState.completed(source: source),
       );
     },
     error: (error, stackTrace) async => setState(VideoPreviewState.error(error: error)),
     name: 'load',
   );
 
-  void stop() => setState(const VideoPreviewState.idle());
+  void stop() => setState(const VideoPreviewState.initial());
 }

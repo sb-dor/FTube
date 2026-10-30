@@ -9,14 +9,20 @@ import 'package:youtube/src/feature/video/controller/related_videos_controller.d
 import 'package:youtube/src/feature/video/widgets/video_config_widget.dart';
 
 /// Similar videos under the player, loading more on scroll.
-class RelatedVideosSliver extends StatelessWidget {
+class RelatedVideosSliver extends StatefulWidget {
   const RelatedVideosSliver({super.key});
 
   @override
+  State<RelatedVideosSliver> createState() => _RelatedVideosSliverState();
+}
+
+class _RelatedVideosSliverState extends State<RelatedVideosSliver> {
+  late final _scope = VideoConfigInhWidget.of(context);
+
+  @override
   Widget build(BuildContext context) {
-    final scope = VideoConfigInhWidget.of(context);
     return StateConsumer<RelatedVideosController, RelatedVideosState>(
-      controller: scope.relatedVideosController,
+      controller: _scope.relatedVideosController,
       builder: (context, state, _) => SliverPadding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         sliver: switch (state) {
@@ -42,7 +48,7 @@ class RelatedVideosSliver extends StatelessWidget {
               return VideoCardWidget(
                 key: ValueKey(video.id),
                 video: video,
-                onTap: () => scope.openRelated(video),
+                onTap: () => _scope.openRelated(video),
                 onMore: () => PlaylistSelectionConfigWidget.show(context, video: video),
               );
             },

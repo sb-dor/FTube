@@ -17,8 +17,11 @@ class MiniPlayerWidget extends StatefulWidget {
 
 class _MiniPlayerWidgetState extends State<MiniPlayerWidget> {
   static const _size = Size(250, 150);
-  late final _scope = MiniPlayerConfigInhWidget.maybeOf(context)!;
+  late final _scope = MiniPlayerConfigInhWidget.of(context);
   late final VideoPlayerController _player;
+
+  /// Stops reporting the playing position to the data controller.
+  late final VoidCallback _detachPlayer;
   Offset _offset = const Offset(20, 40);
   bool _controlsVisible = false;
   Timer? _hideTimer;
@@ -30,11 +33,11 @@ class _MiniPlayerWidgetState extends State<MiniPlayerWidget> {
       widget.session.url,
       httpHeaders: widget.session.headers,
     );
+    _detachPlayer = _scope.miniPlayerDataController.attachPlayer(() => _player.value.position);
     _start();
   }
 
   Future<void> _start() async {
-    _scope.positionReader = () => _player.value.position;
     try {
       await _player.initialize();
       await _player.seekTo(widget.session.position);
@@ -48,7 +51,7 @@ class _MiniPlayerWidgetState extends State<MiniPlayerWidget> {
   @override
   void dispose() {
     _hideTimer?.cancel();
-    if (_scope.positionReader != null) _scope.positionReader = null;
+    _detachPlayer();
     _player.dispose();
     super.dispose();
   }

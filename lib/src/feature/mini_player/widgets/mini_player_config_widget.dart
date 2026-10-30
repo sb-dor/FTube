@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youtube/src/feature/mini_player/models/mini_player_session.dart';
+import 'package:youtube/src/feature/mini_player/models/visible_video_screen.dart';
 import 'package:youtube/src/feature/mini_player/widgets/controllers/mini_player_data_controller.dart';
 import 'package:youtube/src/feature/mini_player/widgets/mobile/mini_player_widget.dart';
 
@@ -9,6 +10,15 @@ class MiniPlayerConfigInhWidget extends InheritedWidget {
 
   final MiniPlayerConfigWidgetState state;
 
+  static MiniPlayerConfigWidgetState of(BuildContext context) {
+    final widget = context
+        .getElementForInheritedWidgetOfExactType<MiniPlayerConfigInhWidget>()
+        ?.widget;
+    assert(widget != null, 'MiniPlayerConfigInhWidget was not found in the widget tree');
+    return (widget! as MiniPlayerConfigInhWidget).state;
+  }
+
+  /// Null outside the app shell (e.g. in isolated widget tests).
   static MiniPlayerConfigWidgetState? maybeOf(BuildContext context) =>
       (context.getElementForInheritedWidgetOfExactType<MiniPlayerConfigInhWidget>()?.widget
               as MiniPlayerConfigInhWidget?)
@@ -18,7 +28,8 @@ class MiniPlayerConfigInhWidget extends InheritedWidget {
   bool updateShouldNotify(covariant MiniPlayerConfigInhWidget oldWidget) => false;
 }
 
-/// Floats a small draggable player over the whole app after a video screen closes.
+/// Floats a small draggable player over the whole app after a video screen closes, and keeps
+/// track of the full video screen on display so only one is open at a time.
 class MiniPlayerConfigWidget extends StatefulWidget {
   const MiniPlayerConfigWidget({required this.onOpen, required this.child, super.key});
 
@@ -42,9 +53,10 @@ class MiniPlayerConfigWidget extends StatefulWidget {
 
 class MiniPlayerConfigWidgetState extends State<MiniPlayerConfigWidget> {
   late final MiniPlayerDataController miniPlayerDataController;
+  VisibleVideoScreen? _videoScreen;
 
-  /// Reports the playing position; set by the visible player.
-  Duration Function()? positionReader;
+  /// The full video screen on display, if any.
+  VisibleVideoScreen? get videoScreen => _videoScreen;
 
   @override
   void initState() {
@@ -58,7 +70,16 @@ class MiniPlayerConfigWidgetState extends State<MiniPlayerConfigWidget> {
     super.dispose();
   }
 
-  MiniPlayerSession? close() => miniPlayerDataController.close(position: positionReader?.call());
+  /// A video screen opened. It calls the returned function once it is gone; a newer screen may
+  /// have registered already, and stays registered.
+  VoidCallback registerVideoScreen(VisibleVideoScreen screen) {
+    _videoScreen = screen;
+    return () {
+      if (identical(_videoScreen, screen)) _videoScreen = null;
+    };
+  }
+
+  MiniPlayerSession? close() => miniPlayerDataController.close();
 
   void expand() {
     final session = close();
